@@ -2,7 +2,9 @@ package it.univr.wordautomata.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.BorderPane;
 
 /**
  * FXML Controller class
@@ -10,6 +12,9 @@ import javafx.fxml.Initializable;
  * @author Lorenzo
  */
 public class MainController implements Initializable {
+
+    @FXML
+    private BorderPane MainPanel;
    
     /**
      * Initializes the controller class.
