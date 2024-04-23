@@ -7,7 +7,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane id="MainPanel" prefHeight="700.0" prefWidth="900.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univr.wordautomata.controller.MainController">
+<fx:root id="MainPanel" prefHeight="700.0" prefWidth="900.0" styleClass="mainFxmlClass" type="BorderPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univr.wordautomata.controller.MainController">
     <stylesheets>
         <URL value="@/styles/style.css" />
     </stylesheets>
@@ -33,4 +33,4 @@
             </menus>
         </MenuBar>
     </top>
-</BorderPane>
+</fx:root>
