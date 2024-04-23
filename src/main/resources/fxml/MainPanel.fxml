@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane id="MainPanel" prefHeight="700.0" prefWidth="900.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univr.wordautomata.controller.MainController">
+    <stylesheets>
+        <URL value="@/styles/style.css" />
+    </stylesheets>
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="true" text="_File">
+                    <items>
+                        <MenuItem mnemonicParsing="true" text="_Open" />
+                        <MenuItem mnemonicParsing="true" text="_Save" />
+                        <MenuItem mnemonicParsing="true" text="Save _as" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="true" text="_Exit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Settings">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Set dark theme" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="true" text="_About">
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+</BorderPane>
