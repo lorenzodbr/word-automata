@@ -1,3 +1,23 @@
 * {
     -fx-font-family: "Inter";
 }
+
+.lightGrayBackground {
+    -fx-background-color: -color-base-0
+}
+
+.mediumGrayBackground {
+    -fx-background-color: -color-base-1
+}
+
+.padding {
+    -fx-padding: 10;   
+}
+
+.transitionsPanel {
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+}
+
+.bottomBar {
+}
