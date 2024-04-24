@@ -7,16 +7,16 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<fx:root id="MainPanel" prefHeight="700.0" prefWidth="900.0" styleClass="mainFxmlClass" type="BorderPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.univr.wordautomata.controller.MainController">
+<fx:root id="mainPanel" prefHeight="700.0" prefWidth="900.0" type="BorderPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/styles/style.css" />
     </stylesheets>
     <top>
-        <MenuBar BorderPane.alignment="CENTER">
+        <MenuBar BorderPane.alignment="CENTER" styleClass="menuBar">
             <menus>
                 <Menu mnemonicParsing="true" text="_File">
                     <items>
-                        <MenuItem mnemonicParsing="true" text="_Open" />
+                        <MenuItem mnemonicParsing="true" text="_Open .automata" />
                         <MenuItem mnemonicParsing="true" text="_Save" />
                         <MenuItem mnemonicParsing="true" text="Save _as" />
                         <SeparatorMenuItem mnemonicParsing="false" />
@@ -26,6 +26,12 @@
                 <Menu mnemonicParsing="false" text="Settings">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Set dark theme" />
+                        <MenuItem mnemonicParsing="false" text="Toggle auto-position" onAction="#toggleAutoPositioning" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="true" text="_Graph">
+                    <items>
+                        <MenuItem mnemonicParsing="true" text="_Add state" onAction="#addNode" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_About">
