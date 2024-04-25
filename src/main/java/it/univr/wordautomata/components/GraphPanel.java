@@ -86,18 +86,35 @@ public class GraphPanel extends StackPane {
     }
 
     @FXML
-    public void addNode() {
+    public boolean addVertex() {
         String nodeLabel = Utils.showInputModal(getScene(), "Message", "Input state label", null);
 
         if (nodeLabel == null || nodeLabel.isBlank()) {
-            return;
+            return false;
         }
 
         mainPanel.setClearGraphMenuItemEnabled(true);
+        mainPanel.setAddTransitionMenuItemEnabled(true);
         hintLabel.setVisible(false);
         graphViewWrapper.setVisible(true);
-        
+
         graph.insertVertex(new State(nodeLabel));
+        graphView.update();
+        
+        return true;
+    }
+
+    @FXML
+    public void addEdge() {
+        String transitionLabel = Utils.showInputModal(getScene(), "Message", "Input transition label and select origin and destination states", null);
+
+        if (transitionLabel == null || transitionLabel.isBlank()) {
+            return;
+        }
+
+        graphViewWrapper.setVisible(true);
+
+        graph.insertVertex(new State(transitionLabel));
         graphView.update();
     }
 
@@ -105,22 +122,9 @@ public class GraphPanel extends StackPane {
     private void handleMouseClicked(MouseEvent e) {
         if (e.getButton().equals(MouseButton.PRIMARY)) {
             if (e.getClickCount() == 2) {
-                addNode();
+                addVertex();
             }
         }
-    }
-
-    public void clearGraph() {
-        for (var e : graph.edges()) {
-            graph.removeEdge(e);
-        }
-        for (var v : graph.vertices()) {
-            graph.removeVertex(v);
-        }
-
-        graphView.update();
-        graphViewWrapper.setVisible(false);
-        hintLabel.setVisible(true);
     }
 
     public void setAutoPositioning(boolean value) {
@@ -156,5 +160,18 @@ public class GraphPanel extends StackPane {
             graphView.init();
             setAutoPositioning(autoLayout);
         });
+    }
+
+    public void clearGraph() {
+        for (var e : graph.edges()) {
+            graph.removeEdge(e);
+        }
+        for (var v : graph.vertices()) {
+            graph.removeVertex(v);
+        }
+
+        graphView.update();
+        graphViewWrapper.setVisible(false);
+        hintLabel.setVisible(true);
     }
 }

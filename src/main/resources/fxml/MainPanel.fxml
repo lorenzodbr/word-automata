@@ -31,7 +31,8 @@
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Graph">
                     <items>
-                        <MenuItem mnemonicParsing="true" onAction="#addNode" text="_Add state" />
+                        <MenuItem mnemonicParsing="true" onAction="#addState" text="Add _state" />
+                        <MenuItem fx:id="addTransitionMenuItem" disable="true" mnemonicParsing="true" onAction="#addTransition" text="Add _transition" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true" onAction="#clearGraph" text="_Clear" />
                     </items>
