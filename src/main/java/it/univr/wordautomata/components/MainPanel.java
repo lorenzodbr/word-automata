@@ -28,6 +28,9 @@ public class MainPanel extends BorderPane {
     private MenuItem autoPositioningMenuItem;
 
     @FXML
+    private MenuItem addTransitionMenuItem;
+
+    @FXML
     private MenuItem clearGraphMenuItem;
 
     @FXML
@@ -71,14 +74,22 @@ public class MainPanel extends BorderPane {
     }
 
     @FXML
-    private void addNode() {
-        graphPanel.addNode();
+    private void addState() {
+        if (graphPanel.addVertex()) {
+            setAddTransitionMenuItemEnabled(true);
+        }
+    }
+
+    @FXML
+    private void addTransition() {
+        graphPanel.addEdge();
     }
 
     @FXML
     private void clearGraph() {
         graphPanel.clearGraph();
         setClearGraphMenuItemEnabled(false);
+        setAddTransitionMenuItemEnabled(false);
     }
 
     @FXML
@@ -105,6 +116,10 @@ public class MainPanel extends BorderPane {
 
     private void setAutoPositioningMenuItemEnabled(boolean value) {
         autoPositioningMenuItem.setDisable(!value);
+    }
+
+    void setAddTransitionMenuItemEnabled(boolean value) {
+        addTransitionMenuItem.setDisable(!value);
     }
 
     void setClearGraphMenuItemEnabled(boolean value) {
