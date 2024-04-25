@@ -1,23 +1,135 @@
+/*
+ * General
+ */
+
 * {
     -fx-font-family: "Inter";
 }
 
-.lightGrayBackground {
-    -fx-background-color: -color-base-0
+.light-gray-background {
+    -fx-background-color: -color-neutral-subtle
 }
 
-.mediumGrayBackground {
-    -fx-background-color: -color-base-1
+.medium-gray-background {
+    -fx-background-color: -color-neutral-subtle
 }
 
 .padding {
-    -fx-padding: 10;   
+    -fx-padding: 10;
 }
 
-.transitionsPanel {
+.largePadding {
+    -fx-padding: 30;
+}
+
+.rounded-corners {
     -fx-border-radius: 5 5 5 5;
     -fx-background-radius: 5 5 5 5;
 }
 
-.bottomBar {
+#bottomBar {
+    -fx-border-color: -color-neutral-muted;
+    -fx-border-style: solid hidden hidden hidden;
+    -fx-border-width: 1;
+}
+
+.button-icon >.ikonli-font-icon {
+    -fx-icon-size: 27;
+}
+
+.button-icon {
+}
+
+.button-icon:hover {
+}
+
+#wordTextField FontIcon {
+    -fx-icon-size: 25;
+}
+
+#playPauseButton >.ikonli-font-icon {
+    -fx-icon-size: 37;
+}
+
+#transitionsPanel {
+    -fx-border-color: -color-neutral-muted;
+    -fx-border-width: 1;
+}
+
+#sideBar {
+    -fx-border-color: -color-neutral-muted;
+    -fx-border-style: hidden solid hidden hidden;
+    -fx-border-width: 1;
+}
+
+.speedCircle {
+    -fx-fill: -color-neutral-emphasis;
+    -fx-stroke: -color-neutral-muted;
+    -fx-stroke-width: 3;
+}
+
+.speedCircleActive {
+    -fx-fill: -color-fg-default;
+}
+
+/*
+ * Graph theming
+ */
+
+.graph,
+#graphPanel {
+    -fx-background-color: transparent;
+}
+
+.vertex {
+    -fx-stroke-width: 3;
+    -fx-stroke: #61B5F1;
+    -fx-stroke-type: inside; /* you should keep this if using arrows */
+    -fx-fill: #B1DFF7;
+}
+
+.vertex:hover { /* pseudo-classes also work */
+    /*-fx-cursor: default; */ /* You can use this style to override the hand/move cursors while hovering. */
+    -fx-stroke-width: 4;
+}
+
+.vertex-label {
+    -fx-font-size: 10pt;
+}
+
+.edge {
+    -fx-stroke-width: 2;
+    -fx-stroke: -color-neutral-emphasis-plus;
+    /* -fx-stroke-dash-array: 2 5 2 5; /* remove for clean lines */
+    -fx-fill: transparent; /* important to keep for curved edges */
+    -fx-stroke-line-cap: round;
+    -fx-opacity: 0.8;
+}
+
+.edge:hover {
+    -fx-stroke-width: 3;
+    -fx-cursor: hand;
+}
+
+.edge-label {
+    -fx-font-size: 9pt;
+    -fx-fill: -color-fg-default;
+}
+
+.arrow {
+    -fx-stroke-dash-array: none;
+}
+
+.myVertex {
+    -fx-stroke-width: 4;
+    -fx-stroke: green;
+    -fx-stroke-type: inside; /* you should keep this if using arrows */
+    -fx-fill: yellowgreen;
+}
+
+.myEdge {
+    -fx-stroke-width: 2;
+    -fx-stroke: red;
+    -fx-opacity: 1;
+    -fx-fill: transparent; /* important to keep for curved edges */
 }
