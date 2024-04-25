@@ -3,8 +3,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
 
-<fx:root id="graphPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" type="StackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="graphPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#handleMouseClicked" type="StackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="hintLabel" styleClass="title-4, text-subtle, largePadding" text="↖ Add a state from Graph menu or import an .automata file to start" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="hintLabel" styleClass="title-4, text-subtle, largePadding" text="↖ Double click to add a state or import an .automata file" textAlignment="CENTER" wrapText="true" />
    </children>
 </fx:root>

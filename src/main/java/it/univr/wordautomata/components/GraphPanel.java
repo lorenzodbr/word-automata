@@ -4,7 +4,6 @@ import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Graph;
-import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
@@ -18,6 +17,8 @@ import it.univr.wordautomata.utils.Utils.PlayBackState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -32,6 +33,8 @@ public class GraphPanel extends StackPane {
     private SmartGraphPanel<State, Transition> graphView;
     private ContentZoomScrollPane graphViewWrapper;
 
+    private MainPanel mainPanel;
+
     private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
     private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
@@ -39,12 +42,13 @@ public class GraphPanel extends StackPane {
     private PlayBackState playBackState = PlayBackState.getDefault();
 
     private boolean wasGraphAdded = false;
-    private boolean autoLayout = false;
+    private boolean autoLayout = true;
 
-    public GraphPanel() {
+    public GraphPanel(MainPanel mainPanel) {
         Utils.loadAndSetController(Utils.GRAPH_PANEL_FXML_FILENAME, this);
-
         initGraph();
+
+        this.mainPanel = mainPanel;
     }
 
     // Sample graph building method
@@ -83,18 +87,27 @@ public class GraphPanel extends StackPane {
 
     @FXML
     public void addNode() {
-        hintLabel.setVisible(false);
-        graphViewWrapper.setVisible(true);
+        String nodeLabel = Utils.showInputModal(getScene(), "Message", "Input state label", null);
 
-        String id = String.format("%02d", Utils.random.nextInt(100));
-        Vertex<State> existing = Utils.getRandomVertex(graph);
-        Vertex<State> vertexId = graph.insertVertex(new State("V" + id));
-
-        if (existing != null) {
-            graph.insertEdge(existing, vertexId, new Transition("E" + id));
+        if (nodeLabel == null || nodeLabel.isBlank()) {
+            return;
         }
 
+        mainPanel.setClearGraphMenuItemEnabled(true);
+        hintLabel.setVisible(false);
+        graphViewWrapper.setVisible(true);
+        
+        graph.insertVertex(new State(nodeLabel));
         graphView.update();
+    }
+
+    @FXML
+    private void handleMouseClicked(MouseEvent e) {
+        if (e.getButton().equals(MouseButton.PRIMARY)) {
+            if (e.getClickCount() == 2) {
+                addNode();
+            }
+        }
     }
 
     public void clearGraph() {
@@ -110,8 +123,8 @@ public class GraphPanel extends StackPane {
         hintLabel.setVisible(true);
     }
 
-    public void toggleAutoPositioning() {
-        graphView.setAutomaticLayout((autoLayout = !autoLayout));
+    public void setAutoPositioning(boolean value) {
+        graphView.setAutomaticLayout((autoLayout = value));
     }
 
     public boolean getAutoPositioningEnabled() {
@@ -139,6 +152,9 @@ public class GraphPanel extends StackPane {
         graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
         getChildren().add(0, graphViewWrapper = new ContentZoomScrollPane(graphView));
         graphViewWrapper.setVisible(false);
-        Platform.runLater(() -> graphView.init());
+        Platform.runLater(() -> {
+            graphView.init();
+            setAutoPositioning(autoLayout);
+        });
     }
 }

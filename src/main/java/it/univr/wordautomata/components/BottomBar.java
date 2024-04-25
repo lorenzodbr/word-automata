@@ -39,11 +39,11 @@ public class BottomBar extends GridPane {
     @FXML
     private Button nextStateButton;
 
-    private MainPanel parent;
+    private MainPanel mainPanel;
 
-    public BottomBar(MainPanel parent) {
+    public BottomBar(MainPanel mainPanel) {
         Utils.loadAndSetController(Utils.BOTTOM_BAR_FXML_FILENAME, this);
-        this.parent = parent;
+        this.mainPanel = mainPanel;
         styleButtons();
     }
 
@@ -56,13 +56,13 @@ public class BottomBar extends GridPane {
     }
 
     private void stylePlayPauseButton() {
-        PlayBackState state = parent.getGraphPanel().getPlayBackState();
+        PlayBackState state = mainPanel.getGraphPanel().getPlayBackState();
         
         playPauseButton.setGraphic(new FontIcon(state == PlayBackState.PAUSED ? BoxiconsRegular.PLAY : BoxiconsRegular.PAUSE));
     }
 
     private void styleSpeedButton() {
-        PlayBackSpeed initialSpeed = parent.getGraphPanel().getSpeed();
+        PlayBackSpeed initialSpeed = mainPanel.getGraphPanel().getSpeed();
 
         speedLabel.setText(initialSpeed.toString());
 
@@ -90,13 +90,13 @@ public class BottomBar extends GridPane {
 
     @FXML
     private void cycleSpeed() {
-        parent.getGraphPanel().cycleSpeed();
+        mainPanel.getGraphPanel().cycleSpeed();
         styleSpeedButton();
     }
     
     @FXML
     private void cyclePlayPause() {
-        parent.getGraphPanel().cyclePlayBackState();
+        mainPanel.getGraphPanel().cyclePlayBackState();
         stylePlayPauseButton();
     }
 }

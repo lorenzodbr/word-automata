@@ -400,7 +400,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
         updatedPosition.x = boundVertexNodeXPositioning(updatedPosition.x, 0, width);
         updatedPosition.y = boundVertexNodeYPositioning(updatedPosition.y, 0, height);
-
+        
         setPosition(updatedPosition.x, updatedPosition.y);
     }
 
@@ -534,7 +534,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
         // The length to the top from the center point is the radius of the surrogate shape
         // The length to the bottom from the center point is the radius of the surrogate shape, plus the label offset and height
         double lengthToTop = getRadius();
-        double lengthToBottom = getRadius() + (attachedLabel != null ? attachedLabel.layoutHeightProperty().get() : 0);
+        double lengthToBottom = getRadius() + (attachedLabel != null && !labelInside ? attachedLabel.layoutHeightProperty().get() : 0);
 
         if (yCoord < minCoordValue + lengthToTop) {
             return minCoordValue + lengthToTop;
