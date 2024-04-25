@@ -1359,7 +1359,7 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     private static double clamp(double value, double min, double max) {
-        
+
         if (Double.compare(value, min) < 0) {
             return min;
         }

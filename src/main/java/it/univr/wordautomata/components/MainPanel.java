@@ -50,7 +50,7 @@ public class MainPanel extends BorderPane {
     }
 
     private void addGraphPanel() {
-        setCenter(graphPanel = new GraphPanel());
+        setCenter(graphPanel = new GraphPanel(this));
         Platform.runLater(() -> graphPanel.requestFocus());
     }
 
@@ -73,7 +73,6 @@ public class MainPanel extends BorderPane {
     @FXML
     private void addNode() {
         graphPanel.addNode();
-        setClearGraphMenuItemEnabled(true);
     }
 
     @FXML
@@ -84,7 +83,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void toggleAutoPositioning() {
-        graphPanel.toggleAutoPositioning();
+        graphPanel.setAutoPositioning(!graphPanel.getAutoPositioningEnabled());
         styleAutoPositioningMenuItem();
     }
 
@@ -108,7 +107,7 @@ public class MainPanel extends BorderPane {
         autoPositioningMenuItem.setDisable(!value);
     }
 
-    private void setClearGraphMenuItemEnabled(boolean value) {
+    void setClearGraphMenuItemEnabled(boolean value) {
         clearGraphMenuItem.setDisable(!value);
     }
 

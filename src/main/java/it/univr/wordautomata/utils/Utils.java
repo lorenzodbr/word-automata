@@ -11,7 +11,10 @@ import java.util.Random;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Font;
+import javafx.stage.Window;
 
 /**
  * Constants used in the application
@@ -37,18 +40,22 @@ public class Utils {
         return fxmlLoader;
     }
 
-    public static void swapChildren(ObservableList children, int first, int second) {
-        if(first > second){
-            throw new RuntimeException("First index must precede the second");
+    public static String showInputModal(Scene scene, String title, String header, String body) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(title);
+        dialog.setHeaderText(header);
+        dialog.setContentText(body);
+        dialog.initOwner(scene.getWindow());
+
+        try {
+            for (var pc : scene.getRoot().getPseudoClassStates()) {
+                dialog.getDialogPane().pseudoClassStateChanged(pc, true);
+                dialog.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
+            }
+        } catch (Exception ignored) {
         }
-        
-        if(first == second){
-            throw new RuntimeException("First and second indexes must be different");
-        }
-        
-        if (children.size() > second) {
-            Collections.swap(children, first, second);
-        }
+
+        return dialog.showAndWait().orElse(null);
     }
 
     //Themes
@@ -65,7 +72,7 @@ public class Utils {
         }
     }
     public final static Theme THEME = Theme.LIGHT;
-    public final static boolean SET_MICA = false;
+    public final static boolean SET_MICA = true;
 
     //Filenames
     public final static String MAIN_PANEL_FXML_FILENAME = "MainPanel";
@@ -103,10 +110,11 @@ public class Utils {
     //Global methods
     public static void loadFonts(String... fileNames) {
         for (String fileName : fileNames) {
-            Font.loadFont(Main.class.getResourceAsStream(Utils.FONTS_BASE_FOLDER + fileName + Utils.FONTS_EXTENSION), Utils.DEFAULT_FONT_SIZE);
+            Font.loadFont(Main.class
+                    .getResourceAsStream(Utils.FONTS_BASE_FOLDER + fileName + Utils.FONTS_EXTENSION), Utils.DEFAULT_FONT_SIZE);
         }
     }
-    
+
     //Graph methods
     public static Vertex<State> getRandomVertex(Graph<State, Transition> g) {
 
@@ -125,6 +133,7 @@ public class Utils {
             }
         }
         return existing;
+
     }
 
     //Misc
