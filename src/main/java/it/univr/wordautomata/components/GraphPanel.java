@@ -4,6 +4,7 @@ import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Graph;
+import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
@@ -12,6 +13,11 @@ import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
+import it.univr.wordautomata.utils.Utils.PlayBackState;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -19,15 +25,29 @@ import javafx.scene.layout.StackPane;
  */
 public class GraphPanel extends StackPane {
 
+    @FXML
+    private Label hintLabel;
+
     private Graph<State, Transition> graph;
     private SmartGraphPanel<State, Transition> graphView;
+    private ContentZoomScrollPane graphViewWrapper;
+
+    private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
+    private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
+
+    private PlayBackSpeed playBackSpeed = PlayBackSpeed.getDefault();
+    private PlayBackState playBackState = PlayBackState.getDefault();
+
+    private boolean wasGraphAdded = false;
     private boolean autoLayout = false;
 
     public GraphPanel() {
-        if (Utils.loadAndSetController(Utils.GRAPH_PANEL_FXML_FILENAME, this)) {
-        }
+        Utils.loadAndSetController(Utils.GRAPH_PANEL_FXML_FILENAME, this);
+
+        initGraph();
     }
 
+    // Sample graph building method
     private Graph<State, Transition> initSampleGraph() {
         Digraph<State, Transition> g = new DigraphEdgeList<>();
 
@@ -61,23 +81,64 @@ public class GraphPanel extends StackPane {
         return g;
     }
 
+    @FXML
     public void addNode() {
-        if (graph == null) {
-            graph = initSampleGraph();
+        hintLabel.setVisible(false);
+        graphViewWrapper.setVisible(true);
 
-            SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
-            ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
-            graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
+        String id = String.format("%02d", Utils.random.nextInt(100));
+        Vertex<State> existing = Utils.getRandomVertex(graph);
+        Vertex<State> vertexId = graph.insertVertex(new State("V" + id));
 
-            getChildren().add(new ContentZoomScrollPane(graphView));
-            graphView.init();
-        } else {
-            graph.insertVertex(new State("newState"));
-            graphView.update();
+        if (existing != null) {
+            graph.insertEdge(existing, vertexId, new Transition("E" + id));
         }
+
+        graphView.update();
+    }
+
+    public void clearGraph() {
+        for (var e : graph.edges()) {
+            graph.removeEdge(e);
+        }
+        for (var v : graph.vertices()) {
+            graph.removeVertex(v);
+        }
+
+        graphView.update();
+        graphViewWrapper.setVisible(false);
+        hintLabel.setVisible(true);
     }
 
     public void toggleAutoPositioning() {
         graphView.setAutomaticLayout((autoLayout = !autoLayout));
+    }
+
+    public boolean getAutoPositioningEnabled() {
+        return autoLayout;
+    }
+
+    public PlayBackSpeed getSpeed() {
+        return playBackSpeed;
+    }
+
+    public PlayBackSpeed cycleSpeed() {
+        return (playBackSpeed = playBackSpeed.next());
+    }
+
+    public PlayBackState cyclePlayBackState() {
+        return (playBackState = playBackState.next());
+    }
+
+    public PlayBackState getPlayBackState() {
+        return playBackState;
+    }
+
+    private void initGraph() {
+        graph = new DigraphEdgeList<>();
+        graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
+        getChildren().add(0, graphViewWrapper = new ContentZoomScrollPane(graphView));
+        graphViewWrapper.setVisible(false);
+        Platform.runLater(() -> graphView.init());
     }
 }

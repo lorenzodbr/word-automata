@@ -12,7 +12,7 @@
         <URL value="@/styles/style.css" />
     </stylesheets>
     <top>
-        <MenuBar BorderPane.alignment="CENTER" styleClass="menuBar">
+        <MenuBar styleClass="menuBar" BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="true" text="_File">
                     <items>
@@ -20,21 +20,27 @@
                         <MenuItem mnemonicParsing="true" text="_Save" />
                         <MenuItem mnemonicParsing="true" text="Save _as" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="true" text="_Exit" />
+                        <MenuItem mnemonicParsing="true" onAction="#exit" text="_Exit" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Settings">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Set dark theme" />
-                        <MenuItem mnemonicParsing="false" text="Toggle auto-position" onAction="#toggleAutoPositioning" />
+                        <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="false" onAction="#toggleDarkTheme" text="Dark theme" />
+                        <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true" onAction="#toggleAutoPositioning" text="Auto-_position" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Graph">
                     <items>
-                        <MenuItem mnemonicParsing="true" text="_Add state" onAction="#addNode" />
+                        <MenuItem mnemonicParsing="true" onAction="#addNode" text="_Add state" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true" onAction="#clearGraph" text="_Clear" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="true" text="_About">
+                <Menu mnemonicParsing="true" text="_Help">
+                    <items>
+                        <MenuItem mnemonicParsing="true" text="_Legend" />
+                        <MenuItem mnemonicParsing="true" text="_Info" />    
+                    </items>
                 </Menu>
             </menus>
         </MenuBar>

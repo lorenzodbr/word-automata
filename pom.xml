@@ -30,6 +30,18 @@
             <artifactId>jna-platform</artifactId>
             <version>5.14.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-boxicons-pack</artifactId>
+            <version>12.3.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

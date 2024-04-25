@@ -3,11 +3,11 @@ package it.univr.wordautomata;
 import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.components.MainPanel;
 import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Utils.Theme;
 import static it.univr.wordautomata.utils.Utils.Theme.DARK;
 import static it.univr.wordautomata.utils.Utils.Theme.LIGHT;
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -22,22 +22,25 @@ public class WordAutomata extends Application {
     private Scene scene;
     private Parent root;
 
-    @Override
+    private Theme theme;
 
+    @Override
     public void start(Stage stage) throws IOException {
         init(stage);
         stage.show();
     }
 
     private void init(Stage stage) throws IOException {
+        theme = Theme.getDefault(); //needed in advance for MainPanel;
+        
         initScene(Utils.MAIN_PANEL_FXML_FILENAME);
         initStage(stage);
         initTheme();
     }
 
     private void initScene(String fxmlName) throws IOException {
-        loadFonts(Utils.FONT_REGULAR_FILENAME, Utils.FONT_BOLD_FILENAME);
-        scene = new Scene(new MainPanel());
+        Utils.loadFonts(Utils.FONT_REGULAR_FILENAME, Utils.FONT_BOLD_FILENAME, Utils.FONT_ITALIC_FILENAME);
+        scene = new Scene(root = new MainPanel(this));
     }
 
     private void initStage(Stage stage) {
@@ -51,7 +54,15 @@ public class WordAutomata extends Application {
     }
 
     private void initTheme() {
-        switch (Utils.THEME) {
+        setTheme(theme);
+    }
+
+    public void toggleDarkTheme() {
+        setTheme(theme = theme.next());
+    }
+
+    private void setTheme(Theme theme) {
+        switch (theme) {
             case DARK:
                 WindowStyler.setDarkMode(stage);
 
@@ -63,11 +74,9 @@ public class WordAutomata extends Application {
                 WindowStyler.setLightMode(stage);
         }
     }
-
-    private void loadFonts(String... fileNames) {
-        for (String fileName : fileNames) {
-            Font.loadFont(Main.class.getResourceAsStream(Utils.FONTS_BASE_FOLDER + fileName + Utils.FONTS_EXTENSION), Utils.DEFAULT_FONT_SIZE);
-        }
+    
+    public Theme getTheme() {
+        return theme;
     }
 
     public void show() {

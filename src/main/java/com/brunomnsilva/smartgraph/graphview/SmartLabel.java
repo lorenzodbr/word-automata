@@ -63,7 +63,7 @@ public class SmartLabel extends Text implements SmartStylableNode {
 
         this.layoutWidth = new SimpleDoubleProperty(  );
         this.layoutHeight = new SimpleDoubleProperty(  );
-
+                
         layoutBoundsProperty().addListener((observableValue, oldValue, newValue) -> {
             if(newValue != null) {
                 if(Double.compare(layoutWidth.doubleValue(), newValue.getWidth()) != 0) {

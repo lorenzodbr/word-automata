@@ -5,6 +5,7 @@ import atlantafx.base.theme.CupertinoLight;
 import atlantafx.base.theme.NordLight;
 import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
+import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -36,17 +37,32 @@ public class WindowStyler {
 
     public static void setDarkMode(Stage stage) {
         Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
-        
+        setImmersiveDarkMode(stage, true);
+    }
+
+    public static void setLightMode(Stage stage) {
+        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+        setImmersiveDarkMode(stage, false);
+    }
+
+    private static void setImmersiveDarkMode(Stage stage, boolean value) {
         Platform.runLater(() -> {
             try {
                 WindowHandle handle = WindowHandle.tryFind(stage);
-                handle.dwmSetBooleanValue(DwmAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, true);
+                handle.dwmSetBooleanValue(DwmAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, value);
             } catch (HwndLookupException e) {
             }
         });
     }
-    
-    public static void setLightMode(Stage stage) {
-        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+
+    public static void setTheme(Theme theme, Stage stage) {
+        switch (theme) {
+            case DARK:
+                setDarkMode(stage);
+                break;
+            case LIGHT:
+                setLightMode(stage);
+                break;
+        }
     }
 }

@@ -58,9 +58,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
+import it.univr.wordautomata.Main;
+import it.univr.wordautomata.utils.Utils;
 
 /**
- * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or {@link Digraph}.
+ * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or
+ * {@link Digraph}.
  * <br>
  * Be sure to call {@link #init() } after the Stage is displayed.
  * <br>
@@ -68,8 +71,9 @@ import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
  * {@link #update()} to force the rendering of any new elements and, also, the
  * removal of others, if applicable.
  * <br>
- * Vertices can be dragged by the user, if configured to do so. Consequently, 
- * any connected edges will also adjust automatically to the new vertex positioning.
+ * Vertices can be dragged by the user, if configured to do so. Consequently,
+ * any connected edges will also adjust automatically to the new vertex
+ * positioning.
  *
  * @param <V> Type of element stored at a vertex
  * @param <E> Type of element stored at an edge
@@ -83,7 +87,7 @@ public class SmartGraphPanel<V, E> extends Pane {
      */
     private final SmartGraphProperties graphProperties;
 
-    private static final String DEFAULT_CSS_FILE = "smartgraph.css";
+    private static final String DEFAULT_CSS_FILE = Main.class.getResource(Utils.STYLE_BASE_FOLDER + Utils.STYLE_FILENAME + Utils.STYLE_EXTENSION).getPath();
     /*
     INTERNAL DATA STRUCTURE
      */
@@ -91,11 +95,11 @@ public class SmartGraphPanel<V, E> extends Pane {
     private final SmartPlacementStrategy placementStrategy;
     private final Map<Vertex<V>, SmartGraphVertexNode<V>> vertexNodes;
     private final Map<Edge<E, V>, SmartGraphEdgeBase<E, V>> edgeNodes;
-    private final Map<Edge<E,V>, Tuple<Vertex<V>>> connections;
+    private final Map<Edge<E, V>, Tuple<Vertex<V>>> connections;
     private final Map<Tuple<SmartGraphVertexNode<V>>, Integer> placedEdges = new HashMap<>();
     private boolean initialized = false;
     private final boolean edgesWithArrows;
-    
+
     /*
     INTERACTION WITH VERTICES AND EDGES
      */
@@ -114,7 +118,6 @@ public class SmartGraphPanel<V, E> extends Pane {
     /*
     AUTOMATIC LAYOUT RELATED ATTRIBUTES
      */
-
     /**
      * Property to toggle the automatic layout of nodes.
      */
@@ -128,27 +131,31 @@ public class SmartGraphPanel<V, E> extends Pane {
      * Constructs a visualization of the graph referenced by
      * <code>theGraph</code>, using custom parameters.
      * <br/>
-     * This is the only FXML-friendly constructor (there can only be one). If you need to instantiate the default
-     * parameters (besides <code>graph</code>), they are the following:
+     * This is the only FXML-friendly constructor (there can only be one). If
+     * you need to instantiate the default parameters (besides
+     * <code>graph</code>), they are the following:
      * <ul>
-     *     <li>properties - <code>new SmartGraphProperties()</code></li>
-     *     <li>placementStrategy - <code>new SmartCircularSortedPlacementStrategy()</code></li>
-     *     <li>cssFileURI - <code>new File("smartgraph.css").toURI()</code></li>
-     *     <li>automaticLayoutStrategy - <code>new ForceDirectedSpringGravityLayoutStrategy()</code></li>
+     * <li>properties - <code>new SmartGraphProperties()</code></li>
+     * <li>placementStrategy -
+     * <code>new SmartCircularSortedPlacementStrategy()</code></li>
+     * <li>cssFileURI - <code>new File("smartgraph.css").toURI()</code></li>
+     * <li>automaticLayoutStrategy -
+     * <code>new ForceDirectedSpringGravityLayoutStrategy()</code></li>
      * </ul>
      *
      * @param theGraph underlying graph
      * @param properties custom properties
      * @param placementStrategy placement strategy
      * @param cssFile alternative css file, instead of default 'smartgraph.css'
-     * @param layoutStrategy  the automatic layout strategy to use
-     * @throws IllegalArgumentException if any of the arguments is <code>null</code>
+     * @param layoutStrategy the automatic layout strategy to use
+     * @throws IllegalArgumentException if any of the arguments is
+     * <code>null</code>
      */
     public SmartGraphPanel(@NamedArg("graph") Graph<V, E> theGraph,
-                           @NamedArg("properties") SmartGraphProperties properties,
-                           @NamedArg("placementStrategy") SmartPlacementStrategy placementStrategy,
-                           @NamedArg("cssFileURI") URI cssFile,
-                           @NamedArg("automaticLayoutStrategy") ForceDirectedLayoutStrategy<V> layoutStrategy) {
+            @NamedArg("properties") SmartGraphProperties properties,
+            @NamedArg("placementStrategy") SmartPlacementStrategy placementStrategy,
+            @NamedArg("cssFileURI") URI cssFile,
+            @NamedArg("automaticLayoutStrategy") ForceDirectedLayoutStrategy<V> layoutStrategy) {
 
         Args.requireNotNull(theGraph, "theGraph");
         Args.requireNotNull(properties, "properties");
@@ -204,20 +211,22 @@ public class SmartGraphPanel<V, E> extends Pane {
      * <code>theGraph</code>, using default properties, default circular
      * placement of vertices, default automatic spring gravity layout strategy
      * and styling from smartgraph.css.
+     *
      * @see Graph
      * @see SmartGraphProperties
      * @see SmartCircularSortedPlacementStrategy
      * @see ForceDirectedSpringGravityLayoutStrategy
      *
      * @param theGraph underlying graph
-     * @throws IllegalArgumentException if <code>theGraph</code> is <code>null</code>
+     * @throws IllegalArgumentException if <code>theGraph</code> is
+     * <code>null</code>
      */
     public SmartGraphPanel(Graph<V, E> theGraph) {
         this(theGraph,
-            new SmartGraphProperties(),
-            new SmartCircularSortedPlacementStrategy(),
-            new File(DEFAULT_CSS_FILE).toURI(),
-            new ForceDirectedSpringGravityLayoutStrategy<>()
+                new SmartGraphProperties(),
+                new SmartCircularSortedPlacementStrategy(),
+                new File(DEFAULT_CSS_FILE).toURI(),
+                new ForceDirectedSpringGravityLayoutStrategy<>()
         );
     }
 
@@ -228,95 +237,101 @@ public class SmartGraphPanel<V, E> extends Pane {
      *
      * @param theGraph underlying graph
      * @param layoutStrategy the automatic layout strategy
-     * @throws IllegalArgumentException if any of the arguments is <code>null</code>
+     * @throws IllegalArgumentException if any of the arguments is
+     * <code>null</code>
      */
     public SmartGraphPanel(Graph<V, E> theGraph, ForceDirectedLayoutStrategy<V> layoutStrategy) {
         this(theGraph,
-            new SmartGraphProperties(),
-            new SmartCircularSortedPlacementStrategy(),
-            new File(DEFAULT_CSS_FILE).toURI(),
-            layoutStrategy
+                new SmartGraphProperties(),
+                new SmartCircularSortedPlacementStrategy(),
+                new File(DEFAULT_CSS_FILE).toURI(),
+                layoutStrategy
         );
     }
 
     /**
      * Constructs a visualization of the graph referenced by
-     * <code>theGraph</code>, using custom properties, default automatic spring gravity layout strategy
-     * and styling from smartgraph.css.
+     * <code>theGraph</code>, using custom properties, default automatic spring
+     * gravity layout strategy and styling from smartgraph.css.
      *
      * @param theGraph underlying graph
      * @param properties custom properties
-     * @throws IllegalArgumentException if any of the arguments is <code>null</code>
+     * @throws IllegalArgumentException if any of the arguments is
+     * <code>null</code>
      */
     public SmartGraphPanel(Graph<V, E> theGraph, SmartGraphProperties properties) {
         this(theGraph,
-            properties,
-            new SmartCircularSortedPlacementStrategy(),
-            new File(DEFAULT_CSS_FILE).toURI(),
-            new ForceDirectedSpringGravityLayoutStrategy<>()
+                properties,
+                new SmartCircularSortedPlacementStrategy(),
+                new File(DEFAULT_CSS_FILE).toURI(),
+                new ForceDirectedSpringGravityLayoutStrategy<>()
         );
     }
 
     /**
      * Constructs a visualization of the graph referenced by
-     * <code>theGraph</code>, using default properties and styling from smartgraph.css.
+     * <code>theGraph</code>, using default properties and styling from
+     * smartgraph.css.
      *
      * @param theGraph underlying graph
      * @param placementStrategy placement strategy
      * @param layoutStrategy the automatic layout strategy
-     * @throws IllegalArgumentException if any of the arguments is <code>null</code>
+     * @throws IllegalArgumentException if any of the arguments is
+     * <code>null</code>
      */
     public SmartGraphPanel(Graph<V, E> theGraph, SmartPlacementStrategy placementStrategy,
-                           ForceDirectedLayoutStrategy<V> layoutStrategy) {
+            ForceDirectedLayoutStrategy<V> layoutStrategy) {
         this(theGraph,
-            new SmartGraphProperties(),
-            placementStrategy,
-            new File(DEFAULT_CSS_FILE).toURI(),
-            layoutStrategy
+                new SmartGraphProperties(),
+                placementStrategy,
+                new File(DEFAULT_CSS_FILE).toURI(),
+                layoutStrategy
         );
     }
 
     /**
      * Constructs a visualization of the graph referenced by
-     * <code>theGraph</code>, using custom placement of
-     * vertices, default properties, default automatic spring gravity layout strategy
-     * and styling from smartgraph.css.
+     * <code>theGraph</code>, using custom placement of vertices, default
+     * properties, default automatic spring gravity layout strategy and styling
+     * from smartgraph.css.
      *
      * @param theGraph underlying graph
      * @param placementStrategy placement strategy, null for default
-     * @throws IllegalArgumentException if any of the arguments is <code>null</code>
+     * @throws IllegalArgumentException if any of the arguments is
+     * <code>null</code>
      */
     public SmartGraphPanel(Graph<V, E> theGraph, SmartPlacementStrategy placementStrategy) {
         this(theGraph,
-            new SmartGraphProperties(),
-            placementStrategy,
-            new File(DEFAULT_CSS_FILE).toURI(),
-            new ForceDirectedSpringGravityLayoutStrategy<>()
+                new SmartGraphProperties(),
+                placementStrategy,
+                new File(DEFAULT_CSS_FILE).toURI(),
+                new ForceDirectedSpringGravityLayoutStrategy<>()
         );
     }
 
     /**
      * Constructs a visualization of the graph referenced by
      * <code>theGraph</code>, using custom properties and custom placement of
-     * vertices, default automatic spring gravity layout strategy
-     * and styling from smartgraph.css.
+     * vertices, default automatic spring gravity layout strategy and styling
+     * from smartgraph.css.
      *
      * @param theGraph underlying graph
      * @param properties custom properties, null for default
      * @param placementStrategy placement strategy, null for default
-     * @throws IllegalArgumentException if any of the arguments is <code>null</code>
+     * @throws IllegalArgumentException if any of the arguments is
+     * <code>null</code>
      */
     public SmartGraphPanel(Graph<V, E> theGraph, SmartGraphProperties properties,
             SmartPlacementStrategy placementStrategy) {
 
         this(theGraph,
-            properties,
-            placementStrategy,
-            new File(DEFAULT_CSS_FILE).toURI(),
-            new ForceDirectedSpringGravityLayoutStrategy<>()
+                properties,
+                placementStrategy,
+                new File(DEFAULT_CSS_FILE).toURI(),
+                new ForceDirectedSpringGravityLayoutStrategy<>()
         );
     }
-    
+
     /**
      * Constructs a visualization of the graph referenced by
      * <code>theGraph</code>, using custom properties, custom placement of
@@ -326,20 +341,19 @@ public class SmartGraphPanel<V, E> extends Pane {
      * @param properties custom properties, null for default
      * @param placementStrategy placement strategy, null for default
      * @param cssFile alternative css file, instead of default 'smartgraph.css'
-     * @throws IllegalArgumentException if any of the arguments is <code>null</code>
+     * @throws IllegalArgumentException if any of the arguments is
+     * <code>null</code>
      */
     public SmartGraphPanel(Graph<V, E> theGraph, SmartGraphProperties properties,
             SmartPlacementStrategy placementStrategy, URI cssFile) {
 
         this(theGraph,
-            properties,
-            placementStrategy,
-            cssFile,
-            new ForceDirectedSpringGravityLayoutStrategy<>()
+                properties,
+                placementStrategy,
+                cssFile,
+                new ForceDirectedSpringGravityLayoutStrategy<>()
         );
     }
-
-
 
     private synchronized void runAutomaticLayout() {
         for (int i = 0; i < AUTOMATIC_LAYOUT_ITERATIONS; i++) {
@@ -348,7 +362,7 @@ public class SmartGraphPanel<V, E> extends Pane {
             updateForces();
         }
         applyForces();
-    }    
+    }
 
     /**
      * Runs the initial current vertex placement strategy.
@@ -392,17 +406,17 @@ public class SmartGraphPanel<V, E> extends Pane {
 
     /**
      * Returns the property used to toggle the automatic layout of vertices.
-     * 
-     * @return  automatic layout property
+     *
+     * @return automatic layout property
      */
     public BooleanProperty automaticLayoutProperty() {
         return this.automaticLayoutProperty;
     }
-    
+
     /**
      * Toggle the automatic layout of vertices.
-     * 
-     * @param value     true if enabling; false, otherwise
+     *
+     * @param value true if enabling; false, otherwise
      */
     public void setAutomaticLayout(boolean value) {
         automaticLayoutProperty.set(value);
@@ -410,6 +424,7 @@ public class SmartGraphPanel<V, E> extends Pane {
 
     /**
      * Changes the current automatic layout strategy.
+     *
      * @param strategy the new strategy to use
      */
     public void setAutomaticLayoutStrategy(ForceDirectedLayoutStrategy<V> strategy) {
@@ -420,7 +435,8 @@ public class SmartGraphPanel<V, E> extends Pane {
 
     /**
      * Returns the reference of underlying model depicted by this panel.
-     * <br/> The concrete type of the returned instance may be a {@link Graph} or {@link Digraph}.
+     * <br/> The concrete type of the returned instance may be a {@link Graph}
+     * or {@link Digraph}.
      *
      * @return the underlying model
      */
@@ -429,7 +445,9 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     /**
-     * Returns a collection of the smart vertices that represent the underlying model vertices.
+     * Returns a collection of the smart vertices that represent the underlying
+     * model vertices.
+     *
      * @return a collection of the smart vertices
      */
     protected final Collection<SmartGraphVertex<V>> getSmartVertices() {
@@ -437,7 +455,9 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     /**
-     * Returns a collection of the smart edges that represent the underlying model edges.
+     * Returns a collection of the smart edges that represent the underlying
+     * model edges.
+     *
      * @return a collection of the smart edges
      */
     protected final Collection<SmartGraphEdge<E, V>> getSmartEdges() {
@@ -448,9 +468,9 @@ public class SmartGraphPanel<V, E> extends Pane {
      * Forces a refresh of the visualization based on current state of the
      * underlying graph, immediately returning to the caller.
      * <br/>
-     * This method invokes the refresh in the graphical
-     * thread through Platform.runLater(), so its not guaranteed that the visualization is in sync
-     * immediately after this method finishes. That is, this method
+     * This method invokes the refresh in the graphical thread through
+     * Platform.runLater(), so its not guaranteed that the visualization is in
+     * sync immediately after this method finishes. That is, this method
      * immediately returns to the caller without waiting for the update to the
      * visualization.
      * <p>
@@ -469,7 +489,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         //this will be called from a non-javafx thread, so this must be guaranteed to run of the graphics thread
         Platform.runLater(() -> updateViewModel());
     }
-    
+
     /**
      * Forces a refresh of the visualization based on current state of the
      * underlying graph and waits for completion of the update.
@@ -489,19 +509,19 @@ public class SmartGraphPanel<V, E> extends Pane {
         if (!this.initialized) {
             throw new IllegalStateException("You must call init() method before any updates.");
         }
-        
+
         final FutureTask<Boolean> update = new FutureTask<>(() -> {
             updateViewModel();
             return true;
         });
-        
+
         //
-        if(!Platform.isFxApplicationThread()) {            
+        if (!Platform.isFxApplicationThread()) {
             //this will be called from a non-javafx thread, so this must be guaranteed to run of the graphics thread
             Platform.runLater(update);
-        
+
             //wait for completion, only outside javafx thread; otherwise -> deadlock
-            try {            
+            try {
                 update.get(1, TimeUnit.SECONDS);
             } catch (InterruptedException | ExecutionException | TimeoutException ex) {
                 Logger.getLogger(SmartGraphPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -509,7 +529,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         } else {
             updateViewModel();
         }
-        
+
     }
 
     private synchronized void updateViewModel() {
@@ -540,13 +560,14 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     /* PROVIDERS */
-
     /**
      * Sets the vertex label provider for this SmartGraphPanel.
      * <br/>
-     * The label provider has priority over any other method of obtaining the same values, such as annotations.
+     * The label provider has priority over any other method of obtaining the
+     * same values, such as annotations.
      * <br/>
-     * To remove the provider, call this method with a <code>null</code> argument.
+     * To remove the provider, call this method with a <code>null</code>
+     * argument.
      *
      * @param labelProvider the label provider to set
      */
@@ -557,9 +578,11 @@ public class SmartGraphPanel<V, E> extends Pane {
     /**
      * Sets the edge label provider for this SmartGraphPanel.
      * <br/>
-     * The label provider has priority over any other method of obtaining the same values, such as annotations.
+     * The label provider has priority over any other method of obtaining the
+     * same values, such as annotations.
      * <br/>
-     * To remove the provider, call this method with a <code>null</code> argument.
+     * To remove the provider, call this method with a <code>null</code>
+     * argument.
      *
      * @param labelProvider the label provider to set
      */
@@ -570,9 +593,11 @@ public class SmartGraphPanel<V, E> extends Pane {
     /**
      * Sets the radius provider for this SmartGraphPanel.
      * <br/>
-     * The radius provider has priority over any other method of obtaining the same values, such as annotations.
+     * The radius provider has priority over any other method of obtaining the
+     * same values, such as annotations.
      * <br/>
-     * To remove the provider, call this method with a <code>null</code> argument.
+     * To remove the provider, call this method with a <code>null</code>
+     * argument.
      *
      * @param vertexRadiusProvider the radius provider to set
      */
@@ -583,9 +608,11 @@ public class SmartGraphPanel<V, E> extends Pane {
     /**
      * Sets the shape type provider for this SmartGraphPanel.
      * <br/>
-     * The shape type provider has priority over any other method of obtaining the same values, such as annotations.
+     * The shape type provider has priority over any other method of obtaining
+     * the same values, such as annotations.
      * <br/>
-     * To remove the provider, call this method with a <code>null</code> argument.
+     * To remove the provider, call this method with a <code>null</code>
+     * argument.
      *
      * @param vertexShapeTypeProvider the shape type provider to set
      */
@@ -595,7 +622,7 @@ public class SmartGraphPanel<V, E> extends Pane {
 
     /*
         NODES CREATION/UPDATES
-         */
+     */
     private void initNodes() {
 
         /* create vertex graphical representations */
@@ -629,7 +656,7 @@ public class SmartGraphPanel<V, E> extends Pane {
                 graphVertexIn.addAdjacentVertex(graphVertexOppositeOut);
                 graphVertexOppositeOut.addAdjacentVertex(graphVertexIn);
 
-                SmartGraphEdgeBase<E,V> graphEdge = createEdge(edge, graphVertexIn, graphVertexOppositeOut);
+                SmartGraphEdgeBase<E, V> graphEdge = createEdge(edge, graphVertexIn, graphVertexOppositeOut);
 
                 /* Track Edges already placed */
                 connections.put(edge, new Tuple<>(vertex, oppositeVertex));
@@ -664,7 +691,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         return new SmartGraphVertexNode<>(v, x, y, shapeRadius, shapeType, graphProperties.getVertexAllowUserMove(), graphProperties.getUseVertexLabelInside());
     }
 
-    private SmartGraphEdgeBase<E,V> createEdge(Edge<E, V> edge, SmartGraphVertexNode<V> graphVertexInbound, SmartGraphVertexNode<V> graphVertexOutbound) {
+    private SmartGraphEdgeBase<E, V> createEdge(Edge<E, V> edge, SmartGraphVertexNode<V> graphVertexInbound, SmartGraphVertexNode<V> graphVertexOutbound) {
         /*
         Even if edges are later removed, the corresponding index remains the same. Otherwise, we would have to
         regenerate the appropriate edges.
@@ -674,8 +701,8 @@ public class SmartGraphPanel<V, E> extends Pane {
         if (counter != null) {
             edgeIndex = counter;
         }
-        
-        SmartGraphEdgeBase<E,V> graphEdge;
+
+        SmartGraphEdgeBase<E, V> graphEdge;
 
         if (getTotalEdgesBetween(graphVertexInbound.getUnderlyingVertex(), graphVertexOutbound.getUnderlyingVertex()) > 1
                 || graphVertexInbound == graphVertexOutbound) {
@@ -693,8 +720,8 @@ public class SmartGraphPanel<V, E> extends Pane {
         this.getChildren().add(v);
 
         String labelText = getVertexLabelFor(v.getUnderlyingVertex().element());
-        
-        if (graphProperties.getUseVertexTooltip()) {            
+
+        if (graphProperties.getUseVertexTooltip()) {
             Tooltip t = new Tooltip(labelText);
             Tooltip.install(v, t);
         }
@@ -708,13 +735,13 @@ public class SmartGraphPanel<V, E> extends Pane {
         }
     }
 
-    private void addEdge(SmartGraphEdgeBase<E,V> e, Edge<E, V> edge) {
+    private void addEdge(SmartGraphEdgeBase<E, V> e, Edge<E, V> edge) {
         //edges to the back
         this.getChildren().add(0, (Node) e);
         edgeNodes.put(edge, e);
 
         String labelText = getEdgeLabelFor(edge.element());
-        
+
         if (graphProperties.getUseEdgeTooltip()) {
             Tooltip t = new Tooltip(labelText);
             Tooltip.install((Node) e, t);
@@ -756,18 +783,18 @@ public class SmartGraphPanel<V, E> extends Pane {
                     Edge<E, V> firstEdge = incidentEdges.iterator().next();
                     Vertex<V> opposite = theGraph.opposite(vertex, firstEdge);
                     SmartGraphVertexNode<V> existing = vertexNodes.get(opposite);
-                    
-                    if(existing == null) {
+
+                    if (existing == null) {
                         /* 
                         Updates may be coming too fast, and we can get out of sync.
                         The opposite vertex exists in the (di)graph, but we have not yet
                         created it for the panel. Therefore, its position is unknown,
                         so place the vertex representation in the middle.
-                        */                        
+                         */
                         x = mx;
                         y = my;
                     } else {
-                        Point2D p = UtilitiesPoint2D.rotate(existing.getPosition().add(50.0, 50.0),
+                        Point2D p = UtilitiesPoint2D.rotate(existing.getPosition().add(75.0, 75.0),
                                 existing.getPosition(), Math.random() * 360);
 
                         x = clamp(p.getX(), 0, getWidth());
@@ -800,15 +827,15 @@ public class SmartGraphPanel<V, E> extends Pane {
                 Updates may be coming too fast, and we can get out of sync.
                 Skip and wait for another update call, since they will surely
                 be coming at this pace.
-                */
-                if(graphVertexIn == null || graphVertexOut == null) {
+                 */
+                if (graphVertexIn == null || graphVertexOut == null) {
                     continue;
                 }
-                
+
                 graphVertexOut.addAdjacentVertex(graphVertexIn);
                 graphVertexIn.addAdjacentVertex(graphVertexOut);
 
-                SmartGraphEdgeBase<E,V> graphEdge = createEdge(edge, graphVertexIn, graphVertexOut);
+                SmartGraphEdgeBase<E, V> graphEdge = createEdge(edge, graphVertexIn, graphVertexOut);
 
                 if (this.edgesWithArrows && theGraph instanceof Digraph) {
                     SmartArrow arrow = new SmartArrow(this.graphProperties.getEdgeArrowSize());
@@ -816,7 +843,7 @@ public class SmartGraphPanel<V, E> extends Pane {
                     this.getChildren().add(arrow);
                 }
 
-                 /* Track edges */
+                /* Track edges */
                 connections.put(edge, new Tuple<>(u, v));
                 addEdge(graphEdge, edge);
 
@@ -832,10 +859,10 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     private void removeNodes() {
-         //remove edges (graphical elements) that were removed from the underlying graph
+        //remove edges (graphical elements) that were removed from the underlying graph
         Collection<Edge<E, V>> removedEdges = removedEdges();
         for (Edge<E, V> e : removedEdges) {
-            SmartGraphEdgeBase<E,V> edgeToRemove = edgeNodes.get(e);
+            SmartGraphEdgeBase<E, V> edgeToRemove = edgeNodes.get(e);
             edgeNodes.remove(e);
             removeEdge(edgeToRemove);   //remove from panel
 
@@ -843,7 +870,7 @@ public class SmartGraphPanel<V, E> extends Pane {
             //the adjacency is kept in parallel in an internal data structure
             Tuple<Vertex<V>> vertexTuple = connections.get(e);
 
-            if( getTotalEdgesBetween(vertexTuple.first, vertexTuple.second) == 0 ) {
+            if (getTotalEdgesBetween(vertexTuple.first, vertexTuple.second) == 0) {
                 SmartGraphVertexNode<V> v0 = vertexNodes.get(vertexTuple.first);
                 SmartGraphVertexNode<V> v1 = vertexNodes.get(vertexTuple.second);
 
@@ -860,10 +887,10 @@ public class SmartGraphPanel<V, E> extends Pane {
             SmartGraphVertexNode<V> removed = vertexNodes.remove(removedVertex);
             removeVertex(removed);
         }
-                
+
     }
 
-    private void removeEdge(SmartGraphEdgeBase<E,V> e) {
+    private void removeEdge(SmartGraphEdgeBase<E, V> e) {
         getChildren().remove((Node) e);
 
         SmartArrow attachedArrow = e.getAttachedArrow();
@@ -894,9 +921,9 @@ public class SmartGraphPanel<V, E> extends Pane {
             SmartGraphVertexNode<V> vertexNode = vertexNodes.get(v);
             if (vertexNode != null) {
                 SmartLabel label = vertexNode.getAttachedLabel();
-                if(label != null) {
+                if (label != null) {
                     String text = getVertexLabelFor(v.element());
-                    label.setText_( text );
+                    label.setText_(text);
                 }
 
                 double radius = getVertexShapeRadiusFor(v.element());
@@ -907,27 +934,29 @@ public class SmartGraphPanel<V, E> extends Pane {
             }
 
         });
-        
+
         theGraph.edges().forEach((e) -> {
-            SmartGraphEdgeBase<E,V> edgeNode = edgeNodes.get(e);
+            SmartGraphEdgeBase<E, V> edgeNode = edgeNodes.get(e);
             if (edgeNode != null) {
                 SmartLabel label = edgeNode.getAttachedLabel();
                 if (label != null) {
                     String text = getEdgeLabelFor(e.element());
-                    label.setText_( text );
+                    label.setText_(text);
                 }
             }
         });
     }
-    
+
     protected final String getVertexLabelFor(V vertexElement) {
 
-        if(vertexElement == null) return "<NULL>";
+        if (vertexElement == null) {
+            return "<NULL>";
+        }
 
-        if(vertexLabelProvider != null) {
+        if (vertexLabelProvider != null) {
             return vertexLabelProvider.valueFor(vertexElement);
         }
-        
+
         try {
             Class<?> clazz = vertexElement.getClass();
             for (Method method : clazz.getDeclaredMethods()) {
@@ -937,21 +966,23 @@ public class SmartGraphPanel<V, E> extends Pane {
                     return value.toString();
                 }
             }
-        } catch (SecurityException | IllegalAccessException  | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(SmartGraphPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return vertexElement.toString();
     }
 
     protected final String getEdgeLabelFor(E edgeElement) {
 
-        if(edgeElement == null) return "<NULL>";
+        if (edgeElement == null) {
+            return "<NULL>";
+        }
 
-        if(edgeLabelProvider != null) {
+        if (edgeLabelProvider != null) {
             return edgeLabelProvider.valueFor(edgeElement);
         }
-        
+
         try {
             Class<?> clazz = edgeElement.getClass();
             for (Method method : clazz.getDeclaredMethods()) {
@@ -961,18 +992,20 @@ public class SmartGraphPanel<V, E> extends Pane {
                     return value.toString();
                 }
             }
-        } catch (SecurityException | IllegalAccessException  | IllegalArgumentException |InvocationTargetException ex) {
+        } catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(SmartGraphPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return edgeElement.toString();
     }
 
     protected final String getVertexShapeTypeFor(V vertexElement) {
 
-        if(vertexElement == null) return graphProperties.getVertexShape();
+        if (vertexElement == null) {
+            return graphProperties.getVertexShape();
+        }
 
-        if(vertexShapeTypeProvider != null) {
+        if (vertexShapeTypeProvider != null) {
             return vertexShapeTypeProvider.valueFor(vertexElement);
         }
 
@@ -985,7 +1018,7 @@ public class SmartGraphPanel<V, E> extends Pane {
                     return value.toString();
                 }
             }
-        } catch (SecurityException | IllegalAccessException  | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(SmartGraphPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -994,9 +1027,11 @@ public class SmartGraphPanel<V, E> extends Pane {
 
     protected final double getVertexShapeRadiusFor(V vertexElement) {
 
-        if(vertexElement == null) return graphProperties.getVertexRadius();
+        if (vertexElement == null) {
+            return graphProperties.getVertexRadius();
+        }
 
-        if(vertexRadiusProvider != null) {
+        if (vertexRadiusProvider != null) {
             return vertexRadiusProvider.valueFor(vertexElement);
         }
 
@@ -1009,13 +1044,13 @@ public class SmartGraphPanel<V, E> extends Pane {
                     return Double.parseDouble(value.toString());
                 }
             }
-        } catch (SecurityException | IllegalAccessException  | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(SmartGraphPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return graphProperties.getVertexRadius();
     }
-    
+
     /**
      * Computes the bounding box from all displayed vertices.
      *
@@ -1024,9 +1059,11 @@ public class SmartGraphPanel<V, E> extends Pane {
     private Bounds getPlotBounds() {
         double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE,
                 maxX = Double.MIN_VALUE, maxY = Double.MIN_VALUE;
-        
-        if(vertexNodes.size() == 0) return new BoundingBox(0, 0, getWidth(), getHeight());
-        
+
+        if (vertexNodes.size() == 0) {
+            return new BoundingBox(0, 0, getWidth(), getHeight());
+        }
+
         for (SmartGraphVertexNode<V> v : vertexNodes.values()) {
             minX = Math.min(minX, v.getCenterX());
             minY = Math.min(minY, v.getCenterY());
@@ -1096,8 +1133,8 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     /**
-     * Computes the collection for vertices that are currently being displayed but do
-     * no longer exist in the underlying graph.
+     * Computes the collection for vertices that are currently being displayed
+     * but do no longer exist in the underlying graph.
      *
      * @return collection of vertices
      */
@@ -1115,10 +1152,10 @@ public class SmartGraphPanel<V, E> extends Pane {
 
         return removed;
     }
-    
+
     /**
-     * Computes the collection for edges that are currently being displayed but do
-     * no longer exist in the underlying graph.
+     * Computes the collection for edges that are currently being displayed but
+     * do no longer exist in the underlying graph.
      *
      * @return collection of edges
      */
@@ -1126,9 +1163,9 @@ public class SmartGraphPanel<V, E> extends Pane {
         List<Edge<E, V>> removed = new LinkedList<>();
 
         Collection<Edge<E, V>> graphEdges = theGraph.edges();
-        Collection<SmartGraphEdgeBase<E,V>> plotted = edgeNodes.values();
+        Collection<SmartGraphEdgeBase<E, V>> plotted = edgeNodes.values();
 
-        for (SmartGraphEdgeBase<E,V> e : plotted) {
+        for (SmartGraphEdgeBase<E, V> e : plotted) {
             if (!graphEdges.contains(e.getUnderlyingEdge())) {
                 removed.add(e.getUnderlyingEdge());
             }
@@ -1154,47 +1191,47 @@ public class SmartGraphPanel<V, E> extends Pane {
 
         return unplotted;
     }
-    
+
     /**
      * Sets a vertex position (its center) manually.
      * <br/>
-     * The positioning should be inside the boundaries of the panel, but
-     * no restrictions are enforced by this method, so be aware. 
-     * 
+     * The positioning should be inside the boundaries of the panel, but no
+     * restrictions are enforced by this method, so be aware.
+     *
      * @param v underlying vertex
      * @param x x-coordinate on panel
      * @param y y-coordinate on panel
      */
     public void setVertexPosition(Vertex<V> v, double x, double y) {
         SmartGraphVertexNode<V> node = vertexNodes.get(v);
-        if(node != null) {
+        if (node != null) {
             node.setPosition(x, y);
         }
     }
-    
+
     /**
      * Return the current x-coordinate (relative to the panel) of a vertex.
-     * 
+     *
      * @param v underlying vertex
-     * @return the x-coordinate or NaN if the vertex does not exist 
+     * @return the x-coordinate or NaN if the vertex does not exist
      */
     public double getVertexPositionX(Vertex<V> v) {
         SmartGraphVertexNode<V> node = vertexNodes.get(v);
-        if(node != null) {
+        if (node != null) {
             return node.getPositionCenterX();
         }
         return Double.NaN;
     }
-    
+
     /**
      * Return the current y-coordinate (relative to the panel) of a vertex.
-     * 
+     *
      * @param v underlying vertex
-     * @return the y-coordinate or NaN if the vertex does not exist 
+     * @return the y-coordinate or NaN if the vertex does not exist
      */
     public double getVertexPositionY(Vertex<V> v) {
         SmartGraphVertexNode<V> node = vertexNodes.get(v);
-        if(node != null) {
+        if (node != null) {
             return node.getPositionCenterY();
         }
         return Double.NaN;
@@ -1249,7 +1286,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         }
         return null;
     }
-    
+
     /**
      * Returns the associated stylable element with a graph vertex.
      *
@@ -1258,22 +1295,21 @@ public class SmartGraphPanel<V, E> extends Pane {
      */
     public SmartStylableNode getStylableLabel(Vertex<V> v) {
         SmartGraphVertexNode<V> vertex = vertexNodes.get(v);
-        
+
         return vertex != null ? vertex.getStylableLabel() : null;
     }
-    
+
     /**
      * Returns the associated stylable element with a graph edge.
      *
      * @param e underlying graph edge
      * @return stylable element (label)
      */
-    public SmartStylableNode getStylableLabel(Edge<E,V> e) {
-        SmartGraphEdgeBase<E,V> edge = edgeNodes.get(e);
-        
+    public SmartStylableNode getStylableLabel(Edge<E, V> e) {
+        SmartGraphEdgeBase<E, V> edge = edgeNodes.get(e);
+
         return edge != null ? edge.getStylableLabel() : null;
     }
-   
 
     /**
      * Loads the stylesheet and applies the .graph class to this panel.
@@ -1308,12 +1344,12 @@ public class SmartGraphPanel<V, E> extends Pane {
 
                     if (node instanceof SmartGraphVertex) {
                         SmartGraphVertex<V> v = (SmartGraphVertex<V>) node;
-                        if(vertexClickConsumer != null) { // Only if the consumer is set
+                        if (vertexClickConsumer != null) { // Only if the consumer is set
                             vertexClickConsumer.accept(v);
                         }
                     } else if (node instanceof SmartGraphEdge) {
-                        SmartGraphEdge<E,V> e = (SmartGraphEdge<E,V>) node;
-                        if(edgeClickConsumer != null) { // Only if the consumer is set
+                        SmartGraphEdge<E, V> e = (SmartGraphEdge<E, V>) node;
+                        if (edgeClickConsumer != null) { // Only if the consumer is set
                             edgeClickConsumer.accept(e);
                         }
                     }
@@ -1323,7 +1359,7 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     private static double clamp(double value, double min, double max) {
-
+        
         if (Double.compare(value, min) < 0) {
             return min;
         }
