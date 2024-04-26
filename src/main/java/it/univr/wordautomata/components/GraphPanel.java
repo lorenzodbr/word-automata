@@ -91,7 +91,7 @@ public class GraphPanel extends StackPane {
 
     @FXML
     public boolean addVertex() {
-        State newState = Utils.showAddStateModal(getScene());
+        State newState = new AddStateModal(getScene()).showAndWait().orElse(null);
 
         if (newState == null) {
             return false;
@@ -117,7 +117,7 @@ public class GraphPanel extends StackPane {
     public boolean addEdge() {
         Collection<State> states = graph.objectsInVertices();
 
-        TransitionWrapper newTransition = Utils.showAddTransitionModal(getScene(), states);
+        TransitionWrapper newTransition = new AddTransitionModal(getScene(), states).showAndWait().orElse(null);
 
         if (newTransition == null) {
             return false;
@@ -125,7 +125,7 @@ public class GraphPanel extends StackPane {
 
         graph.insertEdge(newTransition.getStartingState(), newTransition.getEndingState(), newTransition.getTransition());
         graphView.update();
-        
+
         return true;
     }
 

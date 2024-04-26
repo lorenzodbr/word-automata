@@ -8,6 +8,7 @@ import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.components.AddStateModalBody;
+import it.univr.wordautomata.components.AddTransitionModal;
 import it.univr.wordautomata.components.AddTransitionModalBody;
 import it.univr.wordautomata.components.MainPanel;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.Collection;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.text.Font;
@@ -66,7 +68,7 @@ public class Utils {
 
     //Sizes
     public final static double HEIGHT = 700;
-    public final static double WIDTH = 1100;
+    public final static double WIDTH = 1030;
     public final static double MIN_HEIGHT = 500;
     public final static double MIN_WIDTH = 700;
     public final static int DEFAULT_FONT_SIZE = 12;
@@ -78,8 +80,26 @@ public class Utils {
     public static void loadFonts(String... fileNames) {
         for (String fileName : fileNames) {
             Font.loadFont(Main.class
-                    .getResourceAsStream(Utils.FONTS_BASE_FOLDER + fileName + Utils.FONTS_EXTENSION), Utils.DEFAULT_FONT_SIZE);
+                    .getResourceAsStream(
+                            Utils.FONTS_BASE_FOLDER
+                            + fileName
+                            + Utils.FONTS_EXTENSION
+                    ),
+                    Utils.DEFAULT_FONT_SIZE
+            );
         }
+    }
+
+    public static boolean showConfirmationDialog(Scene scene, String title, String body) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(body);
+
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+        alert.initOwner(scene.getWindow());
+
+        return ButtonType.YES.equals(alert.showAndWait().orElse(null));
     }
 
     //FXML methods
@@ -92,55 +112,13 @@ public class Utils {
             loader.load();
         } catch (IOException ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Error while loading component's FXML");
+            throw new RuntimeException("Error while loading component's FXML (" + path + ")");
         }
     }
 
     public static FXMLLoader getLoader(String fxml) {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Utils.FXML_BASE_FOLDER + fxml + Utils.FXML_EXTENSION));
         return fxmlLoader;
-    }
-
-    public static State showAddStateModal(Scene scene) {
-        AddStateModalBody body = new AddStateModalBody();
-
-        Dialog<State> dialog = new Dialog();
-        dialog.setTitle("Add state");
-        dialog.getDialogPane().setContent(body);
-        dialog.initOwner(scene.getWindow());
-        dialog.setResultConverter(c -> {
-            if (c == ButtonType.OK) {
-                return body.buildState();
-            }
-
-            return null;
-        });
-        dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-        dialog.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
-        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) dialog.getDialogPane().getScene().getWindow());
-
-        return dialog.showAndWait().orElse(null);
-    }
-
-    public static TransitionWrapper showAddTransitionModal(Scene scene, Collection<State> vertices) {
-        AddTransitionModalBody body = new AddTransitionModalBody(vertices);
-
-        Dialog<TransitionWrapper> dialog = new Dialog();
-        dialog.setTitle("Add transition");
-        dialog.getDialogPane().setContent(body);
-        dialog.initOwner(scene.getWindow());
-        dialog.setResultConverter(c -> {
-            if (c == ButtonType.OK) {
-                return body.buildTransitionWrapper();
-            }
-
-            return null;
-        });
-        dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-        dialog.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
-        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) dialog.getDialogPane().getScene().getWindow());
-
-        return dialog.showAndWait().orElse(null);
     }
 
     //Misc
