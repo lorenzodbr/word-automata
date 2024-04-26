@@ -9,6 +9,10 @@ import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
@@ -91,15 +95,17 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void clearGraph() {
-        graphPanel.clearGraph();
-        setClearGraphMenuItemEnabled(false);
-        setAddTransitionMenuItemEnabled(false);
-        setInitialStateMenuItemEnabled(false);
+        if (Utils.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
+            graphPanel.clearGraph();
+            setClearGraphMenuItemEnabled(false);
+            setAddTransitionMenuItemEnabled(false);
+            setInitialStateMenuItemEnabled(false);
+        }
     }
-
+    
     @FXML
-    private void setAddState() {
-
+    private void setInitialState(){
+        
     }
 
     @FXML
@@ -118,8 +124,8 @@ public class MainPanel extends BorderPane {
         parent.toggleDarkTheme();
         styleDarkThemeMenuItem();
     }
-    
-    public Theme getTheme(){
+
+    public Theme getTheme() {
         return parent.getTheme();
     }
 
@@ -155,7 +161,8 @@ public class MainPanel extends BorderPane {
     @FXML
     private void exit() {
         //TODO: ask to save file, ...
-
-        System.exit(0);
+        if (Utils.showConfirmationDialog(getScene(), "Exit", "Do you really want to exit the application?")) {
+            System.exit(0);
+        }
     }
 }
