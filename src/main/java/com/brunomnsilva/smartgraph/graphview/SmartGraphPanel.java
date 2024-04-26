@@ -91,7 +91,7 @@ public class SmartGraphPanel<V, E> extends Pane {
      */
     private final SmartGraphProperties graphProperties;
 
-    private static final String DEFAULT_CSS_FILE = Main.class.getResource(Utils.STYLE_BASE_FOLDER + Utils.STYLE_FILENAME + Utils.STYLE_EXTENSION).getPath();
+    private static final String DEFAULT_CSS_FILE = Utils.STYLE_BASE_FOLDER + Utils.STYLE_FILENAME + Utils.STYLE_EXTENSION;
     /*
     INTERNAL DATA STRUCTURE
      */
@@ -186,8 +186,8 @@ public class SmartGraphPanel<V, E> extends Pane {
         this.edgeClickConsumer = null;
         this.backgroundClickConsumer = null;
 
-        //set stylesheet and class
-        //loadAndApplyStylesheet(cssFile);
+        //set stylesheet and class (NOTE: actually not needed since Application call takes care of adding css)
+        //loadAndApplyStylesheet(cssFile);      
         initNodes();
 
         enableDoubleClickListener();
