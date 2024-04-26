@@ -59,6 +59,15 @@ public interface Graph<V, E> {
      * @return      collection of vertices
      */
     Collection<Vertex<V>> vertices();
+    
+    /**
+     * Returns the objects stored in vertices of the graph as a collection.
+     * <br/>
+     * If there are no vertices, returns an empty collection.
+     * 
+     * @return      collection of objects from vertices
+     */
+    Collection<V> objectsInVertices();
 
     /**
      * Returns the edges of the graph as a collection.
