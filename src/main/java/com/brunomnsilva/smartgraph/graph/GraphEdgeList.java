@@ -65,6 +65,11 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     public Collection<Vertex<V>> vertices() {
         return new ArrayList<>(vertices.values());
     }
+    
+    @Override
+    public Collection<V> objectsInVertices() {
+        return new ArrayList<>(vertices.keySet());
+    }
 
     @Override
     public Collection<Edge<E, V>> edges() {

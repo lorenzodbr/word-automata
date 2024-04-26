@@ -22,12 +22,12 @@ public class AddTransitionModalBody extends Pane {
     private TextField transitionLabelTextField;
 
     @FXML
-    private ChoiceBox<Vertex<State>> startingVertexChoiceBox;
+    private ChoiceBox<State> startingVertexChoiceBox;
 
     @FXML
-    private ChoiceBox<Vertex<State>> endingVertexChoiceBox;
+    private ChoiceBox<State> endingVertexChoiceBox;
 
-    public AddTransitionModalBody(Collection<Vertex<State>> vertices) {
+    public AddTransitionModalBody(Collection<State> vertices) {
         Utils.loadAndSetController(Utils.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
 
         loadChoiceBoxes(vertices);
@@ -38,43 +38,19 @@ public class AddTransitionModalBody extends Pane {
 
         if (label != null && !label.isBlank()) {
             return new TransitionWrapper(
-                    startingVertexChoiceBox.getSelectionModel().getSelectedItem().element(), 
-                    endingVertexChoiceBox.getSelectionModel().getSelectedItem().element(), 
+                    startingVertexChoiceBox.getSelectionModel().getSelectedItem(), 
+                    endingVertexChoiceBox.getSelectionModel().getSelectedItem(), 
                     new Transition(label));
         }
         
         return null;
     }
 
-    private void loadChoiceBoxes(Collection<Vertex<State>> vertices) {
+    private void loadChoiceBoxes(Collection<State> vertices) {
         startingVertexChoiceBox.setItems(FXCollections.observableArrayList(vertices));
         endingVertexChoiceBox.setItems(FXCollections.observableArrayList(vertices));
 
         startingVertexChoiceBox.getSelectionModel().selectFirst();
         endingVertexChoiceBox.getSelectionModel().selectFirst();
-        
-        startingVertexChoiceBox.setConverter(new StringConverter<Vertex<State>>() {
-            @Override
-            public String toString(Vertex<State> t) {
-                return t.element().toString();
-            }
-
-            @Override
-            public Vertex<State> fromString(String string) {
-                return null;
-            }
-        });
-        
-        endingVertexChoiceBox.setConverter(new StringConverter<Vertex<State>>() {
-            @Override
-            public String toString(Vertex<State> t) {
-                return t.element().toString();
-            }
-
-            @Override
-            public Vertex<State> fromString(String string) {
-                return null;
-            }
-        });
     }
 }

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.brunomnsilva.smartgraph.graph;
 
 import java.util.*;
@@ -31,14 +30,15 @@ import java.util.*;
  * <br>
  * Does not allow duplicates of stored elements through <b>equals</b> criteria.
  * <br>
+ *
  * @param <V> Type of element stored at a vertex
  * @param <E> Type of element stored at an edge
- * 
+ *
  * @author brunomnsilva
  */
 public class DigraphEdgeList<V, E> implements Digraph<V, E> {
 
-     /* inner classes are defined at the end of the class, so are the auxiliary methods 
+    /* inner classes are defined at the end of the class, so are the auxiliary methods 
      */
     private final Map<V, Vertex<V>> vertices;
     private final Map<E, Edge<E, V>> edges;
@@ -64,7 +64,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
         }
         return incidentEdges;
     }
-    
+
     @Override
     public synchronized Collection<Edge<E, V>> outboundEdges(Vertex<V> outbound) throws InvalidVertexException {
         checkVertex(outbound);
@@ -149,6 +149,11 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
     }
 
     @Override
+    public Collection<V> objectsInVertices() {
+        return new ArrayList<>(vertices.keySet());
+    }
+
+    @Override
     public synchronized Collection<Edge<E, V>> edges() {
         return new ArrayList<>(edges.values());
     }
@@ -159,7 +164,8 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
         MyEdge edge = checkEdge(e);
 
         if (!edge.contains(v)) {
-            return null; /* this edge does not connect vertex v */
+            return null;
+            /* this edge does not connect vertex v */
         }
 
         if (edge.vertices()[0] == v) {
@@ -192,7 +198,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
         //remove incident edges
         Collection<Edge<E, V>> inOutEdges = incidentEdges(v);
         inOutEdges.addAll(outboundEdges(v));
-        
+
         for (Edge<E, V> edge : inOutEdges) {
             edges.remove(edge.element());
         }
@@ -256,7 +262,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
     private boolean existsEdgeWith(E edgeElement) {
         return edges.containsKey(edgeElement);
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(
@@ -273,7 +279,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
         }
         return sb.toString();
     }
-    
+
     private class MyVertex implements Vertex<V> {
 
         V element;
@@ -328,11 +334,11 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
             return "Edge{{" + element + "}, vertexOutbound=" + vertexOutbound.toString()
                     + ", vertexInbound=" + vertexInbound.toString() + '}';
         }
-        
+
         public Vertex<V> getOutbound() {
             return vertexOutbound;
         }
-        
+
         public Vertex<V> getInbound() {
             return vertexInbound;
         }
@@ -342,12 +348,16 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
      * Checks whether a given vertex is valid and belongs to this graph.
      *
      * @param v the vertex to check
-     * @return the reference of the vertex, with cast to the underlying implementation of {@link Vertex}
-     * @throws InvalidVertexException if the vertex is <code>null</code> or does not belong to this graph
+     * @return the reference of the vertex, with cast to the underlying
+     * implementation of {@link Vertex}
+     * @throws InvalidVertexException if the vertex is <code>null</code> or does
+     * not belong to this graph
      */
     private MyVertex checkVertex(Vertex<V> v) throws InvalidVertexException {
-        if(v == null) throw new InvalidVertexException("Null vertex.");
-        
+        if (v == null) {
+            throw new InvalidVertexException("Null vertex.");
+        }
+
         MyVertex vertex;
         try {
             vertex = (MyVertex) v;
@@ -363,8 +373,10 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
     }
 
     private MyEdge checkEdge(Edge<E, V> e) throws InvalidEdgeException {
-        if(e == null) throw new InvalidEdgeException("Null edge.");
-        
+        if (e == null) {
+            throw new InvalidEdgeException("Null edge.");
+        }
+
         MyEdge edge;
         try {
             edge = (MyEdge) e;
@@ -378,5 +390,5 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
 
         return edge;
     }
-    
+
 }

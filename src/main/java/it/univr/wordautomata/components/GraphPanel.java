@@ -1,5 +1,7 @@
 package it.univr.wordautomata.components;
 
+import java.util.Collection;
+
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
@@ -113,7 +115,9 @@ public class GraphPanel extends StackPane {
 
     @FXML
     public boolean addEdge() {
-        TransitionWrapper newTransition = Utils.showAddTransitionModal(getScene(), graph.vertices());
+        Collection<State> states = graph.objectsInVertices();
+
+        TransitionWrapper newTransition = Utils.showAddTransitionModal(getScene(), states);
 
         if (newTransition == null) {
             return false;

@@ -122,7 +122,7 @@ public class Utils {
         return dialog.showAndWait().orElse(null);
     }
 
-    public static TransitionWrapper showAddTransitionModal(Scene scene, Collection<Vertex<State>> vertices) {
+    public static TransitionWrapper showAddTransitionModal(Scene scene, Collection<State> vertices) {
         AddTransitionModalBody body = new AddTransitionModalBody(vertices);
 
         Dialog<TransitionWrapper> dialog = new Dialog();
