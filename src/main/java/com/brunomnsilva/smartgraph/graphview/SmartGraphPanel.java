@@ -101,10 +101,12 @@ public class SmartGraphPanel<V, E> extends Pane {
     private final boolean edgesWithArrows;
 
     /*
-    INTERACTION WITH VERTICES AND EDGES
+    INTERACTION WITH VERTICES, EDGES AND BACKGROUND
      */
     private Consumer<SmartGraphVertex<V>> vertexClickConsumer;
     private Consumer<SmartGraphEdge<E, V>> edgeClickConsumer;
+    private Consumer<SmartGraphPanel<V, E>> backgroundClickConsumer;
+
 
     /*
     OPTIONAL PROVIDERS FOR LABELS, RADII AND SHAPE TYPES OF NODES.
@@ -179,6 +181,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         // for the sake of readability
         this.vertexClickConsumer = null;
         this.edgeClickConsumer = null;
+        this.backgroundClickConsumer = null;
 
         //set stylesheet and class
         loadAndApplyStylesheet(cssFile);
@@ -189,7 +192,6 @@ public class SmartGraphPanel<V, E> extends Pane {
 
         //automatic layout initializations
         timer = new AnimationTimer() {
-
             @Override
             public void handle(long now) {
                 runAutomaticLayout();
@@ -559,6 +561,16 @@ public class SmartGraphPanel<V, E> extends Pane {
         this.edgeClickConsumer = action;
     }
 
+    /**
+     * Sets the action that should be performed when the background (e.g. empty
+     * space) is double-clicked.
+     *
+     * @param action action to be performed
+     */
+    public void setBackgroundDoubleClickAction(Consumer<SmartGraphPanel<V, E>> action) {
+        this.backgroundClickConsumer = action;
+    }
+
     /* PROVIDERS */
     /**
      * Sets the vertex label provider for this SmartGraphPanel.
@@ -846,7 +858,6 @@ public class SmartGraphPanel<V, E> extends Pane {
                 /* Track edges */
                 connections.put(edge, new Tuple<>(u, v));
                 addEdge(graphEdge, edge);
-
             }
         }
 
@@ -932,7 +943,6 @@ public class SmartGraphPanel<V, E> extends Pane {
                 String shapeType = getVertexShapeTypeFor(v.element());
                 vertexNode.setShapeType(shapeType);
             }
-
         });
 
         theGraph.edges().forEach((e) -> {
@@ -1351,6 +1361,11 @@ public class SmartGraphPanel<V, E> extends Pane {
                         SmartGraphEdge<E, V> e = (SmartGraphEdge<E, V>) node;
                         if (edgeClickConsumer != null) { // Only if the consumer is set
                             edgeClickConsumer.accept(e);
+                        }
+                    } else if (node instanceof SmartGraphPanel) {
+                        if (backgroundClickConsumer != null) {
+                            SmartGraphPanel<V, E> e = (SmartGraphPanel<V, E>) node;
+                            backgroundClickConsumer.accept(e);
                         }
                     }
                 }

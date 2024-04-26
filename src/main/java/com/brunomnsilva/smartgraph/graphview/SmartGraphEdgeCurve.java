@@ -60,7 +60,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
     public static final int DISTANCE_THRESHOLD = 400;
 
     /** Radius applied to loop curves */
-    public static final double LOOP_RADIUS_FACTOR = 2.5;
+    public static final double LOOP_RADIUS_FACTOR = 3;
     
     public static final int SELF_LOOP_FACTOR = 12;
     public static final int LABEL_Y_SHIFT = 5;

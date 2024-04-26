@@ -31,8 +31,8 @@ public class WordAutomata extends Application {
     }
 
     private void init(Stage stage) throws IOException {
-        theme = Theme.getDefault(); //needed in advance for MainPanel;
-        
+        theme = Theme.DEFAULT; //needed in advance for MainPanel;
+
         initScene(Utils.MAIN_PANEL_FXML_FILENAME);
         initStage(stage);
         initTheme();
@@ -54,6 +54,9 @@ public class WordAutomata extends Application {
     }
 
     private void initTheme() {
+        if (theme == DARK && Utils.SET_MICA) {
+            WindowStyler.setMica(stage, scene, root);
+        }
         setTheme(theme);
     }
 
@@ -65,16 +68,12 @@ public class WordAutomata extends Application {
         switch (theme) {
             case DARK:
                 WindowStyler.setDarkMode(stage);
-
-                if (Utils.SET_MICA) {
-                    WindowStyler.setMica(stage, scene, root);
-                }
                 break;
             case LIGHT:
                 WindowStyler.setLightMode(stage);
         }
     }
-    
+
     public Theme getTheme() {
         return theme;
     }

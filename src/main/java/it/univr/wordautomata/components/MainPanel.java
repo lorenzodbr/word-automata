@@ -1,15 +1,16 @@
 package it.univr.wordautomata.components;
 
-import io.github.mimoguz.customwindow.WindowStyler;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
+import it.univr.wordautomata.State;
+import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import org.kordamp.ikonli.boxicons.BoxiconsLogos;
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -31,6 +32,9 @@ public class MainPanel extends BorderPane {
     private MenuItem addTransitionMenuItem;
 
     @FXML
+    private MenuItem setInitialStateMenuItem;
+
+    @FXML
     private MenuItem clearGraphMenuItem;
 
     @FXML
@@ -42,7 +46,6 @@ public class MainPanel extends BorderPane {
         this.parent = parent;
         addGraphPanel();
         addBottomBar();
-        addSideBar();
 
         styleAutoPositioningMenuItem();
         styleDarkThemeMenuItem();
@@ -77,6 +80,7 @@ public class MainPanel extends BorderPane {
     private void addState() {
         if (graphPanel.addVertex()) {
             setAddTransitionMenuItemEnabled(true);
+            setInitialStateMenuItemEnabled(true);
         }
     }
 
@@ -90,6 +94,12 @@ public class MainPanel extends BorderPane {
         graphPanel.clearGraph();
         setClearGraphMenuItemEnabled(false);
         setAddTransitionMenuItemEnabled(false);
+        setInitialStateMenuItemEnabled(false);
+    }
+
+    @FXML
+    private void setAddState() {
+
     }
 
     @FXML
@@ -108,6 +118,10 @@ public class MainPanel extends BorderPane {
         parent.toggleDarkTheme();
         styleDarkThemeMenuItem();
     }
+    
+    public Theme getTheme(){
+        return parent.getTheme();
+    }
 
     private void styleDarkThemeMenuItem() {
         darkThemeMenuItem.setGraphic(parent.getTheme() == Theme.DARK
@@ -122,8 +136,20 @@ public class MainPanel extends BorderPane {
         addTransitionMenuItem.setDisable(!value);
     }
 
+    void setInitialStateMenuItemEnabled(boolean value) {
+        setInitialStateMenuItem.setDisable(!value);
+    }
+
     void setClearGraphMenuItemEnabled(boolean value) {
         clearGraphMenuItem.setDisable(!value);
+    }
+
+    void showVertexDetails(SmartGraphVertex<State> v) {
+
+    }
+
+    void showEdgeDetails(SmartGraphEdge<Transition, State> e) {
+
     }
 
     @FXML

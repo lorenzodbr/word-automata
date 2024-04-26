@@ -14,6 +14,10 @@
     -fx-background-color: -color-neutral-subtle
 }
 
+.transparent-background {
+    -fx-background-color: transparent;
+}
+
 .padding {
     -fx-padding: 10;
 }
@@ -28,7 +32,7 @@
 }
 
 #bottomBar {
-    -fx-border-color: -color-neutral-muted;
+    -fx-border-color: -color-border-default;
     -fx-border-style: solid hidden hidden hidden;
     -fx-border-width: 1;
 }
@@ -52,12 +56,12 @@
 }
 
 #transitionsPanel {
-    -fx-border-color: -color-neutral-muted;
+    -fx-border-color: -color-border-muted;
     -fx-border-width: 1;
 }
 
 #sideBar {
-    -fx-border-color: -color-neutral-muted;
+    -fx-border-color: -color-border-default;
     -fx-border-style: hidden solid hidden hidden;
     -fx-border-width: 1;
 }
@@ -86,6 +90,11 @@
     -fx-stroke: #61B5F1;
     -fx-stroke-type: inside; /* you should keep this if using arrows */
     -fx-fill: #B1DFF7;
+}
+
+.final-state {
+    -fx-stroke: green;
+    -fx-fill: yellowgreen;
 }
 
 .vertex:hover { /* pseudo-classes also work */
@@ -118,13 +127,6 @@
 
 .arrow {
     -fx-stroke-dash-array: none;
-}
-
-.myVertex {
-    -fx-stroke-width: 4;
-    -fx-stroke: green;
-    -fx-stroke-type: inside; /* you should keep this if using arrows */
-    -fx-fill: yellowgreen;
 }
 
 .myEdge {

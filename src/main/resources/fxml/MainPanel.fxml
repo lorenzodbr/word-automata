@@ -23,9 +23,9 @@
                         <MenuItem mnemonicParsing="true" onAction="#exit" text="_Exit" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Settings">
+                <Menu mnemonicParsing="true" text="_Settings">
                     <items>
-                        <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="false" onAction="#toggleDarkTheme" text="Dark theme" />
+                        <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="true" onAction="#toggleDarkTheme" text="_Dark theme" />
                         <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true" onAction="#toggleAutoPositioning" text="Auto-_position" />
                     </items>
                 </Menu>
@@ -33,6 +33,7 @@
                     <items>
                         <MenuItem mnemonicParsing="true" onAction="#addState" text="Add _state" />
                         <MenuItem fx:id="addTransitionMenuItem" disable="true" mnemonicParsing="true" onAction="#addTransition" text="Add _transition" />
+                        <MenuItem fx:id="setInitialStateMenuItem" disable="true" mnemonicParsing="true" onAction="#setAddState" text="Set _initial state" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true" onAction="#clearGraph" text="_Clear" />
                     </items>

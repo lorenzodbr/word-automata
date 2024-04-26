@@ -17,7 +17,7 @@ import javafx.stage.StageStyle;
 public class WindowStyler {
 
     public static void setMica(Stage stage, Scene scene, Parent root) {
-        root.setStyle("-fx-background-color: transparent");
+        root.getStyleClass().add("transparent-background");
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.UNIFIED);
 
