@@ -59,7 +59,11 @@ import java.util.logging.Logger;
 
 import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
 import it.univr.wordautomata.Main;
+import it.univr.wordautomata.State;
+import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.utils.Utils;
+import javafx.event.EventTarget;
+import javafx.scene.shape.Circle;
 
 /**
  * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or
@@ -106,7 +110,6 @@ public class SmartGraphPanel<V, E> extends Pane {
     private Consumer<SmartGraphVertex<V>> vertexClickConsumer;
     private Consumer<SmartGraphEdge<E, V>> edgeClickConsumer;
     private Consumer<SmartGraphPanel<V, E>> backgroundClickConsumer;
-
 
     /*
     OPTIONAL PROVIDERS FOR LABELS, RADII AND SHAPE TYPES OF NODES.
@@ -185,7 +188,6 @@ public class SmartGraphPanel<V, E> extends Pane {
 
         //set stylesheet and class
         //loadAndApplyStylesheet(cssFile);
-
         initNodes();
 
         enableDoubleClickListener();
@@ -700,7 +702,12 @@ public class SmartGraphPanel<V, E> extends Pane {
         // Read shape radius from annotation or use default
         double shapeRadius = getVertexShapeRadiusFor(v.element());
 
-        return new SmartGraphVertexNode<>(v, x, y, shapeRadius, shapeType, graphProperties.getVertexAllowUserMove(), graphProperties.getUseVertexLabelInside());
+        return new SmartGraphVertexNode<>(v,
+                x, y,
+                shapeRadius, shapeType,
+                graphProperties.getVertexAllowUserMove(),
+                graphProperties.getUseVertexLabelInside()
+        );
     }
 
     private SmartGraphEdgeBase<E, V> createEdge(Edge<E, V> edge, SmartGraphVertexNode<V> graphVertexInbound, SmartGraphVertexNode<V> graphVertexOutbound) {
@@ -789,8 +796,9 @@ public class SmartGraphPanel<V, E> extends Pane {
                 Collection<Edge<E, V>> incidentEdges = theGraph.incidentEdges(vertex);
                 if (incidentEdges.isEmpty()) {
                     /* not (yet) connected, put in the middle of the plot */
-                    x = mx;
-                    y = my;
+                    /* the random number is needed for when two edges are placed in the same spot */
+                    x = mx + Utils.random.nextInt(1, 2);
+                    y = my + Utils.random.nextInt(1, 2);
                 } else {
                     Edge<E, V> firstEdge = incidentEdges.iterator().next();
                     Vertex<V> opposite = theGraph.opposite(vertex, firstEdge);
@@ -803,8 +811,8 @@ public class SmartGraphPanel<V, E> extends Pane {
                         created it for the panel. Therefore, its position is unknown,
                         so place the vertex representation in the middle.
                          */
-                        x = mx;
-                        y = my;
+                        x = mx + Utils.random.nextInt(1, 2);
+                        y = my + Utils.random.nextInt(1, 2);
                     } else {
                         Point2D p = UtilitiesPoint2D.rotate(existing.getPosition().add(75.0, 75.0),
                                 existing.getPosition(), Math.random() * 360);
@@ -821,7 +829,6 @@ public class SmartGraphPanel<V, E> extends Pane {
                 //add to global mapping
                 vertexNodes.put(vertex, newVertex);
             }
-
         }
 
         Collection<Edge<E, V>> unplottedEdges = unplottedEdges();
