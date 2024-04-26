@@ -79,7 +79,6 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
     private final SmartStyleProxy styleProxy;
     
     private final int edgeIndex;
-    private final int edgeWithSameEndPointsIndex;
 
     /**
      * Constructs a SmartGraphEdgeCurve representing a curved edge between two SmartGraphVertexNodes.
@@ -89,19 +88,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
      * @param outbound the outbound SmartGraphVertexNode
      */
     public SmartGraphEdgeCurve(Edge<E, V> edge, SmartGraphVertexNode<V> inbound, SmartGraphVertexNode<V> outbound) {
-        this(edge, inbound, outbound, 0, 0);
-    }
-    
-    /**
-     * Constructs a SmartGraphEdgeCurve representing an edge curve between two SmartGraphVertexNodes.
-     *
-     * @param edge     the edge associated with this curve
-     * @param inbound  the inbound SmartGraphVertexNode
-     * @param outbound the outbound SmartGraphVertexNode
-     * @param edgeIndex the edge index (>=0)
-     */
-    public SmartGraphEdgeCurve(Edge<E, V> edge, SmartGraphVertexNode<V> inbound, SmartGraphVertexNode<V> outbound, int edgeIndex) {
-        this(edge, inbound, outbound, edgeIndex, 0);
+        this(edge, inbound, outbound, 0);
     }
 
     /**
@@ -111,9 +98,8 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
      * @param inbound  the inbound SmartGraphVertexNode
      * @param outbound the outbound SmartGraphVertexNode
      * @param edgeIndex the edge index (>=0)
-     * @param edgeWithSameEndPointsIndex the index among the edges with the same endpoints (>=0)
      */
-    public SmartGraphEdgeCurve(Edge<E, V> edge, SmartGraphVertexNode<V> inbound, SmartGraphVertexNode<V> outbound, int edgeIndex, int edgeWithSameEndPointsIndex) {
+    public SmartGraphEdgeCurve(Edge<E, V> edge, SmartGraphVertexNode<V> inbound, SmartGraphVertexNode<V> outbound, int edgeIndex) {
         this.inbound = inbound;
         this.outbound = outbound;
 
@@ -129,7 +115,6 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         this.endYProperty().bind(inbound.centerYProperty());
         
         this.edgeIndex = edgeIndex;
-        this.edgeWithSameEndPointsIndex = edgeWithSameEndPointsIndex;
         
         //TODO: improve this solution taking into account even indices, etc.
         randomAngleFactor = edgeIndex == 0 ? 0 : 1.0 / edgeIndex; //Math.random();
