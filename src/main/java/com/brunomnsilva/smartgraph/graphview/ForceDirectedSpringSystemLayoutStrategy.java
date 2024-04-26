@@ -62,7 +62,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
      * repulsiveForce = 25, attractionForce = 3, attractionScale = 10 and acceleration = 0.8.
      */
     public ForceDirectedSpringSystemLayoutStrategy() {
-        this.repulsiveForce = 25;
+        this.repulsiveForce = 40;
         this.attractionForce = 3;
         this.attractionScale = 10;
         this.acceleration = 0.8;
@@ -114,7 +114,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         }
 
         // repelling force
-        double repulsive_factor = repulsiveForce * A_THOUSAND / (distance * distance);
+        double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance * distance), 40);
         Point2D repulsion = forceDirection.multiply(-repulsive_factor);
 
         // combine forces

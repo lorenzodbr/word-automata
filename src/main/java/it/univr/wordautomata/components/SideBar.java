@@ -5,7 +5,6 @@ import javafx.scene.layout.GridPane;
 
 /**
  *
- * @author Lorenzo
  */
 public class SideBar extends GridPane {
 

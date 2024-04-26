@@ -2,61 +2,29 @@ package it.univr.wordautomata.utils;
 
 import com.brunomnsilva.smartgraph.graph.Graph;
 import com.brunomnsilva.smartgraph.graph.Vertex;
+import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.Main;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
+import it.univr.wordautomata.TransitionWrapper;
+import it.univr.wordautomata.components.AddStateModalBody;
+import it.univr.wordautomata.components.AddTransitionModalBody;
+import it.univr.wordautomata.components.MainPanel;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Random;
-import javafx.collections.ObservableList;
+import java.util.Collection;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.text.Font;
-import javafx.stage.Window;
+import javafx.stage.Stage;
 
 /**
  * Constants used in the application
  */
 public class Utils {
-
-    //FXML methods
-    public static void loadAndSetController(String path, Node n) {
-        FXMLLoader loader = getLoader(path);
-        loader.setRoot(n);
-        loader.setController(n);
-
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Error while loading component's FXML");
-        }
-    }
-
-    public static FXMLLoader getLoader(String fxml) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Utils.FXML_BASE_FOLDER + fxml + Utils.FXML_EXTENSION));
-        return fxmlLoader;
-    }
-
-    public static String showInputModal(Scene scene, String title, String header, String body) {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle(title);
-        dialog.setHeaderText(header);
-        dialog.setContentText(body);
-        dialog.initOwner(scene.getWindow());
-
-        try {
-            for (var pc : scene.getRoot().getPseudoClassStates()) {
-                dialog.getDialogPane().pseudoClassStateChanged(pc, true);
-                dialog.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
-            }
-        } catch (Exception ignored) {
-        }
-
-        return dialog.showAndWait().orElse(null);
-    }
 
     //Themes
     public enum Theme {
@@ -67,18 +35,17 @@ public class Utils {
             return this == LIGHT ? DARK : LIGHT;
         }
 
-        public static Theme getDefault() {
-            return LIGHT;
-        }
+        public static Theme DEFAULT = LIGHT;
     }
-    public final static Theme THEME = Theme.LIGHT;
-    public final static boolean SET_MICA = true;
+    public final static boolean SET_MICA = false;
 
     //Filenames
     public final static String MAIN_PANEL_FXML_FILENAME = "MainPanel";
     public final static String BOTTOM_BAR_FXML_FILENAME = "BottomBar";
     public final static String SIDE_BAR_FXML_FILENAME = "SideBar";
     public final static String GRAPH_PANEL_FXML_FILENAME = "GraphPanel";
+    public final static String ADD_STATE_MODAL_BODY_FXML_FILENAME = "AddStateModalBody";
+    public final static String ADD_TRANSITION_MODAL_BODY_FXML_FILENAME = "AddTransitionModalBody";
     public final static String FONT_REGULAR_FILENAME = "Inter";
     public final static String FONT_BOLD_FILENAME = "Inter-Bold";
     public final static String FONT_ITALIC_FILENAME = "Inter-Italic";
@@ -115,25 +82,65 @@ public class Utils {
         }
     }
 
-    //Graph methods
-    public static Vertex<State> getRandomVertex(Graph<State, Transition> g) {
+    //FXML methods
+    public static void loadAndSetController(String path, Node n) {
+        FXMLLoader loader = getLoader(path);
+        loader.setRoot(n);
+        loader.setController(n);
 
-        int size = g.numVertices();
-        if (size <= 0) {
-            return null;
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Error while loading component's FXML");
         }
+    }
 
-        int rand = random.nextInt(size);
-        Vertex<State> existing = null;
-        int i = 0;
-        for (Vertex<State> v : g.vertices()) {
-            existing = v;
-            if (i++ == rand) {
-                break;
+    public static FXMLLoader getLoader(String fxml) {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Utils.FXML_BASE_FOLDER + fxml + Utils.FXML_EXTENSION));
+        return fxmlLoader;
+    }
+
+    public static State showAddStateModal(Scene scene) {
+        AddStateModalBody body = new AddStateModalBody();
+
+        Dialog<State> dialog = new Dialog();
+        dialog.setTitle("Add state");
+        dialog.getDialogPane().setContent(body);
+        dialog.initOwner(scene.getWindow());
+        dialog.setResultConverter(c -> {
+            if (c == ButtonType.OK) {
+                return body.buildState();
             }
-        }
-        return existing;
 
+            return null;
+        });
+        dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
+        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) dialog.getDialogPane().getScene().getWindow());
+
+        return dialog.showAndWait().orElse(null);
+    }
+
+    public static TransitionWrapper showAddTransitionModal(Scene scene, Collection<Vertex<State>> vertices) {
+        AddTransitionModalBody body = new AddTransitionModalBody(vertices);
+
+        Dialog<TransitionWrapper> dialog = new Dialog();
+        dialog.setTitle("Add transition");
+        dialog.getDialogPane().setContent(body);
+        dialog.initOwner(scene.getWindow());
+        dialog.setResultConverter(c -> {
+            if (c == ButtonType.OK) {
+                return body.buildTransitionWrapper();
+            }
+
+            return null;
+        });
+        dialog.getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
+        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) dialog.getDialogPane().getScene().getWindow());
+
+        return dialog.showAndWait().orElse(null);
     }
 
     //Misc
@@ -147,9 +154,7 @@ public class Utils {
             return values[(this.ordinal() + 1) % values.length];
         }
 
-        public static PlayBackSpeed getDefault() {
-            return REGULAR;
-        }
+        public static PlayBackSpeed DEFAULT = REGULAR;
 
         public String toString() {
             String s = "0.5";
@@ -172,8 +177,6 @@ public class Utils {
             return values[(this.ordinal() + 1) % values.length];
         }
 
-        public static PlayBackState getDefault() {
-            return PAUSED;
-        }
+        public static PlayBackState DEFAULT = PAUSED;
     }
 }

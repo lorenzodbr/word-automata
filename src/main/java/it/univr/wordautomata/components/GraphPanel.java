@@ -4,6 +4,7 @@ import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Graph;
+import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
@@ -11,6 +12,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
+import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
 import it.univr.wordautomata.utils.Utils.PlayBackState;
@@ -38,8 +40,8 @@ public class GraphPanel extends StackPane {
     private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
     private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
-    private PlayBackSpeed playBackSpeed = PlayBackSpeed.getDefault();
-    private PlayBackState playBackState = PlayBackState.getDefault();
+    private PlayBackSpeed playBackSpeed = PlayBackSpeed.DEFAULT;
+    private PlayBackState playBackState = PlayBackState.DEFAULT;
 
     private boolean wasGraphAdded = false;
     private boolean autoLayout = true;
@@ -87,9 +89,9 @@ public class GraphPanel extends StackPane {
 
     @FXML
     public boolean addVertex() {
-        String nodeLabel = Utils.showInputModal(getScene(), "Message", "Input state label", null);
+        State newState = Utils.showAddStateModal(getScene());
 
-        if (nodeLabel == null || nodeLabel.isBlank()) {
+        if (newState == null) {
             return false;
         }
 
@@ -98,33 +100,29 @@ public class GraphPanel extends StackPane {
         hintLabel.setVisible(false);
         graphViewWrapper.setVisible(true);
 
-        graph.insertVertex(new State(nodeLabel));
-        graphView.update();
-        
+        Vertex<State> v = graph.insertVertex(newState);
+
+        graphView.updateAndWait();
+
+        if (newState.isFinal()) {
+            graphView.getStylableVertex(v).addStyleClass("final-state");
+        }
+
         return true;
     }
 
     @FXML
-    public void addEdge() {
-        String transitionLabel = Utils.showInputModal(getScene(), "Message", "Input transition label and select origin and destination states", null);
+    public boolean addEdge() {
+        TransitionWrapper newTransition = Utils.showAddTransitionModal(getScene(), graph.vertices());
 
-        if (transitionLabel == null || transitionLabel.isBlank()) {
-            return;
+        if (newTransition == null) {
+            return false;
         }
 
-        graphViewWrapper.setVisible(true);
-
-        graph.insertVertex(new State(transitionLabel));
+        graph.insertEdge(newTransition.getStartingState(), newTransition.getEndingState(), newTransition.getTransition());
         graphView.update();
-    }
-
-    @FXML
-    private void handleMouseClicked(MouseEvent e) {
-        if (e.getButton().equals(MouseButton.PRIMARY)) {
-            if (e.getClickCount() == 2) {
-                addVertex();
-            }
-        }
+        
+        return true;
     }
 
     public void setAutoPositioning(boolean value) {
@@ -154,11 +152,15 @@ public class GraphPanel extends StackPane {
     private void initGraph() {
         graph = new DigraphEdgeList<>();
         graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
-        getChildren().add(0, graphViewWrapper = new ContentZoomScrollPane(graphView));
-        graphViewWrapper.setVisible(false);
+        getChildren().add(graphViewWrapper = new ContentZoomScrollPane(graphView));
+
+        graphView.setBackgroundDoubleClickAction(p -> addVertex());
+
         Platform.runLater(() -> {
             graphView.init();
             setAutoPositioning(autoLayout);
+
+            graphView.setVertexDoubleClickAction(mainPanel::showVertexDetails);
         });
     }
 
@@ -171,7 +173,6 @@ public class GraphPanel extends StackPane {
         }
 
         graphView.update();
-        graphViewWrapper.setVisible(false);
         hintLabel.setVisible(true);
     }
 }

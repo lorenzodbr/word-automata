@@ -32,7 +32,7 @@
         <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <CustomTextField fx:id="wordTextField" minHeight="40.0" minWidth="100.0" prefHeight="40.0" promptText="Insert a word to test it" GridPane.columnIndex="0">
+        <CustomTextField fx:id="wordTextField" styleClass="rounded-corners" minHeight="40.0" minWidth="100.0" prefHeight="40.0" promptText="Insert a word to test it" GridPane.columnIndex="0">
             <left>
                 <FontIcon iconLiteral="bxs-magic-wand" />
             </left>
