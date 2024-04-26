@@ -29,7 +29,6 @@ public class AddTransitionModalBody extends Pane {
 
     public AddTransitionModalBody(Collection<State> vertices) {
         Utils.loadAndSetController(Utils.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
-
         loadChoiceBoxes(vertices);
     }
 
@@ -38,11 +37,11 @@ public class AddTransitionModalBody extends Pane {
 
         if (label != null && !label.isBlank()) {
             return new TransitionWrapper(
-                    startingVertexChoiceBox.getSelectionModel().getSelectedItem(), 
-                    endingVertexChoiceBox.getSelectionModel().getSelectedItem(), 
+                    startingVertexChoiceBox.getSelectionModel().getSelectedItem(),
+                    endingVertexChoiceBox.getSelectionModel().getSelectedItem(),
                     new Transition(label));
         }
-        
+
         return null;
     }
 
@@ -51,6 +50,11 @@ public class AddTransitionModalBody extends Pane {
         endingVertexChoiceBox.setItems(FXCollections.observableArrayList(vertices));
 
         startingVertexChoiceBox.getSelectionModel().selectFirst();
-        endingVertexChoiceBox.getSelectionModel().selectFirst();
+
+        if (vertices.size() > 1) {
+            endingVertexChoiceBox.getSelectionModel().select(1);
+        } else {
+            endingVertexChoiceBox.getSelectionModel().selectFirst();
+        }
     }
 }

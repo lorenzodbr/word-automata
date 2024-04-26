@@ -68,7 +68,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     
     @Override
     public Collection<V> objectsInVertices() {
-        return new ArrayList<>(vertices.keySet());
+        return new TreeSet<>(vertices.keySet());
     }
 
     @Override

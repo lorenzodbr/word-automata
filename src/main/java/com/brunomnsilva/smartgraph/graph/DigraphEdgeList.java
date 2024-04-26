@@ -150,7 +150,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
 
     @Override
     public Collection<V> objectsInVertices() {
-        return new ArrayList<>(vertices.keySet());
+        return new TreeSet<>(vertices.keySet());
     }
 
     @Override
