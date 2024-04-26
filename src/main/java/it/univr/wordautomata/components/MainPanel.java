@@ -83,8 +83,8 @@ public class MainPanel extends BorderPane {
     @FXML
     private void addState() {
         if (graphPanel.addVertex()) {
-            setAddTransitionMenuItemEnabled(true);
             setInitialStateMenuItemEnabled(true);
+            setAddTransitionMenuItemEnabled(true);
         }
     }
 
@@ -102,10 +102,10 @@ public class MainPanel extends BorderPane {
             setInitialStateMenuItemEnabled(false);
         }
     }
-    
+
     @FXML
-    private void setInitialState(){
-        
+    private void setInitialState() {
+
     }
 
     @FXML

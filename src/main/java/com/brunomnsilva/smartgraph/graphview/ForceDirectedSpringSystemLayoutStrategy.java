@@ -24,6 +24,7 @@
 
 package com.brunomnsilva.smartgraph.graphview;
 
+import it.univr.wordautomata.utils.Utils;
 import javafx.geometry.Point2D;
 
 /**
@@ -99,7 +100,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         Point2D wPosition = w.getUpdatedPosition();
         double distance = vPosition.distance(wPosition) - (v.getRadius() + w.getRadius());
         Point2D forceDirection = wPosition.subtract(vPosition).normalize();
-
+        
         if (distance < 1) {
             distance = 1;
         }
@@ -110,7 +111,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
             double attraction_factor = attractionForce * Math.log(distance / attractionScale);
             attraction = forceDirection.multiply(attraction_factor);
         } else {
-            attraction = new Point2D(0,0);
+            attraction = Point2D.ZERO;
         }
 
         // repelling force

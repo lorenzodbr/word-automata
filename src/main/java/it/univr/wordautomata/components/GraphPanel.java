@@ -18,12 +18,9 @@ import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
 import it.univr.wordautomata.utils.Utils.PlayBackState;
-import java.util.Collections;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 /**

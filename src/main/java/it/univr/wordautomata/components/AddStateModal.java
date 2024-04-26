@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 public class AddStateModal extends Dialog<State> {
 
     public AddStateModal(Scene scene) {
+        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) getDialogPane().getScene().getWindow());
         setTitle("Add state");
         AddStateModalBody body = new AddStateModalBody();
 
@@ -28,7 +29,8 @@ public class AddStateModal extends Dialog<State> {
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
         getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
 
-        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) getDialogPane().getScene().getWindow());
+        getDialogPane().lookupButton(ButtonType.OK).disableProperty().bind(body.emptyTextfieldProperty());
 
+        body.requestTextFieldFocus();
     }
 }
