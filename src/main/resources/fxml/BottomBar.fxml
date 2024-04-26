@@ -39,7 +39,7 @@
         </CustomTextField>
         <Button fx:id="resetButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="1" />
         <Button fx:id="previousStateButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="2" />
-        <Button fx:id="playPauseButton" maxHeight="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#cyclePlayPause" prefHeight="40.0" prefWidth="70.0" styleClass="button-icon accent" textAlignment="CENTER" GridPane.columnIndex="3" />
+        <Button fx:id="playPauseButton" maxHeight="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#cyclePlayPause" prefHeight="40.0" prefWidth="70.0" styleClass="button-icon, button-outlined, accent" textAlignment="CENTER" GridPane.columnIndex="3" />
         <Button fx:id="nextStateButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="4" />
         <Button fx:id="speedButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="5" />
         <ScrollPane fx:id="transitionsPanel" maxWidth="1.7976931348623157E308" styleClass="rounded-corners, medium-gray-background" vbarPolicy="NEVER" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER">

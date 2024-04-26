@@ -23,11 +23,10 @@ import org.kordamp.ikonli.javafx.FontIcon;
  */
 public class MainPanel extends BorderPane {
 
+    private WordAutomata parent;
     private BottomBar bottomBar;
     private GraphPanel graphPanel;
     private SideBar sideBar;
-
-    private WordAutomata parent;
 
     @FXML
     private MenuItem autoPositioningMenuItem;
@@ -161,8 +160,6 @@ public class MainPanel extends BorderPane {
     @FXML
     private void exit() {
         //TODO: ask to save file, ...
-        if (Utils.showConfirmationDialog(getScene(), "Exit", "Do you really want to exit the application?")) {
-            System.exit(0);
-        }
+        parent.exit();
     }
 }

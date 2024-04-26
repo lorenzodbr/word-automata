@@ -1,27 +1,14 @@
 package it.univr.wordautomata.utils;
 
-import com.brunomnsilva.smartgraph.graph.Graph;
-import com.brunomnsilva.smartgraph.graph.Vertex;
-import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.Main;
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
-import it.univr.wordautomata.TransitionWrapper;
-import it.univr.wordautomata.components.AddStateModalBody;
-import it.univr.wordautomata.components.AddTransitionModal;
-import it.univr.wordautomata.components.AddTransitionModalBody;
-import it.univr.wordautomata.components.MainPanel;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Collection;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 /**
  * Constants used in the application
@@ -55,7 +42,9 @@ public class Utils {
     public final static String FXML_BASE_FOLDER = "/fxml/";
     public final static String STYLE_BASE_FOLDER = "/styles/";
     public final static String STYLE_FILENAME = "style";
+    public final static String GRAPH_STYLE_FILENAME = "smartgraph";
     public final static String STYLE_EXTENSION = ".css";
+    public final static String GRAPH_STYLE_EXTENSION = ".properties";
     public final static String FXML_EXTENSION = ".fxml";
     public final static String FONTS_EXTENSION = ".ttf";
 

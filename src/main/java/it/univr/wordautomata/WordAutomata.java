@@ -8,10 +8,12 @@ import static it.univr.wordautomata.utils.Utils.Theme.DARK;
 import static it.univr.wordautomata.utils.Utils.Theme.LIGHT;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * Main wrapper class
@@ -51,6 +53,11 @@ public class WordAutomata extends Application {
         stage.setWidth(Utils.WIDTH);
         stage.setTitle(Utils.TITLE);
         stage.setScene(scene);
+        Platform.setImplicitExit(false);
+        stage.setOnCloseRequest(e -> {
+            e.consume();
+            exit();
+        });
     }
 
     private void initTheme() {
@@ -80,5 +87,11 @@ public class WordAutomata extends Application {
 
     public void show() {
         launch();
+    }
+
+    public void exit() {
+        if (Utils.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
+            Platform.exit();
+        }
     }
 }
