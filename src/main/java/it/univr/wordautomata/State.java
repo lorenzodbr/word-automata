@@ -4,7 +4,7 @@ package it.univr.wordautomata;
  *
  * @author Lorenzo
  */
-public class State {
+public class State implements Comparable<State> {
 
     private String label;
     private boolean isFinal;
@@ -37,5 +37,10 @@ public class State {
     @Override
     public String toString() {
         return label;
+    }
+
+    @Override
+    public int compareTo(State o) {
+        return label.compareTo(o.label);
     }
 }

@@ -114,7 +114,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         }
 
         // repelling force
-        double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance * distance), 40);
+        double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance * distance), repulsiveForce);
         Point2D repulsion = forceDirection.multiply(-repulsive_factor);
 
         // combine forces

@@ -184,7 +184,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         this.backgroundClickConsumer = null;
 
         //set stylesheet and class
-        loadAndApplyStylesheet(cssFile);
+        //loadAndApplyStylesheet(cssFile);
 
         initNodes();
 
