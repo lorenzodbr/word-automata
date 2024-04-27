@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root fx:id="stateModalBody" styleClass="light-gray-background" type="Pane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox maxHeight="1.7976931348623157E308" spacing="10.0" styleClass="padding">
+            <children>
+                <Label text="State label" styleClass="text-caption" />
+                <TextField fx:id="stateLabelTextField" prefWidth="250.0" />
+                <Separator prefWidth="250.0" />
+                <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" prefWidth="250.0" text="Mark as final" />
+                <Button mnemonicParsing="false" prefWidth="250.0" styleClass="button-outlined, danger" text="Delete">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Button>
+                <Separator prefWidth="200.0" />
+                <Label text="Outbound transitions" styleClass="text-caption" />
+                <ScrollPane fx:id="outboundTransitions" maxHeight="1.7976931348623157E308" minHeight="100.0" prefWidth="250.0" styleClass="rounded-corners">
+                    <content>
+                        <AnchorPane minHeight="100.0" prefWidth="250.0" styleClass="medium-gray-background" />
+                    </content>
+                </ScrollPane>
+            </children>
+            <padding>
+                <Insets left="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </children>
+</fx:root>

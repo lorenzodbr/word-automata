@@ -26,7 +26,7 @@
                 <Menu mnemonicParsing="true" text="_Settings">
                     <items>
                         <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="true" onAction="#toggleDarkTheme" text="_Dark theme" />
-                        <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true" onAction="#toggleAutoPositioning" text="Auto-_position" />
+                        <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true" onAction="#toggleAutoPositioning" text="_Auto-position" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Graph">

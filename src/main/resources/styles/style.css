@@ -18,11 +18,15 @@
     -fx-background-color: transparent;
 }
 
-.padding {
+.small-padding {
     -fx-padding: 10;
 }
 
-.largePadding {
+.padding {
+    -fx-padding: 15;
+}
+
+.large-padding {
     -fx-padding: 30;
 }
 
@@ -60,9 +64,8 @@
     -fx-border-width: 1;
 }
 
-#sideBar {
+#outboundTransitions {
     -fx-border-color: -color-border-default;
-    -fx-border-style: hidden solid hidden hidden;
     -fx-border-width: 1;
 }
 

@@ -33,6 +33,7 @@ public class Utils {
     public final static String BOTTOM_BAR_FXML_FILENAME = "BottomBar";
     public final static String SIDE_BAR_FXML_FILENAME = "SideBar";
     public final static String GRAPH_PANEL_FXML_FILENAME = "GraphPanel";
+    public final static String STATE_MODAL_BODY_FXML_FILENAME = "StateModalBody";
     public final static String ADD_STATE_MODAL_BODY_FXML_FILENAME = "AddStateModalBody";
     public final static String ADD_TRANSITION_MODAL_BODY_FXML_FILENAME = "AddTransitionModalBody";
     public final static String FONT_REGULAR_FILENAME = "Inter";
@@ -50,6 +51,7 @@ public class Utils {
 
     //Application properties
     public final static String TITLE = "Word Automata";
+    public final static boolean DEFAULT_AUTO_LAYOUT = true;
 
     //CSS classes
     public final static String SPEED_CIRCLE_CLASS = "speedCircle";

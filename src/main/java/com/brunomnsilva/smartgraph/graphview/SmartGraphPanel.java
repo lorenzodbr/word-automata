@@ -797,8 +797,8 @@ public class SmartGraphPanel<V, E> extends Pane {
                 if (incidentEdges.isEmpty()) {
                     /* not (yet) connected, put in the middle of the plot */
                     /* the random number is needed for when two edges are placed in the same spot */
-                    x = mx + Utils.random.nextInt(1, 2);
-                    y = my + Utils.random.nextInt(1, 2);
+                    x = mx;
+                    y = my;
                 } else {
                     Edge<E, V> firstEdge = incidentEdges.iterator().next();
                     Vertex<V> opposite = theGraph.opposite(vertex, firstEdge);
@@ -811,8 +811,8 @@ public class SmartGraphPanel<V, E> extends Pane {
                         created it for the panel. Therefore, its position is unknown,
                         so place the vertex representation in the middle.
                          */
-                        x = mx + Utils.random.nextInt(1, 2);
-                        y = my + Utils.random.nextInt(1, 2);
+                        x = mx;
+                        y = my;
                     } else {
                         Point2D p = UtilitiesPoint2D.rotate(existing.getPosition().add(75.0, 75.0),
                                 existing.getPosition(), Math.random() * 360);
