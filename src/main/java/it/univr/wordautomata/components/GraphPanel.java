@@ -1,5 +1,6 @@
 package it.univr.wordautomata.components;
 
+import atlantafx.base.controls.ModalPane;
 import java.util.Collection;
 
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
@@ -11,6 +12,7 @@ import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
@@ -19,7 +21,10 @@ import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
 import it.univr.wordautomata.utils.Utils.PlayBackState;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
@@ -31,11 +36,12 @@ public class GraphPanel extends StackPane {
     @FXML
     private Label hintLabel;
 
+    private MainPanel mainPanel;
+    private ModalPane modalPane;
+
     private Graph<State, Transition> graph;
     private SmartGraphPanel<State, Transition> graphView;
     private ContentZoomScrollPane graphViewWrapper;
-
-    private MainPanel mainPanel;
 
     private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
     private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
@@ -43,14 +49,16 @@ public class GraphPanel extends StackPane {
     private PlayBackSpeed playBackSpeed = PlayBackSpeed.DEFAULT;
     private PlayBackState playBackState = PlayBackState.DEFAULT;
 
-    private boolean wasGraphAdded = false;
-    private boolean autoLayout = true;
+    private SimpleBooleanProperty atLeastOneVertex;
+    private SimpleBooleanProperty autoLayout;
 
     public GraphPanel(MainPanel mainPanel) {
         Utils.loadAndSetController(Utils.GRAPH_PANEL_FXML_FILENAME, this);
-        initGraph();
 
         this.mainPanel = mainPanel;
+        initGraph();
+        initModals();
+        initProperties();
     }
 
     // Sample graph building method
@@ -95,8 +103,8 @@ public class GraphPanel extends StackPane {
             return false;
         }
 
-        mainPanel.setClearGraphMenuItemEnabled(true);
-        mainPanel.setAddTransitionMenuItemEnabled(true);
+        atLeastOneVertex.set(true);
+
         hintLabel.setVisible(false);
         graphViewWrapper.setVisible(true);
 
@@ -104,7 +112,7 @@ public class GraphPanel extends StackPane {
 
         graphView.updateAndWait();
 
-        if (newState.isFinal()) {
+        if (newState.isFinal().get()) {
             graphView.getStylableVertex(v).addStyleClass("final-state");
         }
 
@@ -128,11 +136,19 @@ public class GraphPanel extends StackPane {
     }
 
     public void setAutoPositioning(boolean value) {
-        graphView.setAutomaticLayout((autoLayout = value));
+        autoLayout.set(value);
     }
 
-    public boolean getAutoPositioningEnabled() {
+    public void toggleAutoPositioning() {
+        autoLayout.setValue(!autoLayout.get());
+    }
+
+    public SimpleBooleanProperty autoPositionProperty() {
         return autoLayout;
+    }
+
+    public SimpleBooleanProperty atLeastOneVertexProperty() {
+        return atLeastOneVertex;
     }
 
     public PlayBackSpeed getSpeed() {
@@ -157,13 +173,24 @@ public class GraphPanel extends StackPane {
         getChildren().add(graphViewWrapper = new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(p -> addVertex());
+        graphView.setVertexDoubleClickAction(this::showStateSideBar);
 
         Platform.runLater(() -> {
             graphView.init();
-            setAutoPositioning(autoLayout);
-
-            graphView.setVertexDoubleClickAction(mainPanel::showVertexDetails);
         });
+    }
+
+    private void initModals() {
+        modalPane = new ModalPane();
+        modalPane.setAlignment(Pos.TOP_LEFT);
+        getChildren().add(modalPane);
+    }
+
+    private void initProperties() {
+        this.autoLayout = new SimpleBooleanProperty(Utils.DEFAULT_AUTO_LAYOUT);
+        graphView.automaticLayoutProperty().bind(autoLayout);
+
+        this.atLeastOneVertex = new SimpleBooleanProperty(false);
     }
 
     public void clearGraph() {
@@ -176,5 +203,21 @@ public class GraphPanel extends StackPane {
 
         graphView.update();
         hintLabel.setVisible(true);
+        atLeastOneVertex.set(false);
+    }
+
+    private void showStateSideBar(SmartGraphVertex<State> vertex) {
+        modalPane.usePredefinedTransitionFactories(Side.LEFT);
+        StateModal dialog = new StateModal(modalPane, vertex);
+
+        dialog.onTextChange(s -> {
+            graphView.update();
+        });
+        dialog.setOnClose(p -> {
+            graphView.update();
+            p.consume();
+        });
+
+        modalPane.show(dialog);
     }
 }

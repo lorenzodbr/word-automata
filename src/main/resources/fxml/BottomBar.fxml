@@ -44,7 +44,7 @@
         <Button fx:id="speedButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="5" />
         <ScrollPane fx:id="transitionsPanel" maxWidth="1.7976931348623157E308" styleClass="rounded-corners, medium-gray-background" vbarPolicy="NEVER" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <content>
-                <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="padding">
+                <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="small-padding">
                     <children>
                         <Text styleClass="text-subtle" text="No valid transition found" textAlignment="CENTER" />
                     </children>

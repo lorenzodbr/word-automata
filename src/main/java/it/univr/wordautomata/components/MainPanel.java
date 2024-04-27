@@ -50,8 +50,8 @@ public class MainPanel extends BorderPane {
         addGraphPanel();
         addBottomBar();
 
-        styleAutoPositioningMenuItem();
-        styleDarkThemeMenuItem();
+        styleMenuItems();
+        initBindings();
     }
 
     private void addBottomBar() {
@@ -81,10 +81,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void addState() {
-        if (graphPanel.addVertex()) {
-            setInitialStateMenuItemEnabled(true);
-            setAddTransitionMenuItemEnabled(true);
-        }
+        graphPanel.addVertex();
     }
 
     @FXML
@@ -96,9 +93,6 @@ public class MainPanel extends BorderPane {
     private void clearGraph() {
         if (Utils.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
             graphPanel.clearGraph();
-            setClearGraphMenuItemEnabled(false);
-            setAddTransitionMenuItemEnabled(false);
-            setInitialStateMenuItemEnabled(false);
         }
     }
 
@@ -109,12 +103,28 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void toggleAutoPositioning() {
-        graphPanel.setAutoPositioning(!graphPanel.getAutoPositioningEnabled());
+        graphPanel.toggleAutoPositioning();
         styleAutoPositioningMenuItem();
     }
 
+    private void initBindings() {
+        clearGraphMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
+        addTransitionMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
+        setInitialStateMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
+    }
+
+    private void styleMenuItems() {
+        styleAutoPositioningMenuItem();
+        styleDarkThemeMenuItem();
+    }
+
     private void styleAutoPositioningMenuItem() {
-        autoPositioningMenuItem.setGraphic(graphPanel.getAutoPositioningEnabled()
+        autoPositioningMenuItem.setGraphic(graphPanel.autoPositionProperty().get()
+                ? new FontIcon(BoxiconsRegular.CHECK) : null);
+    }
+
+    private void styleDarkThemeMenuItem() {
+        darkThemeMenuItem.setGraphic(parent.getTheme() == Theme.DARK
                 ? new FontIcon(BoxiconsRegular.CHECK) : null);
     }
 
@@ -126,35 +136,6 @@ public class MainPanel extends BorderPane {
 
     public Theme getTheme() {
         return parent.getTheme();
-    }
-
-    private void styleDarkThemeMenuItem() {
-        darkThemeMenuItem.setGraphic(parent.getTheme() == Theme.DARK
-                ? new FontIcon(BoxiconsRegular.CHECK) : null);
-    }
-
-    private void setAutoPositioningMenuItemEnabled(boolean value) {
-        autoPositioningMenuItem.setDisable(!value);
-    }
-
-    void setAddTransitionMenuItemEnabled(boolean value) {
-        addTransitionMenuItem.setDisable(!value);
-    }
-
-    void setInitialStateMenuItemEnabled(boolean value) {
-        setInitialStateMenuItem.setDisable(!value);
-    }
-
-    void setClearGraphMenuItemEnabled(boolean value) {
-        clearGraphMenuItem.setDisable(!value);
-    }
-
-    void showVertexDetails(SmartGraphVertex<State> v) {
-
-    }
-
-    void showEdgeDetails(SmartGraphEdge<Transition, State> e) {
-
     }
 
     @FXML
