@@ -69,7 +69,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
      * acceleration = 0.8.
      */
     public ForceDirectedSpringSystemLayoutStrategy() {
-        this.repulsiveForce = 40;
+        this.repulsiveForce = 30;
         this.attractionForce = 3;
         this.attractionScale = 10;
         this.acceleration = 0.8;

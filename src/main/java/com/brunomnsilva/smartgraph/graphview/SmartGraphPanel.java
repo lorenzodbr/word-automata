@@ -58,12 +58,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
-import it.univr.wordautomata.Main;
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.utils.Utils;
-import javafx.event.EventTarget;
-import javafx.scene.shape.Circle;
 
 /**
  * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or
@@ -109,7 +104,7 @@ public class SmartGraphPanel<V, E> extends Pane {
      */
     private Consumer<SmartGraphVertex<V>> vertexClickConsumer;
     private Consumer<SmartGraphEdge<E, V>> edgeClickConsumer;
-    private Consumer<SmartGraphPanel<V, E>> backgroundClickConsumer;
+    private Consumer<MouseEvent> backgroundClickConsumer;
 
     /*
     OPTIONAL PROVIDERS FOR LABELS, RADII AND SHAPE TYPES OF NODES.
@@ -569,7 +564,7 @@ public class SmartGraphPanel<V, E> extends Pane {
      *
      * @param action action to be performed
      */
-    public void setBackgroundDoubleClickAction(Consumer<SmartGraphPanel<V, E>> action) {
+    public void setBackgroundDoubleClickAction(Consumer<MouseEvent> action) {
         this.backgroundClickConsumer = action;
     }
 
@@ -710,7 +705,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         );
     }
 
-    private SmartGraphEdgeBase<E, V> createEdge(Edge<E, V> edge, SmartGraphVertexNode<V> graphVertexInbound, SmartGraphVertexNode<V> graphVertexOutbound) {
+    private SmartGraphEdgeBase<E,V> createEdge(Edge<E, V> edge, SmartGraphVertexNode<V> graphVertexInbound, SmartGraphVertexNode<V> graphVertexOutbound) {
         /*
         Even if edges are later removed, the corresponding index remains the same. Otherwise, we would have to
         regenerate the appropriate edges.
@@ -721,7 +716,7 @@ public class SmartGraphPanel<V, E> extends Pane {
             edgeIndex = counter;
         }
 
-        SmartGraphEdgeBase<E, V> graphEdge;
+        SmartGraphEdgeBase<E,V> graphEdge;
 
         if (getTotalEdgesBetween(graphVertexInbound.getUnderlyingVertex(), graphVertexOutbound.getUnderlyingVertex()) > 1
                 || graphVertexInbound == graphVertexOutbound) {
@@ -1371,8 +1366,7 @@ public class SmartGraphPanel<V, E> extends Pane {
                         }
                     } else if (node instanceof SmartGraphPanel) {
                         if (backgroundClickConsumer != null) {
-                            SmartGraphPanel<V, E> e = (SmartGraphPanel<V, E>) node;
-                            backgroundClickConsumer.accept(e);
+                            backgroundClickConsumer.accept(mouseEvent);
                         }
                     }
                 }

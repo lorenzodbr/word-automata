@@ -5,7 +5,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.utils.Utils;
 import java.util.function.Consumer;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 /**
  *
  */
-public class StateModalBody extends Pane {
+public class StateModalBody extends GridPane {
 
     @FXML
     private TextField stateLabelTextField;

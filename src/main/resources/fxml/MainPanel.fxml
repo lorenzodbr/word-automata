@@ -12,7 +12,7 @@
         <URL value="@/styles/style.css" />
     </stylesheets>
     <top>
-        <MenuBar styleClass="menuBar" BorderPane.alignment="CENTER">
+        <MenuBar fx:id="menuBar" styleClass="menuBar" BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="true" text="_File">
                     <items>
@@ -23,19 +23,23 @@
                         <MenuItem mnemonicParsing="true" onAction="#exit" text="_Exit" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="true" text="_Settings">
-                    <items>
-                        <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="true" onAction="#toggleDarkTheme" text="_Dark theme" />
-                        <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true" onAction="#toggleAutoPositioning" text="_Auto-position" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="true" text="_Graph">
+                <Menu mnemonicParsing="true" text="_Automata">
                     <items>
                         <MenuItem mnemonicParsing="true" onAction="#addState" text="Add _state" />
                         <MenuItem fx:id="addTransitionMenuItem" disable="true" mnemonicParsing="true" onAction="#addTransition" text="Add _transition" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="selectStateMenuItem" mnemonicParsing="true" text="Select state" />
+                        <MenuItem fx:id="selectTransitionMenuItem" mnemonicParsing="true" text="Select transition" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="setInitialStateMenuItem" disable="true" mnemonicParsing="true" onAction="#setInitialState" text="Set _initial state" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true" onAction="#clearGraph" text="_Clear" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="true" text="_Settings">
+                    <items>
+                        <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="true" onAction="#toggleDarkTheme" text="_Dark theme" />
+                        <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true" onAction="#toggleAutoPositioning" text="Auto-_position" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Help">
