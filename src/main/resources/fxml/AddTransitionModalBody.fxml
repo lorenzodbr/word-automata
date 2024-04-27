@@ -24,7 +24,7 @@
             <ChoiceBox fx:id="endingVertexChoiceBox" prefWidth="300.0" />
             </children>
          <padding>
-            <Insets left="10.0" top="10.0" />
+            <Insets left="15.0" top="15.0" right="5.0" />
          </padding>
         </VBox>
     </children>

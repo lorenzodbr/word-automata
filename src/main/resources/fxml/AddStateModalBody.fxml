@@ -14,12 +14,12 @@
             <children>
                 <Label text="State label" />
                 <TextField fx:id="stateLabelTextField" prefWidth="300.0" />
-            <Separator prefWidth="300.0" />
+                <Separator prefWidth="300.0" />
                 <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" text="Mark as final" />
             </children>
-         <padding>
-            <Insets left="10.0" top="10.0" />
-         </padding>
+            <padding>
+                <Insets left="15.0" top="15.0" right="5.0" />
+            </padding>
         </VBox>
     </children>
 </fx:root>
