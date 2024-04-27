@@ -1,18 +1,11 @@
 package it.univr.wordautomata.components;
 
-import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
-import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
@@ -27,6 +20,9 @@ public class MainPanel extends BorderPane {
     private BottomBar bottomBar;
     private GraphPanel graphPanel;
     private SideBar sideBar;
+    
+    @FXML
+    private MenuBar menuBar;
 
     @FXML
     private MenuItem autoPositioningMenuItem;
@@ -36,6 +32,12 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private MenuItem setInitialStateMenuItem;
+    
+    @FXML
+    private MenuItem selectStateMenuItem;
+    
+    @FXML
+    private MenuItem selectTransitionMenuItem;
 
     @FXML
     private MenuItem clearGraphMenuItem;
@@ -98,7 +100,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void setInitialState() {
-
+        //TODO
     }
 
     @FXML
@@ -111,6 +113,8 @@ public class MainPanel extends BorderPane {
         clearGraphMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
         addTransitionMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
         setInitialStateMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
+        selectStateMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
+        selectTransitionMenuItem.disableProperty().bind(graphPanel.atLeastOneEdgeProperty().not());
     }
 
     private void styleMenuItems() {
@@ -136,6 +140,10 @@ public class MainPanel extends BorderPane {
 
     public Theme getTheme() {
         return parent.getTheme();
+    }
+    
+    public double getMenuBarHeight(){
+        return menuBar.getHeight();
     }
 
     @FXML

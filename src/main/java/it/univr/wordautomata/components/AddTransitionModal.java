@@ -1,6 +1,5 @@
 package it.univr.wordautomata.components;
 
-import com.brunomnsilva.smartgraph.graph.Vertex;
 import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.TransitionWrapper;

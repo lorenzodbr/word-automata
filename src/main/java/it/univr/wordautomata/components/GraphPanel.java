@@ -50,6 +50,7 @@ public class GraphPanel extends StackPane {
     private PlayBackState playBackState = PlayBackState.DEFAULT;
 
     private SimpleBooleanProperty atLeastOneVertex;
+    private SimpleBooleanProperty atLeastOneEdge;
     private SimpleBooleanProperty autoLayout;
 
     public GraphPanel(MainPanel mainPanel) {
@@ -57,8 +58,149 @@ public class GraphPanel extends StackPane {
 
         this.mainPanel = mainPanel;
         initGraph();
-        initModals();
         initProperties();
+        initModals();
+    }
+
+    private void initGraph() {
+        graph = new DigraphEdgeList<>();
+        graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
+        getChildren().add(graphViewWrapper = new ContentZoomScrollPane(graphView));
+
+        graphView.setBackgroundDoubleClickAction(e -> addVertex(e.getSceneX(), e.getSceneY()));
+        graphView.setVertexDoubleClickAction(this::showStateSideBar);
+
+        Platform.runLater(() -> {
+            graphView.init();
+        });
+    }
+
+    private void initModals() {
+        modalPane = new ModalPane();
+        modalPane.setAlignment(Pos.TOP_LEFT);
+        getChildren().add(modalPane);
+    }
+
+    private void initProperties() {
+        this.autoLayout = new SimpleBooleanProperty(Utils.DEFAULT_AUTO_LAYOUT);
+        graphView.automaticLayoutProperty().bind(autoLayout);
+
+        this.atLeastOneVertex = new SimpleBooleanProperty(false);
+        this.atLeastOneEdge = new SimpleBooleanProperty(false);
+        this.hintLabel.visibleProperty().bind(atLeastOneVertex.not());
+    }
+
+    public boolean addVertex() {
+        return addVertex(-1, -1);
+    }
+    
+    private boolean addVertex(double x, double y){
+        State newState = new AddStateModal(getScene()).showAndWait().orElse(null);
+
+        if (newState == null) {
+            return false;
+        }
+
+        atLeastOneVertex.set(true);
+
+        Vertex<State> v = graph.insertVertex(newState);
+        graphView.updateAndWait();
+
+        if (newState.isFinal().get()) {
+            graphView.getStylableVertex(v).addStyleClass("final-state");
+        }
+
+        if(x >= 0 && y >= 0){
+            graphView.setVertexPosition(v, x, y - mainPanel.getMenuBarHeight());
+        }
+        
+        return true;
+    }
+
+    @FXML
+    public boolean addEdge() {
+        Collection<State> states = graph.objectsInVertices();
+
+        TransitionWrapper newTransition = new AddTransitionModal(getScene(), states).showAndWait().orElse(null);
+
+        if (newTransition == null) {
+            return false;
+        }
+
+        atLeastOneEdge.set(true);
+
+        graph.insertEdge(
+                newTransition.getStartingState(),
+                newTransition.getEndingState(),
+                newTransition.getTransition());
+        graphView.updateAndWait();
+
+        return true;
+    }
+
+    public void setAutoPositioning(boolean value) {
+        autoLayout.set(value);
+    }
+
+    public void toggleAutoPositioning() {
+        setAutoPositioning(!autoLayout.get());
+    }
+
+    public SimpleBooleanProperty autoPositionProperty() {
+        return autoLayout;
+    }
+
+    public SimpleBooleanProperty atLeastOneVertexProperty() {
+        return atLeastOneVertex;
+    }
+
+    public SimpleBooleanProperty atLeastOneEdgeProperty() {
+        return atLeastOneEdge;
+    }
+
+    public PlayBackSpeed getSpeed() {
+        return playBackSpeed;
+    }
+
+    public PlayBackSpeed cycleSpeed() {
+        return (playBackSpeed = playBackSpeed.next());
+    }
+
+    public PlayBackState cyclePlayBackState() {
+        return (playBackState = playBackState.next());
+    }
+
+    public PlayBackState getPlayBackState() {
+        return playBackState;
+    }
+
+    public void clearGraph() {
+        for (var e : graph.edges()) {
+            graph.removeEdge(e);
+        }
+        for (var v : graph.vertices()) {
+            graph.removeVertex(v);
+        }
+
+        atLeastOneVertex.set(false);
+        atLeastOneEdge.set(false);
+
+        graphView.update();
+    }
+
+    private void showStateSideBar(SmartGraphVertex<State> vertex) {
+        modalPane.usePredefinedTransitionFactories(Side.LEFT);
+        StateModal dialog = new StateModal(modalPane, vertex);
+
+        dialog.onTextChange(s -> {
+            graphView.update();
+        });
+        dialog.setOnClose(p -> {
+            graphView.update();
+            p.consume();
+        });
+
+        modalPane.show(dialog);
     }
 
     // Sample graph building method
@@ -93,131 +235,5 @@ public class GraphPanel extends StackPane {
         g.insertEdge(q4, q2, new Transition("b"));
 
         return g;
-    }
-
-    @FXML
-    public boolean addVertex() {
-        State newState = new AddStateModal(getScene()).showAndWait().orElse(null);
-
-        if (newState == null) {
-            return false;
-        }
-
-        atLeastOneVertex.set(true);
-
-        hintLabel.setVisible(false);
-        graphViewWrapper.setVisible(true);
-
-        Vertex<State> v = graph.insertVertex(newState);
-
-        graphView.updateAndWait();
-
-        if (newState.isFinal().get()) {
-            graphView.getStylableVertex(v).addStyleClass("final-state");
-        }
-
-        return true;
-    }
-
-    @FXML
-    public boolean addEdge() {
-        Collection<State> states = graph.objectsInVertices();
-
-        TransitionWrapper newTransition = new AddTransitionModal(getScene(), states).showAndWait().orElse(null);
-
-        if (newTransition == null) {
-            return false;
-        }
-
-        graph.insertEdge(newTransition.getStartingState(), newTransition.getEndingState(), newTransition.getTransition());
-        graphView.update();
-
-        return true;
-    }
-
-    public void setAutoPositioning(boolean value) {
-        autoLayout.set(value);
-    }
-
-    public void toggleAutoPositioning() {
-        autoLayout.setValue(!autoLayout.get());
-    }
-
-    public SimpleBooleanProperty autoPositionProperty() {
-        return autoLayout;
-    }
-
-    public SimpleBooleanProperty atLeastOneVertexProperty() {
-        return atLeastOneVertex;
-    }
-
-    public PlayBackSpeed getSpeed() {
-        return playBackSpeed;
-    }
-
-    public PlayBackSpeed cycleSpeed() {
-        return (playBackSpeed = playBackSpeed.next());
-    }
-
-    public PlayBackState cyclePlayBackState() {
-        return (playBackState = playBackState.next());
-    }
-
-    public PlayBackState getPlayBackState() {
-        return playBackState;
-    }
-
-    private void initGraph() {
-        graph = new DigraphEdgeList<>();
-        graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
-        getChildren().add(graphViewWrapper = new ContentZoomScrollPane(graphView));
-
-        graphView.setBackgroundDoubleClickAction(p -> addVertex());
-        graphView.setVertexDoubleClickAction(this::showStateSideBar);
-
-        Platform.runLater(() -> {
-            graphView.init();
-        });
-    }
-
-    private void initModals() {
-        modalPane = new ModalPane();
-        modalPane.setAlignment(Pos.TOP_LEFT);
-        getChildren().add(modalPane);
-    }
-
-    private void initProperties() {
-        this.autoLayout = new SimpleBooleanProperty(Utils.DEFAULT_AUTO_LAYOUT);
-        graphView.automaticLayoutProperty().bind(autoLayout);
-
-        this.atLeastOneVertex = new SimpleBooleanProperty(false);
-    }
-
-    public void clearGraph() {
-        for (var e : graph.edges()) {
-            graph.removeEdge(e);
-        }
-        for (var v : graph.vertices()) {
-            graph.removeVertex(v);
-        }
-
-        graphView.update();
-        hintLabel.setVisible(true);
-        atLeastOneVertex.set(false);
-    }
-
-    private void showStateSideBar(SmartGraphVertex<State> vertex) {
-        modalPane.usePredefinedTransitionFactories(Side.LEFT);
-        StateModal dialog = new StateModal(modalPane, vertex);
-
-        dialog.onTextChange(s -> {
-            graphView.update();
-        });
-        dialog.setOnClose(p -> {
-            graphView.update();
-            p.consume();
-        });
-
-        modalPane.show(dialog);
     }
 }

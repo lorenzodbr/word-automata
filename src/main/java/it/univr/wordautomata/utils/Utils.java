@@ -60,12 +60,14 @@ public class Utils {
     //Sizes
     public final static double HEIGHT = 700;
     public final static double WIDTH = 1030;
-    public final static double MIN_HEIGHT = 500;
+    public final static double MIN_HEIGHT = 400;
     public final static double MIN_WIDTH = 700;
     public final static int DEFAULT_FONT_SIZE = 12;
+    public final static int SIDEBAR_MAX_WIDTH = 250;
+    public final static int VERTICES_POSITION_SHIFT = 37;
 
     //Global Objects
-    public static final Random random = new Random(/* seed to reproduce*/);
+    public static final Random random = new Random();
 
     //Global methods
     public static void loadFonts(String... fileNames) {
