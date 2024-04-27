@@ -41,6 +41,12 @@
     -fx-border-width: 1;
 }
 
+#stateModalBody {
+    -fx-border-color: -color-border-default;
+    -fx-border-style: hidden solid hidden hidden;
+    -fx-border-width: 1;
+}
+
 .button-icon >.ikonli-font-icon {
     -fx-icon-size: 27;
 }

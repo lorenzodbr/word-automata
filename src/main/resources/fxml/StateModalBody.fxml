@@ -15,22 +15,28 @@
     <children>
         <VBox maxHeight="1.7976931348623157E308" spacing="10.0" styleClass="padding">
             <children>
-                <Label text="State label" styleClass="text-caption" />
+                <Label styleClass="text-caption" text="State label" />
                 <TextField fx:id="stateLabelTextField" prefWidth="250.0" />
                 <Separator prefWidth="250.0" />
-                <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" prefWidth="250.0" text="Mark as final" />
+                <Label styleClass="text-caption" text="State settings" />
+                <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" prefWidth="250.0" text="Final state" />
                 <Button mnemonicParsing="false" prefWidth="250.0" styleClass="button-outlined, danger" text="Delete">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Button>
                 <Separator prefWidth="200.0" />
-                <Label text="Outbound transitions" styleClass="text-caption" />
+                <Label styleClass="text-caption" text="Outbound transitions" />
                 <ScrollPane fx:id="outboundTransitions" maxHeight="1.7976931348623157E308" minHeight="100.0" prefWidth="250.0" styleClass="rounded-corners">
                     <content>
                         <AnchorPane minHeight="100.0" prefWidth="250.0" styleClass="medium-gray-background" />
                     </content>
                 </ScrollPane>
+                <Button mnemonicParsing="false" styleClass="button-outlined, accent" prefWidth="250.0" text="Add transition">
+                    <VBox.margin>
+                        <Insets top="5.0" />
+                    </VBox.margin>
+                </Button>
             </children>
             <padding>
                 <Insets left="10.0" top="10.0" />
