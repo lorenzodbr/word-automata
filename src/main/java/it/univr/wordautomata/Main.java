@@ -5,6 +5,6 @@ package it.univr.wordautomata;
  */
 public class Main {
     public static void main(String[] args) {
-        new WordAutomata().show();
+        new WordAutomata().run();
     }
 }

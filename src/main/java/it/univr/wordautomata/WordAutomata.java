@@ -77,7 +77,7 @@ public class WordAutomata extends Application {
         setTheme(Model.getInstance().cycleTheme());
     }
 
-    public void show() {
+    public void run() {
         launch();
     }
 

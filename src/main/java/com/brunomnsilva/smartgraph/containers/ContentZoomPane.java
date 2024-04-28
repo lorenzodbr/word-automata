@@ -47,6 +47,7 @@ import javafx.scene.shape.Rectangle;
  *
  * @author brunomnsilva
  */
+@Deprecated
 public class ContentZoomPane extends BorderPane {
 
     /** Minimum scale factor */
