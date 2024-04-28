@@ -1,7 +1,8 @@
 package it.univr.wordautomata;
 
 import io.github.mimoguz.customwindow.WindowStyler;
-import it.univr.wordautomata.components.MainPanel;
+import it.univr.wordautomata.controller.MainPanel;
+import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
 import static it.univr.wordautomata.utils.Utils.Theme.DARK;
@@ -9,11 +10,9 @@ import static it.univr.wordautomata.utils.Utils.Theme.LIGHT;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 /**
  * Main wrapper class
@@ -23,8 +22,8 @@ public class WordAutomata extends Application {
     private Stage stage;
     private Scene scene;
     private Parent root;
-
-    private Theme theme;
+    
+    private Model model;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -33,8 +32,7 @@ public class WordAutomata extends Application {
     }
 
     private void init(Stage stage) throws IOException {
-        theme = Theme.DEFAULT; //needed in advance for MainPanel;
-
+        model = Model.getInstance();
         initScene(Utils.MAIN_PANEL_FXML_FILENAME);
         initStage(stage);
         initTheme();
@@ -61,16 +59,13 @@ public class WordAutomata extends Application {
     }
 
     private void initTheme() {
-        if (theme == DARK && Utils.SET_MICA) {
+        Theme current = model.getTheme();
+        if (current == DARK && Utils.SET_MICA) {
             WindowStyler.setMica(stage, scene, root);
         }
-        setTheme(theme);
+        setTheme(current);
     }
-
-    public void toggleDarkTheme() {
-        setTheme(theme = theme.next());
-    }
-
+    
     private void setTheme(Theme theme) {
         switch (theme) {
             case DARK:
@@ -81,8 +76,8 @@ public class WordAutomata extends Application {
         }
     }
 
-    public Theme getTheme() {
-        return theme;
+    public void toggleDarkTheme() {
+        setTheme(model.cycleTheme());
     }
 
     public void show() {

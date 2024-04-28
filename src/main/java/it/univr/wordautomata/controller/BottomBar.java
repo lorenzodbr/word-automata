@@ -1,4 +1,4 @@
-package it.univr.wordautomata.components;
+package it.univr.wordautomata.controller;
 
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.PlayBackSpeed;

@@ -286,15 +286,4 @@ public class SmartGraphProperties {
     private String getStringProperty(String propertyName, String defaultValue) {
         return properties.getProperty(propertyName, defaultValue);
     }
-
-    /**
-     * Test program.
-     * @param args not used
-     */
-    public static void main(String[] args) {
-        SmartGraphProperties props = new SmartGraphProperties();
-
-        System.out.println("Prop vertex radius: " + props.getVertexRadius());
-        System.out.println("Prop vertex shape: " + props.getVertexShape());
-    }
 }

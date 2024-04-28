@@ -1,4 +1,4 @@
-package it.univr.wordautomata.components;
+package it.univr.wordautomata.controller;
 
 /**
  *

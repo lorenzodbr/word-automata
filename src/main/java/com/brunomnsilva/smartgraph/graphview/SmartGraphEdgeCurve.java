@@ -242,6 +242,8 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
 
         label.xProperty().bind(controlX1Property().add(controlX2Property()).divide(2).subtract(Bindings.divide(label.layoutWidthProperty(),2)));
         label.yProperty().bind(controlY1Property().add(controlY2Property()).divide(2).add(Bindings.divide(label.layoutHeightProperty(), 2)).add(outbound == inbound ? LABEL_Y_SHIFT * 2 * (edgeIndex + 1) : 0));        
+    
+        System.out.println("x: " + label.xProperty().get() + " y: " + label.yProperty().get());
     }
 
     @Override
@@ -276,7 +278,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         /* add translation transform to put the arrow touching the circle's bounds */
         int xshift = -2 * (1 + edgeIndex); 
         Translate t = new Translate(0, (inbound == outbound && xshift < 0 ? xshift : 0));
-        t.xProperty().bind( inbound.radiusProperty().negate());
+        t.xProperty().bind(inbound.radiusProperty().negate());
         
         arrow.getTransforms().add(t);
     }

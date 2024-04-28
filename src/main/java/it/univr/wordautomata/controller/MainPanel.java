@@ -1,6 +1,7 @@
-package it.univr.wordautomata.components;
+package it.univr.wordautomata.controller;
 
 import it.univr.wordautomata.WordAutomata;
+import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Platform;
@@ -20,7 +21,7 @@ public class MainPanel extends BorderPane {
     private BottomBar bottomBar;
     private GraphPanel graphPanel;
     private SideBar sideBar;
-    
+
     @FXML
     private MenuBar menuBar;
 
@@ -32,10 +33,10 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private MenuItem setInitialStateMenuItem;
-    
+
     @FXML
     private MenuItem selectStateMenuItem;
-    
+
     @FXML
     private MenuItem selectTransitionMenuItem;
 
@@ -128,7 +129,7 @@ public class MainPanel extends BorderPane {
     }
 
     private void styleDarkThemeMenuItem() {
-        darkThemeMenuItem.setGraphic(parent.getTheme() == Theme.DARK
+        darkThemeMenuItem.setGraphic(Model.getInstance().getTheme() == Theme.DARK
                 ? new FontIcon(BoxiconsRegular.CHECK) : null);
     }
 
@@ -139,10 +140,10 @@ public class MainPanel extends BorderPane {
     }
 
     public Theme getTheme() {
-        return parent.getTheme();
+        return Model.getInstance().getTheme();
     }
-    
-    public double getMenuBarHeight(){
+
+    public double getMenuBarHeight() {
         return menuBar.getHeight();
     }
 
