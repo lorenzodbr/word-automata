@@ -59,6 +59,7 @@ import java.util.logging.Logger;
 
 import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
 import it.univr.wordautomata.utils.Utils;
+import javafx.scene.control.Label;
 
 /**
  * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or
