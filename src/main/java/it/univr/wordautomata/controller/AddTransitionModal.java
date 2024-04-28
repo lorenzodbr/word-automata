@@ -3,6 +3,7 @@ package it.univr.wordautomata.controller;
 import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.TransitionWrapper;
+import it.univr.wordautomata.model.Model;
 import java.util.Collection;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 public class AddTransitionModal extends Dialog<TransitionWrapper> {
 
     public AddTransitionModal(Scene scene, Collection<State> vertices) {
-        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) getDialogPane().getScene().getWindow());
+        WindowStyler.setTheme(Model.getInstance().getTheme(), (Stage) getDialogPane().getScene().getWindow());
 
         setTitle("Add transition");
         AddTransitionModalBody body = new AddTransitionModalBody(vertices);

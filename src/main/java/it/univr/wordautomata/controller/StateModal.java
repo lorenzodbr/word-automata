@@ -11,15 +11,16 @@ import java.util.function.Consumer;
  *
  */
 public class StateModal extends ModalBox {
+
     private StateModalBody body;
-    
+
     public StateModal(ModalPane modalPane, SmartGraphVertex<State> vertex) {
         super(modalPane);
         addContent(body = new StateModalBody(vertex));
         setMaxWidth(Utils.SIDEBAR_MAX_WIDTH);
     }
-    
-    public void onTextChange(Consumer event){
+
+    public void onTextChange(Consumer event) {
         body.onTextChange(event);
     }
 }

@@ -51,7 +51,7 @@
         <VBox maxHeight="1.7976931348623157E308" spacing="10.0" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
             <children>
                 <Label styleClass="text-caption" text="Outbound transitions" />
-                <ScrollPane fx:id="outboundTransitions" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minHeight="200.0" prefWidth="250.0" styleClass="rounded-corners, medium-gray-background">
+                <ScrollPane fx:id="outboundTransitions" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minHeight="180.0" prefWidth="250.0" styleClass="rounded-corners, medium-gray-background" VBox.vgrow="ALWAYS">
                     <content>
                         <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                             <center>

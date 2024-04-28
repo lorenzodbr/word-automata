@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
@@ -39,12 +40,20 @@ public class BottomBar extends GridPane {
     @FXML
     private Button nextStateButton;
 
+    @FXML
+    private ScrollPane transitionsPanel;
+    
     private MainPanel mainPanel;
 
     public BottomBar(MainPanel mainPanel) {
         Utils.loadAndSetController(Utils.BOTTOM_BAR_FXML_FILENAME, this);
         this.mainPanel = mainPanel;
         styleButtons();
+        styleTransitionsPanel();
+    }
+    
+    private void styleTransitionsPanel(){
+        transitionsPanel.setFitToWidth(true);
     }
 
     private void styleButtons() {

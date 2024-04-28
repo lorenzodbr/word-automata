@@ -139,10 +139,6 @@ public class MainPanel extends BorderPane {
         styleDarkThemeMenuItem();
     }
 
-    public Theme getTheme() {
-        return Model.getInstance().getTheme();
-    }
-
     public double getMenuBarHeight() {
         return menuBar.getHeight();
     }

@@ -22,8 +22,6 @@ public class WordAutomata extends Application {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    
-    private Model model;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -32,13 +30,12 @@ public class WordAutomata extends Application {
     }
 
     private void init(Stage stage) throws IOException {
-        model = Model.getInstance();
-        initScene(Utils.MAIN_PANEL_FXML_FILENAME);
+        initScene();
         initStage(stage);
         initTheme();
     }
 
-    private void initScene(String fxmlName) throws IOException {
+    private void initScene() throws IOException {
         Utils.loadFonts(Utils.FONT_REGULAR_FILENAME, Utils.FONT_BOLD_FILENAME, Utils.FONT_ITALIC_FILENAME);
         scene = new Scene(root = new MainPanel(this));
     }
@@ -59,7 +56,7 @@ public class WordAutomata extends Application {
     }
 
     private void initTheme() {
-        Theme current = model.getTheme();
+        Theme current = Model.getInstance().getTheme();
         if (current == DARK && Utils.SET_MICA) {
             WindowStyler.setMica(stage, scene, root);
         }
@@ -77,7 +74,7 @@ public class WordAutomata extends Application {
     }
 
     public void toggleDarkTheme() {
-        setTheme(model.cycleTheme());
+        setTheme(Model.getInstance().cycleTheme());
     }
 
     public void show() {

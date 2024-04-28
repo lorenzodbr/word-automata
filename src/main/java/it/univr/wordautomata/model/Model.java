@@ -16,8 +16,7 @@ public class Model {
     private Theme theme;
 
     private Model() {
-        theme = Theme.DEFAULT; //needed in advance for MainPanel;
-
+        theme = Theme.DEFAULT;
     }
 
     public static Model getInstance() {
@@ -35,8 +34,8 @@ public class Model {
     public void setTheme(Theme theme) {
         this.theme = theme;
     }
-    
-    public Theme cycleTheme(){
+
+    public Theme cycleTheme() {
         Theme next = theme.next();
         instance.setTheme(next);
         return next;
