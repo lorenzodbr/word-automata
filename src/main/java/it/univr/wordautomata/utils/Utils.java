@@ -15,19 +15,6 @@ import javafx.scene.text.Font;
  */
 public class Utils {
 
-    //Themes
-    public enum Theme {
-        LIGHT,
-        DARK;
-
-        public Theme next() {
-            return this == LIGHT ? DARK : LIGHT;
-        }
-
-        public static Theme DEFAULT = LIGHT;
-    }
-    public final static boolean SET_MICA = false;
-
     //Filenames
     public final static String MAIN_PANEL_FXML_FILENAME = "MainPanel";
     public final static String BOTTOM_BAR_FXML_FILENAME = "BottomBar";
@@ -58,13 +45,12 @@ public class Utils {
     public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speedCircleActive";
 
     //Sizes
-    public final static double HEIGHT = 700;
+    public final static double HEIGHT = 689;
     public final static double WIDTH = 1030;
     public final static double MIN_HEIGHT = 400;
     public final static double MIN_WIDTH = 700;
-    public final static int DEFAULT_FONT_SIZE = 12;
+    public final static int DEFAULT_FONT_SIZE = 10;
     public final static int SIDEBAR_MAX_WIDTH = 250;
-    public final static int VERTICES_POSITION_SHIFT = 37;
 
     //Global Objects
     public static final Random random = new Random();
@@ -150,4 +136,17 @@ public class Utils {
 
         public static PlayBackState DEFAULT = PAUSED;
     }
+
+    //Themes
+    public enum Theme {
+        LIGHT,
+        DARK;
+
+        public Theme next() {
+            return this == LIGHT ? DARK : LIGHT;
+        }
+
+        public static Theme DEFAULT = LIGHT;
+    }
+    public final static boolean SET_MICA = false;
 }

@@ -2,6 +2,9 @@ package it.univr.wordautomata.controller;
 
 import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.State;
+import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -13,7 +16,7 @@ import javafx.stage.Stage;
 public class AddStateModal extends Dialog<State> {
 
     public AddStateModal(Scene scene) {
-        WindowStyler.setTheme(((MainPanel) scene.getRoot()).getTheme(), (Stage) getDialogPane().getScene().getWindow());
+        initTheme();
         setTitle("Add state");
         AddStateModalBody body = new AddStateModalBody();
 
@@ -32,5 +35,16 @@ public class AddStateModal extends Dialog<State> {
         getDialogPane().lookupButton(ButtonType.OK).disableProperty().bind(body.emptyTextfieldProperty());
 
         body.requestTextFieldFocus();
+    }
+
+    private void initTheme() {
+        Theme current = Model.getInstance().getTheme();
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        WindowStyler.setTheme(current, stage);
+
+        if (current == Theme.DARK && Utils.SET_MICA) {
+            WindowStyler.setMica(stage, getDialogPane().getScene(), getDialogPane());
+        }
+
     }
 }
