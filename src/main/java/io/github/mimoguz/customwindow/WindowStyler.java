@@ -1,13 +1,9 @@
 package io.github.mimoguz.customwindow;
 
-import atlantafx.base.theme.CupertinoDark;
-import atlantafx.base.theme.CupertinoLight;
-import atlantafx.base.theme.NordLight;
 import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
 import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -21,18 +17,16 @@ public class WindowStyler {
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.UNIFIED);
 
-        Platform.runLater(() -> {
-            try {
-                WindowHandle handle = WindowHandle.tryFind(stage);
-                if (!handle.dwmSetIntValue(
-                        DwmAttribute.DWMWA_SYSTEMBACKDROP_TYPE,
-                        DwmAttribute.DWMSBT_TABBEDWINDOW.value
-                )) {
-                    handle.dwmSetBooleanValue(DwmAttribute.DWMWA_MICA_EFFECT, true);
-                }
-            } catch (HwndLookupException e) {
+        try {
+            WindowHandle handle = WindowHandle.tryFind(stage);
+            if (!handle.dwmSetIntValue(
+                    DwmAttribute.DWMWA_SYSTEMBACKDROP_TYPE,
+                    DwmAttribute.DWMSBT_TABBEDWINDOW.value
+            )) {
+                handle.dwmSetBooleanValue(DwmAttribute.DWMWA_MICA_EFFECT, true);
             }
-        });
+        } catch (HwndLookupException e) {
+        }
     }
 
     public static void setDarkMode(Stage stage) {
@@ -46,13 +40,11 @@ public class WindowStyler {
     }
 
     private static void setImmersiveDarkMode(Stage stage, boolean value) {
-        Platform.runLater(() -> {
-            try {
-                WindowHandle handle = WindowHandle.tryFind(stage);
-                handle.dwmSetBooleanValue(DwmAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, value);
-            } catch (HwndLookupException e) {
-            }
-        });
+        try {
+            WindowHandle handle = WindowHandle.tryFind(stage);
+            handle.dwmSetBooleanValue(DwmAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, value);
+        } catch (HwndLookupException e) {
+        }
     }
 
     public static void setTheme(Theme theme, Stage stage) {

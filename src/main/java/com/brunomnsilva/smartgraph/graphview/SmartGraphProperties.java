@@ -167,6 +167,7 @@ public class SmartGraphProperties {
      *
      * @return corresponding property value
      */
+    @Deprecated
     public double getRepulsionForce() {
         return getDoubleProperty(PROPERTY_REPULSION_FORCE, DEFAULT_REPULSION_FORCE);
     }
@@ -179,6 +180,7 @@ public class SmartGraphProperties {
      *
      * @return corresponding property value
      */
+    @Deprecated
     public double getAttractionForce() {
         return getDoubleProperty(PROPERTY_ATTRACTION_FORCE, DEFAULT_ATTRACTION_FORCE);
     }
@@ -191,6 +193,7 @@ public class SmartGraphProperties {
      *
      * @return corresponding property value
      */
+    @Deprecated
     public double getAttractionScale() {
         return getDoubleProperty(PROPERTY_ATTRACTION_SCALE, DEFAULT_ATTRACTION_SCALE);
     }
