@@ -66,8 +66,6 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
     private boolean labelInside;
 
-    private boolean isAddingEdge;
-
     /* Critical for performance, so we don't rely on the efficiency of the Graph.areAdjacent method */
     private final Set<SmartGraphVertexNode<T>> adjacentVertices;
 
@@ -112,7 +110,6 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
         this.attachedLabel = null;
         this.isDragging = false;
-        this.isAddingEdge = false;
         this.labelInside = labelInside;
 
         /* Shape proxy */
