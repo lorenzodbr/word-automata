@@ -1,4 +1,4 @@
-package it.univr.wordautomata.components;
+package it.univr.wordautomata.controller;
 
 import atlantafx.base.theme.Styles;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;

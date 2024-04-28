@@ -1,4 +1,4 @@
-package it.univr.wordautomata.components;
+package it.univr.wordautomata.controller;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.layout.ModalBox;
@@ -16,7 +16,6 @@ public class StateModal extends ModalBox {
     public StateModal(ModalPane modalPane, SmartGraphVertex<State> vertex) {
         super(modalPane);
         addContent(body = new StateModalBody(vertex));
-        setMaxHeight(Double.MAX_VALUE);
         setMaxWidth(Utils.SIDEBAR_MAX_WIDTH);
     }
     

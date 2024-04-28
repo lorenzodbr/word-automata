@@ -1,4 +1,4 @@
-package it.univr.wordautomata.components;
+package it.univr.wordautomata.controller;
 
 import atlantafx.base.controls.ModalPane;
 import java.util.Collection;
@@ -67,7 +67,14 @@ public class GraphPanel extends StackPane {
         graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
         getChildren().add(graphViewWrapper = new ContentZoomScrollPane(graphView));
 
-        graphView.setBackgroundDoubleClickAction(e -> addVertex(e.getSceneX(), e.getSceneY()));
+        graphView.setBackgroundDoubleClickAction(e -> {
+            // only if auto positioning is disabled, place vertices in the clicked point
+            if (!autoLayout.get()) {
+                addVertex(e.getSceneX(), e.getSceneY());
+            } else {
+                addVertex();
+            }
+        });
         graphView.setVertexDoubleClickAction(this::showStateSideBar);
 
         Platform.runLater(() -> {
@@ -93,8 +100,8 @@ public class GraphPanel extends StackPane {
     public boolean addVertex() {
         return addVertex(-1, -1);
     }
-    
-    private boolean addVertex(double x, double y){
+
+    private boolean addVertex(double x, double y) {
         State newState = new AddStateModal(getScene()).showAndWait().orElse(null);
 
         if (newState == null) {
@@ -110,10 +117,10 @@ public class GraphPanel extends StackPane {
             graphView.getStylableVertex(v).addStyleClass("final-state");
         }
 
-        if(x >= 0 && y >= 0){
+        if (x >= 0 && y >= 0) {
             graphView.setVertexPosition(v, x, y - mainPanel.getMenuBarHeight());
         }
-        
+
         return true;
     }
 
