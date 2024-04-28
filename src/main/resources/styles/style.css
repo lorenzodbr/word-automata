@@ -94,6 +94,14 @@
     -fx-fill: -color-fg-default;
 }
 
+.modal-pane >.scroll-pane>.viewport>*>.scrollable-content {
+    -fx-background-color: rgba(0, 0, 0, .3);
+}
+
+.separator >.line {
+    -color-separator: -color-border-default;
+}
+
 /*
  * Graph theming
  */
