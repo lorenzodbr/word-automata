@@ -17,6 +17,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
+import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
 import it.univr.wordautomata.utils.Utils.PlayBackState;
@@ -40,6 +41,7 @@ public class GraphPanel extends StackPane {
     private ModalPane modalPane;
 
     private Graph<State, Transition> graph;
+
     private SmartGraphPanel<State, Transition> graphView;
     private ContentZoomScrollPane graphViewWrapper;
 
@@ -57,13 +59,13 @@ public class GraphPanel extends StackPane {
         Utils.loadAndSetController(Utils.GRAPH_PANEL_FXML_FILENAME, this);
 
         this.mainPanel = mainPanel;
+        this.graph = Model.getInstance().getGraph();
         initGraph();
         initProperties();
         initModals();
     }
 
     private void initGraph() {
-        graph = new DigraphEdgeList<>();
         graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
         getChildren().add(graphViewWrapper = new ContentZoomScrollPane(graphView));
 

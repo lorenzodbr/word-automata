@@ -38,13 +38,11 @@ public class AddStateModal extends Dialog<State> {
     }
 
     private void initTheme() {
-        Theme current = Model.getInstance().getTheme();
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
-        WindowStyler.setTheme(current, stage);
+        WindowStyler.setTheme(stage);
 
-        if (current == Theme.DARK && Utils.SET_MICA) {
+        if (Model.getInstance().getTheme() == Theme.DARK && Utils.SET_MICA) {
             WindowStyler.setMica(stage, getDialogPane().getScene(), getDialogPane());
         }
-
     }
 }

@@ -1,6 +1,5 @@
 package it.univr.wordautomata.controller;
 
-import com.brunomnsilva.smartgraph.graph.Vertex;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
@@ -14,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.util.StringConverter;
 
 /**
  *
@@ -25,10 +23,10 @@ public class AddTransitionModalBody extends Pane {
     private TextField transitionLabelTextField;
 
     @FXML
-    private ChoiceBox<State> startingVertexChoiceBox;
+    private ChoiceBox<State> startingStateChoiceBox;
 
     @FXML
-    private ChoiceBox<State> endingVertexChoiceBox;
+    private ChoiceBox<State> endingStateChoiceBox;
     
     private SimpleBooleanProperty emptyTextfieldProperty;
 
@@ -47,8 +45,8 @@ public class AddTransitionModalBody extends Pane {
 
         if (label != null && !label.isBlank()) {
             return new TransitionWrapper(
-                    startingVertexChoiceBox.getSelectionModel().getSelectedItem(),
-                    endingVertexChoiceBox.getSelectionModel().getSelectedItem(),
+                    startingStateChoiceBox.getSelectionModel().getSelectedItem(),
+                    endingStateChoiceBox.getSelectionModel().getSelectedItem(),
                     new Transition(label));
         }
 
@@ -56,15 +54,15 @@ public class AddTransitionModalBody extends Pane {
     }
 
     private void loadChoiceBoxes(Collection<State> vertices) {
-        startingVertexChoiceBox.setItems(FXCollections.observableArrayList(vertices));
-        endingVertexChoiceBox.setItems(FXCollections.observableArrayList(vertices));
+        startingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
+        endingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
 
-        startingVertexChoiceBox.getSelectionModel().selectFirst();
+        startingStateChoiceBox.getSelectionModel().selectFirst();
 
         if (vertices.size() > 1) {
-            endingVertexChoiceBox.getSelectionModel().select(1);
+            endingStateChoiceBox.getSelectionModel().select(1);
         } else {
-            endingVertexChoiceBox.getSelectionModel().selectFirst();
+            endingStateChoiceBox.getSelectionModel().selectFirst();
         }
     }
     

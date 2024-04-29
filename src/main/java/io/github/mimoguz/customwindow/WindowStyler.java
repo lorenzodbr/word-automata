@@ -2,6 +2,7 @@ package io.github.mimoguz.customwindow;
 
 import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
+import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -47,8 +48,8 @@ public class WindowStyler {
         }
     }
 
-    public static void setTheme(Theme theme, Stage stage) {
-        switch (theme) {
+    public static void setTheme(Stage stage) {
+        switch (Model.getInstance().getTheme()) {
             case DARK:
                 setDarkMode(stage);
                 break;

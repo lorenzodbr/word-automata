@@ -1,6 +1,8 @@
 package it.univr.wordautomata.utils;
 
+import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.Main;
+import it.univr.wordautomata.model.Model;
 import java.io.IOException;
 import java.util.Random;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  * Constants used in the application
@@ -74,7 +77,7 @@ public class Utils {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(body);
-
+        WindowStyler.setTheme((Stage) scene.getWindow());
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
         alert.initOwner(scene.getWindow());
 

@@ -1,6 +1,10 @@
 package it.univr.wordautomata.model;
 
+import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
+import com.brunomnsilva.smartgraph.graph.Graph;
 import io.github.mimoguz.customwindow.WindowStyler;
+import it.univr.wordautomata.State;
+import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.utils.Utils.Theme;
 import static it.univr.wordautomata.utils.Utils.Theme.DARK;
 import static it.univr.wordautomata.utils.Utils.Theme.LIGHT;
@@ -14,9 +18,11 @@ public class Model {
     private static Model instance;
 
     private Theme theme;
+    private Graph<State, Transition> graph;
 
     private Model() {
         theme = Theme.DEFAULT;
+        graph = new DigraphEdgeList<>();
     }
 
     public static Model getInstance() {
@@ -39,5 +45,9 @@ public class Model {
         Theme next = theme.next();
         instance.setTheme(next);
         return next;
+    }
+    
+    public Graph getGraph(){
+        return graph;
     }
 }

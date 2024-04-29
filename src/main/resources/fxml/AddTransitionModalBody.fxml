@@ -15,13 +15,13 @@
                 <Label text="Transition label" />
                 <TextField fx:id="transitionLabelTextField" prefWidth="300.0" />
             <Separator prefWidth="300.0" />
-            <Label text="Starting vertex" />
-            <ChoiceBox fx:id="startingVertexChoiceBox" prefWidth="300.0" />
-            <Label text="Ending vertex">
+            <Label text="Starting state" />
+            <ChoiceBox fx:id="startingStateChoiceBox" prefWidth="300.0" />
+            <Label text="Ending state">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Label>
-            <ChoiceBox fx:id="endingVertexChoiceBox" prefWidth="300.0" />
+            <ChoiceBox fx:id="endingStateChoiceBox" prefWidth="300.0" />
             </children>
          <padding>
             <Insets left="15.0" top="15.0" right="5.0" />
