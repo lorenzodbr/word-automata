@@ -3,6 +3,7 @@ package it.univr.wordautomata.controller;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
+import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils;
 import java.util.Collection;
 import javafx.application.Platform;
@@ -30,9 +31,9 @@ public class AddTransitionModalBody extends Pane {
     
     private SimpleBooleanProperty emptyTextfieldProperty;
 
-    public AddTransitionModalBody(Collection<State> vertices) {
+    public AddTransitionModalBody() {
         Utils.loadAndSetController(Utils.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
-        loadChoiceBoxes(vertices);
+        loadChoiceBoxes();
         
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
         transitionLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -53,7 +54,9 @@ public class AddTransitionModalBody extends Pane {
         return null;
     }
 
-    private void loadChoiceBoxes(Collection<State> vertices) {
+    private void loadChoiceBoxes() {
+        Collection<State> vertices = Model.getInstance().getGraph().objectsInVertices();
+        
         startingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
         endingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
 

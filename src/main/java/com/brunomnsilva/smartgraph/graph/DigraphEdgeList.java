@@ -152,6 +152,11 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
     public Collection<V> objectsInVertices() {
         return new TreeSet<>(vertices.keySet());
     }
+    
+    @Override
+    public Collection<E> objectsInEdges() {
+        return new TreeSet<>(edges.keySet());
+    }
 
     @Override
     public synchronized Collection<Edge<E, V>> edges() {

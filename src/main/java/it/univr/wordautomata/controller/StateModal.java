@@ -2,6 +2,7 @@ package it.univr.wordautomata.controller;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.layout.ModalBox;
+import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.utils.Utils;
@@ -20,7 +21,11 @@ public class StateModal extends ModalBox {
         setMaxWidth(Utils.SIDEBAR_MAX_WIDTH);
     }
 
-    public void onTextChange(Consumer event) {
+    public void onTextChange(Consumer<String> event) {
         body.onTextChange(event);
+    }
+    
+    public void onDeleteButtonClicked(Consumer<Vertex<State>> event){
+        body.onDeleteButtonClicked(event);
     }
 }

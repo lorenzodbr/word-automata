@@ -1,5 +1,6 @@
 package it.univr.wordautomata.controller;
 
+import it.univr.wordautomata.State;
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils;
@@ -20,7 +21,6 @@ public class MainPanel extends BorderPane {
     private WordAutomata parent;
     private BottomBar bottomBar;
     private GraphPanel graphPanel;
-    private SideBar sideBar;
 
     @FXML
     private MenuBar menuBar;
@@ -66,20 +66,12 @@ public class MainPanel extends BorderPane {
         Platform.runLater(() -> graphPanel.requestFocus());
     }
 
-    private void addSideBar() {
-        setLeft(sideBar = new SideBar());
-    }
-
     GraphPanel getGraphPanel() {
         return graphPanel;
     }
 
     BottomBar getBottomBar() {
         return bottomBar;
-    }
-
-    SideBar getSideBar() {
-        return sideBar;
     }
 
     @FXML
@@ -101,7 +93,17 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void setInitialState() {
-        //TODO
+        graphPanel.setInitialState();
+    }
+
+    @FXML
+    private void selectState() {
+        graphPanel.selectState();
+    }
+    
+    @FXML
+    private void selectTransition() {
+        graphPanel.selectTransition();
     }
 
     @FXML
@@ -141,6 +143,11 @@ public class MainPanel extends BorderPane {
 
     public double getMenuBarHeight() {
         return menuBar.getHeight();
+    }
+
+    @FXML
+    private void showInfo() {
+        Utils.showAbout(getScene());
     }
 
     @FXML

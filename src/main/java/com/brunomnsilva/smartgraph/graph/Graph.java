@@ -68,6 +68,15 @@ public interface Graph<V, E> {
      * @return      collection of objects from vertices
      */
     Collection<V> objectsInVertices();
+    
+    /**
+     * Returns the objects stored in edges of the graph as a collection.
+     * <br/>
+     * If there are no edges, returns an empty collection.
+     * 
+     * @return      collection of objects from vertices
+     */
+    Collection<E> objectsInEdges();
 
     /**
      * Returns the edges of the graph as a collection.

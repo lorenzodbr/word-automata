@@ -2,7 +2,6 @@ package it.univr.wordautomata.utils;
 
 import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.Main;
-import it.univr.wordautomata.model.Model;
 import java.io.IOException;
 import java.util.Random;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +16,8 @@ import javafx.stage.Stage;
  * Constants used in the application
  */
 public class Utils {
+    
+    public final static String VERSION = "1.0";
 
     //Filenames
     public final static String MAIN_PANEL_FXML_FILENAME = "MainPanel";
@@ -24,6 +25,7 @@ public class Utils {
     public final static String SIDE_BAR_FXML_FILENAME = "SideBar";
     public final static String GRAPH_PANEL_FXML_FILENAME = "GraphPanel";
     public final static String STATE_MODAL_BODY_FXML_FILENAME = "StateModalBody";
+    public final static String TRANSITION_MODAL_BODY_FXML_FILENAME = "TransitionModalBody";
     public final static String ADD_STATE_MODAL_BODY_FXML_FILENAME = "AddStateModalBody";
     public final static String ADD_TRANSITION_MODAL_BODY_FXML_FILENAME = "AddTransitionModalBody";
     public final static String FONT_REGULAR_FILENAME = "Inter";
@@ -46,6 +48,7 @@ public class Utils {
     //CSS classes
     public final static String SPEED_CIRCLE_CLASS = "speedCircle";
     public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speedCircleActive";
+    public final static String INITIAL_STATE_CLASS = "initial-state";
 
     //Sizes
     public final static double HEIGHT = 689;
@@ -82,6 +85,16 @@ public class Utils {
         alert.initOwner(scene.getWindow());
 
         return ButtonType.YES.equals(alert.showAndWait().orElse(null));
+    }
+    
+    public static void showAbout(Scene scene){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText(null);
+        alert.setContentText("WordAutomata v" + VERSION + "\n\nCreated by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
+        WindowStyler.setTheme((Stage) scene.getWindow());
+        alert.initOwner(scene.getWindow());
+        alert.showAndWait();
     }
 
     //FXML methods

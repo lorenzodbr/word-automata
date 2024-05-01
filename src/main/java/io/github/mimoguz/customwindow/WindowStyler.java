@@ -3,7 +3,6 @@ package io.github.mimoguz.customwindow;
 import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
 import it.univr.wordautomata.model.Model;
-import it.univr.wordautomata.utils.Utils.Theme;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
