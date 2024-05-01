@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
- * @author Lorenzo
  */
 public class State implements Comparable<State> {
 
@@ -38,7 +37,7 @@ public class State implements Comparable<State> {
     public void setFinal(boolean value) {
         this.isFinal.set(value);
     }
-    
+
     public void setInitial(boolean value) {
         this.isInitial.set(value);
     }

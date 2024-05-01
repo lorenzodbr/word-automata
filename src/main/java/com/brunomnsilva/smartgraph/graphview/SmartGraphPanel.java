@@ -1274,6 +1274,21 @@ public class SmartGraphPanel<V, E> extends Pane {
         }
         return null;
     }
+    
+    /**
+     * Returns the associated element with a graph vertex.
+     *
+     * @param vertexElement underlying vertex's element
+     * @return element
+     */
+    public SmartGraphVertex getVertex(V vertexElement) {
+        for (Vertex<V> v : vertexNodes.keySet()) {
+            if (v.element().equals(vertexElement)) {
+                return vertexNodes.get(v);
+            }
+        }
+        return null;
+    }
 
     /**
      * Returns the associated stylable element with a graph edge.
@@ -1292,6 +1307,15 @@ public class SmartGraphPanel<V, E> extends Pane {
      * @return stylable element
      */
     public SmartStylableNode getStylableEdge(E edgeElement) {
+        for (Edge<E, V> e : edgeNodes.keySet()) {
+            if (e.element().equals(edgeElement)) {
+                return edgeNodes.get(e);
+            }
+        }
+        return null;
+    }
+    
+    public SmartGraphEdge getEdge(E edgeElement) {
         for (Edge<E, V> e : edgeNodes.keySet()) {
             if (e.element().equals(edgeElement)) {
                 return edgeNodes.get(e);

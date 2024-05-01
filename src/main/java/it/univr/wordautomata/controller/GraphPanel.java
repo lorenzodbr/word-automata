@@ -6,11 +6,13 @@ import java.util.Collection;
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
+import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
@@ -78,6 +80,7 @@ public class GraphPanel extends StackPane {
             }
         });
         graphView.setVertexDoubleClickAction(this::showStateSideBar);
+        graphView.setEdgeDoubleClickAction(this::showTransitionSideBar);
 
         Platform.runLater(() -> {
             graphView.init();
@@ -128,9 +131,7 @@ public class GraphPanel extends StackPane {
 
     @FXML
     public boolean addEdge() {
-        Collection<State> states = graph.objectsInVertices();
-
-        TransitionWrapper newTransition = new AddTransitionModal(getScene(), states).showAndWait().orElse(null);
+        TransitionWrapper newTransition = new AddTransitionModal(getScene()).showAndWait().orElse(null);
 
         if (newTransition == null) {
             return false;
@@ -183,6 +184,40 @@ public class GraphPanel extends StackPane {
         return playBackState;
     }
 
+    public void setInitialState() {
+        SetInitialStateModal modal = new SetInitialStateModal(getScene());
+
+        State newInitialState;
+        if ((newInitialState = modal.showAndWait().orElse(null)) != null) {
+            State oldInitialState = Model.getInstance().getInitialState();
+
+            if (oldInitialState != null) {
+                graphView.getStylableVertex(oldInitialState).removeStyleClass(Utils.INITIAL_STATE_CLASS);
+            }
+            
+            Model.getInstance().setInitialState(newInitialState);
+            graphView.getStylableVertex(newInitialState).addStyleClass(Utils.INITIAL_STATE_CLASS);
+        }
+    }
+    
+    public void selectState(){
+        SelectStateModal modal = new SelectStateModal(getScene());
+
+        State s;
+        if ((s = modal.showAndWait().orElse(null)) != null) {
+            showStateSideBar(graphView.getVertex(s));
+        }
+    }
+    
+    public void selectTransition(){
+        SelectTransitionModal modal = new SelectTransitionModal(getScene());
+
+        Transition t;
+        if ((t = modal.showAndWait().orElse(null)) != null) {
+            showTransitionSideBar(graphView.getEdge(t));
+        }
+    }
+
     public void clearGraph() {
         for (var e : graph.edges()) {
             graph.removeEdge(e);
@@ -197,16 +232,79 @@ public class GraphPanel extends StackPane {
         graphView.update();
     }
 
+    public void update() {
+        graphView.update();
+    }
+
+    public void updateAndWait() {
+        graphView.updateAndWait();
+    }
+
+    private void removeVertex(Vertex<State> v) {
+        graph.removeVertex(v);
+
+        if (graph.numVertices() == 0) {
+            atLeastOneVertex.set(false);
+        }
+
+        if (graph.numEdges() == 0) {
+            atLeastOneEdge.set(false);
+        }
+
+        graphView.update();
+    }
+
+    private void removeEdge(Edge<Transition, State> e) {
+        graph.removeEdge(e);
+
+        if (graph.numEdges() == 0) {
+            atLeastOneEdge.set(false);
+        }
+
+        graphView.update();
+    }
+
     private void showStateSideBar(SmartGraphVertex<State> vertex) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
         StateModal dialog = new StateModal(modalPane, vertex);
 
-        dialog.onTextChange(s -> {
+        dialog.onTextChange(newString -> {
             graphView.update();
         });
-        dialog.setOnClose(p -> {
+
+        dialog.setOnClose(e -> {
             graphView.update();
-            p.consume();
+            e.consume();
+        });
+
+        dialog.onDeleteButtonClicked(v -> {
+            if (Utils.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this state?")) {
+                dialog.close();
+                removeVertex(v);
+            }
+        });
+
+        modalPane.show(dialog);
+    }
+
+    private void showTransitionSideBar(SmartGraphEdge<Transition, State> edge) {
+        modalPane.usePredefinedTransitionFactories(Side.LEFT);
+        TransitionModal dialog = new TransitionModal(modalPane, edge);
+
+        dialog.onTextChange(newString -> {
+            graphView.update();
+        });
+
+        dialog.setOnClose(e -> {
+            graphView.update();
+            e.consume();
+        });
+
+        dialog.onDeleteButtonClicked(e -> {
+            if (Utils.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this transition?")) {
+                dialog.close();
+                removeEdge(e);
+            }
         });
 
         modalPane.show(dialog);

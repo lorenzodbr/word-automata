@@ -33,7 +33,7 @@ import java.util.*;
  *
  * @param <V> Type of element stored at a vertex
  * @param <E> Type of element stored at an edge
- * 
+ *
  * @author brunomnsilva
  */
 public class GraphEdgeList<V, E> implements Graph<V, E> {
@@ -65,7 +65,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     public Collection<Vertex<V>> vertices() {
         return new ArrayList<>(vertices.values());
     }
-    
+
     @Override
     public Collection<V> objectsInVertices() {
         return new TreeSet<>(vertices.keySet());
@@ -74,6 +74,11 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     @Override
     public Collection<Edge<E, V>> edges() {
         return new ArrayList<>(edges.values());
+    }
+
+    @Override
+    public Collection<E> objectsInEdges() {
+        return new TreeSet<>(edges.keySet());
     }
 
     @Override
@@ -100,7 +105,8 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
         MyEdge edge = checkEdge(e);
 
         if (!edge.contains(v)) {
-            return null; /* this edge does not connect vertex v */
+            return null;
+            /* this edge does not connect vertex v */
         }
 
         if (edge.vertices()[0] == v) {
@@ -140,7 +146,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public synchronized Edge<E, V> insertEdge(Vertex<V> u, Vertex<V> v, E edgeElement) 
+    public synchronized Edge<E, V> insertEdge(Vertex<V> u, Vertex<V> v, E edgeElement)
             throws InvalidVertexException, InvalidEdgeException {
 
         if (existsEdgeWith(edgeElement)) {
@@ -159,9 +165,9 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public synchronized Edge<E, V> insertEdge(V vElement1, V vElement2, E edgeElement) 
+    public synchronized Edge<E, V> insertEdge(V vElement1, V vElement2, E edgeElement)
             throws InvalidVertexException, InvalidEdgeException {
-        
+
         if (existsEdgeWith(edgeElement)) {
             throw new InvalidEdgeException("There's already an edge with this element.");
         }
@@ -330,15 +336,18 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     }
 
     /**
-     * Checks whether a given vertex is valid (i.e., not <i>null</i>) and belongs to this graph
+     * Checks whether a given vertex is valid (i.e., not <i>null</i>) and
+     * belongs to this graph
      *
      * @param v vertex to check
      * @return the reference of the vertex
      * @throws InvalidVertexException if the vertex is invalid
      */
     private MyVertex checkVertex(Vertex<V> v) throws InvalidVertexException {
-        if(v == null) throw new InvalidVertexException("Null vertex.");
-        
+        if (v == null) {
+            throw new InvalidVertexException("Null vertex.");
+        }
+
         MyVertex vertex;
         try {
             vertex = (MyVertex) v;
@@ -354,8 +363,10 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     }
 
     private MyEdge checkEdge(Edge<E, V> e) throws InvalidEdgeException {
-        if(e == null) throw new InvalidEdgeException("Null edge.");
-        
+        if (e == null) {
+            throw new InvalidEdgeException("Null edge.");
+        }
+
         MyEdge edge;
         try {
             edge = (MyEdge) e;

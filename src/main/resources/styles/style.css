@@ -18,6 +18,10 @@
     -fx-background-color: transparent;
 }
 
+.white-background {
+    -fx-background-color: white;
+}
+
 .small-padding {
     -fx-padding: 10;
 }
@@ -121,6 +125,11 @@
 .final-state {
     -fx-stroke: green;
     -fx-fill: yellowgreen;
+}
+
+.initial-state {
+    -fx-stroke: #ff4813;
+    -fx-fill: #ff7d3d;
 }
 
 .vertex:hover { /* pseudo-classes also work */

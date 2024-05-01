@@ -2,7 +2,6 @@ package it.univr.wordautomata;
 
 /**
  *
- * @author Lorenzo
  */
 public class TransitionWrapper {
 

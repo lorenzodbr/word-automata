@@ -19,10 +19,12 @@ public class Model {
 
     private Theme theme;
     private Graph<State, Transition> graph;
+    private State initialState;
 
     private Model() {
         theme = Theme.DEFAULT;
         graph = new DigraphEdgeList<>();
+        initialState = null;
     }
 
     public static Model getInstance() {
@@ -49,5 +51,13 @@ public class Model {
     
     public Graph getGraph(){
         return graph;
+    }
+    
+    public void setInitialState(State s){
+        this.initialState = s;
+    }
+    
+    public State getInitialState(){
+        return initialState;
     }
 }

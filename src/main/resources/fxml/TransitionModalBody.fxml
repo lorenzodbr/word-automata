@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -23,24 +21,31 @@
         <RowConstraints vgrow="ALWAYS" />
         <RowConstraints prefHeight="1.0" vgrow="SOMETIMES" />
         <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints prefHeight="1.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
         <VBox maxHeight="1.7976931348623157E308" spacing="10.0" GridPane.vgrow="ALWAYS">
             <children>
-                <Label styleClass="text-caption" text="State label" />
-                <TextField fx:id="stateLabelTextField" prefWidth="250.0" />
+                <Label styleClass="text-caption" text="Transition label" />
+                <TextField fx:id="transitionLabelTextField" prefWidth="250.0" />
             </children>
         </VBox>
-        <Separator prefWidth="250.0" styleClass="separator-padding" GridPane.rowIndex="1" />
-        <VBox maxHeight="1.7976931348623157E308" spacing="10.0" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+        <Separator prefHeight="0.0" prefWidth="250.0" styleClass="separator-padding" GridPane.rowIndex="1" />
+        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="2">
             <children>
-                <Label styleClass="text-caption" text="State settings" />
-                <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" prefWidth="250.0" text="Final state">
+                <Label styleClass="text-caption" text="Starting state" />
+                <TextField fx:id="startingState" editable="false" />
+                <Label styleClass="text-caption" text="Ending state">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
-                </CheckBox>
-                <Button fx:id="deleteButton" mnemonicParsing="false" prefWidth="250.0" styleClass="button-outlined, danger" text="Delete">
+                </Label>
+                <TextField fx:id="endingState"  editable="false"/>
+                <Button fx:id="invertButton" mnemonicParsing="false" prefWidth="250.0" text="Invert">
+                    <styleClass>
+                        <String fx:value="button-outlined" />
+                        <String fx:value="accent" />
+                    </styleClass>
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>
@@ -50,17 +55,8 @@
         <Separator prefWidth="250.0" styleClass="separator-padding" GridPane.rowIndex="3" />
         <VBox maxHeight="1.7976931348623157E308" spacing="10.0" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
             <children>
-                <Label styleClass="text-caption" text="Outbound transitions" />
-                <ScrollPane fx:id="outboundTransitions" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minHeight="180.0" prefWidth="250.0" styleClass="rounded-corners, medium-gray-background" VBox.vgrow="ALWAYS">
-                    <content>
-                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                            <center>
-                                <Label styleClass="text-subtle" text="No transition found" textAlignment="CENTER" BorderPane.alignment="CENTER" />
-                            </center>
-                        </BorderPane>
-                    </content>
-                </ScrollPane>
-                <Button mnemonicParsing="false" prefWidth="250.0" styleClass="button-outlined, accent" text="Add transition">
+                <Label styleClass="text-caption" text="Transition settings" />
+                <Button fx:id="deleteButton" mnemonicParsing="false" prefWidth="250.0" styleClass="button-outlined, danger" text="Delete">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>

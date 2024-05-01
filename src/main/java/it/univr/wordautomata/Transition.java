@@ -1,26 +1,36 @@
 package it.univr.wordautomata;
 
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
- * @author Lorenzo
  */
-public class Transition {
-    private String label;
+public class Transition  implements Comparable<Transition> {
+    private SimpleStringProperty label;
     
     public Transition(String label){
-        this.label = label;
+        if (label == null || label.isBlank()) {
+            throw new IllegalArgumentException("Label must not be null or blank");
+        }
+        
+        this.label = new SimpleStringProperty(label);
     }
     
-    public String getLabel(){
+    public SimpleStringProperty getLabel(){
         return label;
     }
     
     public void setLabel(String label){
-        this.label = label;
+        this.label.set(label);
     }
     
     @Override
     public String toString(){
-        return label;
+        return label.get();
+    }
+
+    @Override
+    public int compareTo(Transition o) {
+        return label.get().compareTo(o.label.get());
     }
 }

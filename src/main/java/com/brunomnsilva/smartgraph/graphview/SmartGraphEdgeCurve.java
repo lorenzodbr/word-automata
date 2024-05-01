@@ -242,7 +242,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
 
         label.xProperty().bind(controlX1Property().add(controlX2Property()).divide(2).subtract(Bindings.divide(label.layoutWidthProperty(),2)));
         label.yProperty().bind(controlY1Property().add(controlY2Property()).divide(2).add(Bindings.divide(label.layoutHeightProperty(), 2)).add(outbound == inbound ? LABEL_Y_SHIFT * 2 * (edgeIndex + 1) : 0));        
-    
+            
         update();
     }
 
