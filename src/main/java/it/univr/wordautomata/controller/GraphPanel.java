@@ -195,13 +195,13 @@ public class GraphPanel extends StackPane {
             if (oldInitialState != null) {
                 graphView.getStylableVertex(oldInitialState).removeStyleClass(Utils.INITIAL_STATE_CLASS);
             }
-            
+
             Model.getInstance().setInitialState(newInitialState);
             graphView.getStylableVertex(newInitialState).addStyleClass(Utils.INITIAL_STATE_CLASS);
         }
     }
-    
-    public void selectState(){
+
+    public void selectState() {
         SelectStateModal modal = new SelectStateModal(getScene());
 
         State s;
@@ -209,8 +209,8 @@ public class GraphPanel extends StackPane {
             showStateSideBar(graphView.getVertex(s));
         }
     }
-    
-    public void selectTransition(){
+
+    public void selectTransition() {
         SelectTransitionModal modal = new SelectTransitionModal(getScene());
 
         Transition t;
@@ -309,5 +309,14 @@ public class GraphPanel extends StackPane {
         });
 
         modalPane.show(dialog);
+    }
+
+    public void play() {
+        if (Model.getInstance().getInitialState() == null) {
+            setInitialState();
+        }
+
+        System.out.println("Play");
+        mainPanel.getBottomBar().cyclePlayPause();
     }
 }

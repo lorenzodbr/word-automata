@@ -10,8 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
+
+import atlantafx.base.controls.CustomTextField;
 
 /**
  * BottomBar: contains a textfield to input words, buttons that control
@@ -35,6 +39,9 @@ public class BottomBar extends GridPane {
     private Label speedLabel;
 
     @FXML
+    private VBox speedButtonVBox;
+
+    @FXML
     private Button previousStateButton;
 
     @FXML
@@ -42,7 +49,10 @@ public class BottomBar extends GridPane {
 
     @FXML
     private ScrollPane transitionsPanel;
-    
+
+    @FXML
+    private CustomTextField wordInput;
+
     private MainPanel mainPanel;
 
     public BottomBar(MainPanel mainPanel) {
@@ -51,23 +61,30 @@ public class BottomBar extends GridPane {
         styleButtons();
         styleTransitionsPanel();
     }
-    
-    private void styleTransitionsPanel(){
+
+    private void styleTransitionsPanel() {
         transitionsPanel.setFitToWidth(true);
     }
 
     private void styleButtons() {
-        stylePlayPauseButton();
-        styleResetButton();
-        styleSpeedButton();
+        initPlayPauseButton();
+        initResetButton();
+        initSpeedButton();
         stylePreviousStateButton();
         styleNextStateButton();
     }
 
-    private void stylePlayPauseButton() {
+    private void initPlayPauseButton() {
         PlayBackState state = mainPanel.getGraphPanel().getPlayBackState();
-        
-        playPauseButton.setGraphic(new FontIcon(state == PlayBackState.PAUSED ? BoxiconsRegular.PLAY : BoxiconsRegular.PAUSE));
+        playPauseButton.disableProperty()
+                .bind(mainPanel.getGraphPanel().atLeastOneEdgeProperty().not().or(wordInput.textProperty().isEmpty()));
+        playPauseButton
+                .setGraphic(new FontIcon(state == PlayBackState.PAUSED ? BoxiconsRegular.PLAY : BoxiconsRegular.PAUSE));
+    }
+
+    private void initSpeedButton() {
+        speedButtonVBox.disableProperty().bind(speedButton.disableProperty());
+        styleSpeedButton();
     }
 
     private void styleSpeedButton() {
@@ -85,7 +102,7 @@ public class BottomBar extends GridPane {
         }
     }
 
-    private void styleResetButton() {
+    private void initResetButton() {
         resetButton.setGraphic(new FontIcon(BoxiconsRegular.RESET));
     }
 
@@ -102,10 +119,15 @@ public class BottomBar extends GridPane {
         mainPanel.getGraphPanel().cycleSpeed();
         styleSpeedButton();
     }
-    
+
     @FXML
-    private void cyclePlayPause() {
+    public void cyclePlayPause() {
         mainPanel.getGraphPanel().cyclePlayBackState();
-        stylePlayPauseButton();
+        initPlayPauseButton();
+    }
+
+    @FXML
+    private void checkWord(){
+        mainPanel.getGraphPanel().play();
     }
 }
