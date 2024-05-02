@@ -9,7 +9,6 @@ import it.univr.wordautomata.utils.Utils.Theme;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -20,7 +19,6 @@ public class WordAutomata extends Application {
 
     private Stage stage;
     private Scene scene;
-    private Parent root;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -36,7 +34,7 @@ public class WordAutomata extends Application {
 
     private void initScene() throws IOException {
         Utils.loadFonts(Utils.FONT_REGULAR_FILENAME, Utils.FONT_BOLD_FILENAME, Utils.FONT_ITALIC_FILENAME);
-        scene = new Scene(root = new MainPanel(this));
+        scene = new Scene(new MainPanel(this));
     }
 
     private void initStage(Stage stage) {

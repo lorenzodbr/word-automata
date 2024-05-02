@@ -50,6 +50,7 @@ public class Model {
         return graph;
     }
 
+    @SuppressWarnings("unused")
     private Graph<State, Transition> initSampleGraph() {
         Digraph<State, Transition> g = new DigraphEdgeList<>();
 
