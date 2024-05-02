@@ -46,11 +46,10 @@ public class Model {
         return next;
     }
 
-    public Graph getGraph() {
+    public Graph<State, Transition> getGraph() {
         return graph;
     }
 
-    // Sample graph building method
     private Graph<State, Transition> initSampleGraph() {
         Digraph<State, Transition> g = new DigraphEdgeList<>();
 

@@ -1,10 +1,8 @@
 package it.univr.wordautomata.controller;
 
-import io.github.mimoguz.customwindow.WindowStyler;
-import it.univr.wordautomata.State;
 import it.univr.wordautomata.TransitionWrapper;
-import it.univr.wordautomata.model.Model;
-import java.util.Collection;
+import it.univr.wordautomata.stylings.WindowStyler;
+
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;

@@ -1,4 +1,4 @@
-package io.github.mimoguz.customwindow;
+package it.univr.wordautomata.stylings;
 
 import com.sun.jna.Platform;
 import com.sun.jna.platform.win32.User32;
