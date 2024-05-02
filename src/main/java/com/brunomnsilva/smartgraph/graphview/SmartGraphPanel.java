@@ -892,6 +892,8 @@ public class SmartGraphPanel<V, E> extends Pane {
             }
 
             connections.remove(e);
+
+            placedEdges.remove(new Tuple<>(vertexNodes.get(vertexTuple.first), vertexNodes.get(vertexTuple.second)));
         }
 
         //remove vertices (graphical elements) that were removed from the underlying graph

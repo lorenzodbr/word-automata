@@ -145,6 +145,8 @@ public class GraphPanel extends StackPane {
                 newTransition.getEndingState(),
                 newTransition.getTransition());
         graphView.updateAndWait();
+        if (modalPane.isDisplay())
+            showStateSideBar(graphView.getVertex(newTransition.getStartingState()));
 
         return true;
     }
@@ -267,6 +269,10 @@ public class GraphPanel extends StackPane {
 
     private void showStateSideBar(SmartGraphVertex<State> vertex) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
+        modalPane.show(getStateModal(vertex));
+    }
+
+    private StateModal getStateModal(SmartGraphVertex<State> vertex) {
         StateModal dialog = new StateModal(modalPane, vertex);
 
         dialog.onTextChange(newString -> {
@@ -285,7 +291,7 @@ public class GraphPanel extends StackPane {
             }
         });
 
-        modalPane.show(dialog);
+        return dialog;
     }
 
     private void showTransitionSideBar(SmartGraphEdge<Transition, State> edge) {
@@ -312,11 +318,13 @@ public class GraphPanel extends StackPane {
     }
 
     public void play() {
-        if (Model.getInstance().getInitialState() == null) {
-            setInitialState();
-        }
+        Platform.runLater(() -> {
+            if (Model.getInstance().getInitialState() == null) {
+                setInitialState();
+            }
 
-        System.out.println("Play");
-        mainPanel.getBottomBar().cyclePlayPause();
+            System.out.println("Play");
+            mainPanel.getBottomBar().cyclePlayPause();
+        });
     }
 }

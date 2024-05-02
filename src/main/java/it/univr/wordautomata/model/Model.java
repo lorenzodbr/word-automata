@@ -15,7 +15,7 @@ public class Model {
     private static Model instance;
 
     private Theme theme;
-    private Graph<State, Transition> graph;
+    private DigraphEdgeList<State, Transition> graph;
     private State initialState;
 
     private Model() {
@@ -46,7 +46,7 @@ public class Model {
         return next;
     }
 
-    public Graph<State, Transition> getGraph() {
+    public DigraphEdgeList<State, Transition> getGraph() {
         return graph;
     }
 
