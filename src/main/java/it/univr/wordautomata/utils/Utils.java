@@ -90,8 +90,8 @@ public class Utils {
     public static void showAbout(Scene scene){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
-        alert.setHeaderText(null);
-        alert.setContentText("WordAutomata v" + VERSION + "\n\nCreated by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
+        alert.setHeaderText("WordAutomata v" + VERSION);
+        alert.setContentText("Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
         WindowStyler.setTheme((Stage) scene.getWindow());
         alert.initOwner(scene.getWindow());
         alert.showAndWait();
