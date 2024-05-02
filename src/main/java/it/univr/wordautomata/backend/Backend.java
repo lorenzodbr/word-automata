@@ -1,7 +1,8 @@
 package it.univr.wordautomata.backend;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
@@ -9,47 +10,47 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
+import it.univr.wordautomata.model.Model;
 
 public class Backend {
-    private Vertex<State> begin;
-    private DigraphEdgeList<State, Transition> graph;
+   public static List<Edge<Transition, State>> getPath(String word) {
+        List<Edge<Transition, State>> path = new ArrayList<>();
+        DigraphEdgeList<State, Transition> graph = (DigraphEdgeList<State, Transition>)Model.getInstance().getGraph();
+        Vertex<State> begin = getInitialState(graph);
 
-    public Backend(DigraphEdgeList<State, Transition> graph, Vertex<State> begin) {
-        this.graph = graph;
-        this.begin = begin;
+        return findPath(graph, begin, word, path) ? path : null;
     }
 
-    public ArrayList<Edge<Transition, State>> getPath(String word) {
-        /*
-         * for (Edge<Transition, State> e : p) {
-         * System.out.print(e.vertices()[0].element());
-         * System.out.print(" => " + e.element() + " =>");
-         * System.out.println(e.vertices()[1].element());
-         * }
-         */
-        ArrayList<Edge<Transition, State>> p = new ArrayList<>();
-        if (search(begin, word, p))
-            return p;
-        return null;
-    }
-
-    private boolean search(Vertex<State> v, String word, Collection<Edge<Transition, State>> c) {
+    private static boolean findPath(
+        DigraphEdgeList<State, Transition> graph, Vertex<State> v,
+        String word, List<Edge<Transition, State>> path) {
         if (v.element().isFinal().get() && word.isEmpty())
             return true;
 
-        for (Edge<Transition, State> e : graph.outboundEdges(v)) {
+        // sort the edges in descending order by length
+        List<Edge<Transition, State>> outboundEdges = new LinkedList<>(graph.outboundEdges(v));
+        outboundEdges.sort((a, b) -> {
+            return b.element().getLabel().length() - a.element().getLabel().length();
+        });
+
+        for (Edge<Transition, State> e : outboundEdges) {
             String s = e.element().getLabel();
             if (word.startsWith(s)) {
                 Vertex<State> next = e.vertices()[1];
-                c.add(e);
-                if (search(next, word.substring(s.length()), c)) {
-                    // il PDF dice che fra tutte le transizioni possibili, ritornare quella con la
-                    // parola più lunga e non la prima che trovi come qua
+                path.add(e);
+                if (findPath(graph, next, word.substring(s.length()), path))
                     return true;
-                } else
-                    c.remove(e);
+                path.removeLast();
             }
         }
         return false;
+    }
+
+    private static Vertex<State> getInitialState(DigraphEdgeList<State, Transition> graph) {
+        return graph.vertices()
+                    .stream()
+                    .filter(v -> v.element().isInitial().get())
+                    .findFirst()
+                    .get();
     }
 }
