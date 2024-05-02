@@ -1,11 +1,7 @@
 package it.univr.wordautomata.controller;
 
 import atlantafx.base.controls.ModalPane;
-import java.util.Collection;
-
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
-import com.brunomnsilva.smartgraph.graph.Digraph;
-import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
 import com.brunomnsilva.smartgraph.graph.Vertex;
@@ -46,7 +42,6 @@ public class GraphPanel extends StackPane {
     private Graph<State, Transition> graph;
 
     private SmartGraphPanel<State, Transition> graphView;
-    private ContentZoomScrollPane graphViewWrapper;
 
     private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
     private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
@@ -70,7 +65,7 @@ public class GraphPanel extends StackPane {
 
     private void initGraph() {
         graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
-        getChildren().add(graphViewWrapper = new ContentZoomScrollPane(graphView));
+        getChildren().add(new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> {
             // only if auto positioning is disabled, place vertices in the clicked point
