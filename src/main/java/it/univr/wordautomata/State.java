@@ -10,7 +10,6 @@ public class State implements Comparable<State> {
 
     private SimpleStringProperty label;
     private SimpleBooleanProperty isFinal;
-    private SimpleBooleanProperty isInitial;
 
     public State(String label) {
         this(label, false);
@@ -23,7 +22,6 @@ public class State implements Comparable<State> {
 
         this.label = new SimpleStringProperty(label);
         this.isFinal = new SimpleBooleanProperty(isFinal);
-        this.isInitial = new SimpleBooleanProperty(false);
     }
 
     public SimpleStringProperty getLabel() {
@@ -36,10 +34,6 @@ public class State implements Comparable<State> {
 
     public void setFinal(boolean value) {
         this.isFinal.set(value);
-    }
-
-    public void setInitial(boolean value) {
-        this.isInitial.set(value);
     }
 
     public void setLabel(String label) {

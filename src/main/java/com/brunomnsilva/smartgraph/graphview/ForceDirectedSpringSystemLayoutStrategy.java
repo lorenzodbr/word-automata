@@ -59,7 +59,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
 
     /* just a scaling factor so all parameters are, at most, two-digit numbers. */
     private static final double A_THOUSAND = 1000;
-    private static final double A_THOUSAND_SQUARE_ROOT = 32;
+    private static final double THRESHOLD = 32;
 
     /**
      * Constructs a new instance of ForceDirectedSpringGravityLayoutStrategy
@@ -131,7 +131,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         }
 
         // repelling force
-        double repulsive_factor = distance < A_THOUSAND_SQUARE_ROOT ? repulsiveForce : repulsiveForce * A_THOUSAND / (distance * distance);
+        double repulsive_factor = distance < THRESHOLD ? repulsiveForce : repulsiveForce * A_THOUSAND / (distance * distance);
         Point2D repulsion = forceDirection.multiply(-repulsive_factor);
 
         // combine forces
