@@ -59,7 +59,6 @@ import java.util.logging.Logger;
 
 import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
 import it.univr.wordautomata.utils.Utils;
-import javafx.scene.control.Label;
 
 /**
  * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or
@@ -1281,7 +1280,7 @@ public class SmartGraphPanel<V, E> extends Pane {
      * @param vertexElement underlying vertex's element
      * @return element
      */
-    public SmartGraphVertex getVertex(V vertexElement) {
+    public SmartGraphVertex<V> getVertex(V vertexElement) {
         for (Vertex<V> v : vertexNodes.keySet()) {
             if (v.element().equals(vertexElement)) {
                 return vertexNodes.get(v);
@@ -1315,7 +1314,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         return null;
     }
     
-    public SmartGraphEdge getEdge(E edgeElement) {
+    public SmartGraphEdge<E, V> getEdge(E edgeElement) {
         for (Edge<E, V> e : edgeNodes.keySet()) {
             if (e.element().equals(edgeElement)) {
                 return edgeNodes.get(e);

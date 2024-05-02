@@ -1,14 +1,11 @@
 package it.univr.wordautomata.controller;
 
-import java.util.Optional;
-
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.stylings.WindowStyler;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 /**
  *

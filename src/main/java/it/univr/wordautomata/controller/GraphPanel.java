@@ -19,6 +19,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
+import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
@@ -278,7 +279,7 @@ public class GraphPanel extends StackPane {
         });
 
         dialog.onDeleteButtonClicked(v -> {
-            if (Utils.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this state?")) {
+            if (Alerts.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this state?")) {
                 dialog.close();
                 removeVertex(v);
             }
@@ -301,7 +302,7 @@ public class GraphPanel extends StackPane {
         });
 
         dialog.onDeleteButtonClicked(e -> {
-            if (Utils.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this transition?")) {
+            if (Alerts.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this transition?")) {
                 dialog.close();
                 removeEdge(e);
             }

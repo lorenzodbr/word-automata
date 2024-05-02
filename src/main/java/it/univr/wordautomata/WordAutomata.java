@@ -1,12 +1,11 @@
 package it.univr.wordautomata;
 
+import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.controller.MainPanel;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.stylings.WindowStyler;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
-import static it.univr.wordautomata.utils.Utils.Theme.DARK;
-import static it.univr.wordautomata.utils.Utils.Theme.LIGHT;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -78,7 +77,7 @@ public class WordAutomata extends Application {
     }
 
     public void exit() {
-        if (Utils.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
+        if (Alerts.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
             Platform.exit();
         }
     }

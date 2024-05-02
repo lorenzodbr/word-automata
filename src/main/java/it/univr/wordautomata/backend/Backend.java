@@ -18,14 +18,14 @@ public class Backend {
         this.graph = graph;
         this.begin = begin;
     }
-    
+
     public ArrayList<Edge<Transition, State>> getPath(String word) {
         /*
-        for (Edge<Transition, State> e : p) {
-            System.out.print(e.vertices()[0].element());
-            System.out.print(" => " + e.element() + " =>");
-            System.out.println(e.vertices()[1].element());
-        }
+         * for (Edge<Transition, State> e : p) {
+         * System.out.print(e.vertices()[0].element());
+         * System.out.print(" => " + e.element() + " =>");
+         * System.out.println(e.vertices()[1].element());
+         * }
          */
         ArrayList<Edge<Transition, State>> p = new ArrayList<>();
         if (search(begin, word, p))
@@ -43,7 +43,8 @@ public class Backend {
                 Vertex<State> next = e.vertices()[1];
                 c.add(e);
                 if (search(next, word.substring(s.length()), c)) {
-                    // il PDF dice che fra tutte le transizioni possibili, ritornare quella con la parola più lunga e non la prima che trovi come qua
+                    // il PDF dice che fra tutte le transizioni possibili, ritornare quella con la
+                    // parola più lunga e non la prima che trovi come qua
                     return true;
                 } else
                     c.remove(e);
