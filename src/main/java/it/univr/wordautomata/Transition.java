@@ -15,9 +15,13 @@ public class Transition  implements Comparable<Transition> {
         
         this.label = new SimpleStringProperty(label);
     }
-    
-    public SimpleStringProperty getLabel(){
+
+    public SimpleStringProperty labelProperty() {
         return label;
+    }
+    
+    public String getLabel(){
+        return label.get();
     }
     
     public void setLabel(String label){
