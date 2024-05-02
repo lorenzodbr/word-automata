@@ -1,8 +1,8 @@
 package it.univr.wordautomata;
 
-import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.controller.MainPanel;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.stylings.WindowStyler;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
 import static it.univr.wordautomata.utils.Utils.Theme.DARK;
@@ -56,11 +56,7 @@ public class WordAutomata extends Application {
     }
 
     private void initTheme() {
-        Theme current = Model.getInstance().getTheme();
-        if (current == DARK && Utils.SET_MICA) {
-            WindowStyler.setMica(stage, scene, root);
-        }
-        setTheme(current);
+        setTheme(Model.getInstance().getTheme());
     }
     
     private void setTheme(Theme theme) {

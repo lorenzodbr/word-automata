@@ -1,7 +1,8 @@
 package it.univr.wordautomata.utils;
 
-import io.github.mimoguz.customwindow.WindowStyler;
 import it.univr.wordautomata.Main;
+import it.univr.wordautomata.stylings.WindowStyler;
+
 import java.io.IOException;
 import java.util.Random;
 import javafx.fxml.FXMLLoader;

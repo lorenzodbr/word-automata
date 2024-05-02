@@ -1,4 +1,4 @@
-package io.github.mimoguz.customwindow;
+package it.univr.wordautomata.stylings;
 
 /**
  * Some DWM enum variants and constants.

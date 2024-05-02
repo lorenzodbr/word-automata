@@ -1,14 +1,14 @@
 package it.univr.wordautomata.controller;
 
-import io.github.mimoguz.customwindow.WindowStyler;
+import java.util.Optional;
+
 import it.univr.wordautomata.State;
-import it.univr.wordautomata.model.Model;
-import it.univr.wordautomata.utils.Utils;
-import it.univr.wordautomata.utils.Utils.Theme;
+import it.univr.wordautomata.stylings.WindowStyler;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  *
@@ -40,9 +40,5 @@ public class AddStateModal extends Dialog<State> {
     private void initTheme() {
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         WindowStyler.setTheme(stage);
-
-        if (Model.getInstance().getTheme() == Theme.DARK && Utils.SET_MICA) {
-            WindowStyler.setMica(stage, getDialogPane().getScene(), getDialogPane());
-        }
     }
 }

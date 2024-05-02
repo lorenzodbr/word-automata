@@ -1,33 +1,12 @@
-package io.github.mimoguz.customwindow;
+package it.univr.wordautomata.stylings;
 
 import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
 import it.univr.wordautomata.model.Model;
 import javafx.application.Application;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class WindowStyler {
-
-    public static void setMica(Stage stage, Scene scene, Parent root) {
-        root.getStyleClass().add("transparent-background");
-        scene.setFill(Color.TRANSPARENT);
-        stage.initStyle(StageStyle.UNIFIED);
-
-        try {
-            WindowHandle handle = WindowHandle.tryFind(stage);
-            if (!handle.dwmSetIntValue(
-                    DwmAttribute.DWMWA_SYSTEMBACKDROP_TYPE,
-                    DwmAttribute.DWMSBT_TABBEDWINDOW.value
-            )) {
-                handle.dwmSetBooleanValue(DwmAttribute.DWMWA_MICA_EFFECT, true);
-            }
-        } catch (HwndLookupException e) {
-        }
-    }
 
     public static void setDarkMode(Stage stage) {
         Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
