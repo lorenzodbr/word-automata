@@ -17,10 +17,10 @@
                 <Menu mnemonicParsing="true" text="_File">
                     <items>
                         <MenuItem mnemonicParsing="true" text="_Open .automata" />
-                        <MenuItem mnemonicParsing="true" text="_Save" />
-                        <MenuItem mnemonicParsing="true" text="Save _as" />
+                        <MenuItem mnemonicParsing="true" text="Sa_ve" />
+                        <MenuItem mnemonicParsing="true" text="Sav_e as" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="true" onAction="#exit" text="_Exit" />
+                        <MenuItem mnemonicParsing="true" onAction="#exit" text="E_xit" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Automata">

@@ -1,17 +1,11 @@
 package it.univr.wordautomata.utils;
 
 import it.univr.wordautomata.Main;
-import it.univr.wordautomata.stylings.WindowStyler;
-
 import java.io.IOException;
 import java.util.Random;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 /**
  * Constants used in the application
@@ -74,28 +68,6 @@ public class Utils {
                     Utils.DEFAULT_FONT_SIZE
             );
         }
-    }
-
-    public static boolean showConfirmationDialog(Scene scene, String title, String body) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(body);
-        WindowStyler.setTheme((Stage) scene.getWindow());
-        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
-        alert.initOwner(scene.getWindow());
-
-        return ButtonType.YES.equals(alert.showAndWait().orElse(null));
-    }
-    
-    public static void showAbout(Scene scene){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("About");
-        alert.setHeaderText("WordAutomata v" + VERSION);
-        alert.setContentText("Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
-        WindowStyler.setTheme((Stage) scene.getWindow());
-        alert.initOwner(scene.getWindow());
-        alert.showAndWait();
     }
 
     //FXML methods

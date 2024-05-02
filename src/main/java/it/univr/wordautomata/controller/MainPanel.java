@@ -1,7 +1,7 @@
 package it.univr.wordautomata.controller;
 
-import it.univr.wordautomata.State;
 import it.univr.wordautomata.WordAutomata;
+import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Utils;
 import it.univr.wordautomata.utils.Utils.Theme;
@@ -86,7 +86,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void clearGraph() {
-        if (Utils.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
+        if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
             graphPanel.clearGraph();
         }
     }
@@ -147,7 +147,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showInfo() {
-        Utils.showAbout(getScene());
+        Alerts.showInformationDialog(getScene(), "About", "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
     }
 
     @FXML
