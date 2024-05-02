@@ -30,26 +30,17 @@
         <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <CustomTextField fx:id="wordTextField" minHeight="40.0" prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0">
+        <CustomTextField fx:id="wordInput" minHeight="40.0" prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0">
             <left>
                 <FontIcon iconLiteral="bxs-magic-wand" />
             </left>
         </CustomTextField>
-        <Button fx:id="resetButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="1" />
-        <Button fx:id="previousStateButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="2" />
-        <Button fx:id="playPauseButton" maxHeight="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#cyclePlayPause" prefHeight="40.0" prefWidth="70.0" styleClass="button-icon, button-outlined, accent" textAlignment="CENTER" GridPane.columnIndex="3" />
-        <Button fx:id="nextStateButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="4" />
-        <Button fx:id="speedButton" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="5" />
-        <ScrollPane fx:id="transitionsPanel" maxWidth="1.7976931348623157E308" styleClass="rounded-corners, medium-gray-background" vbarPolicy="NEVER" GridPane.columnIndex="6">
-            <content>
-                <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="small-padding">
-                    <children>
-                        <Label maxWidth="1.7976931348623157E308" styleClass="text-subtle" text="Waiting for a word..." textAlignment="CENTER" />
-                    </children>
-                </HBox>
-            </content>
-        </ScrollPane>
-        <VBox alignment="CENTER" mouseTransparent="true" spacing="2.0" GridPane.columnIndex="5">
+        <Button fx:id="resetButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="1" />
+        <Button fx:id="previousStateButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="2" />
+        <Button fx:id="playPauseButton" disable="true" maxHeight="40.0" minHeight="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="button-icon, button-outlined, accent" textAlignment="CENTER" GridPane.columnIndex="3" onAction="#checkWord"/>
+        <Button fx:id="nextStateButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="4" />
+        <Button fx:id="speedButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="5" />
+        <VBox fx:id="speedButtonVBox" alignment="CENTER" disable="true" mouseTransparent="true" spacing="2.0" GridPane.columnIndex="5">
             <children>
                 <Label fx:id="speedLabel" />
                 <HBox fx:id="circlesContainer" alignment="CENTER" spacing="4.0">
@@ -61,5 +52,14 @@
                 </HBox>
             </children>
         </VBox>
+        <ScrollPane fx:id="transitionsPanel" maxWidth="1.7976931348623157E308" styleClass="rounded-corners, medium-gray-background" vbarPolicy="NEVER" GridPane.columnIndex="6">
+            <content>
+                <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="small-padding">
+                    <children>
+                        <Label maxWidth="1.7976931348623157E308" styleClass="text-subtle" text="Waiting for a word..." textAlignment="CENTER" />
+                    </children>
+                </HBox>
+            </content>
+        </ScrollPane>
     </children>
 </fx:root>
