@@ -48,7 +48,7 @@ import javafx.geometry.Point2D;
  * to node movements. Higher values result in faster movements.
  *
  * @param <V> The generic type of {@link SmartGraphVertexNode}, i.e., the nodes
- * of a {@link SmartGraphPanel}.
+ *            of a {@link SmartGraphPanel}.
  */
 public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLayoutStrategy<V> {
 
@@ -59,7 +59,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
 
     /* just a scaling factor so all parameters are, at most, two-digit numbers. */
     private static final double A_THOUSAND = 1000;
-    private static final double THRESHOLD = 32;
+    private static final double THRESHOLD = 50;
 
     /**
      * Constructs a new instance of ForceDirectedSpringGravityLayoutStrategy
@@ -69,7 +69,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
      * acceleration = 0.8.
      */
     public ForceDirectedSpringSystemLayoutStrategy() {
-        this.repulsiveForce = 30;
+        this.repulsiveForce = 35;
         this.attractionForce = 3;
         this.attractionScale = 10;
         this.acceleration = 0.8;
@@ -79,17 +79,20 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
      * Constructs a new instance of ForceDirectedSpringGravityLayoutStrategy
      * with the specified parameters.
      *
-     * @param repulsiveForce The strength of the repulsive force between nodes.
-     * Higher values result in greater repulsion.
+     * @param repulsiveForce  The strength of the repulsive force between nodes.
+     *                        Higher values result in greater repulsion.
      * @param attractionForce The strength of the attractive force between
-     * connected nodes. Higher values result in stronger attraction.
+     *                        connected nodes. Higher values result in stronger
+     *                        attraction.
      * @param attractionScale The scale factor for attraction. It determines the
-     * effectiveness of the attraction force based on the distance between
-     * connected nodes.
-     * @param acceleration The acceleration factor applied to node movements.
-     * Higher values result in faster movements.
+     *                        effectiveness of the attraction force based on the
+     *                        distance between
+     *                        connected nodes.
+     * @param acceleration    The acceleration factor applied to node movements.
+     *                        Higher values result in faster movements.
      */
-    public ForceDirectedSpringSystemLayoutStrategy(double repulsiveForce, double attractionForce, double attractionScale, double acceleration) {
+    public ForceDirectedSpringSystemLayoutStrategy(double repulsiveForce, double attractionForce,
+            double attractionScale, double acceleration) {
         Args.requireGreaterThan(repulsiveForce, "repulsiveForce", 0);
         Args.requireGreaterThan(attractionForce, "attractionForce", 0);
         Args.requireGreaterThan(attractionScale, "attractionScale", 0);
@@ -103,10 +106,12 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
     }
 
     @Override
-    protected Point2D computeForceBetween(SmartGraphVertexNode<V> v, SmartGraphVertexNode<V> w, double panelWidth, double panelHeight) {
+    protected Point2D computeForceBetween(SmartGraphVertexNode<V> v, SmartGraphVertexNode<V> w, double panelWidth,
+            double panelHeight) {
         // The panel's width and height are not used in this strategy
         // This allows to freely move the graph to a particular region in the panel;
-        // On the other hand, e.g., in a bipartite graph the two sub-graphs will repel each other to the edges of the panel
+        // On the other hand, e.g., in a bipartite graph the two sub-graphs will repel
+        // each other to the edges of the panel
 
         Point2D vPosition = v.getUpdatedPosition();
         Point2D wPosition = w.getUpdatedPosition();
@@ -131,7 +136,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         }
 
         // repelling force
-        double repulsive_factor = distance < THRESHOLD ? repulsiveForce : repulsiveForce * A_THOUSAND / (distance * distance);
+        double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance * distance), THRESHOLD);
         Point2D repulsion = forceDirection.multiply(-repulsive_factor);
 
         // combine forces

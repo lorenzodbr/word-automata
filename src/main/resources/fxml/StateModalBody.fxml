@@ -7,7 +7,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -51,16 +50,16 @@
         <VBox maxHeight="1.7976931348623157E308" spacing="10.0" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
             <children>
                 <Label styleClass="text-caption" text="Outbound transitions" />
-                <ScrollPane fx:id="outboundTransitions" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minHeight="180.0" prefWidth="250.0" styleClass="rounded-corners, medium-gray-background" VBox.vgrow="ALWAYS">
+                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="180.0" minHeight="180.0" prefWidth="250.0" styleClass="rounded-corners, medium-gray-background, border" VBox.vgrow="ALWAYS">
                     <content>
-                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                            <center>
-                                <Label styleClass="text-subtle" text="No transition found" textAlignment="CENTER" BorderPane.alignment="CENTER" />
-                            </center>
-                        </BorderPane>
+                        <VBox fx:id="outboundTransitions" alignment="CENTER" styleClass="padding">
+                            <children>
+                                <Label styleClass="text-subtle" text="No transition found" />
+                            </children>
+                        </VBox>
                     </content>
                 </ScrollPane>
-                <Button mnemonicParsing="false" prefWidth="250.0" styleClass="button-outlined, accent" text="Add transition">
+                <Button fx:id="addTransitionButton" mnemonicParsing="false" prefWidth="250.0" styleClass="button-outlined, accent" text="Add transition">
                     <VBox.margin>
                         <Insets top="5.0" />
                     </VBox.margin>

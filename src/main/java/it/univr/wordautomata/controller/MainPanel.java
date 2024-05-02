@@ -147,7 +147,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showInfo() {
-        Alerts.showInformationDialog(getScene(), "About", "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
+        Alerts.showInformationDialog(getScene(), "About", Utils.TITLE + " v" + Utils.VERSION, "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
     }
 
     @FXML

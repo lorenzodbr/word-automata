@@ -18,11 +18,15 @@ public class Alerts {
 
         return ButtonType.YES.equals(alert.showAndWait().orElse(null));
     }
-    
+
     public static void showInformationDialog(Scene scene, String title, String body) {
+        showInformationDialog(scene, title, null, body);
+    }
+    
+    public static void showInformationDialog(Scene scene, String title, String header, String body) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
-        alert.setHeaderText(null);
+        alert.setHeaderText(header);
         alert.setContentText(body);
         WindowStyler.setTheme((Stage) alert.getDialogPane().getScene().getWindow());
         alert.initOwner(scene.getWindow());

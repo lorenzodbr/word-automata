@@ -7,11 +7,11 @@
 }
 
 .light-gray-background {
-    -fx-background-color: -color-neutral-subtle
+    -fx-background-color: -color-neutral-subtle;
 }
 
 .medium-gray-background {
-    -fx-background-color: -color-neutral-subtle
+    -fx-background-color: -color-neutral-subtle;
 }
 
 .transparent-background {
@@ -48,6 +48,10 @@
     -fx-background-radius: 5 5 5 5;
 }
 
+#hintLabel {
+    -fx-opacity: 0.7;
+}
+
 #bottomBar {
     -fx-border-color: -color-border-default;
     -fx-border-style: solid hidden hidden hidden;
@@ -60,7 +64,7 @@
     -fx-border-width: 1;
 }
 
-.button-icon >.ikonli-font-icon {
+.button-icon > .ikonli-font-icon {
     -fx-icon-size: 27;
 }
 
@@ -74,18 +78,8 @@
     -fx-icon-size: 25;
 }
 
-#playPauseButton >.ikonli-font-icon {
+#playPauseButton > .ikonli-font-icon {
     -fx-icon-size: 37;
-}
-
-#transitionsPanel {
-    -fx-border-color: -color-border-default;
-    -fx-border-width: 1;
-}
-
-#outboundTransitions {
-    -fx-border-color: -color-border-default;
-    -fx-border-width: 1;
 }
 
 .speedCircle {
@@ -98,11 +92,15 @@
     -fx-fill: -color-fg-default;
 }
 
-.modal-pane >.scroll-pane>.viewport>*>.scrollable-content {
-    -fx-background-color: rgba(0, 0, 0, .3);
+#speedButtonVBox:disabled .speedCircle {
+    -fx-opacity: 0.5;
 }
 
-.separator >.line {
+.modal-pane > .scroll-pane > .viewport > * > .scrollable-content {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.separator > .line {
     -color-separator: -color-border-default;
 }
 
@@ -117,9 +115,9 @@
 
 .vertex {
     -fx-stroke-width: 3;
-    -fx-stroke: #61B5F1;
+    -fx-stroke: #61b5f1;
     -fx-stroke-type: inside; /* you should keep this if using arrows */
-    -fx-fill: #B1DFF7;
+    -fx-fill: #b1dff7;
 }
 
 .final-state {
@@ -132,7 +130,8 @@
     -fx-fill: #ff7d3d;
 }
 
-.vertex:hover { /* pseudo-classes also work */
+.vertex:hover {
+    /* pseudo-classes also work */
     /*-fx-cursor: default; */ /* You can use this style to override the hand/move cursors while hovering. */
     -fx-stroke-width: 4;
 }
