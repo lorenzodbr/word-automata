@@ -4,6 +4,7 @@ import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
 import it.univr.wordautomata.model.Model;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class WindowStyler {
@@ -19,11 +20,16 @@ public class WindowStyler {
     }
 
     private static void setImmersiveDarkMode(Stage stage, boolean value) {
-        try {
-            WindowHandle handle = WindowHandle.tryFind(stage);
-            handle.dwmSetBooleanValue(DwmAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, value);
-        } catch (HwndLookupException e) {
-        }
+        // try {
+        // WindowHandle handle = WindowHandle.tryFind(stage);
+        // handle.dwmSetBooleanValue(DwmAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, value);
+        // } catch (HwndLookupException e) {
+        // e.printStackTrace();
+        // }
+
+        Platform.runLater(() -> {
+            FXWinUtil.setImmersiveDarkMode(stage, value);
+        });
     }
 
     public static void setTheme(Stage stage) {

@@ -1,6 +1,7 @@
 package it.univr.wordautomata.alerts;
 
 import it.univr.wordautomata.stylings.WindowStyler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -31,8 +32,13 @@ public class Alerts {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(body);
-        WindowStyler.setTheme((Stage) alert.getDialogPane().getScene().getWindow());
-        alert.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
+        
+        Parent alertDialog = alert.getDialogPane();
+        Scene alertScene = alertDialog.getScene();
+        Stage alertStage = (Stage) alertScene.getWindow();
+
+        WindowStyler.setTheme(alertStage);
+        alertDialog.getStylesheets().addAll(scene.getRoot().getStylesheets());
         alert.initOwner(scene.getWindow());
         alert.getButtonTypes().setAll(buttons);
 
