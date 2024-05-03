@@ -68,7 +68,7 @@ public class WordAutomata extends Application {
         }
     }
 
-    public void toggleDarkTheme() {
+    public void toggleTheme() {
         setTheme(Model.getInstance().cycleTheme());
     }
 

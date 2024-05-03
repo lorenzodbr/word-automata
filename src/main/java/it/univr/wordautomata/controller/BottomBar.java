@@ -9,7 +9,9 @@ import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
 import javafx.application.Platform;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -72,6 +74,8 @@ public class BottomBar extends GridPane {
 
     private MainPanel mainPanel;
 
+    private BooleanBinding buttonsEnabledBinding;
+
     public BottomBar(MainPanel mainPanel) {
         Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);
         this.mainPanel = mainPanel;
@@ -84,28 +88,31 @@ public class BottomBar extends GridPane {
     }
 
     private void styleButtons() {
+        buttonsEnabledBinding = Model.getInstance().atLeastOneEdgeProperty().not()
+                .or(wordInput.textProperty().isEmpty());
+
         initPlayPauseButton();
         initResetButton();
         initSpeedButton();
-        stylePreviousStateButton();
-        styleNextStateButton();
+        initPreviousNextStateButtons();
     }
 
     private void initPlayPauseButton() {
-        PlayBackState state = mainPanel.getGraphPanel().getPlayBackState();
+        PlayBackState state = Model.getInstance().getPlayBackState();
         playPauseButton.disableProperty()
-                .bind(mainPanel.getGraphPanel().atLeastOneEdgeProperty().not().or(wordInput.textProperty().isEmpty()));
+                .bind(buttonsEnabledBinding);
         playPauseButton
                 .setGraphic(new FontIcon(state == PlayBackState.PAUSED ? BoxiconsRegular.PLAY : BoxiconsRegular.PAUSE));
     }
 
     private void initSpeedButton() {
         speedButtonVBox.disableProperty().bind(speedButton.disableProperty());
+        speedButton.disableProperty().bind(buttonsEnabledBinding);
         styleSpeedButton();
     }
 
     private void styleSpeedButton() {
-        PlayBackSpeed initialSpeed = mainPanel.getGraphPanel().getSpeed();
+        PlayBackSpeed initialSpeed = Model.getInstance().getSpeed();
 
         speedLabel.setText(initialSpeed.toString());
 
@@ -121,6 +128,14 @@ public class BottomBar extends GridPane {
 
     private void initResetButton() {
         resetButton.setGraphic(new FontIcon(BoxiconsRegular.RESET));
+        resetButton.disableProperty().bind(buttonsEnabledBinding);
+    }
+
+    private void initPreviousNextStateButtons() {
+        previousStateButton.disableProperty().bind(buttonsEnabledBinding);
+        nextStateButton.disableProperty().bind(buttonsEnabledBinding);
+        stylePreviousStateButton();
+        styleNextStateButton();
     }
 
     private void stylePreviousStateButton() {
@@ -133,13 +148,13 @@ public class BottomBar extends GridPane {
 
     @FXML
     private void cycleSpeed() {
-        mainPanel.getGraphPanel().cycleSpeed();
+        Model.getInstance().cycleSpeed();
         styleSpeedButton();
     }
 
     @FXML
     public void cyclePlayPause() {
-        mainPanel.getGraphPanel().cyclePlayBackState();
+        Model.getInstance().cyclePlayBackState();
         initPlayPauseButton();
     }
 
@@ -173,27 +188,28 @@ public class BottomBar extends GridPane {
             }
 
             transitionsHint.setVisible(false);
-            transitionsPanelHBox.getChildren().add(getStateLabel(Model.getInstance().getInitialState()));
+            transitionsPanelHBox.getChildren().add(getStateLabel(Model.getInstance().getInitialState().toString()));
 
-            for (Edge e : path) {
+            for (var e : path) {
                 transitionsPanelHBox.getChildren().addAll(
-                        getTransitionButton(e),
-                        getStateLabel((State) e.vertices()[1].element()));
+                        getTransitionButton(e.element().toString()),
+                        getStateLabel(((State) e.vertices()[1].element()).toString()));
             }
         });
     }
 
-    private Label getStateLabel(State state) {
-        Label initialState = new Label(state.toString());
+    private Label getStateLabel(String stateLabel) {
+        Label initialState = new Label(stateLabel.toString());
         initialState.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
 
         return initialState;
     }
 
-    private Button getTransitionButton(Edge edge) {
-        Button transitionButton = new Button(edge.element().toString());
+    private Button getTransitionButton(String edgeLabel) {
+        Button transitionButton = new Button(edgeLabel);
         transitionButton.getStyleClass().addAll(Styles.SMALL, "rounded-corners");
         transitionButton.setMinSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
+        transitionButton.setPadding(new Insets(5, 7, 5, 7));
 
         return transitionButton;
     }

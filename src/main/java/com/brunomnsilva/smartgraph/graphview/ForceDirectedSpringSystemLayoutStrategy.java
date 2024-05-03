@@ -59,7 +59,6 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
 
     /* just a scaling factor so all parameters are, at most, two-digit numbers. */
     private static final double A_THOUSAND = 1000;
-    private static final double THRESHOLD = 50;
 
     /**
      * Constructs a new instance of ForceDirectedSpringGravityLayoutStrategy

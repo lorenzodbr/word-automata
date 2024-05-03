@@ -2,7 +2,6 @@ package it.univr.wordautomata.utils;
 
 import it.univr.wordautomata.Main;
 import java.io.IOException;
-import java.util.Random;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.text.Font;

@@ -109,16 +109,16 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void toggleAutoPositioning() {
-        graphPanel.toggleAutoPositioning();
+        Model.getInstance().toggleAutoPositioning();
         styleAutoPositioningMenuItem();
     }
 
     private void initBindings() {
-        clearGraphMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
-        addTransitionMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
-        setInitialStateMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
-        selectStateMenuItem.disableProperty().bind(graphPanel.atLeastOneVertexProperty().not());
-        selectTransitionMenuItem.disableProperty().bind(graphPanel.atLeastOneEdgeProperty().not());
+        clearGraphMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
+        addTransitionMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
+        setInitialStateMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
+        selectStateMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
+        selectTransitionMenuItem.disableProperty().bind(Model.getInstance().atLeastOneEdgeProperty().not());
     }
 
     private void styleMenuItems() {
@@ -127,7 +127,7 @@ public class MainPanel extends BorderPane {
     }
 
     private void styleAutoPositioningMenuItem() {
-        autoPositioningMenuItem.setGraphic(graphPanel.autoPositionProperty().get()
+        autoPositioningMenuItem.setGraphic(Model.getInstance().autoPositionProperty().get()
                 ? new FontIcon(BoxiconsRegular.CHECK) : null);
     }
 
@@ -138,7 +138,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void toggleDarkTheme() {
-        parent.toggleDarkTheme();
+        parent.toggleTheme();
         styleDarkThemeMenuItem();
     }
 
