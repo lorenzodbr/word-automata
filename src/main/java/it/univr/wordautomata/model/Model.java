@@ -34,6 +34,7 @@ public class Model {
     private SimpleBooleanProperty atLeastOneVertex;
     private SimpleBooleanProperty atLeastOneEdge;
     private SimpleBooleanProperty autoPosition;
+    private SimpleBooleanProperty pathFound;
 
     private Model() {
         this.theme = Theme.DEFAULT;
@@ -42,6 +43,7 @@ public class Model {
         this.atLeastOneVertex = new SimpleBooleanProperty(false);
         this.atLeastOneEdge = new SimpleBooleanProperty(false);
         this.autoPosition = new SimpleBooleanProperty(Constants.DEFAULT_AUTO_POSITION);
+        this.pathFound = new SimpleBooleanProperty(false);
 
         updateGraphProperties();
     }
@@ -97,7 +99,6 @@ public class Model {
         g.insertEdge(q3, q3, new Transition("abb"));
 
         g.insertEdge(q1, q3, new Transition("a"));
-        g.insertEdge(q1, q3, new Transition("a2"));
 
         g.insertEdge(q3, q4, new Transition("bb"));
         g.insertEdge(q4, q1, new Transition("a"));
@@ -173,5 +174,17 @@ public class Model {
     public void updateGraphProperties() {
         atLeastOneVertex.set(graph.numVertices() > 0);
         atLeastOneEdge.set(graph.numEdges() > 0);
+    }
+
+    public SimpleBooleanProperty pathFoundProperty() {
+        return pathFound;
+    }
+
+    public boolean hasPathFound() {
+        return pathFound.get();
+    }
+
+    public void setPathFound(boolean value) {
+        pathFound.set(value);
     }
 }

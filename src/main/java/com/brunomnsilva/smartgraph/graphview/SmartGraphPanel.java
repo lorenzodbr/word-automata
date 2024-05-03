@@ -1366,16 +1366,16 @@ public class SmartGraphPanel<V, E> extends Pane {
     /**
      * Loads the stylesheet and applies the .graph class to this panel.
      */
-    private void loadAndApplyStylesheet(URI cssFile) {
-        try {
-            String css = cssFile.toURL().toExternalForm();
-            getStylesheets().add(css);
-            this.getStyleClass().add("graph");
-        } catch (MalformedURLException ex) {
-            String msg = String.format("Error loading stylesheet from URI = %s", cssFile);
-            Logger.getLogger(SmartGraphPanel.class.getName()).log(Level.SEVERE, msg, ex);
-        }
-    }
+    // private void loadAndApplyStylesheet(URI cssFile) {
+    //     try {
+    //         String css = cssFile.toURL().toExternalForm();
+    //         getStylesheets().add(css);
+    //         this.getStyleClass().add("graph");
+    //     } catch (MalformedURLException ex) {
+    //         String msg = String.format("Error loading stylesheet from URI = %s", cssFile);
+    //         Logger.getLogger(SmartGraphPanel.class.getName()).log(Level.SEVERE, msg, ex);
+    //     }
+    // }
 
     /**
      * Enables the double click action on this pane.

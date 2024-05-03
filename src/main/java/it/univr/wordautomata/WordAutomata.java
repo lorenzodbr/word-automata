@@ -28,6 +28,7 @@ public class WordAutomata extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        this.model = Model.getInstance();
         init(stage);
         stage.show();
     }

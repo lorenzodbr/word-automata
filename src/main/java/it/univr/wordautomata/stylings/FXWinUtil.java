@@ -15,7 +15,7 @@ public class FXWinUtil {
 
     public static WinDef.HWND getNativeHandleForStage(Stage stage) {
         try {
-            Method getPeer = Window.class.getDeclaredMethod("getPeer", null);
+            Method getPeer = Window.class.getDeclaredMethod("getPeer", (Class<?>[]) null);
             getPeer.setAccessible(true);
             Object tkStage = getPeer.invoke(stage);
             Method getRawHandle = tkStage.getClass().getMethod("getRawHandle");
