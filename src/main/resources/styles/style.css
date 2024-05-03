@@ -52,8 +52,8 @@
 }
 
 .rounded-corners {
-    -fx-border-radius: 5 5 5 5;
     -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 5 5 5 5;
 }
 
 #hintLabel {
@@ -113,11 +113,11 @@
 }
 
 .scroll-bar:horizontal {
-    -fx-pref-height: 5;
+    -fx-pref-height: 2;
 }
 
 .scroll-bar:vertical {
-    -fx-pref-width: 5;
+    -fx-pref-width: 2;
 }
 
 /*

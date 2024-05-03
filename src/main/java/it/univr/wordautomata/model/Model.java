@@ -1,11 +1,18 @@
 package it.univr.wordautomata.model;
 
-import com.brunomnsilva.smartgraph.graph.Digraph;
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
-import com.brunomnsilva.smartgraph.graph.Graph;
+import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
+import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
+import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
+import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
+
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
+import it.univr.wordautomata.utils.Constants.PlayBackState;
 import it.univr.wordautomata.utils.Constants.Theme;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  *
@@ -18,9 +25,25 @@ public class Model {
     private DigraphEdgeList<State, Transition> graph;
     private State initialState = null;
 
+    private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
+    private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
+
+    private PlayBackSpeed playBackSpeed = PlayBackSpeed.DEFAULT;
+    private PlayBackState playBackState = PlayBackState.DEFAULT;
+
+    private SimpleBooleanProperty atLeastOneVertex;
+    private SimpleBooleanProperty atLeastOneEdge;
+    private SimpleBooleanProperty autoPosition;
+
     private Model() {
-        theme = Theme.DEFAULT;
-        graph = initSampleGraph();
+        this.theme = Theme.DEFAULT;
+        this.graph = initSampleGraph();
+
+        this.atLeastOneVertex = new SimpleBooleanProperty(false);
+        this.atLeastOneEdge = new SimpleBooleanProperty(false);
+        this.autoPosition = new SimpleBooleanProperty(Constants.DEFAULT_AUTO_POSITION);
+
+        updateGraphProperties();
     }
 
     public static Model getInstance() {
@@ -89,5 +112,66 @@ public class Model {
 
     public State getInitialState() {
         return initialState;
+    }
+
+    public SmartPlacementStrategy getInitialPlacement() {
+        return initialPlacement;
+    }
+
+    public ForceDirectedLayoutStrategy<State> getAutomaticPlacementStrategy() {
+        return automaticPlacementStrategy;
+    }
+
+    public PlayBackSpeed getSpeed() {
+        return playBackSpeed;
+    }
+
+    public PlayBackSpeed cycleSpeed() {
+        return (playBackSpeed = playBackSpeed.next());
+    }
+
+    public PlayBackState cyclePlayBackState() {
+        return (playBackState = playBackState.next());
+    }
+
+    public PlayBackState getPlayBackState() {
+        return playBackState;
+    }
+
+    public void setAutoPosition(boolean value) {
+        autoPosition.set(value);
+    }
+
+    public SimpleBooleanProperty autoPositionProperty() {
+        return autoPosition;
+    }
+
+    public boolean isAutoPositioningEnabled() {
+        return autoPosition.get();
+    }
+
+    public void toggleAutoPositioning() {
+        autoPosition.set(!autoPosition.get());
+    }
+
+    public SimpleBooleanProperty atLeastOneVertexProperty() {
+        return atLeastOneVertex;
+    }
+
+    public SimpleBooleanProperty atLeastOneEdgeProperty() {
+        return atLeastOneEdge;
+    }
+
+    public boolean hasAtLeastOneVertex() {
+        return atLeastOneVertex.get();
+    }
+
+    public boolean hasAtLeastOneEdge() {
+        return atLeastOneEdge.get();
+    }
+
+    public void updateGraphProperties() {
+        atLeastOneVertex.set(graph.numVertices() > 0);
+        atLeastOneEdge.set(graph.numEdges() > 0);
     }
 }

@@ -5,24 +5,17 @@ import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
 import com.brunomnsilva.smartgraph.graph.Vertex;
-import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
-import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
-import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
-import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Constants;
-import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
-import it.univr.wordautomata.utils.Constants.PlayBackState;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -44,16 +37,6 @@ public class GraphPanel extends StackPane {
 
     private SmartGraphPanel<State, Transition> graphView;
 
-    private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
-    private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
-
-    private PlayBackSpeed playBackSpeed = PlayBackSpeed.DEFAULT;
-    private PlayBackState playBackState = PlayBackState.DEFAULT;
-
-    private SimpleBooleanProperty atLeastOneVertex;
-    private SimpleBooleanProperty atLeastOneEdge;
-    private SimpleBooleanProperty autoLayout;
-
     public GraphPanel(MainPanel mainPanel) {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
@@ -65,12 +48,12 @@ public class GraphPanel extends StackPane {
     }
 
     private void initGraph() {
-        graphView = new SmartGraphPanel<State, Transition>(graph, initialPlacement, automaticPlacementStrategy);
+        graphView = new SmartGraphPanel<State, Transition>(graph, Model.getInstance().getInitialPlacement(), Model.getInstance().getAutomaticPlacementStrategy());
         getChildren().add(new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> {
             // only if auto positioning is disabled, place vertices in the clicked point
-            if (!autoLayout.get()) {
+            if (!Model.getInstance().isAutoPositioningEnabled()) {
                 addVertex(e.getSceneX(), e.getSceneY());
             } else {
                 addVertex();
@@ -91,12 +74,8 @@ public class GraphPanel extends StackPane {
     }
 
     private void initProperties() {
-        this.autoLayout = new SimpleBooleanProperty(Constants.DEFAULT_AUTO_LAYOUT);
-        graphView.automaticLayoutProperty().bind(autoLayout);
-
-        this.atLeastOneVertex = new SimpleBooleanProperty(graph.numVertices() > 0);
-        this.atLeastOneEdge = new SimpleBooleanProperty(graph.numEdges() > 0);
-        this.hintLabel.visibleProperty().bind(atLeastOneVertex.not());
+        graphView.automaticLayoutProperty().bind(Model.getInstance().autoPositionProperty());
+        this.hintLabel.visibleProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
     }
 
     public boolean addVertex() {
@@ -110,7 +89,7 @@ public class GraphPanel extends StackPane {
             return false;
         }
 
-        atLeastOneVertex.set(true);
+        Model.getInstance().atLeastOneVertexProperty().set(true);
 
         Vertex<State> v = graph.insertVertex(newState);
         graphView.updateAndWait();
@@ -134,7 +113,7 @@ public class GraphPanel extends StackPane {
             return false;
         }
 
-        atLeastOneEdge.set(true);
+        Model.getInstance().updateGraphProperties();
 
         graph.insertEdge(
                 newTransition.getStartingState(),
@@ -145,42 +124,6 @@ public class GraphPanel extends StackPane {
             showStateSideBar(graphView.getVertex(newTransition.getStartingState()));
 
         return true;
-    }
-
-    public void setAutoPositioning(boolean value) {
-        autoLayout.set(value);
-    }
-
-    public void toggleAutoPositioning() {
-        setAutoPositioning(!autoLayout.get());
-    }
-
-    public SimpleBooleanProperty autoPositionProperty() {
-        return autoLayout;
-    }
-
-    public SimpleBooleanProperty atLeastOneVertexProperty() {
-        return atLeastOneVertex;
-    }
-
-    public SimpleBooleanProperty atLeastOneEdgeProperty() {
-        return atLeastOneEdge;
-    }
-
-    public PlayBackSpeed getSpeed() {
-        return playBackSpeed;
-    }
-
-    public PlayBackSpeed cycleSpeed() {
-        return (playBackSpeed = playBackSpeed.next());
-    }
-
-    public PlayBackState cyclePlayBackState() {
-        return (playBackState = playBackState.next());
-    }
-
-    public PlayBackState getPlayBackState() {
-        return playBackState;
     }
 
     public void setInitialState() {
@@ -225,9 +168,7 @@ public class GraphPanel extends StackPane {
             graph.removeVertex(v);
         }
 
-        atLeastOneVertex.set(false);
-        atLeastOneEdge.set(false);
-
+        Model.getInstance().updateGraphProperties();
         graphView.update();
     }
 
@@ -242,24 +183,14 @@ public class GraphPanel extends StackPane {
     private void removeVertex(Vertex<State> v) {
         graph.removeVertex(v);
 
-        if (graph.numVertices() == 0) {
-            atLeastOneVertex.set(false);
-        }
-
-        if (graph.numEdges() == 0) {
-            atLeastOneEdge.set(false);
-        }
-
+        Model.getInstance().updateGraphProperties();
         graphView.update();
     }
 
     private void removeEdge(Edge<Transition, State> e) {
         graph.removeEdge(e);
 
-        if (graph.numEdges() == 0) {
-            atLeastOneEdge.set(false);
-        }
-
+        Model.getInstance().updateGraphProperties();
         graphView.update();
     }
 

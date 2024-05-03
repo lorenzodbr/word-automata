@@ -14,7 +14,8 @@
 <?import javafx.scene.shape.Circle?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<fx:root fx:id="bottomBar" hgap="10.0" styleClass="padding, light-gray-background" type="GridPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="bottomBar" hgap="10.0" styleClass="padding, light-gray-background" type="GridPane"
+    xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/styles/style.css" />
     </stylesheets>
@@ -31,34 +32,60 @@
         <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <CustomTextField fx:id="wordInput" minHeight="40.0" onKeyTyped="#computePath" prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0">
+        <CustomTextField fx:id="wordInput" minHeight="40.0" onKeyTyped="#computePath"
+            prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0">
             <left>
                 <FontIcon iconLiteral="bxs-magic-wand" />
             </left>
         </CustomTextField>
-        <Button fx:id="resetButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="1" />
-        <Button fx:id="previousStateButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="2" />
-        <Button fx:id="playPauseButton" disable="true" maxHeight="40.0" minHeight="40.0" mnemonicParsing="false" onAction="#checkWord" prefHeight="40.0" prefWidth="70.0" styleClass="button-icon, button-outlined, accent" textAlignment="CENTER" GridPane.columnIndex="3" />
-        <Button fx:id="nextStateButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="4" />
-        <Button fx:id="speedButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0" prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="5" />
-        <VBox fx:id="speedButtonVBox" alignment="CENTER" disable="true" mouseTransparent="true" spacing="2.0" GridPane.columnIndex="5">
+        <Button fx:id="resetButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
+            minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0"
+            styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="1" />
+        <Button fx:id="previousStateButton" disable="true" maxHeight="40.0" maxWidth="40.0"
+            minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
+            prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
+            GridPane.columnIndex="2" />
+        <Button fx:id="playPauseButton" disable="true" maxHeight="40.0" minHeight="40.0"
+            mnemonicParsing="false" onAction="#checkWord" prefHeight="40.0" prefWidth="70.0"
+            styleClass="button-icon, button-outlined, accent" textAlignment="CENTER"
+            GridPane.columnIndex="3" />
+        <Button fx:id="nextStateButton" disable="true" maxHeight="40.0" maxWidth="40.0"
+            minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
+            prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
+            GridPane.columnIndex="4" />
+        <Button fx:id="speedButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
+            minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0"
+            prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
+            GridPane.columnIndex="5" />
+        <VBox fx:id="speedButtonVBox" alignment="CENTER" disable="true" mouseTransparent="true"
+            spacing="2.0" GridPane.columnIndex="5">
             <children>
                 <Label fx:id="speedLabel" />
                 <HBox fx:id="circlesContainer" alignment="CENTER" spacing="4.0">
                     <children>
-                        <Circle fx:id="firstSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speedCircle" />
-                        <Circle fx:id="secondSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speedCircle" />
-                        <Circle fx:id="thirdSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speedCircle" />
+                        <Circle fx:id="firstSpeedCircle" radius="2.0" strokeType="INSIDE"
+                            styleClass="speedCircle" />
+                        <Circle fx:id="secondSpeedCircle" radius="2.0" strokeType="INSIDE"
+                            styleClass="speedCircle" />
+                        <Circle fx:id="thirdSpeedCircle" radius="2.0" strokeType="INSIDE"
+                            styleClass="speedCircle" />
                     </children>
                 </HBox>
             </children>
         </VBox>
-        <ScrollPane fx:id="transitionsPanel" fitToWidth="true" styleClass="rounded-corners, medium-gray-background, border" vbarPolicy="NEVER" GridPane.columnIndex="6">
+        <ScrollPane fx:id="transitionsPanel" fitToWidth="true"
+            styleClass="rounded-corners, medium-gray-background, border" vbarPolicy="NEVER"
+            GridPane.columnIndex="6">
             <content>
                 <StackPane>
                     <children>
-                        <Label fx:id="transitionsHint" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="text-subtle" text="Waiting for a word" textAlignment="CENTER" StackPane.alignment="CENTER" />
-                        <HBox fx:id="transitionsPanelHBox" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" spacing="10.0" styleClass="padding-horizontal" StackPane.alignment="CENTER" />
+                        <Label fx:id="transitionsHint" alignment="CENTER" contentDisplay="CENTER"
+                            maxWidth="1.7976931348623157E308" prefHeight="40.0"
+                            styleClass="text-subtle" text="Waiting for a word"
+                            textAlignment="CENTER" StackPane.alignment="CENTER" />
+                        <HBox fx:id="transitionsPanelHBox" alignment="CENTER"
+                            maxWidth="1.7976931348623157E308" prefHeight="40.0" spacing="10.0"
+                            styleClass="padding-horizontal" StackPane.alignment="CENTER" />
                     </children>
                 </StackPane>
             </content>
