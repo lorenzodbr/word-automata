@@ -93,7 +93,9 @@ public class MainPanel extends BorderPane {
     @FXML
     private void clearGraph() {
         if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
+            bottomBar.clear();
             graphPanel.clearGraph();
+            model.setInitialState(null);
         }
     }
 

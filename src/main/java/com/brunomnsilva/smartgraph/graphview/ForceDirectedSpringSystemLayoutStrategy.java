@@ -69,9 +69,9 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
      */
     public ForceDirectedSpringSystemLayoutStrategy() {
         this.repulsiveForce = 35;
-        this.attractionForce = 3;
-        this.attractionScale = 10;
-        this.acceleration = 0.8;
+        this.attractionForce = 1.25;
+        this.attractionScale = 20;
+        this.acceleration = 2;
     }
 
     /**
@@ -96,7 +96,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         Args.requireGreaterThan(attractionForce, "attractionForce", 0);
         Args.requireGreaterThan(attractionScale, "attractionScale", 0);
         Args.requireGreaterThan(acceleration, "acceleration", 0);
-        Args.requireInRange(acceleration, "acceleration", 0, 1);
+        Args.requireInRange(acceleration, "acceleration", 0, 5);
 
         this.repulsiveForce = repulsiveForce;
         this.attractionForce = attractionForce;
