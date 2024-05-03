@@ -94,7 +94,7 @@ public class BottomBar extends GridPane {
 
     private void styleButtons() {
         buttonsEnabledBinding = model.atLeastOneEdgeProperty().not()
-                .or(wordInput.textProperty().isEmpty());
+                .or(wordInput.textProperty().isEmpty()).or(model.pathFoundProperty().not());
 
         initPlayPauseButton();
         initResetButton();
@@ -189,6 +189,7 @@ public class BottomBar extends GridPane {
 
             if (path == null) {
                 transitionsHint.setText("No path found");
+                model.pathFoundProperty().set(false);
                 return;
             }
 
@@ -212,7 +213,7 @@ public class BottomBar extends GridPane {
 
     private Button getTransitionButton(String edgeLabel) {
         Button transitionButton = new Button(edgeLabel);
-        transitionButton.getStyleClass().addAll(Styles.SMALL, "rounded-corners");
+        transitionButton.getStyleClass().addAll(Styles.SMALL, Constants.ROUNDED_CORNERS_CLASS);
         transitionButton.setMinSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
         transitionButton.setPadding(new Insets(5, 7, 5, 7));
 

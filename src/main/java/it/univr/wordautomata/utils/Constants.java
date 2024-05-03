@@ -33,13 +33,14 @@ public class Constants {
 
     // Application properties
     public final static String TITLE = "Word Automata";
-    public final static boolean DEFAULT_AUTO_POSITION = true;
+    public final static boolean DEFAULT_AUTO_POSITION = false;
 
     // CSS classes
     public final static String SPEED_CIRCLE_CLASS = "speedCircle";
     public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speedCircleActive";
     public final static String INITIAL_STATE_CLASS = "initial-state";
     public final static String FINAL_STATE_CLASS = "final-state";
+    public final static String ROUNDED_CORNERS_CLASS = "rounded-corners";
 
     // Sizes
     public final static double HEIGHT = 689;
