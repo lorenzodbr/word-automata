@@ -76,9 +76,14 @@ public class BottomBar extends GridPane {
 
     private BooleanBinding buttonsEnabledBinding;
 
+    private Model model;
+
     public BottomBar(MainPanel mainPanel) {
         Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);
+        
         this.mainPanel = mainPanel;
+        this.model = Model.getInstance();
+
         styleButtons();
         styleTransitionsPanel();
     }
@@ -88,7 +93,7 @@ public class BottomBar extends GridPane {
     }
 
     private void styleButtons() {
-        buttonsEnabledBinding = Model.getInstance().atLeastOneEdgeProperty().not()
+        buttonsEnabledBinding = model.atLeastOneEdgeProperty().not()
                 .or(wordInput.textProperty().isEmpty());
 
         initPlayPauseButton();
@@ -98,7 +103,7 @@ public class BottomBar extends GridPane {
     }
 
     private void initPlayPauseButton() {
-        PlayBackState state = Model.getInstance().getPlayBackState();
+        PlayBackState state = model.getPlayBackState();
         playPauseButton.disableProperty()
                 .bind(buttonsEnabledBinding);
         playPauseButton
@@ -112,7 +117,7 @@ public class BottomBar extends GridPane {
     }
 
     private void styleSpeedButton() {
-        PlayBackSpeed initialSpeed = Model.getInstance().getSpeed();
+        PlayBackSpeed initialSpeed = model.getSpeed();
 
         speedLabel.setText(initialSpeed.toString());
 
@@ -148,13 +153,13 @@ public class BottomBar extends GridPane {
 
     @FXML
     private void cycleSpeed() {
-        Model.getInstance().cycleSpeed();
+        model.cycleSpeed();
         styleSpeedButton();
     }
 
     @FXML
     public void cyclePlayPause() {
-        Model.getInstance().cyclePlayBackState();
+        model.cyclePlayBackState();
         initPlayPauseButton();
     }
 
@@ -174,7 +179,7 @@ public class BottomBar extends GridPane {
             return;
         }
 
-        if (Model.getInstance().getInitialState() == null) {
+        if (model.getInitialState() == null) {
             transitionsHint.setText("Select an initial state first");
             return;
         }
@@ -188,7 +193,7 @@ public class BottomBar extends GridPane {
             }
 
             transitionsHint.setVisible(false);
-            transitionsPanelHBox.getChildren().add(getStateLabel(Model.getInstance().getInitialState().toString()));
+            transitionsPanelHBox.getChildren().add(getStateLabel(model.getInitialState().toString()));
 
             for (var e : path) {
                 transitionsPanelHBox.getChildren().addAll(
