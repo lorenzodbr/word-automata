@@ -9,6 +9,8 @@ import it.univr.wordautomata.utils.Constants.Theme;
 import it.univr.wordautomata.utils.Methods;
 
 import java.io.IOException;
+import java.util.Locale;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -52,6 +54,7 @@ public class WordAutomata extends Application {
             e.consume();
             exit();
         });
+        Locale.setDefault(Locale.ENGLISH);
     }
 
     private void initTheme() {
