@@ -24,7 +24,7 @@
 package com.brunomnsilva.smartgraph.graphview;
 
 import it.univr.wordautomata.Main;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -84,7 +84,7 @@ public class SmartGraphProperties {
     private static final double DEFAULT_ATTRACTION_SCALE = 10;
     private static final String PROPERTY_ATTRACTION_SCALE = "layout.attraction-scale";
 
-    private static final String DEFAULT_FILE = Utils.STYLE_BASE_FOLDER + Utils.GRAPH_STYLE_FILENAME + Utils.GRAPH_STYLE_EXTENSION;
+    private static final String DEFAULT_FILE = Constants.STYLE_BASE_FOLDER + Constants.GRAPH_STYLE_FILENAME + Constants.GRAPH_STYLE_EXTENSION;
     private final Properties properties;
     
     /**

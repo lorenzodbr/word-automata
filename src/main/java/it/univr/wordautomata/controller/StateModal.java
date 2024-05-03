@@ -5,7 +5,7 @@ import atlantafx.base.layout.ModalBox;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import it.univr.wordautomata.State;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
 import java.util.function.Consumer;
 
 /**
@@ -18,7 +18,7 @@ public class StateModal extends ModalBox {
     public StateModal(ModalPane modalPane, SmartGraphVertex<State> vertex) {
         super(modalPane);
         addContent(body = new StateModalBody(vertex));
-        setMaxWidth(Utils.SIDEBAR_MAX_WIDTH);
+        setMaxWidth(Constants.SIDEBAR_MAX_WIDTH);
     }
 
     public void onTextChange(Consumer<String> event) {

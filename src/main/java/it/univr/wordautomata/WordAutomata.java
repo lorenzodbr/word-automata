@@ -4,8 +4,10 @@ import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.controller.MainPanel;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.stylings.WindowStyler;
-import it.univr.wordautomata.utils.Utils;
-import it.univr.wordautomata.utils.Utils.Theme;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Constants.Theme;
+import it.univr.wordautomata.utils.Methods;
+
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -33,17 +35,17 @@ public class WordAutomata extends Application {
     }
 
     private void initScene() throws IOException {
-        Utils.loadFonts(Utils.FONT_REGULAR_FILENAME, Utils.FONT_BOLD_FILENAME, Utils.FONT_ITALIC_FILENAME);
+        Methods.loadFonts(Constants.FONT_REGULAR_FILENAME, Constants.FONT_BOLD_FILENAME, Constants.FONT_ITALIC_FILENAME);
         scene = new Scene(new MainPanel(this));
     }
 
     private void initStage(Stage stage) {
         this.stage = stage;
-        stage.setMinHeight(Utils.MIN_HEIGHT);
-        stage.setMinWidth(Utils.MIN_WIDTH);
-        stage.setHeight(Utils.HEIGHT);
-        stage.setWidth(Utils.WIDTH);
-        stage.setTitle(Utils.TITLE);
+        stage.setMinHeight(Constants.MIN_HEIGHT);
+        stage.setMinWidth(Constants.MIN_WIDTH);
+        stage.setHeight(Constants.HEIGHT);
+        stage.setWidth(Constants.WIDTH);
+        stage.setTitle(Constants.TITLE);
         stage.setScene(scene);
         Platform.setImplicitExit(false);
         stage.setOnCloseRequest(e -> {

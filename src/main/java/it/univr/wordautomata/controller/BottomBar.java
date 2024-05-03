@@ -1,8 +1,14 @@
 package it.univr.wordautomata.controller;
 
-import it.univr.wordautomata.utils.Utils;
-import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
-import it.univr.wordautomata.utils.Utils.PlayBackState;
+import it.univr.wordautomata.State;
+import it.univr.wordautomata.Transition;
+import it.univr.wordautomata.backend.PathFinder;
+import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.utils.Methods;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
+import it.univr.wordautomata.utils.Constants.PlayBackState;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -12,10 +18,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.List;
+
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import com.brunomnsilva.smartgraph.graph.Edge;
+
 import atlantafx.base.controls.CustomTextField;
+import atlantafx.base.theme.Styles;
 
 /**
  * BottomBar: contains a textfield to input words, buttons that control
@@ -51,12 +62,18 @@ public class BottomBar extends GridPane {
     private ScrollPane transitionsPanel;
 
     @FXML
+    private HBox transitionsPanelHBox;
+
+    @FXML
     private CustomTextField wordInput;
+
+    @FXML
+    private Label transitionsHint;
 
     private MainPanel mainPanel;
 
     public BottomBar(MainPanel mainPanel) {
-        Utils.loadAndSetController(Utils.BOTTOM_BAR_FXML_FILENAME, this);
+        Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);
         this.mainPanel = mainPanel;
         styleButtons();
         styleTransitionsPanel();
@@ -94,10 +111,10 @@ public class BottomBar extends GridPane {
 
         int i = 0;
         for (Node circle : circlesContainer.getChildren()) {
-            circle.getStyleClass().remove(Utils.ACTIVE_SPEED_CIRCLE_CLASS);
+            circle.getStyleClass().remove(Constants.ACTIVE_SPEED_CIRCLE_CLASS);
 
             if (initialSpeed.ordinal() == i++) {
-                circle.getStyleClass().add(Utils.ACTIVE_SPEED_CIRCLE_CLASS);
+                circle.getStyleClass().add(Constants.ACTIVE_SPEED_CIRCLE_CLASS);
             }
         }
     }
@@ -127,7 +144,57 @@ public class BottomBar extends GridPane {
     }
 
     @FXML
-    private void checkWord(){
+    private void checkWord() {
         mainPanel.getGraphPanel().play();
+    }
+
+    @FXML
+    private void computePath() {
+        transitionsHint.setVisible(true);
+
+        transitionsPanelHBox.getChildren().clear();
+
+        if (wordInput.getText().isEmpty()) {
+            transitionsHint.setText("Waiting for a word");
+            return;
+        }
+
+        if (Model.getInstance().getInitialState() == null) {
+            transitionsHint.setText("Select an initial state first");
+            return;
+        }
+
+        Platform.runLater(() -> {
+            List<Edge<Transition, State>> path = PathFinder.getPath(wordInput.getText());
+
+            if (path == null) {
+                transitionsHint.setText("No path found");
+                return;
+            }
+
+            transitionsHint.setVisible(false);
+            transitionsPanelHBox.getChildren().add(getStateLabel(Model.getInstance().getInitialState()));
+
+            for (Edge e : path) {
+                transitionsPanelHBox.getChildren().addAll(
+                        getTransitionButton(e),
+                        getStateLabel((State) e.vertices()[1].element()));
+            }
+        });
+    }
+
+    private Label getStateLabel(State state) {
+        Label initialState = new Label(state.toString());
+        initialState.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+
+        return initialState;
+    }
+
+    private Button getTransitionButton(Edge edge) {
+        Button transitionButton = new Button(edge.element().toString());
+        transitionButton.getStyleClass().addAll(Styles.SMALL, "rounded-corners");
+        transitionButton.setMinSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
+
+        return transitionButton;
     }
 }

@@ -23,7 +23,7 @@
  */
 package com.brunomnsilva.smartgraph.graphview;
 
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
 import javafx.geometry.Point2D;
 
 /**
@@ -123,7 +123,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         }
 
         if (forceDirection.equals(Point2D.ZERO)) {
-            forceDirection = new Point2D(Utils.random.nextDouble(0, 2) - 1, Utils.random.nextDouble(0, 2) - 1);
+            forceDirection = new Point2D(Constants.random.nextDouble(0, 2) - 1, Constants.random.nextDouble(0, 2) - 1);
         }
 
         // attractive force
@@ -136,7 +136,8 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         }
 
         // repelling force
-        double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance * distance), THRESHOLD);
+        double repulsive_factor = distance < 32 ? repulsiveForce : repulsiveForce * A_THOUSAND / (distance * distance);
+        // double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance * distance), THRESHOLD);
         Point2D repulsion = forceDirection.multiply(-repulsive_factor);
 
         // combine forces

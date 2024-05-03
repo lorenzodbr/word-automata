@@ -8,7 +8,8 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.model.Model;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Methods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class StateModalBody extends GridPane {
     // private MainPanel mainPanel;
 
     public StateModalBody(SmartGraphVertex<State> vertex) {
-        Utils.loadAndSetController(Utils.STATE_MODAL_BODY_FXML_FILENAME, this);
+        Methods.loadAndSetController(Constants.STATE_MODAL_BODY_FXML_FILENAME, this);
 
         this.vertex = vertex;
         // this.mainPanel = mainPanel;
@@ -81,9 +82,9 @@ public class StateModalBody extends GridPane {
             }
         });
 
-        markAsFinalCheckbox.setSelected(state.isFinal().get());
-        state.isFinal().bind(markAsFinalCheckbox.selectedProperty());
-        state.isFinal().addListener((observable, oldValue, newValue) -> {
+        markAsFinalCheckbox.setSelected(state.isFinal());
+        state.finalProperty().bind(markAsFinalCheckbox.selectedProperty());
+        state.finalProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 vertex.addStyleClass("final-state");
             } else {
@@ -127,7 +128,14 @@ public class StateModalBody extends GridPane {
         Pane separator = new Pane();
         HBox.setHgrow(separator, Priority.ALWAYS);
 
-        row.getChildren().addAll(new Label(left), separator, new Label(right));
+        Label leftLabel = new Label(left);
+        leftLabel.setMinWidth(Constants.TRANSITION_ROW_MIN_WIDTH);
+
+        Label rightLabel = new Label(right);
+        rightLabel.setMinWidth(Constants.TRANSITION_ROW_MIN_WIDTH);
+        rightLabel.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+        row.getChildren().addAll(leftLabel, separator, rightLabel);
 
         return row;
     }

@@ -6,7 +6,7 @@ import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
 import java.util.function.Consumer;
 
 /**
@@ -19,7 +19,7 @@ public class TransitionModal extends ModalBox {
     public TransitionModal(ModalPane modalPane, SmartGraphEdge<Transition, State> edge) {
         super(modalPane);
         addContent(body = new TransitionModalBody(edge));
-        setMaxWidth(Utils.SIDEBAR_MAX_WIDTH);
+        setMaxWidth(Constants.SIDEBAR_MAX_WIDTH);
     }
 
     public void onTextChange(Consumer<String> event) {
