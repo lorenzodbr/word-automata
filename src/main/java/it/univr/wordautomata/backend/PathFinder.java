@@ -12,10 +12,10 @@ import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.model.Model;
 
-public class Backend {
+public class PathFinder {
    public static List<Edge<Transition, State>> getPath(String word) {
         List<Edge<Transition, State>> path = new ArrayList<>();
-        DigraphEdgeList<State, Transition> graph = (DigraphEdgeList<State, Transition>)Model.getInstance().getGraph();
+        DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
         Vertex<State> begin = getInitialState(graph);
 
         return findPath(graph, begin, word, path) ? path : null;
@@ -30,7 +30,7 @@ public class Backend {
         // sort the edges in descending order by length
         List<Edge<Transition, State>> outboundEdges = new LinkedList<>(graph.outboundEdges(v));
         outboundEdges.sort((a, b) -> {
-            return b.element().getLabel().length() - a.element().getLabel().length();
+            return b.element().compareTo(a.element());
         });
 
         for (Edge<Transition, State> e : outboundEdges) {
@@ -49,7 +49,7 @@ public class Backend {
     private static Vertex<State> getInitialState(DigraphEdgeList<State, Transition> graph) {
         return graph.vertices()
                     .stream()
-                    .filter(v -> v.element().isInitial().get())
+                    .filter(v -> Model.getInstance().getInitialState().equals(v.element()))
                     .findFirst()
                     .get();
     }
