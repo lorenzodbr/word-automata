@@ -1,5 +1,6 @@
 package it.univr.wordautomata.controller;
 
+import it.univr.wordautomata.State;
 import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.stylings.WindowStyler;
 
@@ -13,11 +14,11 @@ import javafx.stage.Stage;
  */
 public class AddTransitionModal extends Dialog<TransitionWrapper> {
 
-    public AddTransitionModal(Scene scene) {
+    public AddTransitionModal(Scene scene, State initialState) {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
         setTitle("Add transition");
-        AddTransitionModalBody body = new AddTransitionModalBody();
+        AddTransitionModalBody body = new AddTransitionModalBody(initialState);
 
         getDialogPane().setContent(body);
         initOwner(scene.getWindow());

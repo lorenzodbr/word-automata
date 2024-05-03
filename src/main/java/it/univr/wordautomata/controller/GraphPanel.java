@@ -107,7 +107,7 @@ public class GraphPanel extends StackPane {
 
     @FXML
     public boolean addEdge() {
-        TransitionWrapper newTransition = new AddTransitionModal(getScene()).showAndWait().orElse(null);
+        TransitionWrapper newTransition = new AddTransitionModal(getScene(), null).showAndWait().orElse(null);
 
         if (newTransition == null) {
             return false;

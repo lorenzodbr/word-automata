@@ -165,6 +165,10 @@
     -fx-opacity: 0.8;
 }
 
+.active-edge {
+    -fx-stroke: -color-danger-4; 
+}
+
 .edge:hover {
     -fx-stroke-width: 3;
     -fx-cursor: hand;
