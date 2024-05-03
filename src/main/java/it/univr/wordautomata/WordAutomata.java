@@ -24,6 +24,8 @@ public class WordAutomata extends Application {
     private Stage stage;
     private Scene scene;
 
+    private Model model;
+
     @Override
     public void start(Stage stage) throws IOException {
         init(stage);
@@ -58,7 +60,7 @@ public class WordAutomata extends Application {
     }
 
     private void initTheme() {
-        setTheme(Model.getInstance().getTheme());
+        setTheme(model.getTheme());
     }
     
     private void setTheme(Theme theme) {
@@ -72,7 +74,7 @@ public class WordAutomata extends Application {
     }
 
     public void toggleTheme() {
-        setTheme(Model.getInstance().cycleTheme());
+        setTheme(model.cycleTheme());
     }
 
     public void run() {

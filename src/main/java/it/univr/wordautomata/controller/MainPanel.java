@@ -7,6 +7,7 @@ import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.Theme;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -47,10 +48,14 @@ public class MainPanel extends BorderPane {
     @FXML
     private MenuItem darkThemeMenuItem;
 
+    private Model model;
+
     public MainPanel(WordAutomata parent) {
         Methods.loadAndSetController(Constants.MAIN_PANEL_FXML_FILENAME, this);
 
         this.parent = parent;
+        this.model = Model.getInstance();
+
         addGraphPanel();
         addBottomBar();
 
@@ -109,16 +114,19 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void toggleAutoPositioning() {
-        Model.getInstance().toggleAutoPositioning();
+        model.toggleAutoPositioning();
         styleAutoPositioningMenuItem();
     }
 
     private void initBindings() {
-        clearGraphMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
-        addTransitionMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
-        setInitialStateMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
-        selectStateMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
-        selectTransitionMenuItem.disableProperty().bind(Model.getInstance().atLeastOneEdgeProperty().not());
+        BooleanBinding noVertexBinding = model.atLeastOneVertexProperty().not();
+        BooleanBinding noEdgeBinding = model.atLeastOneEdgeProperty().not();
+
+        clearGraphMenuItem.disableProperty().bind(noVertexBinding);
+        addTransitionMenuItem.disableProperty().bind(noVertexBinding);
+        setInitialStateMenuItem.disableProperty().bind(noVertexBinding);
+        selectStateMenuItem.disableProperty().bind(noVertexBinding);
+        selectTransitionMenuItem.disableProperty().bind(noEdgeBinding);
     }
 
     private void styleMenuItems() {
@@ -127,12 +135,12 @@ public class MainPanel extends BorderPane {
     }
 
     private void styleAutoPositioningMenuItem() {
-        autoPositioningMenuItem.setGraphic(Model.getInstance().autoPositionProperty().get()
+        autoPositioningMenuItem.setGraphic(model.autoPositionProperty().get()
                 ? new FontIcon(BoxiconsRegular.CHECK) : null);
     }
 
     private void styleDarkThemeMenuItem() {
-        darkThemeMenuItem.setGraphic(Model.getInstance().getTheme() == Theme.DARK
+        darkThemeMenuItem.setGraphic(model.getTheme() == Theme.DARK
                 ? new FontIcon(BoxiconsRegular.CHECK) : null);
     }
 

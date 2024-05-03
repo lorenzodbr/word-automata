@@ -34,26 +34,29 @@ public class GraphPanel extends StackPane {
     private ModalPane modalPane;
 
     private Graph<State, Transition> graph;
-
     private SmartGraphPanel<State, Transition> graphView;
+
+    private Model model;
 
     public GraphPanel(MainPanel mainPanel) {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
         this.mainPanel = mainPanel;
-        this.graph = Model.getInstance().getGraph();
+        this.model = Model.getInstance();
+        this.graph = model.getGraph();
         initGraph();
         initProperties();
         initModals();
     }
 
     private void initGraph() {
-        graphView = new SmartGraphPanel<State, Transition>(graph, Model.getInstance().getInitialPlacement(), Model.getInstance().getAutomaticPlacementStrategy());
+        graphView = new SmartGraphPanel<State, Transition>(graph, model.getInitialPlacement(),
+        model.getAutomaticPlacementStrategy());
         getChildren().add(new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> {
             // only if auto positioning is disabled, place vertices in the clicked point
-            if (!Model.getInstance().isAutoPositioningEnabled()) {
+            if (!model.isAutoPositioningEnabled()) {
                 addVertex(e.getSceneX(), e.getSceneY());
             } else {
                 addVertex();
@@ -74,8 +77,8 @@ public class GraphPanel extends StackPane {
     }
 
     private void initProperties() {
-        graphView.automaticLayoutProperty().bind(Model.getInstance().autoPositionProperty());
-        this.hintLabel.visibleProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
+        graphView.automaticLayoutProperty().bind(model.autoPositionProperty());
+        this.hintLabel.visibleProperty().bind(model.atLeastOneVertexProperty().not());
     }
 
     public boolean addVertex() {
@@ -89,7 +92,7 @@ public class GraphPanel extends StackPane {
             return false;
         }
 
-        Model.getInstance().atLeastOneVertexProperty().set(true);
+        model.atLeastOneVertexProperty().set(true);
 
         Vertex<State> v = graph.insertVertex(newState);
         graphView.updateAndWait();
@@ -113,7 +116,7 @@ public class GraphPanel extends StackPane {
             return false;
         }
 
-        Model.getInstance().updateGraphProperties();
+        model.updateGraphProperties();
 
         graph.insertEdge(
                 newTransition.getStartingState(),
@@ -131,13 +134,13 @@ public class GraphPanel extends StackPane {
 
         State newInitialState;
         if ((newInitialState = modal.showAndWait().orElse(null)) != null) {
-            State oldInitialState = Model.getInstance().getInitialState();
+            State oldInitialState = model.getInitialState();
 
             if (oldInitialState != null) {
                 graphView.getStylableVertex(oldInitialState).removeStyleClass(Constants.INITIAL_STATE_CLASS);
             }
 
-            Model.getInstance().setInitialState(newInitialState);
+            model.setInitialState(newInitialState);
             graphView.getStylableVertex(newInitialState).addStyleClass(Constants.INITIAL_STATE_CLASS);
         }
     }
@@ -168,7 +171,7 @@ public class GraphPanel extends StackPane {
             graph.removeVertex(v);
         }
 
-        Model.getInstance().updateGraphProperties();
+        model.updateGraphProperties();
         graphView.update();
     }
 
@@ -183,14 +186,14 @@ public class GraphPanel extends StackPane {
     private void removeVertex(Vertex<State> v) {
         graph.removeVertex(v);
 
-        Model.getInstance().updateGraphProperties();
+        model.updateGraphProperties();
         graphView.update();
     }
 
     private void removeEdge(Edge<Transition, State> e) {
         graph.removeEdge(e);
 
-        Model.getInstance().updateGraphProperties();
+        model.updateGraphProperties();
         graphView.update();
     }
 
@@ -246,7 +249,7 @@ public class GraphPanel extends StackPane {
 
     public void play() {
         Platform.runLater(() -> {
-            if (Model.getInstance().getInitialState() == null) {
+            if (model.getInitialState() == null) {
                 setInitialState();
             }
 
