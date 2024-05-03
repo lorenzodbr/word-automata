@@ -193,6 +193,8 @@ public class BottomBar extends GridPane {
                 return;
             }
 
+            model.pathFoundProperty().set(true);
+
             transitionsHint.setVisible(false);
             transitionsPanelHBox.getChildren().add(getStateLabel(model.getInitialState().toString()));
 
@@ -218,5 +220,12 @@ public class BottomBar extends GridPane {
         transitionButton.setPadding(new Insets(5, 7, 5, 7));
 
         return transitionButton;
+    }
+
+    public void clear(){
+        wordInput.clear();
+        transitionsPanelHBox.getChildren().clear();
+        transitionsHint.setText("Waiting for a word");
+        transitionsHint.setVisible(true);
     }
 }

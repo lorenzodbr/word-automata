@@ -51,7 +51,7 @@ public class GraphPanel extends StackPane {
 
     private void initGraph() {
         graphView = new SmartGraphPanel<State, Transition>(graph, model.getInitialPlacement(),
-        model.getAutomaticPlacementStrategy());
+                model.getAutomaticPlacementStrategy());
         getChildren().add(new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> {
@@ -103,6 +103,8 @@ public class GraphPanel extends StackPane {
 
         if (x >= 0 && y >= 0) {
             graphView.setVertexPosition(v, x, y - mainPanel.getMenuBarHeight());
+        } else {
+            graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
         }
 
         return true;
@@ -116,12 +118,12 @@ public class GraphPanel extends StackPane {
             return false;
         }
 
-        model.updateGraphProperties();
-
         graph.insertEdge(
                 newTransition.getStartingState(),
                 newTransition.getEndingState(),
                 newTransition.getTransition());
+        model.updateGraphProperties();
+
         graphView.updateAndWait();
         if (modalPane.isDisplay())
             showStateSideBar(graphView.getVertex(newTransition.getStartingState()));
