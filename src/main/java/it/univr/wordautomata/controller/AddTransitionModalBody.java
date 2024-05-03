@@ -4,7 +4,9 @@ import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.model.Model;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Methods;
+
 import java.util.Collection;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -32,7 +34,7 @@ public class AddTransitionModalBody extends Pane {
     private SimpleBooleanProperty emptyTextfieldProperty;
 
     public AddTransitionModalBody() {
-        Utils.loadAndSetController(Utils.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
+        Methods.loadAndSetController(Constants.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
         loadChoiceBoxes();
         
         emptyTextfieldProperty = new SimpleBooleanProperty(true);

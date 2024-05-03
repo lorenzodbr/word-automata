@@ -23,6 +23,7 @@
  */
 package com.brunomnsilva.smartgraph.graph;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -35,7 +36,7 @@ import java.util.Collection;
  * @see Edge
  * @see Vertex
  */
-public interface Graph<V, E> {
+public interface Graph<V, E> extends Serializable {
 
     /**
      * Returns the total number of vertices of the graph.

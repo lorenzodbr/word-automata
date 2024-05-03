@@ -1,20 +1,15 @@
 package it.univr.wordautomata.utils;
 
-import it.univr.wordautomata.Main;
-import java.io.IOException;
 import java.util.Random;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.text.Font;
 
 /**
  * Constants used in the application
  */
-public class Utils {
-    
+public class Constants {
+
     public final static String VERSION = "1.0";
 
-    //Filenames
+    // Filenames
     public final static String MAIN_PANEL_FXML_FILENAME = "MainPanel";
     public final static String BOTTOM_BAR_FXML_FILENAME = "BottomBar";
     public final static String SIDE_BAR_FXML_FILENAME = "SideBar";
@@ -36,60 +31,29 @@ public class Utils {
     public final static String FXML_EXTENSION = ".fxml";
     public final static String FONTS_EXTENSION = ".ttf";
 
-    //Application properties
+    // Application properties
     public final static String TITLE = "Word Automata";
     public final static boolean DEFAULT_AUTO_LAYOUT = true;
 
-    //CSS classes
+    // CSS classes
     public final static String SPEED_CIRCLE_CLASS = "speedCircle";
     public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speedCircleActive";
     public final static String INITIAL_STATE_CLASS = "initial-state";
+    public final static String FINAL_STATE_CLASS = "final-state";
 
-    //Sizes
+    // Sizes
     public final static double HEIGHT = 689;
     public final static double WIDTH = 1030;
     public final static double MIN_HEIGHT = 400;
     public final static double MIN_WIDTH = 700;
     public final static int DEFAULT_FONT_SIZE = 10;
     public final static int SIDEBAR_MAX_WIDTH = 250;
+    public final static int TRANSITION_ROW_MIN_WIDTH = 20;
 
-    //Global Objects
+    // Global Objects
     public static final Random random = new Random();
 
-    //Global methods
-    public static void loadFonts(String... fileNames) {
-        for (String fileName : fileNames) {
-            Font.loadFont(Main.class
-                    .getResourceAsStream(
-                            Utils.FONTS_BASE_FOLDER
-                            + fileName
-                            + Utils.FONTS_EXTENSION
-                    ),
-                    Utils.DEFAULT_FONT_SIZE
-            );
-        }
-    }
-
-    //FXML methods
-    public static void loadAndSetController(String path, Node n) {
-        FXMLLoader loader = getLoader(path);
-        loader.setRoot(n);
-        loader.setController(n);
-
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Error while loading component's FXML (" + path + ")");
-        }
-    }
-
-    public static FXMLLoader getLoader(String fxml) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Utils.FXML_BASE_FOLDER + fxml + Utils.FXML_EXTENSION));
-        return fxmlLoader;
-    }
-
-    //Misc
+    // Misc
     public enum PlayBackSpeed {
         SLOW,
         REGULAR,
@@ -126,7 +90,7 @@ public class Utils {
         public static PlayBackState DEFAULT = PAUSED;
     }
 
-    //Themes
+    // Themes
     public enum Theme {
         LIGHT,
         DARK;
@@ -137,5 +101,6 @@ public class Utils {
 
         public static Theme DEFAULT = LIGHT;
     }
+
     public final static boolean SET_MICA = false;
 }

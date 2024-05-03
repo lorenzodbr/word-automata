@@ -34,6 +34,14 @@
     -fx-padding: 30;
 }
 
+.padding-horizontal {
+    -fx-padding: 0 15 0 15;
+}
+
+.padding-vertical {
+    -fx-padding: 15 0 15 0;
+}
+
 .separator-padding {
     -fx-padding: 15 0 15 0;
 }
@@ -102,6 +110,14 @@
 
 .separator > .line {
     -color-separator: -color-border-default;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 5;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 5;
 }
 
 /*

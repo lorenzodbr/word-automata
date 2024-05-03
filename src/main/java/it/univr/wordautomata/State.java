@@ -29,12 +29,16 @@ public class State implements Comparable<State> {
         return label;
     }
 
-    public SimpleBooleanProperty isFinal() {
-        return isFinal;
+    public boolean isFinal() {
+        return isFinal.get();
     }
 
     public void setFinal(boolean value) {
         this.isFinal.set(value);
+    }
+
+    public SimpleBooleanProperty finalProperty() {
+        return isFinal;
     }
 
     public void setLabel(String label) {

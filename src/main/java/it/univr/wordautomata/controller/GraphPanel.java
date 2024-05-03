@@ -17,9 +17,10 @@ import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
-import it.univr.wordautomata.utils.Utils;
-import it.univr.wordautomata.utils.Utils.PlayBackSpeed;
-import it.univr.wordautomata.utils.Utils.PlayBackState;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
+import it.univr.wordautomata.utils.Constants.PlayBackState;
+import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -54,7 +55,7 @@ public class GraphPanel extends StackPane {
     private SimpleBooleanProperty autoLayout;
 
     public GraphPanel(MainPanel mainPanel) {
-        Utils.loadAndSetController(Utils.GRAPH_PANEL_FXML_FILENAME, this);
+        Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
         this.mainPanel = mainPanel;
         this.graph = Model.getInstance().getGraph();
@@ -90,11 +91,11 @@ public class GraphPanel extends StackPane {
     }
 
     private void initProperties() {
-        this.autoLayout = new SimpleBooleanProperty(Utils.DEFAULT_AUTO_LAYOUT);
+        this.autoLayout = new SimpleBooleanProperty(Constants.DEFAULT_AUTO_LAYOUT);
         graphView.automaticLayoutProperty().bind(autoLayout);
 
-        this.atLeastOneVertex = new SimpleBooleanProperty(false);
-        this.atLeastOneEdge = new SimpleBooleanProperty(false);
+        this.atLeastOneVertex = new SimpleBooleanProperty(graph.numVertices() > 0);
+        this.atLeastOneEdge = new SimpleBooleanProperty(graph.numEdges() > 0);
         this.hintLabel.visibleProperty().bind(atLeastOneVertex.not());
     }
 
@@ -114,8 +115,8 @@ public class GraphPanel extends StackPane {
         Vertex<State> v = graph.insertVertex(newState);
         graphView.updateAndWait();
 
-        if (newState.isFinal().get()) {
-            graphView.getStylableVertex(v).addStyleClass("final-state");
+        if (newState.isFinal()) {
+            graphView.getStylableVertex(v).addStyleClass(Constants.FINAL_STATE_CLASS);
         }
 
         if (x >= 0 && y >= 0) {
@@ -190,11 +191,11 @@ public class GraphPanel extends StackPane {
             State oldInitialState = Model.getInstance().getInitialState();
 
             if (oldInitialState != null) {
-                graphView.getStylableVertex(oldInitialState).removeStyleClass(Utils.INITIAL_STATE_CLASS);
+                graphView.getStylableVertex(oldInitialState).removeStyleClass(Constants.INITIAL_STATE_CLASS);
             }
 
             Model.getInstance().setInitialState(newInitialState);
-            graphView.getStylableVertex(newInitialState).addStyleClass(Utils.INITIAL_STATE_CLASS);
+            graphView.getStylableVertex(newInitialState).addStyleClass(Constants.INITIAL_STATE_CLASS);
         }
     }
 
@@ -318,7 +319,6 @@ public class GraphPanel extends StackPane {
                 setInitialState();
             }
 
-            System.out.println("Play");
             mainPanel.getBottomBar().cyclePlayPause();
         });
     }

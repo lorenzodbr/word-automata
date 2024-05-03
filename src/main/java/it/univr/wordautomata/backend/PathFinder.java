@@ -24,7 +24,7 @@ public class PathFinder {
     private static boolean findPath(
         DigraphEdgeList<State, Transition> graph, Vertex<State> v,
         String word, List<Edge<Transition, State>> path) {
-        if (v.element().isFinal().get() && word.isEmpty())
+        if (v.element().isFinal() && word.isEmpty())
             return true;
 
         // sort the edges in descending order by length

@@ -3,8 +3,9 @@ package it.univr.wordautomata.controller;
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
-import it.univr.wordautomata.utils.Utils;
-import it.univr.wordautomata.utils.Utils.Theme;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Constants.Theme;
+import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
@@ -47,7 +48,7 @@ public class MainPanel extends BorderPane {
     private MenuItem darkThemeMenuItem;
 
     public MainPanel(WordAutomata parent) {
-        Utils.loadAndSetController(Utils.MAIN_PANEL_FXML_FILENAME, this);
+        Methods.loadAndSetController(Constants.MAIN_PANEL_FXML_FILENAME, this);
 
         this.parent = parent;
         addGraphPanel();
@@ -147,7 +148,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showInfo() {
-        Alerts.showInformationDialog(getScene(), "About", Utils.TITLE + " v" + Utils.VERSION, "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
+        Alerts.showInformationDialog(getScene(), "About", Constants.TITLE + " v" + Constants.VERSION, "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
     }
 
     @FXML

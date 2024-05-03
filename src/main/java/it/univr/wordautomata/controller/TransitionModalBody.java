@@ -5,7 +5,9 @@ import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Methods;
+
 import java.util.function.Consumer;
 import javafx.scene.layout.GridPane;
 import javafx.fxml.FXML;
@@ -35,7 +37,7 @@ public class TransitionModalBody extends GridPane {
     private SmartGraphEdge<Transition, State> edge;
 
     public TransitionModalBody(SmartGraphEdge<Transition, State> edge) {
-        Utils.loadAndSetController(Utils.TRANSITION_MODAL_BODY_FXML_FILENAME, this);
+        Methods.loadAndSetController(Constants.TRANSITION_MODAL_BODY_FXML_FILENAME, this);
 
         this.edge = edge;
         setFields();

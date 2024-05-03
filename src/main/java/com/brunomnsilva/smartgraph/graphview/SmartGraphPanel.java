@@ -58,7 +58,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.State;
+import it.univr.wordautomata.model.Model;
 
 /**
  * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or
@@ -86,7 +88,7 @@ public class SmartGraphPanel<V, E> extends Pane {
      */
     private final SmartGraphProperties graphProperties;
 
-    private static final String DEFAULT_CSS_FILE = Utils.STYLE_BASE_FOLDER + Utils.STYLE_FILENAME + Utils.STYLE_EXTENSION;
+    private static final String DEFAULT_CSS_FILE = Constants.STYLE_BASE_FOLDER + Constants.STYLE_FILENAME + Constants.STYLE_EXTENSION;
     /*
     INTERNAL DATA STRUCTURE
      */
@@ -733,7 +735,9 @@ public class SmartGraphPanel<V, E> extends Pane {
     private void addVertex(SmartGraphVertexNode<V> v) {
         this.getChildren().add(v);
 
-        String labelText = getVertexLabelFor(v.getUnderlyingVertex().element());
+        V state = v.getUnderlyingVertex().element();
+
+        String labelText = getVertexLabelFor(state);
 
         if (graphProperties.getUseVertexTooltip()) {
             Tooltip t = new Tooltip(labelText);
@@ -746,6 +750,16 @@ public class SmartGraphPanel<V, E> extends Pane {
             label.addStyleClass("vertex-label");
             this.getChildren().add(label);
             v.attachLabel(label);
+        }
+
+
+
+        if(((State) state).isFinal()){
+            v.addStyleClass(Constants.FINAL_STATE_CLASS);
+        }
+
+        if(state == Model.getInstance().getInitialState()){
+            v.addStyleClass(Constants.INITIAL_STATE_CLASS);
         }
     }
 

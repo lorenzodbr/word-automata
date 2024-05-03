@@ -1,7 +1,8 @@
 package it.univr.wordautomata.controller;
 
 import it.univr.wordautomata.State;
-import it.univr.wordautomata.utils.Utils;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -24,7 +25,7 @@ public class AddStateModalBody extends Pane {
     private SimpleBooleanProperty emptyTextfieldProperty;
 
     public AddStateModalBody() {
-        Utils.loadAndSetController(Utils.ADD_STATE_MODAL_BODY_FXML_FILENAME, this);
+        Methods.loadAndSetController(Constants.ADD_STATE_MODAL_BODY_FXML_FILENAME, this);
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
         stateLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             emptyTextfieldProperty.set(newValue.isBlank());
