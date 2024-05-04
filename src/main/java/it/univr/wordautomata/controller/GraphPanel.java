@@ -49,17 +49,17 @@ public class GraphPanel extends StackPane {
         this.controllers = Controllers.getInstance();
 
         initGraph();
-        initProperties();
         initModals();
+        initProperties();
     }
 
     public void initGraph() {
         this.graph = model.getGraph();
 
+        getChildren().remove(graphView);
         graphView = new SmartGraphPanel<State, Transition>(graph,
                 model.getInitialPlacement(),
                 model.getAutomaticPlacementStrategy());
-        getChildren().retainAll(hintLabel);
         getChildren().add(new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> addVertex(e.getSceneX(), e.getSceneY()));
@@ -69,6 +69,8 @@ public class GraphPanel extends StackPane {
         Platform.runLater(() -> {
             graphView.init();
         });
+
+        initGraphProperties();
     }
 
     private void initModals() {
@@ -78,7 +80,8 @@ public class GraphPanel extends StackPane {
     }
 
     private void initProperties() {
-        graphView.automaticLayoutProperty().bind(model.autoPositionProperty());
+        initGraphProperties();
+
         this.hintLabel.visibleProperty().bind(model.atLeastOneVertexProperty().not());
 
         // enable drag-and-drop
@@ -100,6 +103,10 @@ public class GraphPanel extends StackPane {
         });
     }
 
+    private void initGraphProperties() {
+        graphView.automaticLayoutProperty().bind(model.autoPositionProperty());
+    }
+
     public boolean addVertex() {
         return addVertex(-1, -1);
     }
@@ -119,15 +126,16 @@ public class GraphPanel extends StackPane {
             graphView.getStylableVertex(v).addStyleClass(Constants.FINAL_STATE_CLASS);
         }
 
-        if (x >= 0 && y >= 0) {
+        if (graph.numVertices() == 1) {
+            graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
+            setInitialState(newState);
+        } else if (x >= 0 && y >= 0) {
             graphView.setVertexPosition(v, x, y - controllers.getMainPanel().getMenuBarHeight());
         } else if (!model.isAutoPositioningEnabled()) {
             double xRand = Math.random() * (graphView.getWidth() * 0.8) + graphView.getWidth() * 0.1;
             double yRand = Math.random() * (graphView.getHeight() * 0.8) + graphView.getHeight() * 0.1;
 
             graphView.setVertexPosition(v, xRand, yRand);
-        } else {
-            graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
         }
 
         return true;

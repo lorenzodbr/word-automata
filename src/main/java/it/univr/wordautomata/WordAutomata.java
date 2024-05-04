@@ -1,7 +1,6 @@
 package it.univr.wordautomata;
 
 import it.univr.wordautomata.alerts.Alerts;
-import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.controller.Controllers;
 import it.univr.wordautomata.controller.MainPanel;
 import it.univr.wordautomata.model.Model;

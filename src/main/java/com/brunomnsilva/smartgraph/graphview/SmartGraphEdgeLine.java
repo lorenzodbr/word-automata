@@ -138,15 +138,6 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         this.attachedLabel = label;
         this.attachedLabel.setMouseTransparent(true);
 
-        Rotate rotation = new Rotate();
-        rotation.pivotXProperty().bind(startXProperty().add(endXProperty()).divide(2));
-        rotation.pivotYProperty().bind(startYProperty().add(endYProperty()).divide(2));
-        rotation.angleProperty().bind(UtilitiesBindings.toDegrees(
-                UtilitiesBindings.atan2(endYProperty().subtract(startYProperty()),
-                        endXProperty().subtract(startXProperty()))));
-
-        label.getTransforms().add(rotation);
-
         label.xProperty().bind(startXProperty().add(endXProperty()).divide(2)
                 .subtract(Bindings.divide(label.layoutWidthProperty(), 2)).multiply(Constants.RANDOM.nextDouble(1, 1.02)));
         label.yProperty().bind(
