@@ -1,12 +1,17 @@
 package it.univr.wordautomata.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Represents a transition in a word automaton.
  */
-public class Transition implements Comparable<Transition> {
-    private SimpleStringProperty label;
+public class Transition implements Comparable<Transition>, Serializable {
+    private transient SimpleStringProperty label;
 
     /**
      * Constructs a transition with the given label.
@@ -68,5 +73,23 @@ public class Transition implements Comparable<Transition> {
     @Override
     public int compareTo(Transition other) {
         return label.get().compareTo(other.label.get());
+    }
+
+    private void writeObject(ObjectOutputStream out) {
+        try {
+            out.writeObject(label.get());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readObject(ObjectInputStream in) {
+        try {
+            label = new SimpleStringProperty(new String((String)in.readObject()));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

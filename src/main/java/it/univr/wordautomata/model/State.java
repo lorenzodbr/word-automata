@@ -1,15 +1,20 @@
 package it.univr.wordautomata.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Represents a state in a word automaton.
  */
-public class State implements Comparable<State> {
+public class State implements Comparable<State>, Serializable {
 
-    private SimpleStringProperty label;
-    private SimpleBooleanProperty isFinal;
+    private transient SimpleStringProperty label;
+    private transient SimpleBooleanProperty isFinal;
 
     /**
      * Constructs a state with the given label.
@@ -101,5 +106,23 @@ public class State implements Comparable<State> {
     @Override
     public int compareTo(State other) {
         return label.get().compareTo(other.label.get());
+    }
+
+    private void writeObject(ObjectOutputStream out) {
+        try {
+            out.writeObject(label.get());
+            out.writeObject(isFinal.get());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readObject(ObjectInputStream in) {
+        try {
+            label = new SimpleStringProperty(new String((String)in.readObject()));
+            isFinal = new SimpleBooleanProperty((boolean)in.readObject());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
