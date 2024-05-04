@@ -263,21 +263,12 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         this.attachedLabel = label;
         this.attachedLabel.setMouseTransparent(true);
 
-        Rotate rotation = new Rotate();
-        rotation.pivotXProperty().bind(controlX1Property().add(controlX2Property()).divide(2));
-        rotation.pivotYProperty().bind(controlY2Property().add(controlY2Property()).divide(2));
-        rotation.angleProperty().bind(UtilitiesBindings.toDegrees(
-                UtilitiesBindings.atan2(endYProperty().subtract(startYProperty()),
-                        endXProperty().subtract(startXProperty()))));
-
-        label.getTransforms().add(rotation);
-
         label.xProperty().bind(controlX1Property().add(controlX2Property()).divide(2)
                 .subtract(Bindings.divide(label.layoutWidthProperty(), 2)));
         label.yProperty()
                 .bind(controlY1Property().add(controlY2Property()).divide(2)
                         .add(Bindings.divide(label.layoutHeightProperty(), 2))
-                        .add(outbound == inbound ? LABEL_Y_SHIFT * 2 * (edgeIndex + 1) : - 1.8 * LABEL_Y_SHIFT));
+                        .add(outbound == inbound ? LABEL_Y_SHIFT * (edgeIndex + 2) : 0));
 
         update();
     }

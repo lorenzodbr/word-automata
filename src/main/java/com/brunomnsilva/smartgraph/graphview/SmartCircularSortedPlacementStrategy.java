@@ -75,8 +75,6 @@ public class SmartCircularSortedPlacementStrategy implements SmartPlacementStrat
             }
 
             vertex.setPosition(p.getX(), p.getY());
-
-            System.out.println("Vertex " + vertex.getUnderlyingVertex().element() + " placed at " + p);
         }
     }
 

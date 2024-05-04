@@ -45,8 +45,12 @@ public class UtilitiesBindings {
      *          in polar coordinates that corresponds to the point
      *          (<i>x</i>,&nbsp;<i>y</i>) in Cartesian coordinates.
      */
-    public static DoubleBinding atan2(final ObservableDoubleValue y, final ObservableDoubleValue x) {
+    public static DoubleBinding atan2(ObservableDoubleValue y, ObservableDoubleValue x) {
         return createDoubleBinding(() -> Math.atan2(y.get(), x.get()), y, x);
+    }
+
+    public static DoubleBinding abs(ObservableDoubleValue x) {
+        return createDoubleBinding(() -> Math.abs(x.get()), x);
     }
     
     /**
@@ -56,7 +60,7 @@ public class UtilitiesBindings {
      * @return  the measurement of the angle {@code angRad}
      *          in degrees.
      */
-    public static DoubleBinding toDegrees(final ObservableDoubleValue angRad) {
+    public static DoubleBinding toDegrees(ObservableDoubleValue angRad) {
         return createDoubleBinding(() -> Math.toDegrees(angRad.get()), angRad);
     }
 }
