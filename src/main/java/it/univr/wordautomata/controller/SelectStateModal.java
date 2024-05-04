@@ -19,8 +19,7 @@ public class SelectStateModal extends ChoiceDialog<State> {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
         setTitle("Select");
-        setHeaderText(null);
-        setContentText("Select a state to view its details");
+        setHeaderText("Select a state to view its details");
         
         initOwner(scene.getWindow());
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);

@@ -13,7 +13,7 @@
         <VBox spacing="5.0">
             <children>
                 <Label text="State label" />
-                <TextField fx:id="stateLabelTextField" prefWidth="300.0" />
+                <TextField fx:id="stateLabelTextField" prefWidth="300.0" promptText="Enter state label" />
                 <Separator prefWidth="300.0" />
                 <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" text="Final state" />
             </children>

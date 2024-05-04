@@ -107,11 +107,16 @@ public class StateModalBody extends GridPane {
             requestFocus();
         });
 
-        setAsInitialStateButton.setOnAction(e -> {
-            controllers.getGraphPanel().setInitialState(state);
-            controllers.getBottomBar().computePath();
-            requestFocus();
-        });
+        if (Model.getInstance().getInitialState() != state) {
+            setAsInitialStateButton.setOnAction(e -> {
+                controllers.getGraphPanel().setInitialState(state);
+                controllers.getBottomBar().computePath();
+                requestFocus();
+                setAsInitialStateButton.setDisable(true);
+            });
+        } else {
+            setAsInitialStateButton.setDisable(true);
+        }
 
         List<Edge<Transition, State>> outboundEdges = new ArrayList<>(
                 Model.getInstance().getGraph().outboundEdges(underlyingVertex));

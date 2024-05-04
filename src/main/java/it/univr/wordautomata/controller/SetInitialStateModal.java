@@ -17,10 +17,9 @@ public class SetInitialStateModal extends ChoiceDialog<State> {
         super(Model.getInstance().getInitialState(), Model.getInstance().getGraph().objectsInVertices());
         
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
-
+        
         setTitle("Initial state");
-        setHeaderText(null);
-        setContentText("Select an initial state for the automata");
+        setHeaderText("Select an initial state for the automata");
         
         initOwner(scene.getWindow());
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
