@@ -26,6 +26,7 @@ package com.brunomnsilva.smartgraph.graphview;
 import com.brunomnsilva.smartgraph.graph.Edge;
 
 import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Point2D;
@@ -251,18 +252,10 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         // TODO: Maybe we can achieve this solely with bindings? Maybe there's no
         // performance gain in doing so.
 
-        this.startXProperty().addListener((ov, oldValue, newValue) -> {
-            update();
-        });
-        this.startYProperty().addListener((ov, oldValue, newValue) -> {
-            update();
-        });
-        this.endXProperty().addListener((ov, oldValue, newValue) -> {
-            update();
-        });
-        this.endYProperty().addListener((ov, oldValue, newValue) -> {
-            update();
-        });
+        this.startXProperty().addListener((ov, oldValue, newValue) -> update());
+        this.startYProperty().addListener((ov, oldValue, newValue) -> update());
+        this.endXProperty().addListener((ov, oldValue, newValue) -> update());
+        this.endYProperty().addListener((ov, oldValue, newValue) -> update());
     }
 
     @Override
@@ -270,12 +263,21 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         this.attachedLabel = label;
         this.attachedLabel.setMouseTransparent(true);
 
+        Rotate rotation = new Rotate();
+        rotation.pivotXProperty().bind(controlX1Property().add(controlX2Property()).divide(2));
+        rotation.pivotYProperty().bind(controlY2Property().add(controlY2Property()).divide(2));
+        rotation.angleProperty().bind(UtilitiesBindings.toDegrees(
+                UtilitiesBindings.atan2(endYProperty().subtract(startYProperty()),
+                        endXProperty().subtract(startXProperty()))));
+
+        label.getTransforms().add(rotation);
+
         label.xProperty().bind(controlX1Property().add(controlX2Property()).divide(2)
                 .subtract(Bindings.divide(label.layoutWidthProperty(), 2)));
         label.yProperty()
                 .bind(controlY1Property().add(controlY2Property()).divide(2)
                         .add(Bindings.divide(label.layoutHeightProperty(), 2))
-                        .add(outbound == inbound ? LABEL_Y_SHIFT * 2 * (edgeIndex + 1) : 0));
+                        .add(outbound == inbound ? LABEL_Y_SHIFT * 2 * (edgeIndex + 1) : - 1.8 * LABEL_Y_SHIFT));
 
         update();
     }

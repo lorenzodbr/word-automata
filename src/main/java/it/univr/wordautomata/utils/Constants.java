@@ -33,6 +33,7 @@ public class Constants {
     public final static String FXML_EXTENSION = ".fxml";
     public final static String FONTS_EXTENSION = ".ttf";
     public final static String ICON_EXTENSION = ".png";
+    public final static String AUTOMATA_EXTENSION = ".automata";
 
     // Application properties
     public final static String TITLE = "Word Automata";
