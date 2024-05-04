@@ -58,8 +58,6 @@ public class SmartCircularSortedPlacementStrategy implements SmartPlacementStrat
         boolean first = true;
         Point2D p = null;
 
-        System.out.println(center);
-
         for (SmartGraphVertex<V> vertex : vertices) {
 
             if (first) {

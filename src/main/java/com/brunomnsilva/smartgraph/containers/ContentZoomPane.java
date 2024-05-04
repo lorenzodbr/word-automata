@@ -215,8 +215,6 @@ public class ContentZoomPane extends BorderPane {
                 double dy = (pivotY - (bounds.getHeight() / 2 + bounds.getMinY()));
 
                 translateContent(content.getTranslateX() - f * dx, content.getTranslateY() - f * dy);
-
-                System.out.println(content.getBoundsInParent());
             }
 
             scaleFactorProperty.setValue(computedScale);

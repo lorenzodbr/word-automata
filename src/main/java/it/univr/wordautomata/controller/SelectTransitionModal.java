@@ -20,7 +20,7 @@ public class SelectTransitionModal extends ChoiceDialog<Transition> {
 
         setTitle("Select");
         setHeaderText(null);
-        setContentText("Select a transition to view details");
+        setContentText("Select a transition to view its details");
         
         initOwner(scene.getWindow());
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
