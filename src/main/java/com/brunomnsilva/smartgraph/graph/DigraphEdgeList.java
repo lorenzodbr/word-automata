@@ -23,6 +23,7 @@
  */
 package com.brunomnsilva.smartgraph.graph;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -49,6 +50,12 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
     public DigraphEdgeList() {
         this.vertices = new HashMap<>();
         this.edges = new HashMap<>();
+    }
+
+    // copy constructor
+    public DigraphEdgeList(DigraphEdgeList<V, E> graph) {
+        this.vertices = new HashMap<>(graph.vertices);
+        this.edges = new HashMap<>(graph.edges);
     }
 
     @Override
@@ -285,7 +292,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
         return sb.toString();
     }
 
-    private class MyVertex implements Vertex<V> {
+    private class MyVertex implements Vertex<V>, Serializable {
 
         V element;
 
@@ -304,7 +311,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
         }
     }
 
-    private class MyEdge implements Edge<E, V> {
+    private class MyEdge implements Edge<E, V>, Serializable {
 
         E element;
         Vertex<V> vertexOutbound;
