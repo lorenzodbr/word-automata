@@ -2,8 +2,17 @@ package it.univr.wordautomata.utils;
 
 import it.univr.wordautomata.Main;
 import java.io.IOException;
+import java.util.function.Consumer;
+
+import org.kordamp.ikonli.boxicons.BoxiconsRegular;
+import org.kordamp.ikonli.javafx.FontIcon;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -12,6 +21,8 @@ import javafx.stage.Stage;
  * Methods used in the application
  */
 public class Methods {
+
+    private final static ContextMenu CONTEXT_MENU = new ContextMenu();
 
     public static void loadFonts(String... fileNames) {
         for (String fileName : fileNames) {
@@ -44,6 +55,22 @@ public class Methods {
     }
 
     public static void setIcon(Stage stage) {
-        stage.getIcons().add(new Image(Main.class.getResourceAsStream(Constants.ICON_BASE_FOLDER + Constants.ICON_FILENAME + Constants.ICON_EXTENSION)));
+        stage.getIcons().add(new Image(Main.class
+                .getResourceAsStream(Constants.ICON_BASE_FOLDER + Constants.ICON_FILENAME + Constants.ICON_EXTENSION)));
+    }
+
+    public static ContextMenu buildContextMenu(Consumer<ActionEvent> onOpen, Consumer<ActionEvent> onDelete) {
+        CONTEXT_MENU.hide();
+        
+        MenuItem item1 = new MenuItem("Details");
+        item1.setOnAction(e -> onOpen.accept(e));
+
+        MenuItem item2 = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));
+        item2.setOnAction(e -> onDelete.accept(e));
+
+        CONTEXT_MENU.getItems().clear();
+        CONTEXT_MENU.getItems().addAll(item1, new SeparatorMenuItem(), item2);
+
+        return CONTEXT_MENU;
     }
 }

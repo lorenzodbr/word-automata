@@ -69,10 +69,8 @@ public class TransitionModalBody extends GridPane {
         });
 
         deleteButton.setOnAction(e -> {
-            if (Alerts.showConfirmationDialog(getScene(), "Delete",
-                    "Do you really want to delete this transition?")) {
+            if (controllers.getGraphPanel().queryRemoveEdge(underlyingEdge)) {
                 dialog.close();
-                controllers.getGraphPanel().removeEdge(underlyingEdge);
             }
 
             requestFocus();

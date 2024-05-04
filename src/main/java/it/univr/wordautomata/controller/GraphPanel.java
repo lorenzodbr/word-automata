@@ -7,8 +7,10 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphVertexNode;
 
 import atlantafx.base.controls.ModalPane;
+import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
@@ -213,7 +215,27 @@ public class GraphPanel extends StackPane {
         graphView.update();
     }
 
-    private void showStateSideBar(SmartGraphVertex<State> vertex) {
+    public boolean queryRemoveVertex(Vertex<State> v) {
+        if (Alerts.showConfirmationDialog(getScene(), "Delete",
+                "Do you really want to delete this state?")) {
+            removeVertex(v);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean queryRemoveEdge(Edge<Transition, State> e) {
+        if (Alerts.showConfirmationDialog(getScene(), "Delete",
+                "Do you really want to delete this transition?")) {
+            removeEdge(e);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void showStateSideBar(SmartGraphVertex<State> vertex) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
         modalPane.show(getStateModal(vertex));
     }
@@ -224,7 +246,7 @@ public class GraphPanel extends StackPane {
         return dialog;
     }
 
-    private void showTransitionSideBar(SmartGraphEdge<Transition, State> edge) {
+    public void showTransitionSideBar(SmartGraphEdge<Transition, State> edge) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
         TransitionModal dialog = new TransitionModal(modalPane, edge);
         modalPane.show(dialog);

@@ -94,9 +94,8 @@ public class StateModalBody extends GridPane {
         });
 
         deleteButton.setOnAction(e -> {
-            if (Alerts.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this state?")) {
+            if (controllers.getGraphPanel().queryRemoveVertex(underlyingVertex)) {
                 dialog.close();
-                controllers.getGraphPanel().removeVertex(underlyingVertex);
             }
 
             requestFocus();
