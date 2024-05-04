@@ -10,6 +10,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import atlantafx.base.controls.ModalPane;
 import it.univr.wordautomata.alerts.Alerts;
+import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
@@ -21,6 +22,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Label;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -78,6 +81,26 @@ public class GraphPanel extends StackPane {
     private void initProperties() {
         graphView.automaticLayoutProperty().bind(model.autoPositionProperty());
         this.hintLabel.visibleProperty().bind(model.atLeastOneVertexProperty().not());
+
+        // enable drag-and-drop
+        // "this" because we want to drop anywhere in the panel
+        this.setOnDragOver(event -> {
+            if (event.getGestureSource() != this && event.getDragboard().hasFiles())
+                event.acceptTransferModes(TransferMode.MOVE);
+            event.consume();
+        });
+        this.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            if (db.hasFiles()) {
+                String filename = db.getFiles().get(0).getPath();
+                if (filename.endsWith(".automata")) {
+                    Model.getInstance().updateGraph(AutomataSaver.read(filename));
+                    // @TODO fix placement of vertices
+                    graphView.update();
+                }
+            }
+            event.consume();
+        });
     }
 
     public boolean addVertex() {

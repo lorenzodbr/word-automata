@@ -189,4 +189,12 @@ public class Model {
     public void setPathFound(boolean value) {
         pathFound.set(value);
     }
+
+    public void updateGraph(DigraphEdgeList<State, Transition> graph) {
+        // we must not change the reference of the graph
+        this.graph.copy(graph);
+        // for hintLabel
+        this.atLeastOneVertex.set(this.graph.numVertices() > 0);
+        this.atLeastOneEdge.set(this.graph.numEdges() > 0);
+    }
 }
