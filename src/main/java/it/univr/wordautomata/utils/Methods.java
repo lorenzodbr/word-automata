@@ -22,8 +22,6 @@ import javafx.stage.Stage;
  */
 public class Methods {
 
-    private final static ContextMenu CONTEXT_MENU = new ContextMenu();
-
     public static void loadFonts(String... fileNames) {
         for (String fileName : fileNames) {
             Font.loadFont(Main.class
@@ -60,7 +58,7 @@ public class Methods {
     }
 
     public static ContextMenu buildContextMenu(Consumer<ActionEvent> onOpen, Consumer<ActionEvent> onDelete) {
-        CONTEXT_MENU.hide();
+        ContextMenu contextMenu = new ContextMenu();
         
         MenuItem item1 = new MenuItem("Details");
         item1.setOnAction(e -> onOpen.accept(e));
@@ -68,9 +66,9 @@ public class Methods {
         MenuItem item2 = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));
         item2.setOnAction(e -> onDelete.accept(e));
 
-        CONTEXT_MENU.getItems().clear();
-        CONTEXT_MENU.getItems().addAll(item1, new SeparatorMenuItem(), item2);
+        contextMenu.getItems().clear();
+        contextMenu.getItems().addAll(item1, new SeparatorMenuItem(), item2);
 
-        return CONTEXT_MENU;
+        return contextMenu;
     }
 }

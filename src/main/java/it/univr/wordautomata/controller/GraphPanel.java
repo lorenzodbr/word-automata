@@ -7,7 +7,6 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
-import com.brunomnsilva.smartgraph.graphview.SmartGraphVertexNode;
 
 import atlantafx.base.controls.ModalPane;
 import it.univr.wordautomata.alerts.Alerts;
@@ -96,10 +95,9 @@ public class GraphPanel extends StackPane {
             return false;
         }
 
-        model.atLeastOneVertexProperty().set(true);
-
         Vertex<State> v = graph.insertVertex(newState);
         graphView.updateAndWait();
+        model.updateGraphProperties();
 
         if (newState.isFinal()) {
             graphView.getStylableVertex(v).addStyleClass(Constants.FINAL_STATE_CLASS);
@@ -108,7 +106,11 @@ public class GraphPanel extends StackPane {
         if (x >= 0 && y >= 0) {
             graphView.setVertexPosition(v, x, y - controllers.getMainPanel().getMenuBarHeight());
         } else {
-            graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
+            //get a random x and y between 10% and 90% of the width and height
+            double xRand = Math.random() * (graphView.getWidth() * 0.8) + graphView.getWidth() * 0.1;
+            double yRand = Math.random() * (graphView.getHeight() * 0.8) + graphView.getHeight() * 0.1;
+
+            graphView.setVertexPosition(v, xRand, yRand);
         }
 
         return true;
