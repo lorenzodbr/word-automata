@@ -13,7 +13,7 @@
         <VBox spacing="5.0">
             <children>
                 <Label text="Transition label" />
-                <TextField fx:id="transitionLabelTextField" prefWidth="300.0" />
+                <TextField fx:id="transitionLabelTextField" prefWidth="300.0" promptText="Enter transition label" />
             <Separator prefWidth="300.0" />
             <Label text="Starting state" />
             <ChoiceBox fx:id="startingStateChoiceBox" prefWidth="300.0" />

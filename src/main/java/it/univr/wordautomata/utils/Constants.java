@@ -2,8 +2,6 @@ package it.univr.wordautomata.utils;
 
 import java.util.Random;
 
-import javafx.scene.input.KeyCombination;
-
 /**
  * Constants used in the application
  */
