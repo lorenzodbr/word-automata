@@ -8,9 +8,9 @@ import java.io.ObjectOutputStream;
 
 import com.brunomnsilva.smartgraph.graph.Graph;
 
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
 
 public class SettingSaver {
     private SettingSaver() {}

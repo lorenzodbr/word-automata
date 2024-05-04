@@ -6,8 +6,6 @@ import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStr
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;

@@ -15,7 +15,7 @@
                 <Label text="State label" />
                 <TextField fx:id="stateLabelTextField" prefWidth="300.0" />
                 <Separator prefWidth="300.0" />
-                <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" text="Mark as final" />
+                <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" text="Final state" />
             </children>
             <padding>
                 <Insets left="15.0" top="15.0" right="5.0" />

@@ -31,14 +31,15 @@ public class WordAutomata extends Application {
     public void start(Stage stage) throws IOException {
         this.model = Model.getInstance();
         this.stage = stage;
+        
         initComponents();
         stage.show();
     }
 
     private void initComponents() throws IOException {
+        initTheme();
         initScene();
         initStage();
-        initTheme();
     }
 
     private void initScene() throws IOException {
@@ -58,6 +59,8 @@ public class WordAutomata extends Application {
         Locale.setDefault(Locale.ENGLISH);
         stage.setTitle(Constants.TITLE);
         stage.setScene(scene);
+
+        Methods.setIcon(stage);
 
         Platform.setImplicitExit(false);
         stage.setOnCloseRequest(e -> {

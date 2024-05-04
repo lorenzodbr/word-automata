@@ -1,6 +1,6 @@
 package it.univr.wordautomata.controller;
 
-import it.univr.wordautomata.State;
+import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;

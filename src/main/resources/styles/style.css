@@ -82,8 +82,8 @@
 .button-icon:hover {
 }
 
-#wordTextField FontIcon {
-    -fx-icon-size: 25;
+#wordInput FontIcon {
+    -fx-icon-size: 23;
 }
 
 #playPauseButton > .ikonli-font-icon {

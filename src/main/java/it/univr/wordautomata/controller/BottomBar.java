@@ -1,9 +1,9 @@
 package it.univr.wordautomata.controller;
 
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.backend.PathFinder;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
@@ -81,6 +81,7 @@ public class BottomBar extends GridPane {
         
         this.model = Model.getInstance();
 
+        wordInput.disableProperty().bind(model.atLeastOneEdgeProperty().not());
         styleButtons();
         styleTransitionsPanel();
     }
@@ -162,13 +163,19 @@ public class BottomBar extends GridPane {
 
     @FXML
     private void checkWord() {
-        Controllers.getInstance().getGraphPanel().play();
+        Platform.runLater(() -> {
+            if (model.getInitialState() == null) {
+                Controllers.getInstance().getGraphPanel().chooseInitialState();
+            }
+
+            computePath();
+            cyclePlayPause();
+        });
     }
 
     @FXML
-    private void computePath() {
+    public void computePath() {
         transitionsHint.setVisible(true);
-
         transitionsPanelHBox.getChildren().clear();
 
         if (wordInput.getText().isEmpty()) {
@@ -206,6 +213,7 @@ public class BottomBar extends GridPane {
     private Label getStateLabel(String stateLabel) {
         Label initialState = new Label(stateLabel.toString());
         initialState.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+        initialState.getStyleClass().add(Styles.TEXT_MUTED);
 
         return initialState;
     }
@@ -221,8 +229,8 @@ public class BottomBar extends GridPane {
 
     public void clear(){
         wordInput.clear();
-        transitionsPanelHBox.getChildren().clear();
-        transitionsHint.setText("Waiting for a word");
+        requestFocus();
+        computePath();
         transitionsHint.setVisible(true);
     }
 }

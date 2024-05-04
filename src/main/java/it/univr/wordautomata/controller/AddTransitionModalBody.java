@@ -1,9 +1,9 @@
 package it.univr.wordautomata.controller;
 
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
-import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
+import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 

@@ -2,6 +2,8 @@ package it.univr.wordautomata.utils;
 
 import java.util.Random;
 
+import javafx.scene.input.KeyCombination;
+
 /**
  * Constants used in the application
  */
@@ -24,12 +26,15 @@ public class Constants {
     public final static String FONTS_BASE_FOLDER = "/fonts/";
     public final static String FXML_BASE_FOLDER = "/fxml/";
     public final static String STYLE_BASE_FOLDER = "/styles/";
+    public final static String ICON_BASE_FOLDER = "/icons/";
     public final static String STYLE_FILENAME = "style";
     public final static String GRAPH_STYLE_FILENAME = "smartgraph";
+    public final static String ICON_FILENAME = "logo";
     public final static String STYLE_EXTENSION = ".css";
     public final static String GRAPH_STYLE_EXTENSION = ".properties";
     public final static String FXML_EXTENSION = ".fxml";
     public final static String FONTS_EXTENSION = ".ttf";
+    public final static String ICON_EXTENSION = ".png";
 
     // Application properties
     public final static String TITLE = "Word Automata";
@@ -52,7 +57,7 @@ public class Constants {
     public final static int TRANSITION_ROW_MIN_WIDTH = 20;
 
     // Global Objects
-    public static final Random random = new Random();
+    public static final Random RANDOM = new Random();
 
     // Enums
     public enum PlayBackSpeed {

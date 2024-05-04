@@ -3,7 +3,8 @@ package it.univr.wordautomata.controller;
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.layout.ModalBox;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
-import it.univr.wordautomata.State;
+
+import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.utils.Constants;
 
 /**

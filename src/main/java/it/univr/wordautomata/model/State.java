@@ -1,4 +1,4 @@
-package it.univr.wordautomata;
+package it.univr.wordautomata.model;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;

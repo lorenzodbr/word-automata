@@ -9,10 +9,10 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import atlantafx.base.layout.ModalBox;
 import atlantafx.base.theme.Styles;
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.fxml.FXML;
@@ -43,18 +43,19 @@ public class StateModalBody extends GridPane {
     private Button deleteButton;
 
     @FXML
+    private Button setAsInitialStateButton;
+
+    @FXML
     private Button addTransitionButton;
 
     @FXML
     private VBox outboundTransitions;
 
     private SmartGraphVertex<State> vertex;
-
     private ModalBox dialog;
-
     private Controllers controllers;
 
-    public StateModalBody(ModalBox dialog, SmartGraphVertex<State> vertex){
+    public StateModalBody(ModalBox dialog, SmartGraphVertex<State> vertex) {
         Methods.loadAndSetController(Constants.STATE_MODAL_BODY_FXML_FILENAME, this);
 
         this.vertex = vertex;
@@ -88,6 +89,8 @@ public class StateModalBody extends GridPane {
             } else {
                 vertex.removeStyleClass(Constants.FINAL_STATE_CLASS);
             }
+
+            controllers.getBottomBar().computePath();
         });
 
         deleteButton.setOnAction(e -> {
@@ -95,9 +98,20 @@ public class StateModalBody extends GridPane {
                 dialog.close();
                 controllers.getGraphPanel().removeVertex(underlyingVertex);
             }
+
+            requestFocus();
         });
 
-        addTransitionButton.setOnAction(e -> controllers.getGraphPanel().addEdge(state));
+        addTransitionButton.setOnAction(e -> {
+            controllers.getGraphPanel().addEdge(state);
+            requestFocus();
+        });
+
+        setAsInitialStateButton.setOnAction(e -> {
+            controllers.getGraphPanel().setInitialState(state);
+            controllers.getBottomBar().computePath();
+            requestFocus();
+        });
 
         List<Edge<Transition, State>> outboundEdges = new ArrayList<>(
                 Model.getInstance().getGraph().outboundEdges(underlyingVertex));

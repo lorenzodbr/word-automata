@@ -65,7 +65,7 @@ public class ForceDirectedSpringGravityLayoutStrategy<V> extends ForceDirectedSp
      */
     public ForceDirectedSpringGravityLayoutStrategy() {
         super();
-        this.gravity = 0.01;
+        this.gravity = 0.03;
     }
 
     /**

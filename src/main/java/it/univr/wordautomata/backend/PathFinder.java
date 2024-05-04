@@ -8,9 +8,9 @@ import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
 
 public class PathFinder {
    public static List<Edge<Transition, State>> getPath(String word) {
