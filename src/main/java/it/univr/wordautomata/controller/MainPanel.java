@@ -15,8 +15,10 @@ import javafx.scene.layout.BorderPane;
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+
 /**
- * Main Panel wrapper
+ * The MainPanel class represents the outermost container of the application's UI.
+ * It contains the {@link GraphPanel} and {@link BottomBar} components.
  */
 public class MainPanel extends BorderPane {
 
@@ -48,6 +50,12 @@ public class MainPanel extends BorderPane {
     private WordAutomata parent;
     private Controllers controllers;
 
+    
+    /**
+     * Constructs a new MainPanel object.
+     *
+     * @param parent the parent WordAutomata object
+     */
     public MainPanel(WordAutomata parent) {
         Methods.loadAndSetController(Constants.MAIN_PANEL_FXML_FILENAME, this);
 
@@ -62,6 +70,7 @@ public class MainPanel extends BorderPane {
         styleMenuItems();
         initBindings();
     }
+
 
     private void addBottomBar() {
         controllers.setBottomBar(new BottomBar());

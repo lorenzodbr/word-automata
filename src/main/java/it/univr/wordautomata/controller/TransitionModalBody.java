@@ -74,6 +74,8 @@ public class TransitionModalBody extends GridPane {
                 dialog.close();
                 controllers.getGraphPanel().removeEdge(underlyingEdge);
             }
+
+            requestFocus();
         });
     }
 }
