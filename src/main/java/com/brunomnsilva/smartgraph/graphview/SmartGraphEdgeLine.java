@@ -63,6 +63,8 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
     /* Styling proxy */
     private final SmartStyleProxy styleProxy;
 
+    private final ContextMenu contextMenu;
+
     /**
      * Constructs a SmartGraphEdgeLine representing an edge between two
      * SmartGraphVertexNodes.
@@ -92,13 +94,15 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
 
         propagateHoverEffectToArrow();
 
+        contextMenu = Methods.buildContextMenu(e -> {
+            Controllers.getInstance().getGraphPanel().showTransitionSideBar((SmartGraphEdge) this);
+        }, e -> {
+            Controllers.getInstance().getGraphPanel().queryRemoveEdge((Edge) underlyingEdge);
+        });
+
         setOnMousePressed(event -> {
             if (event.isSecondaryButtonDown()) {
-                Methods.buildContextMenu(e -> {
-                    Controllers.getInstance().getGraphPanel().showTransitionSideBar((SmartGraphEdge) this);
-                }, e -> {
-                    Controllers.getInstance().getGraphPanel().queryRemoveEdge((Edge) underlyingEdge);
-                }).show(this, event.getScreenX(), event.getScreenY());
+                contextMenu.show(this, event.getScreenX(), event.getScreenY());
             }
         });
     }

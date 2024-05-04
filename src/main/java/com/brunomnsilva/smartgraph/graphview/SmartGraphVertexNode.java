@@ -93,6 +93,8 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
     private final SmartStyleProxy styleProxy;
     private SmartLabel attachedLabel;
 
+    private final ContextMenu contextMenu;
+
     /*
      * Shape proxy and related properties used to represent the underlying vertex.
      * We will allow to change the shape at runtime, but other elements (e.g.,
@@ -150,14 +152,10 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
             enableDrag();
         }
 
-        setOnMousePressed(event -> {
-            if (event.isSecondaryButtonDown()) {
-                Methods.buildContextMenu(e -> {
-                    Controllers.getInstance().getGraphPanel().showStateSideBar((SmartGraphVertex) this);
-                }, e -> {
-                    Controllers.getInstance().getGraphPanel().queryRemoveVertex((Vertex) underlyingVertex);
-                }).show(shapeProxy.getShape(), event.getScreenX(), event.getScreenY());
-            }
+        this.contextMenu = Methods.buildContextMenu(e -> {
+            Controllers.getInstance().getGraphPanel().showStateSideBar((SmartGraphVertex) this);
+        }, e -> {
+            Controllers.getInstance().getGraphPanel().queryRemoveVertex((Vertex) underlyingVertex);
         });
     }
 
@@ -514,7 +512,13 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
                 isDragging = true;
 
+                contextMenu.hide();
+
                 mouseEvent.consume();
+            }
+
+            if (mouseEvent.isSecondaryButtonDown()) {
+                contextMenu.show(shapeProxy.getShape(), mouseEvent.getScreenX(), mouseEvent.getScreenY());
             }
         });
 
