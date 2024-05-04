@@ -2,6 +2,7 @@ package it.univr.wordautomata.controller;
 
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.alerts.Alerts;
+import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.Theme;
@@ -12,12 +13,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+import java.io.File;
+
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-
 /**
- * The MainPanel class represents the outermost container of the application's UI.
+ * The MainPanel class represents the outermost container of the application's
+ * UI.
  * It contains the {@link GraphPanel} and {@link BottomBar} components.
  */
 public class MainPanel extends BorderPane {
@@ -50,7 +55,6 @@ public class MainPanel extends BorderPane {
     private WordAutomata parent;
     private Controllers controllers;
 
-    
     /**
      * Constructs a new MainPanel object.
      *
@@ -69,7 +73,6 @@ public class MainPanel extends BorderPane {
         styleMenuItems();
         initBindings();
     }
-
 
     private void addBottomBar() {
         controllers.setBottomBar(new BottomBar());
@@ -120,6 +123,19 @@ public class MainPanel extends BorderPane {
     private void toggleAutoPositioning() {
         model.toggleAutoPositioning();
         styleAutoPositioningMenuItem();
+    }
+
+    @FXML
+    private void openAutomata() {
+        // open file dialog
+        File file = AutomataSaver.showOpenDialog((Stage) getScene().getWindow());
+        
+        if (file != null) {
+            if (file.exists() && file.isFile() && file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)){
+                model.updateGraph(AutomataSaver.read(file.getPath()));
+            }
+        }
+
     }
 
     private void initBindings() {

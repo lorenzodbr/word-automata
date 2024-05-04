@@ -25,6 +25,7 @@ package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Edge;
 import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ContextMenu;
@@ -137,8 +138,17 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         this.attachedLabel = label;
         this.attachedLabel.setMouseTransparent(true);
 
+        Rotate rotation = new Rotate();
+        rotation.pivotXProperty().bind(startXProperty().add(endXProperty()).divide(2));
+        rotation.pivotYProperty().bind(startYProperty().add(endYProperty()).divide(2));
+        rotation.angleProperty().bind(UtilitiesBindings.toDegrees(
+                UtilitiesBindings.atan2(endYProperty().subtract(startYProperty()),
+                        endXProperty().subtract(startXProperty()))));
+
+        label.getTransforms().add(rotation);
+
         label.xProperty().bind(startXProperty().add(endXProperty()).divide(2)
-                .subtract(Bindings.divide(label.layoutWidthProperty(), 2)));
+                .subtract(Bindings.divide(label.layoutWidthProperty(), 2)).multiply(Constants.RANDOM.nextDouble(1, 1.02)));
         label.yProperty().bind(
                 startYProperty().add(endYProperty()).divide(2).add(Bindings.divide(label.layoutHeightProperty(), 1.5)));
     }

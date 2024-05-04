@@ -53,17 +53,16 @@ public class GraphPanel extends StackPane {
         initModals();
     }
 
-    private void initGraph() {
+    public void initGraph() {
         this.graph = model.getGraph();
 
-        graphView = new SmartGraphPanel<State, Transition>(graph, model.getInitialPlacement(),
+        graphView = new SmartGraphPanel<State, Transition>(graph,
+                model.getInitialPlacement(),
                 model.getAutomaticPlacementStrategy());
+        getChildren().retainAll(hintLabel);
         getChildren().add(new ContentZoomScrollPane(graphView));
 
-        graphView.setBackgroundDoubleClickAction(e -> {
-            addVertex(e.getSceneX(), e.getSceneY());
-
-        });
+        graphView.setBackgroundDoubleClickAction(e -> addVertex(e.getSceneX(), e.getSceneY()));
         graphView.setVertexDoubleClickAction(this::showStateSideBar);
         graphView.setEdgeDoubleClickAction(this::showTransitionSideBar);
 
@@ -86,17 +85,15 @@ public class GraphPanel extends StackPane {
         // "this" because we want to drop anywhere in the panel
         this.setOnDragOver(event -> {
             if (event.getGestureSource() != this && event.getDragboard().hasFiles())
-                event.acceptTransferModes(TransferMode.MOVE);
+                event.acceptTransferModes(TransferMode.COPY);
             event.consume();
         });
         this.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             if (db.hasFiles()) {
                 String filename = db.getFiles().get(0).getPath();
-                if (filename.endsWith(".automata")) {
-                    Model.getInstance().updateGraph(AutomataSaver.read(filename));
-                    // @TODO fix placement of vertices
-                    graphView.update();
+                if (filename.endsWith(Constants.AUTOMATA_EXTENSION)) {
+                    model.updateGraph(AutomataSaver.read(filename));
                 }
             }
             event.consume();
@@ -124,8 +121,7 @@ public class GraphPanel extends StackPane {
 
         if (x >= 0 && y >= 0) {
             graphView.setVertexPosition(v, x, y - controllers.getMainPanel().getMenuBarHeight());
-        } else if(!model.isAutoPositioningEnabled()) {
-            //get a random x and y between 10% and 90% of the width and height
+        } else if (!model.isAutoPositioningEnabled()) {
             double xRand = Math.random() * (graphView.getWidth() * 0.8) + graphView.getWidth() * 0.1;
             double yRand = Math.random() * (graphView.getHeight() * 0.8) + graphView.getHeight() * 0.1;
 

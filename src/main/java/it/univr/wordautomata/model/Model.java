@@ -6,6 +6,7 @@ import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStr
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 
+import it.univr.wordautomata.controller.Controllers;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
@@ -40,7 +41,8 @@ public class Model {
 
     private Model() {
         this.theme = Theme.DEFAULT;
-        this.graph = initSampleGraph();
+        // this.graph = initSampleGraph();
+        this.graph = new DigraphEdgeList<>();
 
         this.atLeastOneVertex = new SimpleBooleanProperty(false);
         this.atLeastOneEdge = new SimpleBooleanProperty(false);
@@ -192,9 +194,9 @@ public class Model {
 
     public void updateGraph(DigraphEdgeList<State, Transition> graph) {
         // we must not change the reference of the graph
-        this.graph.copy(graph);
+        this.graph = new DigraphEdgeList<>(graph);
         // for hintLabel
-        this.atLeastOneVertex.set(this.graph.numVertices() > 0);
-        this.atLeastOneEdge.set(this.graph.numEdges() > 0);
+        updateGraphProperties();
+        Controllers.getInstance().getGraphPanel().initGraph();
     }
 }

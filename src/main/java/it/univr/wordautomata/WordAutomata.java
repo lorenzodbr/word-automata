@@ -1,6 +1,7 @@
 package it.univr.wordautomata;
 
 import it.univr.wordautomata.alerts.Alerts;
+import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.controller.Controllers;
 import it.univr.wordautomata.controller.MainPanel;
 import it.univr.wordautomata.model.Model;
@@ -92,6 +93,7 @@ public class WordAutomata extends Application {
 
     public void exit() {
         if (Alerts.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
+            // AutomataSaver.save();
             Platform.exit();
         }
     }

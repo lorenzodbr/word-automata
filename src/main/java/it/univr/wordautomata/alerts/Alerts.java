@@ -26,6 +26,10 @@ public class Alerts {
         createAlert(Alert.AlertType.INFORMATION, scene, title, header, body, ButtonType.OK).showAndWait();
     }
 
+    public static void showErrorDialog(Scene scene, String title, String body) {
+        createAlert(Alert.AlertType.ERROR, scene, title, null, body, ButtonType.OK).showAndWait();
+    }
+
     private static Alert createAlert(Alert.AlertType type, Scene scene, String title, String header, String body,
             ButtonType... buttons) {
         Alert alert = new Alert(type);
