@@ -13,7 +13,11 @@ import it.univr.wordautomata.utils.Constants.Theme;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- *
+ * The `Model` class represents the model component of the Word Automata application.
+ * It stores the {@link State} of the application, including the theme, graph, initial state,
+ * placement strategies, playback speed and state, and various boolean properties.
+ * The `Model` class follows the Singleton design pattern to ensure that only one instance
+ * of the class exists throughout the application.
  */
 public class Model {
 

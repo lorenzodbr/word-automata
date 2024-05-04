@@ -58,16 +58,14 @@ public class WordAutomata extends Application {
         
         Locale.setDefault(Locale.ENGLISH);
         stage.setTitle(Constants.TITLE);
-        stage.setScene(scene);
-
         Methods.setIcon(stage);
+        stage.setScene(scene);
 
         Platform.setImplicitExit(false);
         stage.setOnCloseRequest(e -> {
             e.consume();
             exit();
         });
-
     }
 
     private void initTheme() {

@@ -113,7 +113,7 @@
 }
 
 .scroll-bar:horizontal {
-    -fx-pref-height: 2;
+    -fx-pref-height: 3;
 }
 
 .scroll-bar:vertical {
