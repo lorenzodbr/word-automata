@@ -60,7 +60,7 @@ public class Methods {
     public static ContextMenu buildContextMenu(Consumer<ActionEvent> onOpen, Consumer<ActionEvent> onDelete) {
         ContextMenu contextMenu = new ContextMenu();
         
-        MenuItem item1 = new MenuItem("Details");
+        MenuItem item1 = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
         item1.setOnAction(e -> onOpen.accept(e));
 
         MenuItem item2 = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));

@@ -9,7 +9,6 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import atlantafx.base.layout.ModalBox;
 import atlantafx.base.theme.Styles;
-import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
