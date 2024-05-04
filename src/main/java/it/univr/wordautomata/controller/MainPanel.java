@@ -62,7 +62,6 @@ public class MainPanel extends BorderPane {
         this.parent = parent;
         this.model = Model.getInstance();
         this.controllers = Controllers.getInstance();
-        setPrefSize(Constants.WIDTH, Constants.HEIGHT);
 
         addGraphPanel();
         addBottomBar();

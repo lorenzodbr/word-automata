@@ -24,22 +24,30 @@
 package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Vertex;
+
+import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Consumer;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
+
+import org.kordamp.ikonli.boxicons.BoxiconsRegular;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
  * Internal implementation of a graph vertex for the {@link SmartGraphPanel}
@@ -66,11 +74,14 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
     private boolean labelInside;
 
-    /* Critical for performance, so we don't rely on the efficiency of the Graph.areAdjacent method */
+    /*
+     * Critical for performance, so we don't rely on the efficiency of the
+     * Graph.areAdjacent method
+     */
     private final Set<SmartGraphVertexNode<T>> adjacentVertices;
 
     /*
-    Automatic layout functionality members
+     * Automatic layout functionality members
      */
     private final PointVector forceVector = new PointVector(0, 0);
     private final PointVector updatedPosition = new PointVector(0, 0);
@@ -82,11 +93,14 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
     private final SmartStyleProxy styleProxy;
     private SmartLabel attachedLabel;
 
-    /* Shape proxy and related properties used to represent the underlying vertex.
-    *  We will allow to change the shape at runtime, but other elements (e.g., lines/arrows)
-    *  when created will bind to the vertex's location and radius values.
-    *  Hence, we need separate properties here to be bound; later we'll bind and unbind these
-    *  to the concrete shape being used.
+    /*
+     * Shape proxy and related properties used to represent the underlying vertex.
+     * We will allow to change the shape at runtime, but other elements (e.g.,
+     * lines/arrows)
+     * when created will bind to the vertex's location and radius values.
+     * Hence, we need separate properties here to be bound; later we'll bind and
+     * unbind these
+     * to the concrete shape being used.
      */
     private ShapeWithRadius<?> shapeProxy;
     private String shapeProxyName;
@@ -94,17 +108,19 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
     /**
      * Constructor which sets the instance attributes.
      *
-     * @param v the underlying vertex
-     * @param x initial x position on the parent pane
-     * @param y initial y position on the parent pane
-     * @param radius radius of this vertex representation
+     * @param v         the underlying vertex
+     * @param x         initial x position on the parent pane
+     * @param y         initial y position on the parent pane
+     * @param radius    radius of this vertex representation
      * @param shapeType type of the shape to represent this vertex, see
-     * {@link ShapeFactory}
+     *                  {@link ShapeFactory}
      * @param allowMove should the vertex be draggable with the mouse
      * @throws IllegalArgumentException if <code>shapeType</code> is invalid or
-     * if <code>x</code> or <code>y</code> or <code>radius</code> are negative.
+     *                                  if <code>x</code> or <code>y</code> or
+     *                                  <code>radius</code> are negative.
      */
-    public SmartGraphVertexNode(Vertex<T> v, double x, double y, double radius, String shapeType, boolean allowMove, boolean labelInside) {
+    public SmartGraphVertexNode(Vertex<T> v, double x, double y, double radius, String shapeType, boolean allowMove,
+            boolean labelInside) {
         this.underlyingVertex = v;
         this.adjacentVertices = new HashSet<>();
 
@@ -133,6 +149,16 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
         if (allowMove) {
             enableDrag();
         }
+
+        setOnMousePressed(event -> {
+            if (event.isSecondaryButtonDown()) {
+                Methods.buildContextMenu(e -> {
+                    Controllers.getInstance().getGraphPanel().showStateSideBar((SmartGraphVertex) this);
+                }, e -> {
+                    Controllers.getInstance().getGraphPanel().queryRemoveVertex((Vertex) underlyingVertex);
+                }).show(shapeProxy.getShape(), event.getScreenX(), event.getScreenY());
+            }
+        });
     }
 
     /**
@@ -176,7 +202,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
      * node.
      *
      * @return the property representing the x-coordinate of the center of this
-     * node
+     *         node
      */
     public DoubleProperty centerXProperty() {
         return centerX;
@@ -187,7 +213,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
      * node.
      *
      * @return the property representing the y-coordinate of the center of this
-     * node
+     *         node
      */
     public DoubleProperty centerYProperty() {
         return centerY;
@@ -401,7 +427,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
      *
      */
     public void updateDelta() {
-        updatedPosition.x = updatedPosition.x /* + speed*/ + forceVector.x;
+        updatedPosition.x = updatedPosition.x /* + speed */ + forceVector.x;
         updatedPosition.y = updatedPosition.y + forceVector.y;
     }
 
@@ -413,7 +439,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
      */
     public void moveFromForces() {
 
-        //limit movement to parent bounds
+        // limit movement to parent bounds
         double height = getParent().getLayoutBounds().getHeight();
         double width = getParent().getLayoutBounds().getWidth();
 
@@ -432,8 +458,10 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
             label.yProperty().bind(centerYProperty().add(Bindings.divide(label.layoutHeightProperty(), 4.0)));
             label.setMouseTransparent(true);
         } else {
-            label.yProperty().bind(centerYProperty().add(Bindings.add(shapeProxy.radiusProperty(), label.layoutHeightProperty())));
-            //label.yProperty().bind(centerYProperty().add(Bindings.add( shapeProxy.radiusProperty(), LABEL_Y_OFFSET)));
+            label.yProperty().bind(
+                    centerYProperty().add(Bindings.add(shapeProxy.radiusProperty(), label.layoutHeightProperty())));
+            // label.yProperty().bind(centerYProperty().add(Bindings.add(
+            // shapeProxy.radiusProperty(), LABEL_Y_OFFSET)));
         }
     }
 
@@ -537,8 +565,10 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
      * It takes into account the overall size of the node.
      */
     private double boundVertexNodeXPositioning(double xCoord, double minCoordValue, double maxCoordValue) {
-        // The shape and (possibly attached) label are centered, so its bounds are equals for each side
-        double lengthToSide = Math.max(getRadius(), (attachedLabel != null ? attachedLabel.layoutWidthProperty().get() / 2 : 0));
+        // The shape and (possibly attached) label are centered, so its bounds are
+        // equals for each side
+        double lengthToSide = Math.max(getRadius(),
+                (attachedLabel != null ? attachedLabel.layoutWidthProperty().get() / 2 : 0));
 
         if (xCoord < minCoordValue + lengthToSide) {
             return minCoordValue + lengthToSide;
@@ -550,10 +580,13 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
     }
 
     private double boundVertexNodeYPositioning(double yCoord, double minCoordValue, double maxCoordValue) {
-        // The length to the top from the center point is the radius of the surrogate shape
-        // The length to the bottom from the center point is the radius of the surrogate shape, plus the label offset and height
+        // The length to the top from the center point is the radius of the surrogate
+        // shape
+        // The length to the bottom from the center point is the radius of the surrogate
+        // shape, plus the label offset and height
         double lengthToTop = getRadius();
-        double lengthToBottom = getRadius() + (attachedLabel != null && !labelInside ? attachedLabel.layoutHeightProperty().get() : 0);
+        double lengthToBottom = getRadius()
+                + (attachedLabel != null && !labelInside ? attachedLabel.layoutHeightProperty().get() : 0);
 
         if (yCoord < minCoordValue + lengthToTop) {
             return minCoordValue + lengthToTop;

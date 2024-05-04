@@ -23,8 +23,19 @@
  */
 package com.brunomnsilva.smartgraph.graphview;
 
+import org.kordamp.ikonli.boxicons.BoxiconsRegular;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import com.brunomnsilva.smartgraph.graph.Edge;
+import com.brunomnsilva.smartgraph.graph.Vertex;
+
+import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
@@ -56,8 +67,8 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
      * Constructs a SmartGraphEdgeLine representing an edge between two
      * SmartGraphVertexNodes.
      *
-     * @param edge the edge associated with this line
-     * @param inbound the inbound SmartGraphVertexNode
+     * @param edge     the edge associated with this line
+     * @param inbound  the inbound SmartGraphVertexNode
      * @param outbound the outbound SmartGraphVertexNode
      */
     public SmartGraphEdgeLine(Edge<E, V> edge, SmartGraphVertexNode<V> inbound, SmartGraphVertexNode<V> outbound) {
@@ -73,13 +84,23 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         styleProxy = new SmartStyleProxy(this);
         styleProxy.addStyleClass("edge");
 
-        //bind start and end positions to vertices centers through properties
+        // bind start and end positions to vertices centers through properties
         this.startXProperty().bind(outbound.centerXProperty());
         this.startYProperty().bind(outbound.centerYProperty());
         this.endXProperty().bind(inbound.centerXProperty());
         this.endYProperty().bind(inbound.centerYProperty());
 
         propagateHoverEffectToArrow();
+
+        setOnMousePressed(event -> {
+            if (event.isSecondaryButtonDown()) {
+                Methods.buildContextMenu(e -> {
+                    Controllers.getInstance().getGraphPanel().showTransitionSideBar((SmartGraphEdge) this);
+                }, e -> {
+                    Controllers.getInstance().getGraphPanel().queryRemoveEdge((Edge) underlyingEdge);
+                }).show(this, event.getScreenX(), event.getScreenY());
+            }
+        });
     }
 
     @Override
@@ -120,8 +141,10 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         this.attachedLabel = label;
         this.attachedLabel.setMouseTransparent(true);
 
-        label.xProperty().bind(startXProperty().add(endXProperty()).divide(2).subtract(Bindings.divide(label.layoutWidthProperty(), 2)));
-        label.yProperty().bind(startYProperty().add(endYProperty()).divide(2).add(Bindings.divide(label.layoutHeightProperty(), 1.5)));
+        label.xProperty().bind(startXProperty().add(endXProperty()).divide(2)
+                .subtract(Bindings.divide(label.layoutWidthProperty(), 2)));
+        label.yProperty().bind(
+                startYProperty().add(endYProperty()).divide(2).add(Bindings.divide(label.layoutHeightProperty(), 1.5)));
     }
 
     @Override
@@ -148,8 +171,7 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         rotation.pivotYProperty().bind(translateYProperty());
         rotation.angleProperty().bind(UtilitiesBindings.toDegrees(
                 UtilitiesBindings.atan2(endYProperty().subtract(startYProperty()),
-                        endXProperty().subtract(startXProperty()))
-        ));
+                        endXProperty().subtract(startXProperty()))));
 
         arrow.getTransforms().add(rotation);
 
@@ -179,11 +201,13 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         this.hoverProperty().addListener((observable, oldValue, newValue) -> {
             if (attachedArrow != null && newValue) {
 
-                attachedArrow.fireEvent(new MouseEvent(MouseEvent.MOUSE_ENTERED, 0, 0, 0, 0, MouseButton.NONE, 0, true, true, true, true, true, true, true, true, true, true, null));
+                attachedArrow.fireEvent(new MouseEvent(MouseEvent.MOUSE_ENTERED, 0, 0, 0, 0, MouseButton.NONE, 0, true,
+                        true, true, true, true, true, true, true, true, true, null));
 
-            } else if (attachedArrow != null) { //newValue is false, hover ended
+            } else if (attachedArrow != null) { // newValue is false, hover ended
 
-                attachedArrow.fireEvent(new MouseEvent(MouseEvent.MOUSE_EXITED, 0, 0, 0, 0, MouseButton.NONE, 0, true, true, true, true, true, true, true, true, true, true, null));
+                attachedArrow.fireEvent(new MouseEvent(MouseEvent.MOUSE_EXITED, 0, 0, 0, 0, MouseButton.NONE, 0, true,
+                        true, true, true, true, true, true, true, true, true, null));
 
             }
         });
