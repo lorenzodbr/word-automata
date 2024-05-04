@@ -2,30 +2,24 @@ package it.univr.wordautomata.controller;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.layout.ModalBox;
-import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.utils.Constants;
-import java.util.function.Consumer;
 
 /**
  *
  */
 public class StateModal extends ModalBox {
 
-    private StateModalBody body;
-
     public StateModal(ModalPane modalPane, SmartGraphVertex<State> vertex) {
         super(modalPane);
-        addContent(body = new StateModalBody(vertex));
+        
+        addContent(new StateModalBody(this, vertex));
         setMaxWidth(Constants.SIDEBAR_MAX_WIDTH);
-    }
 
-    public void onTextChange(Consumer<String> event) {
-        body.onTextChange(event);
-    }
-    
-    public void onDeleteButtonClicked(Consumer<Vertex<State>> event){
-        body.onDeleteButtonClicked(event);
+        setOnClose((e) -> {
+            Controllers.getInstance().getGraphPanel().update();
+            e.consume();
+        });
     }
 }
