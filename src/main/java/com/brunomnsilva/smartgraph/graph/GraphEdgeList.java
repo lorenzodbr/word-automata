@@ -23,6 +23,7 @@
  */
 package com.brunomnsilva.smartgraph.graph;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -279,7 +280,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
         return sb.toString();
     }
 
-    class MyVertex implements Vertex<V> {
+    class MyVertex implements Vertex<V>, Serializable {
 
         V element;
 
@@ -298,7 +299,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
         }
     }
 
-    class MyEdge implements Edge<E, V> {
+    class MyEdge implements Edge<E, V>, Serializable {
 
         E element;
         Vertex<V> vertexOutbound;
