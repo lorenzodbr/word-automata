@@ -58,12 +58,8 @@ public class GraphPanel extends StackPane {
         getChildren().add(new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> {
-            // only if auto positioning is disabled, place vertices in the clicked point
-            if (!model.isAutoPositioningEnabled()) {
-                addVertex(e.getSceneX(), e.getSceneY());
-            } else {
-                addVertex();
-            }
+            addVertex(e.getSceneX(), e.getSceneY());
+
         });
         graphView.setVertexDoubleClickAction(this::showStateSideBar);
         graphView.setEdgeDoubleClickAction(this::showTransitionSideBar);
@@ -105,12 +101,14 @@ public class GraphPanel extends StackPane {
 
         if (x >= 0 && y >= 0) {
             graphView.setVertexPosition(v, x, y - controllers.getMainPanel().getMenuBarHeight());
-        } else {
+        } else if(!model.isAutoPositioningEnabled()) {
             //get a random x and y between 10% and 90% of the width and height
             double xRand = Math.random() * (graphView.getWidth() * 0.8) + graphView.getWidth() * 0.1;
             double yRand = Math.random() * (graphView.getHeight() * 0.8) + graphView.getHeight() * 0.1;
 
             graphView.setVertexPosition(v, xRand, yRand);
+        } else {
+            graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
         }
 
         return true;

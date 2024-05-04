@@ -1,22 +1,6 @@
 package it.univr.wordautomata.utils;
 
 import java.util.Random;
-import java.util.function.Consumer;
-
-import javax.swing.Action;
-
-import org.kordamp.ikonli.boxicons.BoxiconsRegular;
-import org.kordamp.ikonli.javafx.FontIcon;
-
-import com.brunomnsilva.smartgraph.graph.Edge;
-import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
-
-import it.univr.wordautomata.controller.Controllers;
-import javafx.event.ActionEvent;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.input.MouseEvent;
 
 /**
  * Constants used in the application
