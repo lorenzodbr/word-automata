@@ -51,18 +51,20 @@ public class SmartCircularSortedPlacementStrategy implements SmartPlacementStrat
             return smartGraphPanel.getVertexLabelFor(e1).compareTo(smartGraphPanel.getVertexLabelFor(e2));
         });
 
-        //place first vertex at north position, others in clockwise manner
+        // place first vertex at north position, others in clockwise manner
         Point2D center = new Point2D(width / 2, height / 2);
         int N = vertices.size();
         double angleIncrement = -360f / N;
         boolean first = true;
         Point2D p = null;
 
+        System.out.println(center);
+
         for (SmartGraphVertex<V> vertex : vertices) {
-            
+
             if (first) {
-                //verify the smallest width and height.
-                if(width > height)
+                // verify the smallest width and height.
+                if (width > height)
                     p = new Point2D(center.getX(),
                             center.getY() - height / 2 + vertex.getRadius() * RADIUS_PADDING);
                 else

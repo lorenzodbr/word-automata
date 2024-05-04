@@ -4,7 +4,9 @@ import it.univr.wordautomata.Main;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  * Methods used in the application
@@ -39,5 +41,9 @@ public class Methods {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 Main.class.getResource(Constants.FXML_BASE_FOLDER + fxml + Constants.FXML_EXTENSION));
         return fxmlLoader;
+    }
+
+    public static void setIcon(Stage stage) {
+        stage.getIcons().add(new Image(Main.class.getResourceAsStream(Constants.ICON_BASE_FOLDER + Constants.ICON_FILENAME + Constants.ICON_EXTENSION)));
     }
 }

@@ -53,12 +53,12 @@
                 </HBox>
             </children>
         </VBox>
-        <ScrollPane fx:id="transitionsPanel" fitToWidth="true" styleClass="rounded-corners, medium-gray-background, border" vbarPolicy="NEVER" GridPane.columnIndex="6">
+        <ScrollPane fx:id="transitionsPanel" fitToHeight="true" fitToWidth="true" styleClass="rounded-corners, medium-gray-background, border" vbarPolicy="NEVER" GridPane.columnIndex="6">
             <content>
                 <StackPane>
                     <children>
-                        <Label fx:id="transitionsHint" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" styleClass="text-subtle" text="Waiting for a word" textAlignment="CENTER" StackPane.alignment="CENTER" />
-                        <HBox fx:id="transitionsPanelHBox" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" spacing="10.0" styleClass="padding-horizontal" StackPane.alignment="CENTER" />
+                        <Label fx:id="transitionsHint" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="text-subtle" text="Waiting for a word" textAlignment="CENTER" StackPane.alignment="CENTER" />
+                        <HBox fx:id="transitionsPanelHBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" styleClass="padding-horizontal" StackPane.alignment="CENTER" />
                     </children>
                 </StackPane>
             </content>

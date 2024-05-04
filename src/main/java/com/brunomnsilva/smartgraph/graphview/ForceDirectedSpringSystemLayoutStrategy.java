@@ -68,10 +68,10 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
      * acceleration = 0.8.
      */
     public ForceDirectedSpringSystemLayoutStrategy() {
-        this.repulsiveForce = 35;
-        this.attractionForce = 1.25;
-        this.attractionScale = 20;
-        this.acceleration = 2;
+        this.repulsiveForce = 25;
+        this.attractionForce = 3;
+        this.attractionScale = 10;
+        this.acceleration = 3;
     }
 
     /**
@@ -122,13 +122,13 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         }
 
         if (forceDirection.equals(Point2D.ZERO)) {
-            forceDirection = new Point2D(Constants.random.nextDouble(0, 2) - 1, Constants.random.nextDouble(0, 2) - 1);
+            forceDirection = new Point2D(Constants.RANDOM.nextDouble(0, 2) - 1, Constants.RANDOM.nextDouble(0, 2) - 1);
         }
 
         // attractive force
         Point2D attraction;
         if (v.isAdjacentTo(w)) {
-            double attraction_factor = attractionForce * Math.log(distance / attractionScale);
+            double attraction_factor = 0.2 * attractionForce * Math.log(distance / attractionScale);
             attraction = forceDirection.multiply(attraction_factor);
         } else {
             attraction = Point2D.ZERO;
@@ -136,7 +136,8 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
 
         // repelling force
         double repulsive_factor = distance < 32 ? repulsiveForce : repulsiveForce * A_THOUSAND / (distance * distance);
-        // double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance * distance), THRESHOLD);
+        // double repulsive_factor = Math.min(repulsiveForce * A_THOUSAND / (distance *
+        // distance), THRESHOLD);
         Point2D repulsion = forceDirection.multiply(-repulsive_factor);
 
         // combine forces

@@ -1,7 +1,7 @@
 package it.univr.wordautomata.controller;
 
-import it.univr.wordautomata.State;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.stylings.WindowStyler;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;

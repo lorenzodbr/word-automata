@@ -5,9 +5,9 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 
 import atlantafx.base.layout.ModalBox;
 import atlantafx.base.theme.Styles;
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.alerts.Alerts;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.fxml.FXML;

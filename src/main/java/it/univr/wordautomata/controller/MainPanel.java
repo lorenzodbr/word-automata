@@ -54,6 +54,7 @@ public class MainPanel extends BorderPane {
         this.parent = parent;
         this.model = Model.getInstance();
         this.controllers = Controllers.getInstance();
+        setPrefSize(Constants.WIDTH, Constants.HEIGHT);
 
         addGraphPanel();
         addBottomBar();
@@ -94,7 +95,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void setInitialState() {
-        controllers.getGraphPanel().setInitialState();
+        controllers.getGraphPanel().chooseInitialState();
     }
 
     @FXML

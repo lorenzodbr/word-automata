@@ -9,10 +9,10 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import atlantafx.base.controls.ModalPane;
-import it.univr.wordautomata.State;
-import it.univr.wordautomata.Transition;
-import it.univr.wordautomata.TransitionWrapper;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
+import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
@@ -112,16 +112,12 @@ public class GraphPanel extends StackPane {
         return true;
     }
 
-    public boolean addEdge(State startingState){
-        return _addEdge(startingState);
-    }
-
     @FXML
     public boolean addEdge() {
-        return _addEdge(null);
+        return addEdge(null);
     }
 
-    private boolean _addEdge(State startingState) {
+    public boolean addEdge(State startingState) {
         TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState).showAndWait().orElse(null);
 
         if (newTransition == null) {
@@ -142,20 +138,25 @@ public class GraphPanel extends StackPane {
         return true;
     }
 
-    public void setInitialState() {
+    public void chooseInitialState() {
         SetInitialStateModal modal = new SetInitialStateModal(getScene());
 
         State newInitialState;
         if ((newInitialState = modal.showAndWait().orElse(null)) != null) {
-            State oldInitialState = model.getInitialState();
-
-            if (oldInitialState != null) {
-                graphView.getStylableVertex(oldInitialState).removeStyleClass(Constants.INITIAL_STATE_CLASS);
-            }
-
-            model.setInitialState(newInitialState);
-            graphView.getStylableVertex(newInitialState).addStyleClass(Constants.INITIAL_STATE_CLASS);
+            setInitialState(newInitialState);
+            controllers.getBottomBar().computePath();
         }
+    }
+
+    public void setInitialState(State newInitialState) {
+        State oldInitialState = model.getInitialState();
+
+        if (oldInitialState != null) {
+            graphView.getStylableVertex(oldInitialState).removeStyleClass(Constants.INITIAL_STATE_CLASS);
+        }
+
+        model.setInitialState(newInitialState);
+        graphView.getStylableVertex(newInitialState).addStyleClass(Constants.INITIAL_STATE_CLASS);
     }
 
     public void selectState() {
@@ -186,10 +187,12 @@ public class GraphPanel extends StackPane {
 
         model.updateGraphProperties();
         graphView.update();
+        modalPane.hide();
     }
 
     public void update() {
         graphView.update();
+        controllers.getBottomBar().computePath();
     }
 
     public void updateAndWait() {
@@ -225,15 +228,5 @@ public class GraphPanel extends StackPane {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
         TransitionModal dialog = new TransitionModal(modalPane, edge);
         modalPane.show(dialog);
-    }
-
-    public void play() {
-        Platform.runLater(() -> {
-            if (model.getInitialState() == null) {
-                setInitialState();
-            }
-
-            controllers.getBottomBar().cyclePlayPause();
-        });
     }
 }
