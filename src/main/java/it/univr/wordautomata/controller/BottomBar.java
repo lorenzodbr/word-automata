@@ -72,16 +72,13 @@ public class BottomBar extends GridPane {
     @FXML
     private Label transitionsHint;
 
-    private MainPanel mainPanel;
-
     private BooleanBinding buttonsEnabledBinding;
 
     private Model model;
 
-    public BottomBar(MainPanel mainPanel) {
+    public BottomBar() {
         Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);
         
-        this.mainPanel = mainPanel;
         this.model = Model.getInstance();
 
         styleButtons();
@@ -165,7 +162,7 @@ public class BottomBar extends GridPane {
 
     @FXML
     private void checkWord() {
-        mainPanel.getGraphPanel().play();
+        Controllers.getInstance().getGraphPanel().play();
     }
 
     @FXML

@@ -1,25 +1,20 @@
 package it.univr.wordautomata.controller;
 
-import atlantafx.base.theme.Styles;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
+
+import atlantafx.base.layout.ModalBox;
+import atlantafx.base.theme.Styles;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
+import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
@@ -27,6 +22,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -48,24 +48,25 @@ public class StateModalBody extends GridPane {
     @FXML
     private VBox outboundTransitions;
 
-    private Consumer<String> onTextChange;
-    private Consumer<Vertex<State>> onDeleteButtonClicked;
-
     private SmartGraphVertex<State> vertex;
 
-    // private MainPanel mainPanel;
+    private ModalBox dialog;
 
-    public StateModalBody(SmartGraphVertex<State> vertex) {
+    private Controllers controllers;
+
+    public StateModalBody(ModalBox dialog, SmartGraphVertex<State> vertex){
         Methods.loadAndSetController(Constants.STATE_MODAL_BODY_FXML_FILENAME, this);
 
         this.vertex = vertex;
-        // this.mainPanel = mainPanel;
+        this.dialog = dialog;
+        this.controllers = Controllers.getInstance();
 
         setFields();
     }
 
     private void setFields() {
-        State state = vertex.getUnderlyingVertex().element();
+        Vertex<State> underlyingVertex = vertex.getUnderlyingVertex();
+        State state = underlyingVertex.element();
 
         stateLabelTextField.setText(state.toString());
         stateLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -73,10 +74,7 @@ public class StateModalBody extends GridPane {
                 stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
 
                 state.setLabel(stateLabelTextField.getText());
-
-                if (onTextChange != null) {
-                    onTextChange.accept(newValue);
-                }
+                controllers.getGraphPanel().update();
             } else {
                 stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
             }
@@ -86,29 +84,30 @@ public class StateModalBody extends GridPane {
         state.finalProperty().bind(markAsFinalCheckbox.selectedProperty());
         state.finalProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                vertex.addStyleClass("final-state");
+                vertex.addStyleClass(Constants.FINAL_STATE_CLASS);
             } else {
-                vertex.removeStyleClass("final-state");
+                vertex.removeStyleClass(Constants.FINAL_STATE_CLASS);
             }
         });
 
         deleteButton.setOnAction(e -> {
-            if (onDeleteButtonClicked != null) {
-                onDeleteButtonClicked.accept(vertex.getUnderlyingVertex());
+            if (Alerts.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this state?")) {
+                dialog.close();
+                controllers.getGraphPanel().removeVertex(underlyingVertex);
             }
         });
 
-        // addTransitionButton.setOnAction(e -> mainPanel.getGraphPanel().addEdge());
+        addTransitionButton.setOnAction(e -> controllers.getGraphPanel().addEdge(state));
 
         List<Edge<Transition, State>> outboundEdges = new ArrayList<>(
-                Model.getInstance().getGraph().outboundEdges(vertex.getUnderlyingVertex()));
+                Model.getInstance().getGraph().outboundEdges(underlyingVertex));
 
         if (!outboundEdges.isEmpty()) {
             outboundTransitions.getChildren().clear();
             outboundTransitions.setAlignment(javafx.geometry.Pos.TOP_LEFT);
 
             HBox header = createTransitionRow("Label", "Ending State");
-            header.getStyleClass().addAll("text-muted", "text-bold");
+            header.getStyleClass().addAll(Styles.TEXT_MUTED, Styles.TEXT_BOLD);
 
             outboundTransitions.getChildren().add(header);
             outboundTransitions.getChildren().add(new Separator(Orientation.HORIZONTAL));
@@ -138,13 +137,5 @@ public class StateModalBody extends GridPane {
         row.getChildren().addAll(leftLabel, separator, rightLabel);
 
         return row;
-    }
-
-    public void onTextChange(Consumer<String> onTextChange) {
-        this.onTextChange = onTextChange;
-    }
-
-    public void onDeleteButtonClicked(Consumer<Vertex<State>> onDeleteButtonClicked) {
-        this.onDeleteButtonClicked = onDeleteButtonClicked;
     }
 }

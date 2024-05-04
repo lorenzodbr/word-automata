@@ -1,6 +1,5 @@
 package it.univr.wordautomata.controller;
 
-import atlantafx.base.controls.ModalPane;
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
@@ -8,10 +7,11 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
+
+import atlantafx.base.controls.ModalPane;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
 import it.univr.wordautomata.TransitionWrapper;
-import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
@@ -30,26 +30,28 @@ public class GraphPanel extends StackPane {
     @FXML
     private Label hintLabel;
 
-    private MainPanel mainPanel;
     private ModalPane modalPane;
 
     private Graph<State, Transition> graph;
     private SmartGraphPanel<State, Transition> graphView;
 
     private Model model;
+    private Controllers controllers;
 
-    public GraphPanel(MainPanel mainPanel) {
+    public GraphPanel() {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
-        this.mainPanel = mainPanel;
         this.model = Model.getInstance();
-        this.graph = model.getGraph();
+        this.controllers = Controllers.getInstance();
+
         initGraph();
         initProperties();
         initModals();
     }
 
     private void initGraph() {
+        this.graph = model.getGraph();
+
         graphView = new SmartGraphPanel<State, Transition>(graph, model.getInitialPlacement(),
                 model.getAutomaticPlacementStrategy());
         getChildren().add(new ContentZoomScrollPane(graphView));
@@ -102,7 +104,7 @@ public class GraphPanel extends StackPane {
         }
 
         if (x >= 0 && y >= 0) {
-            graphView.setVertexPosition(v, x, y - mainPanel.getMenuBarHeight());
+            graphView.setVertexPosition(v, x, y - controllers.getMainPanel().getMenuBarHeight());
         } else {
             graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
         }
@@ -110,9 +112,17 @@ public class GraphPanel extends StackPane {
         return true;
     }
 
+    public boolean addEdge(State startingState){
+        return _addEdge(startingState);
+    }
+
     @FXML
     public boolean addEdge() {
-        TransitionWrapper newTransition = new AddTransitionModal(getScene(), null).showAndWait().orElse(null);
+        return _addEdge(null);
+    }
+
+    private boolean _addEdge(State startingState) {
+        TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState).showAndWait().orElse(null);
 
         if (newTransition == null) {
             return false;
@@ -122,9 +132,10 @@ public class GraphPanel extends StackPane {
                 newTransition.getStartingState(),
                 newTransition.getEndingState(),
                 newTransition.getTransition());
-        model.updateGraphProperties();
 
+        model.updateGraphProperties();
         graphView.updateAndWait();
+
         if (modalPane.isDisplay())
             showStateSideBar(graphView.getVertex(newTransition.getStartingState()));
 
@@ -185,14 +196,14 @@ public class GraphPanel extends StackPane {
         graphView.updateAndWait();
     }
 
-    private void removeVertex(Vertex<State> v) {
+    public void removeVertex(Vertex<State> v) {
         graph.removeVertex(v);
 
         model.updateGraphProperties();
         graphView.update();
     }
 
-    private void removeEdge(Edge<Transition, State> e) {
+    public void removeEdge(Edge<Transition, State> e) {
         graph.removeEdge(e);
 
         model.updateGraphProperties();
@@ -207,45 +218,12 @@ public class GraphPanel extends StackPane {
     private StateModal getStateModal(SmartGraphVertex<State> vertex) {
         StateModal dialog = new StateModal(modalPane, vertex);
 
-        dialog.onTextChange(newString -> {
-            graphView.update();
-        });
-
-        dialog.setOnClose(e -> {
-            graphView.update();
-            e.consume();
-        });
-
-        dialog.onDeleteButtonClicked(v -> {
-            if (Alerts.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this state?")) {
-                dialog.close();
-                removeVertex(v);
-            }
-        });
-
         return dialog;
     }
 
     private void showTransitionSideBar(SmartGraphEdge<Transition, State> edge) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
         TransitionModal dialog = new TransitionModal(modalPane, edge);
-
-        dialog.onTextChange(newString -> {
-            graphView.update();
-        });
-
-        dialog.setOnClose(e -> {
-            graphView.update();
-            e.consume();
-        });
-
-        dialog.onDeleteButtonClicked(e -> {
-            if (Alerts.showConfirmationDialog(getScene(), "Delete", "Do you really want to delete this transition?")) {
-                dialog.close();
-                removeEdge(e);
-            }
-        });
-
         modalPane.show(dialog);
     }
 
@@ -255,7 +233,7 @@ public class GraphPanel extends StackPane {
                 setInitialState();
             }
 
-            mainPanel.getBottomBar().cyclePlayPause();
+            controllers.getBottomBar().cyclePlayPause();
         });
     }
 }

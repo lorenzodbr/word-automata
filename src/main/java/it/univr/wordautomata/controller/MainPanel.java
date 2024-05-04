@@ -20,10 +20,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
  */
 public class MainPanel extends BorderPane {
 
-    private WordAutomata parent;
-    private BottomBar bottomBar;
-    private GraphPanel graphPanel;
-
     @FXML
     private MenuBar menuBar;
 
@@ -49,12 +45,15 @@ public class MainPanel extends BorderPane {
     private MenuItem darkThemeMenuItem;
 
     private Model model;
+    private WordAutomata parent;
+    private Controllers controllers;
 
     public MainPanel(WordAutomata parent) {
         Methods.loadAndSetController(Constants.MAIN_PANEL_FXML_FILENAME, this);
 
         this.parent = parent;
         this.model = Model.getInstance();
+        this.controllers = Controllers.getInstance();
 
         addGraphPanel();
         addBottomBar();
@@ -64,54 +63,48 @@ public class MainPanel extends BorderPane {
     }
 
     private void addBottomBar() {
-        setBottom(bottomBar = new BottomBar(this));
+        controllers.setBottomBar(new BottomBar());
+        setBottom(controllers.getBottomBar());
     }
 
     private void addGraphPanel() {
-        setCenter(graphPanel = new GraphPanel(this));
-        Platform.runLater(() -> graphPanel.requestFocus());
-    }
-
-    GraphPanel getGraphPanel() {
-        return graphPanel;
-    }
-
-    BottomBar getBottomBar() {
-        return bottomBar;
+        controllers.setGraphPanel(new GraphPanel());
+        setCenter(controllers.getGraphPanel());
+        Platform.runLater(() -> controllers.getGraphPanel().requestFocus());
     }
 
     @FXML
     private void addState() {
-        graphPanel.addVertex();
+        controllers.getGraphPanel().addVertex();
     }
 
     @FXML
     private void addTransition() {
-        graphPanel.addEdge();
+        controllers.getGraphPanel().addEdge();
     }
 
     @FXML
     private void clearGraph() {
         if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
-            bottomBar.clear();
-            graphPanel.clearGraph();
+            controllers.getBottomBar().clear();
+            controllers.getGraphPanel().clearGraph();
             model.setInitialState(null);
         }
     }
 
     @FXML
     private void setInitialState() {
-        graphPanel.setInitialState();
+        controllers.getGraphPanel().setInitialState();
     }
 
     @FXML
     private void selectState() {
-        graphPanel.selectState();
+        controllers.getGraphPanel().selectState();
     }
-    
+
     @FXML
     private void selectTransition() {
-        graphPanel.selectTransition();
+        controllers.getGraphPanel().selectTransition();
     }
 
     @FXML
@@ -138,12 +131,14 @@ public class MainPanel extends BorderPane {
 
     private void styleAutoPositioningMenuItem() {
         autoPositioningMenuItem.setGraphic(model.autoPositionProperty().get()
-                ? new FontIcon(BoxiconsRegular.CHECK) : null);
+                ? new FontIcon(BoxiconsRegular.CHECK)
+                : null);
     }
 
     private void styleDarkThemeMenuItem() {
         darkThemeMenuItem.setGraphic(model.getTheme() == Theme.DARK
-                ? new FontIcon(BoxiconsRegular.CHECK) : null);
+                ? new FontIcon(BoxiconsRegular.CHECK)
+                : null);
     }
 
     @FXML
@@ -158,12 +153,13 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showInfo() {
-        Alerts.showInformationDialog(getScene(), "About", Constants.TITLE + " v" + Constants.VERSION, "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
+        Alerts.showInformationDialog(getScene(), "About", Constants.TITLE + " v" + Constants.VERSION,
+                "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
     }
 
     @FXML
     private void exit() {
-        //TODO: ask to save file, ...
+        // TODO: ask to save file, ...
         parent.exit();
     }
 }

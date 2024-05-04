@@ -1,18 +1,19 @@
 package it.univr.wordautomata.controller;
 
-import atlantafx.base.theme.Styles;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
+
+import atlantafx.base.layout.ModalBox;
+import atlantafx.base.theme.Styles;
 import it.univr.wordautomata.State;
 import it.univr.wordautomata.Transition;
+import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
-
-import java.util.function.Consumer;
-import javafx.scene.layout.GridPane;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 /**
  *
@@ -31,15 +32,18 @@ public class TransitionModalBody extends GridPane {
     @FXML
     private Button deleteButton;
 
-    private Consumer<String> onTextChange;
-    private Consumer<Edge<Transition, State>> onDeleteButtonClicked;
-
     private SmartGraphEdge<Transition, State> edge;
 
-    public TransitionModalBody(SmartGraphEdge<Transition, State> edge) {
+    private ModalBox dialog;
+
+    private Controllers controllers;
+
+    public TransitionModalBody(ModalBox dialog, SmartGraphEdge<Transition, State> edge) {
         Methods.loadAndSetController(Constants.TRANSITION_MODAL_BODY_FXML_FILENAME, this);
 
         this.edge = edge;
+        this.dialog = dialog;
+        this.controllers = Controllers.getInstance();
         setFields();
     }
 
@@ -58,26 +62,18 @@ public class TransitionModalBody extends GridPane {
 
                 transition.setLabel(transitionLabelTextField.getText());
 
-                if (onTextChange != null) {
-                    onTextChange.accept(newValue);
-                }
+                controllers.getGraphPanel().update();
             } else {
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
             }
         });
 
         deleteButton.setOnAction(e -> {
-            if (onDeleteButtonClicked != null) {
-                onDeleteButtonClicked.accept(edge.getUnderlyingEdge());
+            if (Alerts.showConfirmationDialog(getScene(), "Delete",
+                    "Do you really want to delete this transition?")) {
+                dialog.close();
+                controllers.getGraphPanel().removeEdge(underlyingEdge);
             }
         });
-    }
-
-    public void onTextChange(Consumer<String> onTextChange) {
-        this.onTextChange = onTextChange;
-    }
-
-    public void onDeleteButtonClicked(Consumer<Edge<Transition, State>> onDeleteButtonClicked) {
-        this.onDeleteButtonClicked = onDeleteButtonClicked;
     }
 }

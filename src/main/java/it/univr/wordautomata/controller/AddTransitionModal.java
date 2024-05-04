@@ -29,8 +29,9 @@ public class AddTransitionModal extends Dialog<TransitionWrapper> {
 
             return null;
         });
-        getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
         getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
+        getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
         getDialogPane().lookupButton(ButtonType.OK).disableProperty().bind(body.emptyTextfieldProperty());
 
         body.requestTextFieldFocus();

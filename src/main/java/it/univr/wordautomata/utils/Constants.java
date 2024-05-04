@@ -54,7 +54,7 @@ public class Constants {
     // Global Objects
     public static final Random random = new Random();
 
-    // Misc
+    // Enums
     public enum PlayBackSpeed {
         SLOW,
         REGULAR,

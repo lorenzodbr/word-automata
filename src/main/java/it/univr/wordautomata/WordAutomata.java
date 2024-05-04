@@ -1,6 +1,7 @@
 package it.univr.wordautomata;
 
 import it.univr.wordautomata.alerts.Alerts;
+import it.univr.wordautomata.controller.Controllers;
 import it.univr.wordautomata.controller.MainPanel;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.stylings.WindowStyler;
@@ -29,35 +30,41 @@ public class WordAutomata extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.model = Model.getInstance();
-        init(stage);
+        this.stage = stage;
+        initComponents();
         stage.show();
     }
 
-    private void init(Stage stage) throws IOException {
+    private void initComponents() throws IOException {
         initScene();
-        initStage(stage);
+        initStage();
         initTheme();
     }
 
     private void initScene() throws IOException {
         Methods.loadFonts(Constants.FONT_REGULAR_FILENAME, Constants.FONT_BOLD_FILENAME, Constants.FONT_ITALIC_FILENAME);
-        scene = new Scene(new MainPanel(this));
+        
+        MainPanel mainPanel = new MainPanel(this);
+        Controllers.getInstance().setMainPanel(mainPanel);
+        scene = new Scene(mainPanel);
     }
 
-    private void initStage(Stage stage) {
-        this.stage = stage;
+    private void initStage() {
         stage.setMinHeight(Constants.MIN_HEIGHT);
         stage.setMinWidth(Constants.MIN_WIDTH);
         stage.setHeight(Constants.HEIGHT);
         stage.setWidth(Constants.WIDTH);
+        
+        Locale.setDefault(Locale.ENGLISH);
         stage.setTitle(Constants.TITLE);
         stage.setScene(scene);
+
         Platform.setImplicitExit(false);
         stage.setOnCloseRequest(e -> {
             e.consume();
             exit();
         });
-        Locale.setDefault(Locale.ENGLISH);
+
     }
 
     private void initTheme() {
