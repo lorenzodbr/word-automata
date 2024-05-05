@@ -26,7 +26,6 @@ package com.brunomnsilva.smartgraph.graphview;
 import it.univr.wordautomata.Main;
 import it.univr.wordautomata.utils.Constants;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
