@@ -1,8 +1,10 @@
 package it.univr.wordautomata.model;
 
 import java.io.File;
+import java.util.Iterator;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
+import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
@@ -43,11 +45,15 @@ public class Model {
 
     private SimpleObjectProperty<PlayBackSpeed> playBackSpeed;
     private SimpleObjectProperty<PlayBackState> playBackState;
+    private SimpleBooleanProperty isPlayNextPressed;
+    private SimpleBooleanProperty areButtonsEnabled;
 
     private SimpleBooleanProperty atLeastOneVertex;
     private SimpleBooleanProperty atLeastOneEdge;
     private SimpleBooleanProperty autoPosition;
     private SimpleBooleanProperty pathFound;
+
+    private Iterator<Edge<Transition, State>> edgeToColor;
 
     private Model() {
         // this.graph = initSampleGraph();
@@ -62,6 +68,8 @@ public class Model {
         this.theme = new SimpleObjectProperty<>(Constants.Theme.DEFAULT);
         this.playBackSpeed = new SimpleObjectProperty<>(Constants.PlayBackSpeed.DEFAULT);
         this.playBackState = new SimpleObjectProperty<>(Constants.PlayBackState.PAUSED);
+        this.isPlayNextPressed = new SimpleBooleanProperty(false);
+        this.areButtonsEnabled = new SimpleBooleanProperty(false);
 
         updateGraphProperties();
     }
@@ -172,6 +180,14 @@ public class Model {
         return playBackState;
     }
 
+    public SimpleBooleanProperty isPlayNextPressed() {
+        return isPlayNextPressed;
+    }
+
+    public SimpleBooleanProperty areButtonsEnabled() {
+        return areButtonsEnabled;
+    }
+
     public void setAutoPosition(boolean value) {
         autoPosition.set(value);
     }
@@ -268,5 +284,13 @@ public class Model {
         updateGraphProperties();
         setInitialState(null);
         setSaved(false);
+    }
+
+    public Iterator<Edge<Transition, State>> getEdgeToColor() {
+        return edgeToColor;
+    }
+
+    public void setEdgeToColor(Iterator<Edge<Transition, State>> edgeToColor) {
+        this.edgeToColor = edgeToColor;
     }
 }
