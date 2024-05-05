@@ -132,9 +132,6 @@ public class GraphPanel extends StackPane {
 
         Vertex<State> v = graph.insertVertex(newState);
 
-        if (model.getOpenedFile() == null)
-            model.setOpenedFile(Constants.DEFAULT_AUTOMATA_FILE);
-
         model.setSaved(false);
         graphView.updateAndWait();
         model.updateGraphProperties();
