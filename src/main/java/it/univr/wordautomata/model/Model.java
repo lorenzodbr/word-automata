@@ -78,6 +78,7 @@ public class Model {
         return graph;
     }
 
+    @SuppressWarnings("unused")
     private DigraphEdgeList<State, Transition> initSampleGraph() {
         DigraphEdgeList<State, Transition> g = new DigraphEdgeList<>();
 
@@ -193,9 +194,7 @@ public class Model {
     }
 
     public void updateGraph(DigraphEdgeList<State, Transition> graph) {
-        // we must not change the reference of the graph
         this.graph = new DigraphEdgeList<>(graph);
-        // for hintLabel
         updateGraphProperties();
         Controllers.getInstance().getGraphPanel().initGraph();
     }
