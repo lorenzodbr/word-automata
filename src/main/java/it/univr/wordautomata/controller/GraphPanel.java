@@ -52,6 +52,22 @@ public class GraphPanel extends StackPane {
         initGraph();
         initModals();
         initProperties();
+        initEdgeColoring();
+    }
+
+    public void initEdgeColoring() {
+        model.isPlayNextPressed().addListener((o, oldVal, newVal) -> {
+            if (model.getEdgeToColor().hasNext()) {
+                Edge<Transition, State> e = model.getEdgeToColor().next();
+                graphView.getStylableEdge(e).setStyleInline("-fx-stroke: red;");
+            }
+        });
+
+        model.areButtonsEnabled().addListener((o, oldVal, newVal) -> {
+            // fallback to default style if no path exists anymore
+            for (Edge<Transition, State> e : model.getGraph().edges())
+                graphView.getStylableEdge(e).setStyleInline(null);
+        });
     }
 
     public void initGraph() {

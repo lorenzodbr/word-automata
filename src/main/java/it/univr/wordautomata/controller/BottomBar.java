@@ -95,6 +95,9 @@ public class BottomBar extends GridPane {
         wordInput.disableProperty().bind(model.atLeastOneEdgeProperty().not());
         styleButtons();
         styleTransitionsPanel();
+
+        // ugly
+        this.model.areButtonsEnabled().bind(buttonsEnabledBinding);
     }
 
     private void styleTransitionsPanel() {
@@ -148,6 +151,11 @@ public class BottomBar extends GridPane {
     }
 
     @FXML
+    private void toogleNextState() {
+        model.isPlayNextPressed().set(!model.isPlayNextPressed().get());
+    }
+
+    @FXML
     private void cycleSpeed() {
         model.cycleSpeed();
         styleSpeedButton();
@@ -188,6 +196,7 @@ public class BottomBar extends GridPane {
             }
 
             model.pathFoundProperty().set(true);
+            model.setEdgeToColor(path.iterator());
 
             transitionsHint.setVisible(false);
             transitionsPanelHBox.getChildren().add(getStateLabel(model.getInitialState().toString()));
