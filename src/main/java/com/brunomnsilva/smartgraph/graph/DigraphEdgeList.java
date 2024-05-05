@@ -402,12 +402,4 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
 
         return edge;
     }
-
-    public void copy(DigraphEdgeList<V, E> graph) {
-        this.vertices.clear();
-        this.vertices.putAll(graph.vertices);
-
-        this.edges.clear();
-        this.edges.putAll(graph.edges);
-    }
 }
