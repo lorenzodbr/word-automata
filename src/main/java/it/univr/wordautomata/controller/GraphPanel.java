@@ -12,7 +12,6 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import atlantafx.base.controls.ModalPane;
 import it.univr.wordautomata.alerts.Alerts;
-import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
@@ -20,7 +19,6 @@ import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
-import javafx.collections.ListChangeListener.Change;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -38,7 +36,6 @@ public class GraphPanel extends StackPane {
     private Label hintLabel;
 
     private ModalPane modalPane;
-    private ContentZoomScrollPane zoomScrollPane;
 
     private Graph<State, Transition> graph;
     private SmartGraphPanel<State, Transition> graphView;
@@ -67,7 +64,7 @@ public class GraphPanel extends StackPane {
 
         graphView.setVisible(false);
 
-        getChildren().add(zoomScrollPane = new ContentZoomScrollPane(graphView));
+        getChildren().add(new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> addVertex(e.getSceneX(), e.getSceneY()));
         graphView.setVertexDoubleClickAction(this::showStateSideBar);

@@ -1,13 +1,11 @@
 package it.univr.wordautomata.utils;
 
 import it.univr.wordautomata.Main;
-import java.io.IOException;
 import java.util.function.Consumer;
 
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
