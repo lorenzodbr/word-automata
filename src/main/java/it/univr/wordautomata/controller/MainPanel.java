@@ -168,6 +168,11 @@ public class MainPanel extends BorderPane {
 
     @FXML
     public void saveAutomata() {
+        if(model.getOpenedFile() == null) {
+            saveAsAutomata();
+            return;
+        }
+
         AutomataSaver.save();
     }
 

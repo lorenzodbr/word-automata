@@ -28,7 +28,7 @@ public class Constants {
     public final static String ICON_BASE_FOLDER = "/icons/";
     public final static String STYLE_FILENAME = "style";
     public final static String GRAPH_STYLE_FILENAME = "smartgraph";
-    public final static String DEFAULT_AUTOMATA_FILENAME = "tmp";
+    public final static String DEFAULT_AUTOMATA_FILENAME = "Untitled";
     public final static String ICON_FILENAME = "logo";
     public final static String STYLE_EXTENSION = ".css";
     public final static String GRAPH_STYLE_EXTENSION = ".properties";
