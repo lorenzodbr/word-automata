@@ -36,6 +36,7 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
@@ -377,10 +378,12 @@ public class SmartGraphPanel<V, E> extends Pane {
      *                               and/or height, and; (3) If
      *                               this method was already called.
      */
-    public void init() throws IllegalStateException {
-        if (this.getScene() == null) {
-            throw new IllegalStateException("You must call this method after the instance was added to a scene.");
-        } else if (this.getWidth() == 0 || this.getHeight() == 0) {
+    public void init(Pane node) throws IllegalStateException {
+        // if (scene == null) {
+        // throw new IllegalStateException("You must call this method after the instance
+        // was added to a scene.");
+        // } else
+        if (node.getWidth() == 0 || node.getHeight() == 0) {
             throw new IllegalStateException("The layout for this panel has zero width and/or height");
         } else if (this.initialized) {
             throw new IllegalStateException("Already initialized. Use update() method instead.");
@@ -388,8 +391,8 @@ public class SmartGraphPanel<V, E> extends Pane {
 
         if (placementStrategy != null) {
             // call strategy to place the vertices in their initial locations
-            placementStrategy.place(this.widthProperty().doubleValue(),
-                    this.heightProperty().doubleValue(),
+            placementStrategy.place(node.getWidth(),
+                    node.getHeight(),
                     this);
         } else {
             // apply circular placement, I think it's a better initial state for automatic

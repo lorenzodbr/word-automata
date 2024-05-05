@@ -5,11 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Optional;
+import java.util.concurrent.Future;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 
 import it.univr.wordautomata.alerts.Alerts;
+import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
@@ -21,45 +22,47 @@ public class AutomataSaver {
     private AutomataSaver() {
     }
 
-    public static void save(String filename) {
+    public static void save(File file) {
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
 
         try (
-                FileOutputStream file = new FileOutputStream(filename);
-                ObjectOutputStream out = new ObjectOutputStream(file)) {
+                FileOutputStream fileStream = new FileOutputStream(file);
+                ObjectOutputStream out = new ObjectOutputStream(fileStream)) {
             out.writeObject(graph);
+            Model.getInstance().setSaved(true);
         } catch (Exception e) {
             e.printStackTrace();
 
-            Alerts.showErrorDialog(null, "Error Saving Automata", "An error occurred while saving the automata.");
+            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Saving Automata", "An error occurred while saving the automata.",
+                    false);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static DigraphEdgeList<State, Transition> read(String filename) {
+    public static DigraphEdgeList<State, Transition> read(File file) {
         DigraphEdgeList<State, Transition> graph = null;
 
         try (
-                FileInputStream file = new FileInputStream(filename);
-                ObjectInputStream in = new ObjectInputStream(file)) {
+                FileInputStream fileStream = new FileInputStream(file);
+                ObjectInputStream in = new ObjectInputStream(fileStream)) {
             graph = (DigraphEdgeList<State, Transition>) in.readObject();
+            Model.getInstance().setOpenedFile(file);
         } catch (Exception e) {
             e.printStackTrace();
 
-            Alerts.showErrorDialog(null, "Error Reading Automata", "An error occurred while reading the automata.");
+            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Reading Automata", "An error occurred while reading the automata.",
+                    false);
         }
 
         return graph;
     }
 
-    private static final String DEFAULT_FILENAME = "tmp" + Constants.AUTOMATA_EXTENSION;
-
     public static void save() {
-        save(DEFAULT_FILENAME);
+        save(Model.getInstance().getOpenedFile());
     }
 
     public static DigraphEdgeList<State, Transition> read() {
-        return read(DEFAULT_FILENAME);
+        return read(new File(Constants.DEFAULT_AUTOMATA_FILENAME + Constants.AUTOMATA_EXTENSION));
     }
 
     public static File showOpenDialog(Stage stage) {
@@ -69,5 +72,14 @@ public class AutomataSaver {
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
         return fileChooser.showOpenDialog(stage);
+    }
+
+    public static File showSaveDialog(Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save " + Constants.AUTOMATA_EXTENSION + " File");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.getExtensionFilters()
+                .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
+        return fileChooser.showSaveDialog(stage);
     }
 }

@@ -16,16 +16,16 @@
             <menus>
                 <Menu mnemonicParsing="true" text="_File">
                     <items>
-                        <MenuItem mnemonicParsing="true" onAction="#openAutomata" text="_Open .automata" />
-                        <MenuItem mnemonicParsing="true" text="Sa_ve" />
-                        <MenuItem mnemonicParsing="true" text="Sav_e as" />
+                        <MenuItem fx:id="openAutomataMenuItem" mnemonicParsing="true" onAction="#openAutomata" text="_Open .automata" />
+                        <MenuItem fx:id="saveAutomataMenuItem" mnemonicParsing="true" text="Sa_ve" onAction="#saveAutomata" />
+                        <MenuItem fx:id="saveAsAutomataMenuItem" mnemonicParsing="true" text="Sav_e as" onAction="#saveAsAutomata" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="true" onAction="#exit" text="E_xit" />
+                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="true" onAction="#exit" text="E_xit" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Automata">
                     <items>
-                        <MenuItem mnemonicParsing="true" onAction="#addState" text="Add _state" />
+                        <MenuItem fx:id="addStateMenuItem" mnemonicParsing="true" onAction="#addState" text="Add _state" />
                         <MenuItem fx:id="addTransitionMenuItem" disable="true" mnemonicParsing="true" onAction="#addTransition" text="Add _transition" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="selectStateMenuItem" mnemonicParsing="true" onAction="#selectState" text="Select state" />
@@ -44,7 +44,7 @@
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Help">
                     <items>
-                        <MenuItem mnemonicParsing="true" text="_Legend" />
+                        <MenuItem fx:id="legendMenuItem" mnemonicParsing="true" text="_Legend" />
                         <MenuItem mnemonicParsing="true" text="_Tutorial" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="true" onAction="#showInfo" text="A_bout" />

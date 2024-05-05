@@ -25,7 +25,7 @@ package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Edge;
 
-import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
@@ -137,9 +137,9 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         toBack();
 
         contextMenu = Methods.buildContextMenu(e -> {
-            Controllers.getInstance().getGraphPanel().showTransitionSideBar((SmartGraphEdge) this);
+            Components.getInstance().getGraphPanel().showTransitionSideBar((SmartGraphEdge) this);
         }, e -> {
-            Controllers.getInstance().getGraphPanel().queryRemoveEdge((Edge) underlyingEdge);
+            Components.getInstance().getGraphPanel().queryRemoveEdge((Edge) underlyingEdge);
         });
 
         setOnMousePressed(event -> {

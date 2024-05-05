@@ -52,14 +52,17 @@ public class StateModalBody extends GridPane {
 
     private SmartGraphVertex<State> vertex;
     private ModalBox dialog;
-    private Controllers controllers;
+    private Components controllers;
+
+    private Model model;
 
     public StateModalBody(ModalBox dialog, SmartGraphVertex<State> vertex) {
         Methods.loadAndSetController(Constants.STATE_MODAL_BODY_FXML_FILENAME, this);
 
         this.vertex = vertex;
         this.dialog = dialog;
-        this.controllers = Controllers.getInstance();
+        this.controllers = Components.getInstance();
+        this.model = Model.getInstance();
 
         setFields();
     }
@@ -73,6 +76,7 @@ public class StateModalBody extends GridPane {
             if (newValue != null && !newValue.isBlank()) {
                 stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
 
+                model.setSaved(false);
                 state.setLabel(stateLabelTextField.getText());
                 controllers.getGraphPanel().update();
             } else {
@@ -88,7 +92,8 @@ public class StateModalBody extends GridPane {
             } else {
                 vertex.removeStyleClass(Constants.FINAL_STATE_CLASS);
             }
-
+            
+            model.setSaved(false);
             controllers.getBottomBar().computePath();
         });
 

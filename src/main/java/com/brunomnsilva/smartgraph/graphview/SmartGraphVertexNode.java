@@ -25,7 +25,7 @@ package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Vertex;
 
-import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -146,9 +146,9 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
         }
 
         this.contextMenu = Methods.buildContextMenu(e -> {
-            Controllers.getInstance().getGraphPanel().showStateSideBar((SmartGraphVertex) this);
+            Components.getInstance().getGraphPanel().showStateSideBar((SmartGraphVertex) this);
         }, e -> {
-            Controllers.getInstance().getGraphPanel().queryRemoveVertex((Vertex) underlyingVertex);
+            Components.getInstance().getGraphPanel().queryRemoveVertex((Vertex) underlyingVertex);
         });
     }
 

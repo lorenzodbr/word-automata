@@ -44,7 +44,11 @@
         <Button fx:id="previousStateButton" disable="true" maxHeight="40.0" maxWidth="40.0"
             minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
             prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
-            GridPane.columnIndex="2" />
+            GridPane.columnIndex="2">
+            <graphic>
+                <FontIcon iconLiteral="bx-skip-previous" />
+            </graphic>F
+        </Button>
         <Button fx:id="playPauseButton" disable="true" maxHeight="40.0" minHeight="40.0"
             mnemonicParsing="false" onAction="#checkWord" prefHeight="40.0" prefWidth="70.0"
             styleClass="button-icon, button-outlined, accent" textAlignment="CENTER"
@@ -52,7 +56,11 @@
         <Button fx:id="nextStateButton" disable="true" maxHeight="40.0" maxWidth="40.0"
             minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
             prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
-            GridPane.columnIndex="4" />
+            GridPane.columnIndex="4">
+            <graphic>
+                <FontIcon iconLiteral="bx-skip-next" />
+            </graphic>
+        </Button>
         <Button fx:id="speedButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
             minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0"
             prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"

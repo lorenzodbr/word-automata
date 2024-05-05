@@ -35,14 +35,14 @@ public class TransitionModalBody extends GridPane {
 
     private ModalBox dialog;
 
-    private Controllers controllers;
+    private Components controllers;
 
     public TransitionModalBody(ModalBox dialog, SmartGraphEdge<Transition, State> edge) {
         Methods.loadAndSetController(Constants.TRANSITION_MODAL_BODY_FXML_FILENAME, this);
 
         this.edge = edge;
         this.dialog = dialog;
-        this.controllers = Controllers.getInstance();
+        this.controllers = Components.getInstance();
         setFields();
     }
 

@@ -1,7 +1,8 @@
 package it.univr.wordautomata;
 
 import it.univr.wordautomata.alerts.Alerts;
-import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.backend.AutomataSaver;
+import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.controller.MainPanel;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.stylings.WindowStyler;
@@ -14,6 +15,7 @@ import java.util.Locale;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -26,12 +28,14 @@ public class WordAutomata extends Application {
     private Scene scene;
 
     private Model model;
+    private Components controllers;
 
     @Override
     public void start(Stage stage) throws IOException {
         this.model = Model.getInstance();
-        this.stage = stage;
-        
+        this.controllers = Components.getInstance();
+
+        controllers.setStage((this.stage = stage));
         initComponents();
         stage.show();
     }
@@ -43,11 +47,12 @@ public class WordAutomata extends Application {
     }
 
     private void initScene() throws IOException {
-        Methods.loadFonts(Constants.FONT_REGULAR_FILENAME, Constants.FONT_BOLD_FILENAME, Constants.FONT_ITALIC_FILENAME);
-        
+        Methods.loadFonts(Constants.FONT_REGULAR_FILENAME, Constants.FONT_BOLD_FILENAME,
+                Constants.FONT_ITALIC_FILENAME);
+
         MainPanel mainPanel = new MainPanel(this);
-        Controllers.getInstance().setMainPanel(mainPanel);
-        scene = new Scene(mainPanel);
+        controllers.setMainPanel(mainPanel);
+        controllers.setScene((this.scene = new Scene(mainPanel)));
     }
 
     private void initStage() {
@@ -55,9 +60,15 @@ public class WordAutomata extends Application {
         stage.setMinWidth(Constants.MIN_WIDTH);
         stage.setHeight(Constants.HEIGHT);
         stage.setWidth(Constants.WIDTH);
-        
+        stage.titleProperty().bind(Bindings.concat(
+                Constants.TITLE,
+                Bindings.when(model.openedFileProperty().isNull())
+                        .then("")
+                        .otherwise(Bindings.concat(" - ", model.openedFileProperty().asString())),
+                Bindings.when(model.savedProperty())
+                        .then("")
+                        .otherwise("*")));
         Locale.setDefault(Locale.ENGLISH);
-        stage.setTitle(Constants.TITLE);
         Methods.setIcon(stage);
         stage.setScene(scene);
 
@@ -71,7 +82,7 @@ public class WordAutomata extends Application {
     private void initTheme() {
         setTheme(model.getTheme());
     }
-    
+
     private void setTheme(Theme theme) {
         switch (theme) {
             case DARK:
@@ -91,9 +102,16 @@ public class WordAutomata extends Application {
     }
 
     public void exit() {
-        if (Alerts.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
-            // AutomataSaver.save();
-            Platform.exit();
+        if (!model.isSaved()) {
+            if (Alerts.showConfirmationDialog(scene, "Exit",
+                    "Do you want to save the current automata at " + model.getOpenedFile().getAbsolutePath()
+                            + " before exiting?")) {
+                AutomataSaver.save();
+            }
+        } else if (!Alerts.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
+            return;
         }
+
+        Platform.exit();
     }
 }

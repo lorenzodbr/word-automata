@@ -1,38 +1,48 @@
 package it.univr.wordautomata.model;
 
+import java.io.File;
+
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartPlacementStrategy;
 
-import it.univr.wordautomata.controller.Controllers;
+import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
 import it.univr.wordautomata.utils.Constants.Theme;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
- * The `Model` class represents the model component of the Word Automata application.
- * It stores the {@link State} of the application, including the theme, graph, initial state,
- * placement strategies, playback speed and state, and various boolean properties.
- * The `Model` class follows the Singleton design pattern to ensure that only one instance
+ * The `Model` class represents the model component of the Word Automata
+ * application.
+ * It stores the {@link State} of the application, including the theme, graph,
+ * initial state,
+ * placement strategies, playback speed and state, and various boolean
+ * properties.
+ * The `Model` class follows the Singleton design pattern to ensure that only
+ * one instance
  * of the class exists throughout the application.
  */
 public class Model {
 
     private static Model instance;
 
-    private Theme theme;
+    private SimpleObjectProperty<Theme> theme;
     private DigraphEdgeList<State, Transition> graph;
     private State initialState = null;
 
     private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
     private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
-    private PlayBackSpeed playBackSpeed = PlayBackSpeed.DEFAULT;
-    private PlayBackState playBackState = PlayBackState.DEFAULT;
+    private SimpleObjectProperty<File> openedFile;
+    private SimpleBooleanProperty saved;
+
+    private SimpleObjectProperty<PlayBackSpeed> playBackSpeed;
+    private SimpleObjectProperty<PlayBackState> playBackState;
 
     private SimpleBooleanProperty atLeastOneVertex;
     private SimpleBooleanProperty atLeastOneEdge;
@@ -40,7 +50,6 @@ public class Model {
     private SimpleBooleanProperty pathFound;
 
     private Model() {
-        this.theme = Theme.DEFAULT;
         // this.graph = initSampleGraph();
         this.graph = new DigraphEdgeList<>();
 
@@ -48,6 +57,11 @@ public class Model {
         this.atLeastOneEdge = new SimpleBooleanProperty(false);
         this.autoPosition = new SimpleBooleanProperty(Constants.DEFAULT_AUTO_POSITION);
         this.pathFound = new SimpleBooleanProperty(false);
+        this.saved = new SimpleBooleanProperty(true);
+        this.openedFile = new SimpleObjectProperty<>(null);
+        this.theme = new SimpleObjectProperty<>(Constants.Theme.DEFAULT);
+        this.playBackSpeed = new SimpleObjectProperty<>(Constants.PlayBackSpeed.DEFAULT);
+        this.playBackState = new SimpleObjectProperty<>(Constants.PlayBackState.PAUSED);
 
         updateGraphProperties();
     }
@@ -60,16 +74,20 @@ public class Model {
         return instance;
     }
 
-    public Theme getTheme() {
+    public SimpleObjectProperty<Theme> themeProperty() {
         return theme;
     }
 
+    public Theme getTheme() {
+        return theme.get();
+    }
+
     public void setTheme(Theme theme) {
-        this.theme = theme;
+        this.theme.set(theme);
     }
 
     public Theme cycleTheme() {
-        Theme next = theme.next();
+        Theme next = theme.get().next();
         instance.setTheme(next);
         return next;
     }
@@ -78,6 +96,7 @@ public class Model {
         return graph;
     }
 
+    @SuppressWarnings("unused")
     private DigraphEdgeList<State, Transition> initSampleGraph() {
         DigraphEdgeList<State, Transition> g = new DigraphEdgeList<>();
 
@@ -128,18 +147,28 @@ public class Model {
     }
 
     public PlayBackSpeed getSpeed() {
-        return playBackSpeed;
+        return playBackSpeed.get();
     }
 
     public PlayBackSpeed cycleSpeed() {
-        return (playBackSpeed = playBackSpeed.next());
+        playBackSpeed.set(getSpeed().next());
+        return playBackSpeed.get();
     }
 
     public PlayBackState cyclePlayBackState() {
-        return (playBackState = playBackState.next());
+        playBackState.set(getPlayBackState().next());
+        return playBackState.get();
     }
 
     public PlayBackState getPlayBackState() {
+        return playBackState.get();
+    }
+
+    public SimpleObjectProperty<PlayBackSpeed> playBackSpeedProperty() {
+        return playBackSpeed;
+    }
+
+    public SimpleObjectProperty<PlayBackState> playBackStateProperty() {
         return playBackState;
     }
 
@@ -193,10 +222,51 @@ public class Model {
     }
 
     public void updateGraph(DigraphEdgeList<State, Transition> graph) {
+        if(graph == null) {
+            return;
+        }
+
         // we must not change the reference of the graph
         this.graph = new DigraphEdgeList<>(graph);
         // for hintLabel
         updateGraphProperties();
-        Controllers.getInstance().getGraphPanel().initGraph();
+        Components.getInstance().getGraphPanel().initGraph();
+    }
+
+    public void setOpenedFile(File file) {
+        openedFile.set(file);
+    }
+
+    public File getOpenedFile() {
+        return openedFile.get();
+    }
+
+    public SimpleObjectProperty<File> openedFileProperty() {
+        return openedFile;
+    }
+
+    public void setSaved(boolean value) {
+        saved.set(value);
+    }
+
+    public SimpleBooleanProperty savedProperty() {
+        return saved;
+    }
+
+    public boolean isSaved() {
+        return saved.get();
+    }
+
+    public void clear() {
+        for (var e : graph.edges()) {
+            graph.removeEdge(e);
+        }
+        for (var v : graph.vertices()) {
+            graph.removeVertex(v);
+        }
+        
+        updateGraphProperties();
+        setInitialState(null);
+        setSaved(false);
     }
 }

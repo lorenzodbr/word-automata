@@ -19,7 +19,7 @@ public class StateModal extends ModalBox {
         setMaxWidth(Constants.SIDEBAR_MAX_WIDTH);
 
         setOnClose((e) -> {
-            Controllers.getInstance().getGraphPanel().update();
+            Components.getInstance().getGraphPanel().update();
             e.consume();
         });
     }

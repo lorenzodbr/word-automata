@@ -60,6 +60,11 @@ public class SmartCircularSortedPlacementStrategy implements SmartPlacementStrat
 
         for (SmartGraphVertex<V> vertex : vertices) {
 
+            if(vertices.size() == 1){
+                vertex.setPosition(center.getX(), center.getY());
+                return;
+            }
+
             if (first) {
                 // verify the smallest width and height.
                 if (width > height)

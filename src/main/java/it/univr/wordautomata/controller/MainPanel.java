@@ -8,10 +8,12 @@ import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.Theme;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -37,6 +39,9 @@ public class MainPanel extends BorderPane {
     private MenuItem addTransitionMenuItem;
 
     @FXML
+    private MenuItem addStateMenuItem;
+
+    @FXML
     private MenuItem setInitialStateMenuItem;
 
     @FXML
@@ -51,9 +56,24 @@ public class MainPanel extends BorderPane {
     @FXML
     private MenuItem darkThemeMenuItem;
 
+    @FXML
+    private MenuItem saveAutomataMenuItem;
+
+    @FXML
+    private MenuItem openAutomataMenuItem;
+
+    @FXML
+    private MenuItem saveAsAutomataMenuItem;
+
+    @FXML
+    private MenuItem exitMenuItem;
+
+    @FXML
+    private MenuItem legendMenuItem;
+
     private Model model;
     private WordAutomata parent;
-    private Controllers controllers;
+    private Components controllers;
 
     /**
      * Constructs a new MainPanel object.
@@ -65,7 +85,7 @@ public class MainPanel extends BorderPane {
 
         this.parent = parent;
         this.model = Model.getInstance();
-        this.controllers = Controllers.getInstance();
+        this.controllers = Components.getInstance();
 
         addGraphPanel();
         addBottomBar();
@@ -99,8 +119,8 @@ public class MainPanel extends BorderPane {
     private void clearGraph() {
         if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
             controllers.getBottomBar().clear();
-            controllers.getGraphPanel().clearGraph();
-            model.setInitialState(null);
+            controllers.getGraphPanel().clear();
+            model.clear();
         }
     }
 
@@ -122,20 +142,43 @@ public class MainPanel extends BorderPane {
     @FXML
     private void toggleAutoPositioning() {
         model.toggleAutoPositioning();
-        styleAutoPositioningMenuItem();
     }
 
     @FXML
     private void openAutomata() {
         // open file dialog
         File file = AutomataSaver.showOpenDialog((Stage) getScene().getWindow());
-        
+
         if (file != null) {
-            if (file.exists() && file.isFile() && file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)){
-                model.updateGraph(AutomataSaver.read(file.getPath()));
+            if (file.exists() && file.isFile() && file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)) {
+                loadAutomata(file);
             }
         }
 
+    }
+
+    public void loadAutomata(File file) {
+        if (model.getOpenedFile() != null && !Alerts.showConfirmationDialog(getScene(), "Open automata",
+                "Do you really want to open a new automata? You will lose any unsaved changes.")) {
+            return;
+        }
+
+        model.updateGraph(AutomataSaver.read(file));
+    }
+
+    @FXML
+    public void saveAutomata() {
+        AutomataSaver.save();
+    }
+
+    @FXML
+    public void saveAsAutomata() {
+        File file = AutomataSaver.showSaveDialog((Stage) getScene().getWindow());
+
+        if (file != null) {
+            model.setOpenedFile(file);
+            AutomataSaver.save(file);
+        }
     }
 
     private void initBindings() {
@@ -145,31 +188,35 @@ public class MainPanel extends BorderPane {
         clearGraphMenuItem.disableProperty().bind(noVertexBinding);
         addTransitionMenuItem.disableProperty().bind(noVertexBinding);
         setInitialStateMenuItem.disableProperty().bind(noVertexBinding);
+        autoPositioningMenuItem.disableProperty().bind(noVertexBinding);
         selectStateMenuItem.disableProperty().bind(noVertexBinding);
         selectTransitionMenuItem.disableProperty().bind(noEdgeBinding);
     }
 
     private void styleMenuItems() {
-        styleAutoPositioningMenuItem();
-        styleDarkThemeMenuItem();
-    }
+        autoPositioningMenuItem.graphicProperty().bind(Bindings.when(model.autoPositionProperty())
+                .then(new FontIcon(BoxiconsRegular.CHECK))
+                .otherwise((FontIcon) null));
+        darkThemeMenuItem.graphicProperty().bind(Bindings.when(model.themeProperty().isEqualTo(Theme.DARK))
+                .then(new FontIcon(BoxiconsRegular.CHECK))
+                .otherwise((FontIcon) null));
+        saveAutomataMenuItem.disableProperty().bind(model.savedProperty());
 
-    private void styleAutoPositioningMenuItem() {
-        autoPositioningMenuItem.setGraphic(model.autoPositionProperty().get()
-                ? new FontIcon(BoxiconsRegular.CHECK)
-                : null);
-    }
-
-    private void styleDarkThemeMenuItem() {
-        darkThemeMenuItem.setGraphic(model.getTheme() == Theme.DARK
-                ? new FontIcon(BoxiconsRegular.CHECK)
-                : null);
+        openAutomataMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+O"));
+        saveAutomataMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+S"));
+        saveAsAutomataMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+SHIFT+S"));
+        exitMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+Q"));
+        autoPositioningMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+A"));
+        addStateMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+N"));
+        addTransitionMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+SHIFT+N"));
+        clearGraphMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+SHIFT+C"));
+        setInitialStateMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+I"));
+        legendMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+L"));
     }
 
     @FXML
     private void toggleDarkTheme() {
         parent.toggleTheme();
-        styleDarkThemeMenuItem();
     }
 
     public double getMenuBarHeight() {

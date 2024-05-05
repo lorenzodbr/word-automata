@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 public class Alerts {
     public static boolean showConfirmationDialog(Scene scene, String title, String body) {
-
         return ButtonType.YES.equals(
                 createAlert(Alert.AlertType.CONFIRMATION,
                         scene, title, null, body,
@@ -26,8 +25,18 @@ public class Alerts {
         createAlert(Alert.AlertType.INFORMATION, scene, title, header, body, ButtonType.OK).showAndWait();
     }
 
-    public static void showErrorDialog(Scene scene, String title, String body) {
-        createAlert(Alert.AlertType.ERROR, scene, title, null, body, ButtonType.OK).showAndWait();
+    public static void showErrorDialog(Scene scene, String title, String body, boolean showAndWait) {
+        showErrorDialog(scene, title, null, body, showAndWait);
+    }
+
+    public static void showErrorDialog(Scene scene, String title, String header, String body, boolean showAndWait) {
+        Alert alert = createAlert(Alert.AlertType.ERROR, scene, title, header, body, ButtonType.OK);
+
+        if (showAndWait) {
+            alert.showAndWait();
+        } else {
+            alert.show();
+        }
     }
 
     private static Alert createAlert(Alert.AlertType type, Scene scene, String title, String header, String body,
@@ -36,14 +45,16 @@ public class Alerts {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(body);
-        
+
         Parent alertDialog = alert.getDialogPane();
         Scene alertScene = alertDialog.getScene();
         Stage alertStage = (Stage) alertScene.getWindow();
 
         WindowStyler.setTheme(alertStage);
-        alertDialog.getStylesheets().addAll(scene.getRoot().getStylesheets());
-        alert.initOwner(scene.getWindow());
+        if (scene != null) {
+            alertDialog.getStylesheets().addAll(scene.getRoot().getStylesheets());
+            alert.initOwner(scene.getWindow());
+        }
         alert.getButtonTypes().setAll(buttons);
 
         return alert;
