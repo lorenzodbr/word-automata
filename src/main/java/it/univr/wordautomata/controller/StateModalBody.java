@@ -19,6 +19,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -50,6 +51,9 @@ public class StateModalBody extends GridPane {
     @FXML
     private VBox outboundTransitions;
 
+    @FXML
+    private ScrollPane outboundTransitionsScrollPane;
+
     private SmartGraphVertex<State> vertex;
     private ModalBox dialog;
     private Components controllers;
@@ -65,6 +69,8 @@ public class StateModalBody extends GridPane {
         this.model = Model.getInstance();
 
         setFields();
+
+        prefHeightProperty().bind(Components.getInstance().getGraphPanel().heightProperty());
     }
 
     private void setFields() {
@@ -92,7 +98,7 @@ public class StateModalBody extends GridPane {
             } else {
                 vertex.removeStyleClass(Constants.FINAL_STATE_CLASS);
             }
-            
+
             model.setSaved(false);
             controllers.getBottomBar().computePath();
         });

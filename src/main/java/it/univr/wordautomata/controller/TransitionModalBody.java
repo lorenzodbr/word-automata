@@ -44,6 +44,8 @@ public class TransitionModalBody extends GridPane {
         this.dialog = dialog;
         this.controllers = Components.getInstance();
         setFields();
+
+        prefHeightProperty().bind(Components.getInstance().getGraphPanel().heightProperty());
     }
 
     private void setFields() {
