@@ -1,5 +1,7 @@
 package it.univr.wordautomata.controller;
 
+import java.io.File;
+
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
@@ -18,6 +20,7 @@ import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener.Change;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -35,18 +38,19 @@ public class GraphPanel extends StackPane {
     private Label hintLabel;
 
     private ModalPane modalPane;
+    private ContentZoomScrollPane zoomScrollPane;
 
     private Graph<State, Transition> graph;
     private SmartGraphPanel<State, Transition> graphView;
 
     private Model model;
-    private Controllers controllers;
+    private Components controllers;
 
     public GraphPanel() {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
         this.model = Model.getInstance();
-        this.controllers = Controllers.getInstance();
+        this.controllers = Components.getInstance();
 
         initGraph();
         initModals();
@@ -56,21 +60,25 @@ public class GraphPanel extends StackPane {
     public void initGraph() {
         this.graph = model.getGraph();
 
-        getChildren().remove(graphView);
-        graphView = new SmartGraphPanel<State, Transition>(graph,
+        getChildren().retainAll(hintLabel, modalPane);
+        this.graphView = new SmartGraphPanel<State, Transition>(graph,
                 model.getInitialPlacement(),
                 model.getAutomaticPlacementStrategy());
-        getChildren().add(new ContentZoomScrollPane(graphView));
+
+        graphView.setVisible(false);
+
+        getChildren().add(zoomScrollPane = new ContentZoomScrollPane(graphView));
 
         graphView.setBackgroundDoubleClickAction(e -> addVertex(e.getSceneX(), e.getSceneY()));
         graphView.setVertexDoubleClickAction(this::showStateSideBar);
         graphView.setEdgeDoubleClickAction(this::showTransitionSideBar);
 
-        Platform.runLater(() -> {
-            graphView.init();
-        });
-
         initGraphProperties();
+
+        Platform.runLater(() -> {
+            graphView.init(this);
+            graphView.setVisible(true);
+        });
     }
 
     private void initModals() {
@@ -94,12 +102,16 @@ public class GraphPanel extends StackPane {
         this.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             if (db.hasFiles()) {
-                String filename = db.getFiles().get(0).getPath();
-                if (filename.endsWith(Constants.AUTOMATA_EXTENSION)) {
-                    model.updateGraph(AutomataSaver.read(filename));
+                File file = db.getFiles().get(0);
+                if (file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)) {
+                    event.consume();
+
+                    Platform.runLater(() -> controllers.getMainPanel().loadAutomata(file));
+                } else {
+                    Alerts.showErrorDialog(getScene(), "Error", "Invalid file format",
+                            "Only .automata files are accepted.", true);
                 }
             }
-            event.consume();
         });
     }
 
@@ -119,6 +131,11 @@ public class GraphPanel extends StackPane {
         }
 
         Vertex<State> v = graph.insertVertex(newState);
+
+        if (model.getOpenedFile() == null)
+            model.setOpenedFile(Constants.DEFAULT_AUTOMATA_FILE);
+
+        model.setSaved(false);
         graphView.updateAndWait();
         model.updateGraphProperties();
 
@@ -158,6 +175,7 @@ public class GraphPanel extends StackPane {
                 newTransition.getEndingState(),
                 newTransition.getTransition());
 
+        model.setSaved(false);
         model.updateGraphProperties();
         graphView.updateAndWait();
 
@@ -206,15 +224,8 @@ public class GraphPanel extends StackPane {
         }
     }
 
-    public void clearGraph() {
-        for (var e : graph.edges()) {
-            graph.removeEdge(e);
-        }
-        for (var v : graph.vertices()) {
-            graph.removeVertex(v);
-        }
-
-        model.updateGraphProperties();
+    public void clear() {
+        model.clear();
         graphView.update();
         modalPane.hide();
     }
@@ -231,6 +242,7 @@ public class GraphPanel extends StackPane {
     public void removeVertex(Vertex<State> v) {
         graph.removeVertex(v);
 
+        model.setSaved(false);
         model.updateGraphProperties();
         graphView.update();
     }
@@ -238,6 +250,7 @@ public class GraphPanel extends StackPane {
     public void removeEdge(Edge<Transition, State> e) {
         graph.removeEdge(e);
 
+        model.setSaved(false);
         model.updateGraphProperties();
         graphView.update();
     }

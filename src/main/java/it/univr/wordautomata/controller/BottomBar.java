@@ -9,6 +9,7 @@ import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -16,11 +17,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 
 import java.util.List;
 
@@ -74,13 +74,24 @@ public class BottomBar extends GridPane {
     @FXML
     private Label transitionsHint;
 
+    @FXML
+    private Circle firstSpeedCircle;
+
+    @FXML
+    private Circle secondSpeedCircle;
+
+    @FXML
+    private Circle thirdSpeedCircle;
+
+    private Circle[] speedCircles;
+
     private BooleanBinding buttonsEnabledBinding;
 
     private Model model;
 
     public BottomBar() {
         Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);
-        
+
         this.model = Model.getInstance();
 
         wordInput.disableProperty().bind(model.atLeastOneEdgeProperty().not());
@@ -98,37 +109,34 @@ public class BottomBar extends GridPane {
 
         initPlayPauseButton();
         initResetButton();
-        initSpeedButton();
         initPreviousNextStateButtons();
+
+        initSpeedButton();
     }
 
     private void initPlayPauseButton() {
-        PlayBackState state = model.getPlayBackState();
         playPauseButton.disableProperty()
                 .bind(buttonsEnabledBinding);
-        playPauseButton
-                .setGraphic(new FontIcon(state == PlayBackState.PAUSED ? BoxiconsRegular.PLAY : BoxiconsRegular.PAUSE));
+        playPauseButton.graphicProperty()
+                .bind(Bindings.when(model.playBackStateProperty().isEqualTo(PlayBackState.PLAYING))
+                        .then(new FontIcon(BoxiconsRegular.PAUSE)).otherwise(new FontIcon(BoxiconsRegular.PLAY)));
     }
 
     private void initSpeedButton() {
         speedButtonVBox.disableProperty().bind(speedButton.disableProperty());
         speedButton.disableProperty().bind(buttonsEnabledBinding);
+        speedLabel.textProperty().bind(model.playBackSpeedProperty().asString());
+
+        speedCircles = new Circle[] { firstSpeedCircle, secondSpeedCircle, thirdSpeedCircle };
         styleSpeedButton();
     }
 
     private void styleSpeedButton() {
-        PlayBackSpeed initialSpeed = model.getSpeed();
+        int initialSpeedIndex = model.getSpeed().ordinal();
 
-        speedLabel.setText(initialSpeed.toString());
-
-        int i = 0;
-        for (Node circle : circlesContainer.getChildren()) {
-            circle.getStyleClass().remove(Constants.ACTIVE_SPEED_CIRCLE_CLASS);
-
-            if (initialSpeed.ordinal() == i++) {
-                circle.getStyleClass().add(Constants.ACTIVE_SPEED_CIRCLE_CLASS);
-            }
-        }
+        speedCircles[initialSpeedIndex].getStyleClass().add(Constants.ACTIVE_SPEED_CIRCLE_CLASS);
+        speedCircles[(initialSpeedIndex > 0 ? initialSpeedIndex : speedCircles.length) - 1].getStyleClass()
+                .remove(Constants.ACTIVE_SPEED_CIRCLE_CLASS);
     }
 
     private void initResetButton() {
@@ -139,16 +147,6 @@ public class BottomBar extends GridPane {
     private void initPreviousNextStateButtons() {
         previousStateButton.disableProperty().bind(buttonsEnabledBinding);
         nextStateButton.disableProperty().bind(buttonsEnabledBinding);
-        stylePreviousStateButton();
-        styleNextStateButton();
-    }
-
-    private void stylePreviousStateButton() {
-        previousStateButton.setGraphic(new FontIcon(BoxiconsRegular.SKIP_PREVIOUS));
-    }
-
-    private void styleNextStateButton() {
-        nextStateButton.setGraphic(new FontIcon(BoxiconsRegular.SKIP_NEXT));
     }
 
     @FXML
@@ -160,19 +158,11 @@ public class BottomBar extends GridPane {
     @FXML
     public void cyclePlayPause() {
         model.cyclePlayBackState();
-        initPlayPauseButton();
     }
 
     @FXML
     private void checkWord() {
-        Platform.runLater(() -> {
-            if (model.getInitialState() == null) {
-                Controllers.getInstance().getGraphPanel().chooseInitialState();
-            }
-
-            computePath();
-            cyclePlayPause();
-        });
+        cyclePlayPause();
     }
 
     @FXML
@@ -229,7 +219,7 @@ public class BottomBar extends GridPane {
         return transitionButton;
     }
 
-    public void clear(){
+    public void clear() {
         wordInput.clear();
         requestFocus();
         computePath();

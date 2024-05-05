@@ -1,5 +1,6 @@
 package it.univr.wordautomata.utils;
 
+import java.io.File;
 import java.util.Random;
 
 /**
@@ -27,6 +28,7 @@ public class Constants {
     public final static String ICON_BASE_FOLDER = "/icons/";
     public final static String STYLE_FILENAME = "style";
     public final static String GRAPH_STYLE_FILENAME = "smartgraph";
+    public final static String DEFAULT_AUTOMATA_FILENAME = "tmp";
     public final static String ICON_FILENAME = "logo";
     public final static String STYLE_EXTENSION = ".css";
     public final static String GRAPH_STYLE_EXTENSION = ".properties";
@@ -57,6 +59,9 @@ public class Constants {
 
     // Global Objects
     public static final Random RANDOM = new Random();
+    public static final File DEFAULT_AUTOMATA_FILE = new File(
+            System.getProperty("user.home") + System.getProperty("file.separator")
+                    + DEFAULT_AUTOMATA_FILENAME + AUTOMATA_EXTENSION);
 
     // Enums
     public enum PlayBackSpeed {
