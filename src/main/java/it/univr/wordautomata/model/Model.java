@@ -248,13 +248,11 @@ public class Model {
     }
 
     public void updateGraph(DigraphEdgeList<State, Transition> graph) {
-        if(graph == null) {
+        if (graph == null) {
             return;
         }
 
-        // we must not change the reference of the graph
         this.graph = new DigraphEdgeList<>(graph);
-        // for hintLabel
         updateGraphProperties();
         Components.getInstance().getGraphPanel().initGraph();
     }
