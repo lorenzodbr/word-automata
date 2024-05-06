@@ -15,6 +15,7 @@ import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
 import it.univr.wordautomata.utils.Constants.Theme;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -55,6 +56,7 @@ public class Model {
     private SimpleBooleanProperty pathFound;
 
     private ListIterator<Edge<Transition, State>> edgeToColor;
+    private final Timeline timeline;
 
     private Model() {
         // this.graph = initSampleGraph();
@@ -72,6 +74,8 @@ public class Model {
         this.isPlayNextPressed = new SimpleBooleanProperty(false);
         this.isPlayPrevPressed = new SimpleBooleanProperty(false);
         this.areButtonsEnabled = new SimpleBooleanProperty(false);
+
+        this.timeline = new Timeline();
 
         updateGraphProperties();
     }
@@ -298,5 +302,9 @@ public class Model {
 
     public void setEdgeToColor(ListIterator<Edge<Transition, State>> edgeToColor) {
         this.edgeToColor = edgeToColor;
+    }
+
+    public Timeline getTimeline() {
+        return timeline;
     }
 }
