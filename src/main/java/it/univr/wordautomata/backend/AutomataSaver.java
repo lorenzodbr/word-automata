@@ -28,6 +28,7 @@ public class AutomataSaver {
                 FileOutputStream fileStream = new FileOutputStream(file);
                 ObjectOutputStream out = new ObjectOutputStream(fileStream)) {
             out.writeObject(graph);
+            out.writeObject(Model.getInstance().getInitialState());
             Model.getInstance().setSaved(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,6 +46,7 @@ public class AutomataSaver {
                 FileInputStream fileStream = new FileInputStream(file);
                 ObjectInputStream in = new ObjectInputStream(fileStream)) {
             graph = (DigraphEdgeList<State, Transition>) in.readObject();
+            Model.getInstance().setInitialState((State)in.readObject());
             Model.getInstance().setOpenedFile(file);
         } catch (Exception e) {
             e.printStackTrace();
