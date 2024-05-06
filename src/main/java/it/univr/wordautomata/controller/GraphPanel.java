@@ -105,7 +105,14 @@ public class GraphPanel extends StackPane {
                     t.setCycleCount(Animation.INDEFINITE);
                     t.play();
                 } else {
-                    t.playFrom(t.getCycleDuration());
+                    if (t.getStatus().equals(Animation.Status.STOPPED)) {
+                        clearAllEdges();
+                        while (model.getEdgeToColor().hasPrevious())
+                            model.getEdgeToColor().previous();
+                        t.play();
+                    } else {
+                        t.playFrom(t.getCycleDuration());
+                    }
                 }
             }
         });
