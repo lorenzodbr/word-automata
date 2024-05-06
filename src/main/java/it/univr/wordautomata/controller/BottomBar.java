@@ -151,8 +151,13 @@ public class BottomBar extends GridPane {
     }
 
     @FXML
-    private void toogleNextState() {
+    private void togglePlayNext() {
         model.isPlayNextPressed().set(!model.isPlayNextPressed().get());
+    }
+
+    @FXML
+    private void togglePlayPrev() {
+        model.isPlayPrevPressed().set(!model.isPlayPrevPressed().get());
     }
 
     @FXML
@@ -196,7 +201,7 @@ public class BottomBar extends GridPane {
             }
 
             model.pathFoundProperty().set(true);
-            model.setEdgeToColor(path.iterator());
+            model.setEdgeToColor(path.listIterator());
 
             transitionsHint.setVisible(false);
             transitionsPanelHBox.getChildren().add(getStateLabel(model.getInitialState().toString()));

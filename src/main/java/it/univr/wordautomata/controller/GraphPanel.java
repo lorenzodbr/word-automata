@@ -55,19 +55,33 @@ public class GraphPanel extends StackPane {
         initEdgeColoring();
     }
 
-    public void initEdgeColoring() {
-        model.isPlayNextPressed().addListener((o, oldVal, newVal) -> {
-            if (model.getEdgeToColor().hasNext()) {
-                Edge<Transition, State> e = model.getEdgeToColor().next();
-                graphView.getStylableEdge(e).setStyleInline("-fx-stroke: red;");
-            }
-        });
+    private boolean colorNextEdge() {
+        if (model.getEdgeToColor().hasNext()) {
+            Edge<Transition, State> e = model.getEdgeToColor().next();
+            graphView.getStylableEdge(e).setStyleInline("-fx-stroke: red;");
+            return true;
+        }
+        return false;
+    }
 
-        model.areButtonsEnabled().addListener((o, oldVal, newVal) -> {
-            // fallback to default style if no path exists anymore
-            for (Edge<Transition, State> e : model.getGraph().edges())
-                graphView.getStylableEdge(e).setStyleInline(null);
-        });
+    private boolean clearPrevEdge() {
+        if (model.getEdgeToColor().hasPrevious()) {
+            Edge<Transition, State> e = model.getEdgeToColor().previous();
+            graphView.getStylableEdge(e).setStyleInline(null);
+            return true;
+        }
+        return false;
+    }
+
+    private void clearAllEdges() {
+        for (Edge<Transition, State> e : model.getGraph().edges())
+            graphView.getStylableEdge(e).setStyleInline(null);
+    }
+
+    public void initEdgeColoring() {
+        model.isPlayNextPressed().addListener((o, oldVal, newVal) -> colorNextEdge());
+        model.isPlayPrevPressed().addListener((o, oldVal, newVal) -> clearPrevEdge());
+        model.areButtonsEnabled().addListener((o, oldVal, newVal) -> clearAllEdges());
     }
 
     public void initGraph() {

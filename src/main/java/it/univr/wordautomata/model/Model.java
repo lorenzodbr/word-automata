@@ -1,7 +1,7 @@
 package it.univr.wordautomata.model;
 
 import java.io.File;
-import java.util.Iterator;
+import java.util.ListIterator;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
@@ -46,6 +46,7 @@ public class Model {
     private SimpleObjectProperty<PlayBackSpeed> playBackSpeed;
     private SimpleObjectProperty<PlayBackState> playBackState;
     private SimpleBooleanProperty isPlayNextPressed;
+    private SimpleBooleanProperty isPlayPrevPressed;
     private SimpleBooleanProperty areButtonsEnabled;
 
     private SimpleBooleanProperty atLeastOneVertex;
@@ -53,7 +54,7 @@ public class Model {
     private SimpleBooleanProperty autoPosition;
     private SimpleBooleanProperty pathFound;
 
-    private Iterator<Edge<Transition, State>> edgeToColor;
+    private ListIterator<Edge<Transition, State>> edgeToColor;
 
     private Model() {
         // this.graph = initSampleGraph();
@@ -69,6 +70,7 @@ public class Model {
         this.playBackSpeed = new SimpleObjectProperty<>(Constants.PlayBackSpeed.DEFAULT);
         this.playBackState = new SimpleObjectProperty<>(Constants.PlayBackState.PAUSED);
         this.isPlayNextPressed = new SimpleBooleanProperty(false);
+        this.isPlayPrevPressed = new SimpleBooleanProperty(false);
         this.areButtonsEnabled = new SimpleBooleanProperty(false);
 
         updateGraphProperties();
@@ -184,6 +186,10 @@ public class Model {
         return isPlayNextPressed;
     }
 
+    public SimpleBooleanProperty isPlayPrevPressed() {
+        return isPlayPrevPressed;
+    }
+
     public SimpleBooleanProperty areButtonsEnabled() {
         return areButtonsEnabled;
     }
@@ -286,11 +292,11 @@ public class Model {
         setSaved(false);
     }
 
-    public Iterator<Edge<Transition, State>> getEdgeToColor() {
+    public ListIterator<Edge<Transition, State>> getEdgeToColor() {
         return edgeToColor;
     }
 
-    public void setEdgeToColor(Iterator<Edge<Transition, State>> edgeToColor) {
+    public void setEdgeToColor(ListIterator<Edge<Transition, State>> edgeToColor) {
         this.edgeToColor = edgeToColor;
     }
 }
