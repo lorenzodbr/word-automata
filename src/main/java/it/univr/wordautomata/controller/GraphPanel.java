@@ -1,7 +1,6 @@
 package it.univr.wordautomata.controller;
 
 import java.io.File;
-
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
@@ -18,6 +17,9 @@ import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -26,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 /**
  * Panel in which Graph is displayed
@@ -82,6 +85,31 @@ public class GraphPanel extends StackPane {
         model.isPlayNextPressed().addListener((o, oldVal, newVal) -> colorNextEdge());
         model.isPlayPrevPressed().addListener((o, oldVal, newVal) -> clearPrevEdge());
         model.areButtonsEnabled().addListener((o, oldVal, newVal) -> clearAllEdges());
+
+        model.playBackStateProperty().addListener((o, oldVal, newVal) -> {
+            final Timeline t = model.getTimeline();
+
+            if (newVal.equals(Constants.PlayBackState.PAUSED)) {
+                t.pause();
+            }
+
+            if (newVal.equals(Constants.PlayBackState.PLAYING)) {
+                if (t.getKeyFrames().isEmpty()) {
+                    clearAllEdges();
+                    t.getKeyFrames().add(new KeyFrame(Duration.millis(500), (e) -> {
+                        if (!colorNextEdge()) {
+                            t.stop();
+                            model.playBackStateProperty().set(Constants.PlayBackState.PAUSED);
+                        }
+                    }));
+                    t.setCycleCount(Animation.INDEFINITE);
+                    t.play();
+                } else {
+                    t.playFrom(t.getCycleDuration());
+                }
+            }
+        });
+
     }
 
     public void initGraph() {
