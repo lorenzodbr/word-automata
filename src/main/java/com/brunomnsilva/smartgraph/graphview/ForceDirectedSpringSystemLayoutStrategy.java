@@ -68,10 +68,10 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
      * acceleration = 0.8.
      */
     public ForceDirectedSpringSystemLayoutStrategy() {
-        this.repulsiveForce = 10;
+        this.repulsiveForce = 15;
         this.attractionForce = 3;
         this.attractionScale = 10;
-        this.acceleration = 3;
+        this.acceleration = 4.5;
     }
 
     /**
@@ -128,7 +128,7 @@ public class ForceDirectedSpringSystemLayoutStrategy<V> extends ForceDirectedLay
         // attractive force
         Point2D attraction;
         if (v.isAdjacentTo(w)) {
-            double attraction_factor = .17 * attractionForce * Math.log(distance / attractionScale);
+            double attraction_factor = .15 * attractionForce * Math.log(distance / attractionScale);
             attraction = forceDirection.multiply(attraction_factor);
         } else {
             attraction = Point2D.ZERO;
