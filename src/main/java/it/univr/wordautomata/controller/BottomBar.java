@@ -186,6 +186,11 @@ public class BottomBar extends GridPane {
             return;
         }
 
+        if (!model.getGraph().objectsInVertices().stream().anyMatch(v -> v.isFinal())) {
+            transitionsHint.setText("Set at least one final state");
+            return;
+        }
+
         Platform.runLater(() -> {
             List<Edge<Transition, State>> path = PathFinder.getPath(wordInput.getText());
 
