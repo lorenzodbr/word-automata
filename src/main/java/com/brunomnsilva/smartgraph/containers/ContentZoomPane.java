@@ -163,7 +163,6 @@ public class ContentZoomPane extends BorderPane {
 
                 sceneDragContext.translateAnchorX = content.getTranslateX();
                 sceneDragContext.translateAnchorY = content.getTranslateY();
-
             }
 
         });
