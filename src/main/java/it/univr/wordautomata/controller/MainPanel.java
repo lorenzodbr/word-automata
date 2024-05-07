@@ -24,9 +24,21 @@ import org.kordamp.ikonli.boxicons.BoxiconsSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
- * The MainPanel class represents the outermost container of the application's
- * UI.
- * It contains the {@link GraphPanel} and {@link BottomBar} components.
+ * The MainPanel class represents the main panel of the WordAutomata application.
+ * It extends the BorderPane class and serves as the container for the application's UI components.
+ * 
+ * The MainPanel class is responsible for initializing and managing the menu bar, menu items, and other UI elements.
+ * It also handles user interactions and delegates the actions to the appropriate components.
+ * 
+ * The MainPanel class interacts with the Model and Components classes to update and retrieve data.
+ * It also communicates with the GraphPanel and BottomBar components to display and manipulate the graph.
+ * 
+ * The MainPanel class provides methods for adding states and transitions, clearing the graph, setting the initial state,
+ * selecting states and transitions, toggling auto positioning, opening and saving automata files, and managing the theme.
+ * 
+ * The MainPanel class also provides methods for initializing bindings, styling menu items, and handling various events.
+ * 
+ * @param parent The WordAutomata instance that owns the MainPanel.
  */
 public class MainPanel extends BorderPane {
 
@@ -79,11 +91,7 @@ public class MainPanel extends BorderPane {
     private WordAutomata parent;
     private Components controllers;
 
-    /**
-     * Constructs a new MainPanel object.
-     *
-     * @param parent the parent WordAutomata object
-     */
+    
     public MainPanel(WordAutomata parent) {
         Methods.loadAndSetController(Constants.MAIN_PANEL_FXML_FILENAME, this);
 
