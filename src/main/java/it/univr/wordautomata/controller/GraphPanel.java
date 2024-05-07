@@ -70,7 +70,7 @@ public class GraphPanel extends StackPane {
     private boolean clearPrevEdge() {
         if (model.getEdgeToColor().hasPrevious()) {
             Edge<Transition, State> e = model.getEdgeToColor().previous();
-            graphView.getStylableEdge(e).setStyleInline(null);
+            graphView.getStylableEdge(e).removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
             return true;
         }
         return false;
@@ -78,7 +78,7 @@ public class GraphPanel extends StackPane {
 
     private void clearAllEdges() {
         for (Edge<Transition, State> e : model.getGraph().edges())
-            graphView.getStylableEdge(e).setStyleInline(null);
+            graphView.getStylableEdge(e).removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
     }
 
     public void initEdgeColoring() {
