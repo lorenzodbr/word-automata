@@ -1,5 +1,6 @@
 package it.univr.wordautomata.controller;
 
+import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
@@ -28,7 +29,10 @@ public class AddStateModalBody extends Pane {
         Methods.loadAndSetController(Constants.ADD_STATE_MODAL_BODY_FXML_FILENAME, this);
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
         stateLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            emptyTextfieldProperty.set(newValue.isBlank());
+            boolean cond = newValue.isBlank()
+                        || Model.getInstance().getGraph().objectsInVertices().contains(new State(newValue));
+
+            emptyTextfieldProperty.set(cond);
         });
     }
 

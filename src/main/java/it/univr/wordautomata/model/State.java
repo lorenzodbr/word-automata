@@ -108,6 +108,11 @@ public class State implements Comparable<State>, Serializable {
         return label.get().compareTo(other.label.get());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof State) && compareTo((State)o) == 0;
+    }
+
     private void writeObject(ObjectOutputStream out) {
         try {
             out.writeObject(label.get());
