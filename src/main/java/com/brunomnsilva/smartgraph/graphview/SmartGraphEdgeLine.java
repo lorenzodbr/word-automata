@@ -87,11 +87,7 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
 
         propagateHoverEffectToArrow();
 
-        contextMenu = Methods.buildContextMenu(e -> {
-            Components.getInstance().getGraphPanel().showTransitionSideBar((SmartGraphEdge) this);
-        }, e -> {
-            Components.getInstance().getGraphPanel().queryRemoveEdge((Edge) underlyingEdge);
-        });
+        contextMenu = Methods.buildContextMenu(this);
 
         setOnMousePressed(event -> {
             if (event.isSecondaryButtonDown()) {

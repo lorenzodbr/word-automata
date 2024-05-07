@@ -109,6 +109,9 @@ public class WordAutomata extends Application {
 
             if (Alerts.showConfirmationDialog(scene, "Exit", message)) {
                 Methods.save();
+
+                if (!model.isSaved())
+                    return;
             }
         } else if (!Alerts.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
             return;

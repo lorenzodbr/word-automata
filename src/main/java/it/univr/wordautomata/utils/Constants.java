@@ -76,6 +76,10 @@ public class Constants {
             return values[(this.ordinal() + 1) % values.length];
         }
 
+        public double getValue() {
+            return this.ordinal() == 0 ? 0.5 : this.ordinal() * 1.0;
+        }
+
         public static PlayBackSpeed DEFAULT = REGULAR;
 
         public String toString() {

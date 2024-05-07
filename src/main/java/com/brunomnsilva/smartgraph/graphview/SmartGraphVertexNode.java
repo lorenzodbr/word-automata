@@ -145,11 +145,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
             enableDrag();
         }
 
-        this.contextMenu = Methods.buildContextMenu(e -> {
-            Components.getInstance().getGraphPanel().showStateSideBar((SmartGraphVertex) this);
-        }, e -> {
-            Components.getInstance().getGraphPanel().queryRemoveVertex((Vertex) underlyingVertex);
-        });
+        this.contextMenu = Methods.buildContextMenu(this);
     }
 
     /**
@@ -504,8 +500,6 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
                 dragDelta.y = getCenterY() - mouseEvent.getY();
 
                 isDragging = true;
-
-                contextMenu.hide();
 
                 mouseEvent.consume();
             }

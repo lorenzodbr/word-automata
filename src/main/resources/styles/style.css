@@ -166,12 +166,17 @@
 }
 
 .active-edge {
-    -fx-stroke: -color-danger-4; 
+    -fx-stroke: -color-danger-4;
+    -fx-stroke-width: 4;
 }
 
 .edge:hover {
     -fx-stroke-width: 3;
     -fx-cursor: hand;
+}
+
+.active-edge:hover {
+    -fx-stroke-width: 5;
 }
 
 .edge-label {
