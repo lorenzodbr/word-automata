@@ -97,12 +97,9 @@ public class GraphPanel extends StackPane {
 
             if (newVal.equals(Constants.PlayBackState.PAUSED)) {
                 t.pause();
-            }
-
-            if (newVal.equals(Constants.PlayBackState.PLAYING)) {
+            } else if (newVal.equals(Constants.PlayBackState.PLAYING)) {
                 if (t.getKeyFrames().isEmpty()) {
-                    clearAllEdges();
-                    t.getKeyFrames().add(new KeyFrame(Duration.millis(500), (e) -> {
+                    t.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> {
                         if (!colorNextEdge()) {
                             t.stop();
                             model.playBackStateProperty().set(Constants.PlayBackState.PAUSED);
@@ -115,10 +112,8 @@ public class GraphPanel extends StackPane {
                         clearAllEdges();
                         while (model.getEdgeToColor().hasPrevious())
                             model.getEdgeToColor().previous();
-                        t.play();
-                    } else {
-                        t.playFrom(t.getCycleDuration());
                     }
+                    t.play();
                 }
             }
         });
