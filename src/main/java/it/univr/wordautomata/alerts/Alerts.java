@@ -5,6 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class Alerts {
@@ -46,7 +48,7 @@ public class Alerts {
         alert.setHeaderText(header);
         alert.setContentText(body);
 
-        Parent alertDialog = alert.getDialogPane();
+        DialogPane alertDialog = alert.getDialogPane();
         Scene alertScene = alertDialog.getScene();
         Stage alertStage = (Stage) alertScene.getWindow();
 
@@ -56,6 +58,7 @@ public class Alerts {
             alert.initOwner(scene.getWindow());
         }
         alert.getButtonTypes().setAll(buttons);
+        alertDialog.setMinHeight(Region.USE_PREF_SIZE);
 
         return alert;
     }
