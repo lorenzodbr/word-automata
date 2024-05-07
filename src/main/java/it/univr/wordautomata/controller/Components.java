@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /*
- * This class is used to gather the main controllers of the application.
+ * This class is used to gather the main components of the application.
  */
 public class Components {
 

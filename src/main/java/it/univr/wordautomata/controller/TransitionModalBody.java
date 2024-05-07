@@ -35,14 +35,14 @@ public class TransitionModalBody extends GridPane {
 
     private ModalBox dialog;
 
-    private Components controllers;
+    private Components components;
 
     public TransitionModalBody(ModalBox dialog, SmartGraphEdge<Transition, State> edge) {
         Methods.loadAndSetController(Constants.TRANSITION_MODAL_BODY_FXML_FILENAME, this);
 
         this.edge = edge;
         this.dialog = dialog;
-        this.controllers = Components.getInstance();
+        this.components = Components.getInstance();
         setFields();
 
         prefHeightProperty().bind(Components.getInstance().getGraphPanel().heightProperty());
@@ -63,14 +63,14 @@ public class TransitionModalBody extends GridPane {
 
                 transition.setLabel(transitionLabelTextField.getText());
 
-                controllers.getGraphPanel().update();
+                components.getGraphPanel().update();
             } else {
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
             }
         });
 
         deleteButton.setOnAction(e -> {
-            if (controllers.getGraphPanel().queryRemoveEdge(underlyingEdge)) {
+            if (components.getGraphPanel().queryRemoveEdge(underlyingEdge)) {
                 dialog.close();
             }
 
