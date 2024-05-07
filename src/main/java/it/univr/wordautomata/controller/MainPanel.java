@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
+import org.kordamp.ikonli.boxicons.BoxiconsSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
@@ -160,7 +161,7 @@ public class MainPanel extends BorderPane {
     }
 
     public void loadAutomata(File file) {
-        if (model.getOpenedFile() != null && !Alerts.showConfirmationDialog(getScene(), "Open automata",
+        if (!model.isSaved() && !Alerts.showConfirmationDialog(getScene(), "Open automata",
                 "Do you really want to open a new automata? You will lose any unsaved changes.")) {
             return;
         }
@@ -194,10 +195,10 @@ public class MainPanel extends BorderPane {
     private void styleMenuItems() {
         autoPositioningMenuItem.graphicProperty().bind(Bindings.when(model.autoPositionProperty())
                 .then(new FontIcon(BoxiconsRegular.CHECK))
-                .otherwise((FontIcon) null));
+                .otherwise(new FontIcon(BoxiconsSolid.MAGIC_WAND)));
         darkThemeMenuItem.graphicProperty().bind(Bindings.when(model.themeProperty().isEqualTo(Theme.DARK))
                 .then(new FontIcon(BoxiconsRegular.CHECK))
-                .otherwise((FontIcon) null));
+                .otherwise(new FontIcon(BoxiconsRegular.MOON)));
         saveAutomataMenuItem.disableProperty().bind(model.savedProperty());
 
         openAutomataMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+O"));
