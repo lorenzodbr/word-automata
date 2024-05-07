@@ -89,7 +89,7 @@ public class MainPanel extends BorderPane {
 
     private Model model;
     private WordAutomata parent;
-    private Components controllers;
+    private Components components;
 
     
     public MainPanel(WordAutomata parent) {
@@ -97,7 +97,7 @@ public class MainPanel extends BorderPane {
 
         this.parent = parent;
         this.model = Model.getInstance();
-        this.controllers = Components.getInstance();
+        this.components = Components.getInstance();
 
         addGraphPanel();
         addBottomBar();
@@ -107,47 +107,47 @@ public class MainPanel extends BorderPane {
     }
 
     private void addBottomBar() {
-        controllers.setBottomBar(new BottomBar());
-        setBottom(controllers.getBottomBar());
+        components.setBottomBar(new BottomBar());
+        setBottom(components.getBottomBar());
     }
 
     private void addGraphPanel() {
-        controllers.setGraphPanel(new GraphPanel());
-        setCenter(controllers.getGraphPanel());
-        Platform.runLater(() -> controllers.getGraphPanel().requestFocus());
+        components.setGraphPanel(new GraphPanel());
+        setCenter(components.getGraphPanel());
+        Platform.runLater(() -> components.getGraphPanel().requestFocus());
     }
 
     @FXML
     private void addState() {
-        controllers.getGraphPanel().addVertex();
+        components.getGraphPanel().addVertex();
     }
 
     @FXML
     private void addTransition() {
-        controllers.getGraphPanel().addEdge();
+        components.getGraphPanel().addEdge();
     }
 
     @FXML
     private void clearGraph() {
         if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
-            controllers.getBottomBar().clear();
-            controllers.getGraphPanel().clear();
+            components.getBottomBar().clear();
+            components.getGraphPanel().clear();
         }
     }
 
     @FXML
     private void setInitialState() {
-        controllers.getGraphPanel().chooseInitialState();
+        components.getGraphPanel().chooseInitialState();
     }
 
     @FXML
     private void selectState() {
-        controllers.getGraphPanel().selectState();
+        components.getGraphPanel().selectState();
     }
 
     @FXML
     private void selectTransition() {
-        controllers.getGraphPanel().selectTransition();
+        components.getGraphPanel().selectTransition();
     }
 
     @FXML
@@ -250,8 +250,8 @@ public class MainPanel extends BorderPane {
             }
         }
 
-        controllers.getGraphPanel().clear();
-        controllers.getBottomBar().clear();
+        components.getGraphPanel().clear();
+        components.getBottomBar().clear();
         model.setSaved(true);
         model.setOpenedFile(null);
     }

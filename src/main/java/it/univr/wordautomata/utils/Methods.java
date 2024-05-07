@@ -86,9 +86,9 @@ public class Methods {
                     e -> Components.getInstance().getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex()));
             setAsInitialStateItem.setOnAction(
                     e -> {
-                        Components controllers = Components.getInstance();
-                        controllers.getGraphPanel().setInitialState((State) nAsV.getUnderlyingVertex().element());
-                        controllers.getBottomBar().computePath();
+                        Components components = Components.getInstance();
+                        components.getGraphPanel().setInitialState((State) nAsV.getUnderlyingVertex().element());
+                        components.getBottomBar().computePath();
                         setAsInitialStateItem.setDisable(true);
                     });
             setAsInitialStateItem.disableProperty()

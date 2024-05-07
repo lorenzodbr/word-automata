@@ -45,13 +45,13 @@ public class GraphPanel extends StackPane {
     private SmartGraphPanel<State, Transition> graphView;
 
     private Model model;
-    private Components controllers;
+    private Components components;
 
     public GraphPanel() {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
         this.model = Model.getInstance();
-        this.controllers = Components.getInstance();
+        this.components = Components.getInstance();
 
         initGraph();
         initModals();
@@ -174,7 +174,7 @@ public class GraphPanel extends StackPane {
                 if (file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)) {
                     event.consume();
 
-                    Platform.runLater(() -> controllers.getMainPanel().loadAutomata(file));
+                    Platform.runLater(() -> components.getMainPanel().loadAutomata(file));
                 } else {
                     Alerts.showErrorDialog(getScene(), "Error", "Invalid file format",
                             "Only .automata files are accepted.", true);
@@ -212,7 +212,7 @@ public class GraphPanel extends StackPane {
             graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
             setInitialState(newState);
         } else if (x >= 0 && y >= 0) {
-            graphView.setVertexPosition(v, x, y - controllers.getMainPanel().getMenuBarHeight());
+            graphView.setVertexPosition(v, x, y - components.getMainPanel().getMenuBarHeight());
         } else if (!model.isAutoPositioningEnabled()) {
             double xRand = Math.random() * (graphView.getWidth() * 0.8) + graphView.getWidth() * 0.1;
             double yRand = Math.random() * (graphView.getHeight() * 0.8) + graphView.getHeight() * 0.1;
@@ -256,7 +256,7 @@ public class GraphPanel extends StackPane {
         State newInitialState;
         if ((newInitialState = modal.showAndWait().orElse(null)) != null) {
             setInitialState(newInitialState);
-            controllers.getBottomBar().computePath();
+            components.getBottomBar().computePath();
         }
     }
 
@@ -298,7 +298,7 @@ public class GraphPanel extends StackPane {
 
     public void update() {
         graphView.update();
-        controllers.getBottomBar().computePath();
+        components.getBottomBar().computePath();
     }
 
     public void updateAndWait() {

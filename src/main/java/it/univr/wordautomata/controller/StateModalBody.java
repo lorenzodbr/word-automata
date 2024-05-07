@@ -56,7 +56,7 @@ public class StateModalBody extends GridPane {
 
     private SmartGraphVertex<State> vertex;
     private ModalBox dialog;
-    private Components controllers;
+    private Components components;
 
     private Model model;
 
@@ -65,7 +65,7 @@ public class StateModalBody extends GridPane {
 
         this.vertex = vertex;
         this.dialog = dialog;
-        this.controllers = Components.getInstance();
+        this.components = Components.getInstance();
         this.model = Model.getInstance();
 
         setFields();
@@ -84,7 +84,7 @@ public class StateModalBody extends GridPane {
 
                 model.setSaved(false);
                 state.setLabel(stateLabelTextField.getText());
-                controllers.getGraphPanel().update();
+                components.getGraphPanel().update();
             } else {
                 stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
             }
@@ -100,11 +100,11 @@ public class StateModalBody extends GridPane {
             }
 
             model.setSaved(false);
-            controllers.getBottomBar().computePath();
+            components.getBottomBar().computePath();
         });
 
         deleteButton.setOnAction(e -> {
-            if (controllers.getGraphPanel().queryRemoveVertex(underlyingVertex)) {
+            if (components.getGraphPanel().queryRemoveVertex(underlyingVertex)) {
                 dialog.close();
             }
 
@@ -112,14 +112,14 @@ public class StateModalBody extends GridPane {
         });
 
         addTransitionButton.setOnAction(e -> {
-            controllers.getGraphPanel().addEdge(state);
+            components.getGraphPanel().addEdge(state);
             requestFocus();
         });
 
         if (Model.getInstance().getInitialState() != state) {
             setAsInitialStateButton.setOnAction(e -> {
-                controllers.getGraphPanel().setInitialState(state);
-                controllers.getBottomBar().computePath();
+                components.getGraphPanel().setInitialState(state);
+                components.getBottomBar().computePath();
                 requestFocus();
                 setAsInitialStateButton.setDisable(true);
             });

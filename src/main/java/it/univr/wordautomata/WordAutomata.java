@@ -27,14 +27,14 @@ public class WordAutomata extends Application {
     private Scene scene;
 
     private Model model;
-    private Components controllers;
+    private Components components;
 
     @Override
     public void start(Stage stage) throws IOException {
         this.model = Model.getInstance();
-        this.controllers = Components.getInstance();
+        this.components = Components.getInstance();
 
-        controllers.setStage((this.stage = stage));
+        components.setStage((this.stage = stage));
         initComponents();
         stage.show();
     }
@@ -50,8 +50,8 @@ public class WordAutomata extends Application {
                 Constants.FONT_ITALIC_FILENAME);
 
         MainPanel mainPanel = new MainPanel(this);
-        controllers.setMainPanel(mainPanel);
-        controllers.setScene((this.scene = new Scene(mainPanel)));
+        components.setMainPanel(mainPanel);
+        components.setScene((this.scene = new Scene(mainPanel)));
     }
 
     private void initStage() {
