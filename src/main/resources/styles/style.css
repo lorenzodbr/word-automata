@@ -167,7 +167,7 @@
 
 .active-edge {
     -fx-stroke: -color-danger-4;
-    -fx-stroke-width: 4;
+    -fx-stroke-width: 3;
 }
 
 .edge:hover {
@@ -176,7 +176,7 @@
 }
 
 .active-edge:hover {
-    -fx-stroke-width: 5;
+    -fx-stroke-width: 4;
 }
 
 .edge-label {
