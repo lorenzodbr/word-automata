@@ -9,19 +9,12 @@ import it.univr.wordautomata.model.State;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
-import com.brunomnsilva.smartgraph.graphview.SmartGraphVertexNode;
-import com.brunomnsilva.smartgraph.graphview.SmartLabelledNode;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -76,32 +69,55 @@ public class Methods {
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem detailsItem = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
+        MenuItem setAsInitialStateItem = new MenuItem("Set as initial state");
         MenuItem deleteItem = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));
 
+        List<MenuItem> items = new ArrayList<>();
+
         if (node instanceof SmartGraphVertex nAsV) {
+            items.add(detailsItem);
+            items.add(setAsInitialStateItem);
+            items.add(new SeparatorMenuItem());
+            items.add(deleteItem);
+
             detailsItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().showStateSideBar(nAsV));
             deleteItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex()));
+            setAsInitialStateItem.setOnAction(
+                    e -> {
+                        Components controllers = Components.getInstance();
+                        controllers.getGraphPanel().setInitialState((State) nAsV.getUnderlyingVertex().element());
+                        controllers.getBottomBar().computePath();
+                        setAsInitialStateItem.setDisable(true);
+                    });
+            setAsInitialStateItem.disableProperty()
+                    .bind(Model.getInstance().initialStateProperty().isEqualTo(nAsV.getUnderlyingVertex().element()));
         } else if (node instanceof SmartGraphEdge nAsE) {
+            items.add(detailsItem);
+            items.add(new SeparatorMenuItem());
+            items.add(deleteItem);
+
             detailsItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().showTransitionSideBar(nAsE));
             deleteItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().queryRemoveEdge(nAsE.getUnderlyingEdge()));
-        } else if (node instanceof SmartGraphPanel nAsP){
+        } else if (node instanceof SmartGraphPanel) {
             Menu menu = new Menu("New");
 
-            List<MenuItem> items = new ArrayList<>();
-            items.add(new MenuItem("State", new FontIcon(BoxiconsRegular.PLUS_CIRCLE)));
-            items.add(new MenuItem("Transition", new FontIcon(BoxiconsRegular.LOG_IN_CIRCLE)));
+            MenuItem addStateMenuItem = new MenuItem("State", new FontIcon(BoxiconsRegular.PLUS_CIRCLE));
+            MenuItem addTransitionMenuItem = new MenuItem("Transition", new FontIcon(BoxiconsRegular.LOG_IN_CIRCLE));
 
-            menu.getItems().addAll(items);
-            contextMenu.getItems().add(menu);
+            addStateMenuItem.setOnAction(
+                    e -> Components.getInstance().getGraphPanel().addVertex());
+            addTransitionMenuItem.setOnAction(
+                    e -> Components.getInstance().getGraphPanel().addEdge());
 
-            return contextMenu;
+            menu.getItems().addAll(addStateMenuItem, addTransitionMenuItem);
+            items.add(menu);
         }
 
-        contextMenu.getItems().addAll(detailsItem, deleteItem);
+        contextMenu.getItems().addAll(items);
 
         return contextMenu;
     }

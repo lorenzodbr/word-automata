@@ -33,7 +33,7 @@ public class Model {
 
     private SimpleObjectProperty<Theme> theme;
     private DigraphEdgeList<State, Transition> graph;
-    private State initialState = null;
+    private SimpleObjectProperty<State> initialState;
 
     private SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
     private ForceDirectedLayoutStrategy<State> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
@@ -65,6 +65,7 @@ public class Model {
         this.pathFound = new SimpleBooleanProperty(false);
         this.saved = new SimpleBooleanProperty(true);
         this.openedFile = new SimpleObjectProperty<>(null);
+        this.initialState = new SimpleObjectProperty<>(null);
         this.theme = new SimpleObjectProperty<>(Constants.Theme.DEFAULT);
         this.playBackSpeed = new SimpleObjectProperty<>(Constants.PlayBackSpeed.DEFAULT);
         this.playBackState = new SimpleObjectProperty<>(Constants.PlayBackState.PAUSED);
@@ -142,10 +143,14 @@ public class Model {
     }
 
     public void setInitialState(State s) {
-        this.initialState = s;
+        this.initialState.set(s);
     }
 
     public State getInitialState() {
+        return initialState.get();
+    }
+
+    public SimpleObjectProperty<State> initialStateProperty() {
         return initialState;
     }
 
