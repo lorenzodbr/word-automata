@@ -21,14 +21,11 @@ import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * The `Model` class represents the model component of the Word Automata
- * application.
- * It stores the {@link State} of the application, including the theme, graph,
- * initial state,
- * placement strategies, playback speed and state, and various boolean
- * properties.
- * The `Model` class follows the Singleton design pattern to ensure that only
- * one instance
- * of the class exists throughout the application.
+ * application. It stores the {@link State} of the application, including the
+ * theme, graph, initial state, placement strategies, playback speed and state,
+ * and various boolean properties. * The `Model` class follows the Singleton
+ * design pattern to ensure that only one instance of the class exists
+ * throughout the application.
  */
 public class Model {
 
@@ -288,7 +285,7 @@ public class Model {
         for (var v : graph.vertices()) {
             graph.removeVertex(v);
         }
-        
+
         updateGraphProperties();
         setInitialState(null);
         setSaved(false);

@@ -168,22 +168,12 @@ public class MainPanel extends BorderPane {
 
     @FXML
     public void saveAutomata() {
-        if(model.getOpenedFile() == null) {
-            saveAsAutomata();
-            return;
-        }
-
-        AutomataSaver.save();
+        Methods.save();
     }
 
     @FXML
     public void saveAsAutomata() {
-        File file = AutomataSaver.showSaveDialog((Stage) getScene().getWindow());
-
-        if (file != null) {
-            model.setOpenedFile(file);
-            AutomataSaver.save(file);
-        }
+        Methods.saveAs();
     }
 
     private void initBindings() {
