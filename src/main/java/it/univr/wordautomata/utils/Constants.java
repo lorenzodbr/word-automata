@@ -63,6 +63,7 @@ public class Constants {
     public static final File DEFAULT_AUTOMATA_FILE = new File(
             System.getProperty("user.home") + System.getProperty("file.separator")
                     + DEFAULT_AUTOMATA_FILENAME + AUTOMATA_EXTENSION);
+    public static final File INITIAL_DIRECTORY = new File(System.getProperty("user.home"));
 
     // Enums
     public enum PlayBackSpeed {

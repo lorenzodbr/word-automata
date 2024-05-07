@@ -33,7 +33,8 @@ public class AutomataSaver {
         } catch (Exception e) {
             e.printStackTrace();
 
-            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Saving Automata", "An error occurred while saving the automata.",
+            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Saving Automata",
+                    "An error occurred while saving the automata.",
                     false);
         }
     }
@@ -46,12 +47,13 @@ public class AutomataSaver {
                 FileInputStream fileStream = new FileInputStream(file);
                 ObjectInputStream in = new ObjectInputStream(fileStream)) {
             graph = (DigraphEdgeList<State, Transition>) in.readObject();
-            Model.getInstance().setInitialState((State)in.readObject());
+            Model.getInstance().setInitialState((State) in.readObject());
             Model.getInstance().setOpenedFile(file);
         } catch (Exception e) {
             e.printStackTrace();
 
-            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Reading Automata", "An error occurred while reading the automata.",
+            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Reading Automata",
+                    "An error occurred while reading the automata.",
                     false);
         }
 
@@ -69,7 +71,7 @@ public class AutomataSaver {
     public static File showOpenDialog(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open " + Constants.AUTOMATA_EXTENSION + " File");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setInitialDirectory(Constants.INITIAL_DIRECTORY);
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
         return fileChooser.showOpenDialog(stage);
@@ -78,7 +80,7 @@ public class AutomataSaver {
     public static File showSaveDialog(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save " + Constants.AUTOMATA_EXTENSION + " File");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setInitialDirectory(Constants.INITIAL_DIRECTORY);
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
         fileChooser.setInitialFileName(Constants.DEFAULT_AUTOMATA_FILENAME);
