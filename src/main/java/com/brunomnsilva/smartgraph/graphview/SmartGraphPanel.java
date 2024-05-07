@@ -131,7 +131,7 @@ public class SmartGraphPanel<V, E> extends Pane {
     // This value was obtained experimentally
     private static final int AUTOMATIC_LAYOUT_ITERATIONS = 20;
 
-    private static ContextMenu contextMenu;
+    private ContextMenu contextMenu;
 
     /**
      * Constructs a visualization of the graph referenced by
@@ -1429,7 +1429,8 @@ public class SmartGraphPanel<V, E> extends Pane {
                     return;
                 }
 
-                if (node instanceof SmartGraphPanel) {
+                if (Model.getInstance().hasAtLeastOneVertex() && node instanceof SmartGraphPanel) {
+                    contextMenu.hide();
                     contextMenu.show(SmartGraphPanel.this, mouseEvent.getScreenX(), mouseEvent.getScreenY());
                 }
             }
