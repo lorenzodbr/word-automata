@@ -1407,6 +1407,8 @@ public class SmartGraphPanel<V, E> extends Pane {
                         return;
                     }
 
+                    contextMenu.hide();
+
                     if (node instanceof SmartGraphVertex) {
                         SmartGraphVertex<V> v = (SmartGraphVertex<V>) node;
                         if (vertexClickConsumer != null) { // Only if the consumer is set
@@ -1423,17 +1425,22 @@ public class SmartGraphPanel<V, E> extends Pane {
                         }
                     }
                 }
+
             } else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                 Node node = pick(SmartGraphPanel.this, mouseEvent.getSceneX(), mouseEvent.getSceneY());
                 if (node == null) {
+                    contextMenu.hide();
                     return;
                 }
 
                 if (Model.getInstance().hasAtLeastOneVertex() && node instanceof SmartGraphPanel) {
                     contextMenu.hide();
                     contextMenu.show(SmartGraphPanel.this, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                    return;
                 }
             }
+
+            contextMenu.hide();
         });
     }
 
