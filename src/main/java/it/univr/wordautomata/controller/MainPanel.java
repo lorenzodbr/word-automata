@@ -99,9 +99,10 @@ public class MainPanel extends BorderPane {
         this.model = Model.getInstance();
         this.components = Components.getInstance();
 
-        addGraphPanel();
+        // order is important, GraphPanel expects BottomBar to be initialized before it
         addBottomBar();
-
+        addGraphPanel();
+    
         styleMenuItems();
         initBindings();
     }

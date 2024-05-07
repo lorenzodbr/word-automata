@@ -83,10 +83,22 @@ public class GraphPanel extends StackPane {
             graphView.getStylableEdge(e).removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
     }
 
+    private void resetColoring() {
+        clearAllEdges();
+        while (model.getEdgeToColor().hasPrevious())
+            model.getEdgeToColor().previous();
+    }
+
     public void initEdgeColoring() {
         model.isPlayNextPressed().addListener((o, oldVal, newVal) -> colorNextEdge());
         model.isPlayPrevPressed().addListener((o, oldVal, newVal) -> clearPrevEdge());
         model.areButtonsEnabled().addListener((o, oldVal, newVal) -> clearAllEdges());
+    
+        components.getBottomBar().resetButtonProperty().addListener((o, oldVal, newVal) -> {
+            resetColoring();
+            // let the listener code handle this
+            model.playBackStateProperty().set(Constants.PlayBackState.PLAYING);
+        });
 
         model.getTimeline().rateProperty().bind(Bindings.createDoubleBinding(() -> {
             return model.getSpeed().getValue();
@@ -108,11 +120,8 @@ public class GraphPanel extends StackPane {
                     t.setCycleCount(Animation.INDEFINITE);
                     t.play();
                 } else {
-                    if (t.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext()) {
-                        clearAllEdges();
-                        while (model.getEdgeToColor().hasPrevious())
-                            model.getEdgeToColor().previous();
-                    }
+                    if (t.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
+                        resetColoring();
                     t.play();
                 }
             }

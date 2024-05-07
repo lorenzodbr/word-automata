@@ -10,6 +10,7 @@ import it.univr.wordautomata.utils.Constants.PlayBackState;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -236,5 +237,9 @@ public class BottomBar extends GridPane {
         requestFocus();
         computePath();
         transitionsHint.setVisible(true);
+    }
+
+    public ReadOnlyBooleanProperty resetButtonProperty() {
+        return resetButton.pressedProperty();
     }
 }
