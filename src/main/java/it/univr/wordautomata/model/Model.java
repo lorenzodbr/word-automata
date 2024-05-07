@@ -252,6 +252,7 @@ public class Model {
         this.graph = new DigraphEdgeList<>(graph);
         updateGraphProperties();
         Components.getInstance().getGraphPanel().initGraph();
+        Model.getInstance().setSaved(true);
     }
 
     public void setOpenedFile(File file) {
