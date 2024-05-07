@@ -4,17 +4,28 @@ import it.univr.wordautomata.Main;
 import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.model.Model;
+import it.univr.wordautomata.model.State;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import com.brunomnsilva.smartgraph.graph.Vertex;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphVertexNode;
+import com.brunomnsilva.smartgraph.graphview.SmartLabelledNode;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
@@ -61,17 +72,36 @@ public class Methods {
                 .getResourceAsStream(Constants.ICON_BASE_FOLDER + Constants.ICON_FILENAME + Constants.ICON_EXTENSION)));
     }
 
-    public static ContextMenu buildContextMenu(Consumer<ActionEvent> onOpen, Consumer<ActionEvent> onDelete) {
+    public static ContextMenu buildContextMenu(Node node) {
         ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem item1 = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
-        item1.setOnAction(e -> onOpen.accept(e));
+        MenuItem detailsItem = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
+        MenuItem deleteItem = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));
 
-        MenuItem item2 = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));
-        item2.setOnAction(e -> onDelete.accept(e));
+        if (node instanceof SmartGraphVertex nAsV) {
+            detailsItem.setOnAction(
+                    e -> Components.getInstance().getGraphPanel().showStateSideBar(nAsV));
+            deleteItem.setOnAction(
+                    e -> Components.getInstance().getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex()));
+        } else if (node instanceof SmartGraphEdge nAsE) {
+            detailsItem.setOnAction(
+                    e -> Components.getInstance().getGraphPanel().showTransitionSideBar(nAsE));
+            deleteItem.setOnAction(
+                    e -> Components.getInstance().getGraphPanel().queryRemoveEdge(nAsE.getUnderlyingEdge()));
+        } else if (node instanceof SmartGraphPanel nAsP){
+            Menu menu = new Menu("New");
 
-        contextMenu.getItems().clear();
-        contextMenu.getItems().addAll(item1, new SeparatorMenuItem(), item2);
+            List<MenuItem> items = new ArrayList<>();
+            items.add(new MenuItem("State", new FontIcon(BoxiconsRegular.PLUS_CIRCLE)));
+            items.add(new MenuItem("Transition", new FontIcon(BoxiconsRegular.LOG_IN_CIRCLE)));
+
+            menu.getItems().addAll(items);
+            contextMenu.getItems().add(menu);
+
+            return contextMenu;
+        }
+
+        contextMenu.getItems().addAll(detailsItem, deleteItem);
 
         return contextMenu;
     }

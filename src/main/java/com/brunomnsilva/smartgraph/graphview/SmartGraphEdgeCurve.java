@@ -135,11 +135,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
 
         toBack();
 
-        contextMenu = Methods.buildContextMenu(e -> {
-            Components.getInstance().getGraphPanel().showTransitionSideBar((SmartGraphEdge) this);
-        }, e -> {
-            Components.getInstance().getGraphPanel().queryRemoveEdge((Edge) underlyingEdge);
-        });
+        contextMenu = Methods.buildContextMenu(this);
 
         setOnMousePressed(event -> {
             if (event.isSecondaryButtonDown()) {

@@ -21,6 +21,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -61,6 +62,7 @@ public class GraphPanel extends StackPane {
     private boolean colorNextEdge() {
         if (model.getEdgeToColor().hasNext()) {
             Edge<Transition, State> e = model.getEdgeToColor().next();
+            
             graphView.getStylableEdge(e).addStyleClass(Constants.ACTIVE_EDGE_CLASS);
             return true;
         }
@@ -85,6 +87,10 @@ public class GraphPanel extends StackPane {
         model.isPlayNextPressed().addListener((o, oldVal, newVal) -> colorNextEdge());
         model.isPlayPrevPressed().addListener((o, oldVal, newVal) -> clearPrevEdge());
         model.areButtonsEnabled().addListener((o, oldVal, newVal) -> clearAllEdges());
+
+        model.getTimeline().rateProperty().bind(Bindings.createDoubleBinding(() -> {
+            return model.getSpeed().getValue();
+        }, model.playBackSpeedProperty()));
 
         model.playBackStateProperty().addListener((o, oldVal, newVal) -> {
             final Timeline t = model.getTimeline();
@@ -262,6 +268,7 @@ public class GraphPanel extends StackPane {
         }
 
         model.setInitialState(newInitialState);
+        model.setSaved(false);
         graphView.getStylableVertex(newInitialState).addStyleClass(Constants.INITIAL_STATE_CLASS);
     }
 

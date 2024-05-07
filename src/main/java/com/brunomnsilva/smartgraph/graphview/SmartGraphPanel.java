@@ -37,6 +37,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -58,6 +59,7 @@ import java.util.logging.Logger;
 
 import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
 import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Methods;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 
@@ -128,6 +130,8 @@ public class SmartGraphPanel<V, E> extends Pane {
     private ForceDirectedLayoutStrategy<V> automaticLayoutStrategy;
     // This value was obtained experimentally
     private static final int AUTOMATIC_LAYOUT_ITERATIONS = 20;
+
+    private static ContextMenu contextMenu;
 
     /**
      * Constructs a visualization of the graph referenced by
@@ -208,6 +212,8 @@ public class SmartGraphPanel<V, E> extends Pane {
                 timer.stop();
             }
         });
+
+        this.contextMenu = Methods.buildContextMenu(this);
     }
 
     /**
@@ -1416,6 +1422,15 @@ public class SmartGraphPanel<V, E> extends Pane {
                             backgroundClickConsumer.accept(mouseEvent);
                         }
                     }
+                }
+            } else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                Node node = pick(SmartGraphPanel.this, mouseEvent.getSceneX(), mouseEvent.getSceneY());
+                if (node == null) {
+                    return;
+                }
+
+                if (node instanceof SmartGraphPanel) {
+                    contextMenu.show(SmartGraphPanel.this, mouseEvent.getScreenX(), mouseEvent.getScreenY());
                 }
             }
         });

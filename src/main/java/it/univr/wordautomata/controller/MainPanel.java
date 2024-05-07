@@ -234,6 +234,11 @@ public class MainPanel extends BorderPane {
                     "Do you want to save the current automata before closing it?")) {
                 Methods.save();
             }
+        } else {
+            if (!Alerts.showConfirmationDialog(getScene(), "Exit",
+                    "Do you really want to close the current automata?")) {
+                return;
+            }
         }
 
         controllers.getGraphPanel().clear();

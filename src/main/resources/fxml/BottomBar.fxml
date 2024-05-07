@@ -50,7 +50,7 @@
             </graphic>F
         </Button>
         <Button fx:id="playPauseButton" disable="true" maxHeight="40.0" minHeight="40.0"
-            mnemonicParsing="false" onAction="#checkWord" prefHeight="40.0" prefWidth="70.0"
+            mnemonicParsing="false" onAction="#cyclePlayPause" prefHeight="40.0" prefWidth="70.0"
             styleClass="button-icon, button-outlined, accent" textAlignment="CENTER"
             GridPane.columnIndex="3" />
         <Button fx:id="nextStateButton" onAction="#togglePlayNext" disable="true" maxHeight="40.0" maxWidth="40.0"

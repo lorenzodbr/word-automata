@@ -172,11 +172,6 @@ public class BottomBar extends GridPane {
     }
 
     @FXML
-    private void checkWord() {
-        cyclePlayPause();
-    }
-
-    @FXML
     public void computePath() {
         transitionsHint.setVisible(true);
         transitionsPanelHBox.getChildren().clear();
