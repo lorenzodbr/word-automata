@@ -61,7 +61,7 @@ public class GraphPanel extends StackPane {
     private boolean colorNextEdge() {
         if (model.getEdgeToColor().hasNext()) {
             Edge<Transition, State> e = model.getEdgeToColor().next();
-            graphView.getStylableEdge(e).setStyleInline("-fx-stroke: red;");
+            graphView.getStylableEdge(e).addStyleClass(Constants.ACTIVE_EDGE_CLASS);
             return true;
         }
         return false;

@@ -187,7 +187,7 @@ public class BottomBar extends GridPane {
         }
 
         if (model.getInitialState() == null) {
-            transitionsHint.setText("Select an initial state");
+            transitionsHint.setText("Set an initial state");
             return;
         }
 

@@ -47,7 +47,8 @@ public class Constants {
     public final static String INITIAL_STATE_CLASS = "initial-state";
     public final static String FINAL_STATE_CLASS = "final-state";
     public final static String ROUNDED_CORNERS_CLASS = "rounded-corners";
-
+    public final static String ACTIVE_EDGE_CLASS = "active-edge";
+    
     // Sizes
     public final static double HEIGHT = 689;
     public final static double WIDTH = 1030;

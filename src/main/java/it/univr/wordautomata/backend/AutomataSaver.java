@@ -81,6 +81,7 @@ public class AutomataSaver {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
+        fileChooser.setInitialFileName(Constants.DEFAULT_AUTOMATA_FILENAME);
         return fileChooser.showSaveDialog(stage);
     }
 }

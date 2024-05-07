@@ -104,15 +104,11 @@ public class WordAutomata extends Application {
         if (!model.isSaved()) {
             String message = "Do you want to save the current automata";
             if (model.getOpenedFile() != null)
-                message += "at " + model.getOpenedFile().getAbsolutePath();
+                message += " at " + model.getOpenedFile().getAbsolutePath();
             message += " before exiting?";
 
             if (Alerts.showConfirmationDialog(scene, "Exit", message)) {
-                controllers.getMainPanel().saveAutomata();
-                
-                // if in the file picker we didn't choose a file do not exit
-                if (model.getOpenedFile() == null)
-                    return;
+                Methods.save();
             }
         } else if (!Alerts.showConfirmationDialog(scene, "Exit", "Do you really want to exit the application?")) {
             return;

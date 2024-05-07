@@ -1,6 +1,11 @@
 package it.univr.wordautomata.utils;
 
 import it.univr.wordautomata.Main;
+import it.univr.wordautomata.backend.AutomataSaver;
+import it.univr.wordautomata.controller.Components;
+import it.univr.wordautomata.model.Model;
+
+import java.io.File;
 import java.util.function.Consumer;
 
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
@@ -58,7 +63,7 @@ public class Methods {
 
     public static ContextMenu buildContextMenu(Consumer<ActionEvent> onOpen, Consumer<ActionEvent> onDelete) {
         ContextMenu contextMenu = new ContextMenu();
-        
+
         MenuItem item1 = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
         item1.setOnAction(e -> onOpen.accept(e));
 
@@ -69,5 +74,23 @@ public class Methods {
         contextMenu.getItems().addAll(item1, new SeparatorMenuItem(), item2);
 
         return contextMenu;
+    }
+
+    public static void save() {
+        if (Model.getInstance().getOpenedFile() == null) {
+            saveAs();
+            return;
+        }
+
+        AutomataSaver.save();
+    }
+
+    public static void saveAs() {
+        File file = AutomataSaver.showSaveDialog(Components.getInstance().getStage());
+
+        if (file != null) {
+            Model.getInstance().setOpenedFile(file);
+            AutomataSaver.save(file);
+        }
     }
 }
