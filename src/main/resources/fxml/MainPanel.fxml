@@ -6,8 +6,10 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.BorderPane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<fx:root id="mainPanel" prefHeight="689.0" prefWidth="1030.0" type="BorderPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="mainPanel" prefHeight="689.0" prefWidth="1030.0" type="BorderPane"
+    xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/styles/style.css" />
     </stylesheets>
@@ -16,30 +18,68 @@
             <menus>
                 <Menu mnemonicParsing="true" text="_File">
                     <items>
-                        <MenuItem fx:id="openAutomataMenuItem" mnemonicParsing="true" onAction="#openAutomata" text="_Open .automata" />
-                        <MenuItem fx:id="saveAutomataMenuItem" mnemonicParsing="true" text="Sa_ve" onAction="#saveAutomata" />
-                        <MenuItem fx:id="saveAsAutomataMenuItem" mnemonicParsing="true" text="Sav_e as" onAction="#saveAsAutomata" />
+                        <MenuItem fx:id="openAutomataMenuItem" mnemonicParsing="true"
+                            onAction="#openAutomata" text="_Open .automata">
+                            <graphic>
+                                <FontIcon iconLiteral="bx-folder" />
+                            </graphic>
+                        </MenuItem>
+                        <Menu fx:id="openRecentMenuItem" mnemonicParsing="true" text="Open _recent">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="No recent files"
+                                    disable="true" />
+                            </items>
+                        </Menu>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="true" onAction="#exit" text="E_xit" />
+                        <MenuItem fx:id="saveAutomataMenuItem" mnemonicParsing="true" text="Sa_ve"
+                            onAction="#saveAutomata">
+                            <graphic>
+                                <FontIcon iconLiteral="bx-save" />
+                            </graphic>
+                        </MenuItem>
+                        <MenuItem fx:id="saveAsAutomataMenuItem" mnemonicParsing="true"
+                            text="Sav_e as" onAction="#saveAsAutomata" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="true" text="Close" onAction="#close" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="true" onAction="#exit"
+                            text="E_xit" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Automata">
                     <items>
-                        <MenuItem fx:id="addStateMenuItem" mnemonicParsing="true" onAction="#addState" text="Add _state" />
-                        <MenuItem fx:id="addTransitionMenuItem" disable="true" mnemonicParsing="true" onAction="#addTransition" text="Add _transition" />
+                        <MenuItem fx:id="addStateMenuItem" mnemonicParsing="true"
+                            onAction="#addState" text="Add _state">
+                            <graphic>
+                                <FontIcon iconLiteral="bx-plus-circle" />
+                            </graphic>
+                        </MenuItem>
+                        <MenuItem fx:id="addTransitionMenuItem" disable="true"
+                            mnemonicParsing="true" onAction="#addTransition" text="Add _transition">
+                            <graphic>
+                                <FontIcon iconLiteral="bx-log-in-circle" />
+                            </graphic>
+                        </MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="selectStateMenuItem" mnemonicParsing="true" onAction="#selectState" text="Select state" />
-                        <MenuItem fx:id="selectTransitionMenuItem" mnemonicParsing="true" onAction="#selectTransition" text="Select transition" />
+                        <MenuItem fx:id="selectStateMenuItem" mnemonicParsing="true"
+                            onAction="#selectState" text="Select state" />
+                        <MenuItem fx:id="selectTransitionMenuItem" mnemonicParsing="true"
+                            onAction="#selectTransition" text="Select transition" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="setInitialStateMenuItem" disable="true" mnemonicParsing="true" onAction="#setInitialState" text="Set _initial state" />
+                        <MenuItem fx:id="setInitialStateMenuItem" disable="true"
+                            mnemonicParsing="true" onAction="#setInitialState"
+                            text="Set _initial state" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true" onAction="#clearGraph" text="_Clear" />
+                        <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true"
+                            onAction="#clearGraph" text="_Clear" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Settings">
                     <items>
-                        <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="true" onAction="#toggleDarkTheme" text="_Dark theme" />
-                        <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true" onAction="#toggleAutoPositioning" text="Auto-_position" />
+                        <MenuItem fx:id="darkThemeMenuItem" mnemonicParsing="true"
+                            onAction="#toggleDarkTheme" text="_Dark theme" />
+                        <MenuItem fx:id="autoPositioningMenuItem" mnemonicParsing="true"
+                            onAction="#toggleAutoPositioning" text="Auto-_position" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Help">
@@ -47,7 +87,11 @@
                         <MenuItem fx:id="legendMenuItem" mnemonicParsing="true" text="_Legend" />
                         <MenuItem mnemonicParsing="true" text="_Tutorial" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="true" onAction="#showInfo" text="A_bout" />
+                        <MenuItem mnemonicParsing="true" onAction="#showInfo" text="A_bout" >
+                            <graphic>
+                                <FontIcon iconLiteral="bx-question-mark" />
+                            </graphic>
+                        </MenuItem>
                     </items>
                 </Menu>
             </menus>

@@ -63,6 +63,9 @@ public class MainPanel extends BorderPane {
     private MenuItem openAutomataMenuItem;
 
     @FXML
+    private MenuItem closeMenuItem;
+
+    @FXML
     private MenuItem saveAsAutomataMenuItem;
 
     @FXML
@@ -120,7 +123,6 @@ public class MainPanel extends BorderPane {
         if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
             controllers.getBottomBar().clear();
             controllers.getGraphPanel().clear();
-            model.clear();
         }
     }
 
@@ -186,6 +188,7 @@ public class MainPanel extends BorderPane {
         autoPositioningMenuItem.disableProperty().bind(noVertexBinding);
         selectStateMenuItem.disableProperty().bind(noVertexBinding);
         selectTransitionMenuItem.disableProperty().bind(noEdgeBinding);
+        closeMenuItem.disableProperty().bind(model.openedFileProperty().isNull());
     }
 
     private void styleMenuItems() {
@@ -225,8 +228,22 @@ public class MainPanel extends BorderPane {
     }
 
     @FXML
+    private void close() {
+        if (!model.isSaved()) {
+            if (Alerts.showConfirmationDialog(getScene(), "Exit",
+                    "Do you want to save the current automata before closing it?")) {
+                Methods.save();
+            }
+        }
+
+        controllers.getGraphPanel().clear();
+        controllers.getBottomBar().clear();
+        model.setSaved(true);
+        model.setOpenedFile(null);
+    }
+
+    @FXML
     private void exit() {
-        // TODO: ask to save file, ...
         parent.exit();
     }
 }
