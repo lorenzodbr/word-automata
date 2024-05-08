@@ -14,13 +14,14 @@ import javafx.stage.Stage;
 public class SelectStateModal extends ChoiceDialog<State> {
 
     public SelectStateModal(Scene scene) {
-        super(Model.getInstance().getInitialState(), Model.getInstance().getGraph().objectsInVertices());
-        
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
         setTitle("Select");
         setHeaderText("Select a state to view its details");
-        
+
+        getItems().addAll(Model.getInstance().getGraph().objectsInVertices());
+        setSelectedItem(Model.getInstance().getInitialState());
+
         initOwner(scene.getWindow());
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
         getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());

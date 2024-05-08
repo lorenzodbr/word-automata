@@ -18,7 +18,7 @@ public class SelectTransitionModal extends ChoiceDialog<Transition> {
     public SelectTransitionModal(Scene scene) {        
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
-        List<Transition> transitions = Model.getInstance().getGraph().objectsInEdges().stream().sorted().toList();
+        List<Transition> transitions = Model.getInstance().getGraph().objectsInEdges();
         getItems().addAll(transitions);
         setSelectedItem(transitions.get(0));
 
