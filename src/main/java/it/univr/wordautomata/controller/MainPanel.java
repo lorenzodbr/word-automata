@@ -176,6 +176,7 @@ public class MainPanel extends BorderPane {
         }
 
         model.updateGraph(AutomataSaver.read(file));
+        Components.getInstance().getBottomBar().computePath();
     }
 
     @FXML
