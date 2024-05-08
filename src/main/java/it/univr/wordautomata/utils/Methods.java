@@ -86,6 +86,7 @@ public class Methods {
                     e -> Components.getInstance().getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex()));
             setAsInitialStateItem.setOnAction(
                     e -> {
+                        contextMenu.hide();
                         Components components = Components.getInstance();
                         components.getGraphPanel().setInitialState((State) nAsV.getUnderlyingVertex().element());
                         components.getBottomBar().computePath();
