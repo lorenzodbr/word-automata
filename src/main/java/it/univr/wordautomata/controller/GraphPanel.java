@@ -195,7 +195,7 @@ public class GraphPanel extends StackPane {
         return addVertex(-1, -1);
     }
 
-    private boolean addVertex(double x, double y) {
+    public boolean addVertex(double x, double y) {
         State newState = new AddStateModal(getScene()).showAndWait().orElse(null);
 
         if (newState == null) {

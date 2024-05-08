@@ -69,13 +69,18 @@ public class Methods {
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem detailsItem = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
-        MenuItem setAsInitialStateItem = new MenuItem("Set as initial state");
         MenuItem deleteItem = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));
 
         List<MenuItem> items = new ArrayList<>();
 
         if (node instanceof SmartGraphVertex nAsV) {
+            MenuItem setAsInitialStateItem = new MenuItem("Set as initial state");
+            MenuItem addTransitionMenuItem = new MenuItem("Add transition",
+                    new FontIcon(BoxiconsRegular.LOG_IN_CIRCLE));
+
             items.add(detailsItem);
+            items.add(new SeparatorMenuItem());
+            items.add(addTransitionMenuItem);
             items.add(setAsInitialStateItem);
             items.add(new SeparatorMenuItem());
             items.add(deleteItem);
@@ -94,6 +99,11 @@ public class Methods {
                     });
             setAsInitialStateItem.disableProperty()
                     .bind(Model.getInstance().initialStateProperty().isEqualTo(nAsV.getUnderlyingVertex().element()));
+
+            addTransitionMenuItem.setOnAction(
+                    e -> Components.getInstance().getGraphPanel()
+                            .addEdge((State) nAsV.getUnderlyingVertex().element()));
+
         } else if (node instanceof SmartGraphEdge nAsE) {
             items.add(detailsItem);
             items.add(new SeparatorMenuItem());
