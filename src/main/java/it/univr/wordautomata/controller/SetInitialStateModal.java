@@ -14,13 +14,14 @@ import javafx.stage.Stage;
 public class SetInitialStateModal extends ChoiceDialog<State> {
 
     public SetInitialStateModal(Scene scene) {
-        super(Model.getInstance().getInitialState(), Model.getInstance().getGraph().objectsInVertices());
-        
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
-        
+
+        getItems().addAll(Model.getInstance().getGraph().objectsInVertices());
+        setSelectedItem(Model.getInstance().getInitialState());
+
         setTitle("Initial state");
         setHeaderText("Set an initial state for the automata");
-        
+
         initOwner(scene.getWindow());
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
         getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
