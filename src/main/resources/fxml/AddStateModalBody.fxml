@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -12,13 +13,19 @@
     <children>
         <VBox spacing="5.0">
             <children>
-                <Label text="State label" />
+                <HBox alignment="CENTER">
+                    <children>
+                        <Label text="State label" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Label fx:id="errorLabel" styleClass="danger, text-small" text="Label must be unique and not blank" visible="false" />
+                    </children>
+                </HBox>
                 <TextField fx:id="stateLabelTextField" prefWidth="300.0" promptText="Enter state label" />
                 <Separator prefWidth="300.0" />
                 <CheckBox fx:id="markAsFinalCheckbox" mnemonicParsing="false" text="Final state" />
             </children>
             <padding>
-                <Insets left="15.0" top="15.0" right="5.0" />
+                <Insets left="15.0" right="5.0" top="15.0" />
             </padding>
         </VBox>
     </children>
