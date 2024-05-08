@@ -108,8 +108,7 @@ public class Model {
         return graph;
     }
 
-    @SuppressWarnings("unused")
-    private DigraphEdgeList<State, Transition> initSampleGraph() {
+    public DigraphEdgeList<State, Transition> initSampleGraph() {
         DigraphEdgeList<State, Transition> g = new DigraphEdgeList<>();
 
         State q0 = new State("q0");

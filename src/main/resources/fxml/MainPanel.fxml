@@ -30,6 +30,12 @@
                                     disable="true" />
                             </items>
                         </Menu>
+                        <MenuItem fx:id="loadSampleAutomataMenuItem" mnemonicParsing="true"
+                            onAction="#loadSampleAutomata" text="Load sample automata">
+                            <graphic>
+                                <FontIcon iconLiteral="bx-star" />
+                            </graphic>
+                        </MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="saveAutomataMenuItem" mnemonicParsing="true" text="Sa_ve"
                             onAction="#saveAutomata">
