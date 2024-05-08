@@ -93,12 +93,7 @@ public class GraphPanel extends StackPane {
         model.isPlayNextPressed().addListener((o, oldVal, newVal) -> colorNextEdge());
         model.isPlayPrevPressed().addListener((o, oldVal, newVal) -> clearPrevEdge());
         model.areButtonsEnabled().addListener((o, oldVal, newVal) -> clearAllEdges());
-    
-        components.getBottomBar().resetButtonProperty().addListener((o, oldVal, newVal) -> {
-            resetColoring();
-            // let the listener code handle this
-            model.playBackStateProperty().set(Constants.PlayBackState.PLAYING);
-        });
+        components.getBottomBar().resetButtonProperty().addListener((o, oldVal, newVal) -> resetColoring());
 
         model.getTimeline().rateProperty().bind(Bindings.createDoubleBinding(() -> {
             return model.getSpeed().getValue();
