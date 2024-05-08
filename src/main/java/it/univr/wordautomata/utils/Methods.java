@@ -5,7 +5,6 @@ import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,5 +148,20 @@ public class Methods {
             Model.getInstance().setOpenedFile(file);
             AutomataSaver.save(file);
         }
+    }
+
+    public static boolean existsState(String label) {
+        return Model.getInstance().getGraph().objectsInVertices().contains(new State(label));
+    }
+
+    public static boolean existsTransitionFromVertex(String state, String transition) {
+        return Model.getInstance().getGraph()
+                                    .edges()
+                                    .stream()
+                                    .filter(e -> e.element().getLabel().equals(transition))
+                                    .anyMatch(e -> {
+                                        return e.vertices()[0].element().getLabel().get().equals(state)
+                                            || e.vertices()[1].element().getLabel().get().equals(state);
+                                    });
     }
 }

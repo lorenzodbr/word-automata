@@ -45,11 +45,16 @@ public class AddTransitionModalBody extends Pane {
 
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
         transitionLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean cond = newValue.isBlank();
+            String from = startingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
+            String to = endingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
 
-            emptyTextfieldProperty.set(cond);
+            boolean invalid = newValue.isBlank()
+                            || Methods.existsTransitionFromVertex(from, newValue)
+                            || Methods.existsTransitionFromVertex(to, newValue);
 
-            if (cond) {
+            emptyTextfieldProperty.set(invalid);
+
+            if (invalid) {
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 errorLabel.setVisible(true);
             } else {
