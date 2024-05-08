@@ -146,6 +146,12 @@
     -fx-fill: #ff9764;
 }
 
+.initial-state.final-state {
+    -fx-stroke: rgb(255, 204, 37);
+    -fx-fill: rgb(255, 242, 67);
+
+}
+
 .vertex:hover {
     /* pseudo-classes also work */
     /*-fx-cursor: default; */ /* You can use this style to override the hand/move cursors while hovering. */
