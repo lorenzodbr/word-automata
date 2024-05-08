@@ -39,6 +39,8 @@ import java.util.*;
  */
 public class DigraphEdgeList<V, E> implements Digraph<V, E> {
 
+    private final static long serialVersionUID = 871434628390982739L;
+
     /* inner classes are defined at the end of the class, so are the auxiliary methods 
      */
     private final Map<V, Vertex<V>> vertices;
@@ -156,13 +158,13 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
     }
 
     @Override
-    public Collection<V> objectsInVertices() {
-        return new ArrayList<V>(vertices.keySet());
+    public List<V> objectsInVertices() {
+        return new ArrayList<V>(vertices.keySet()).stream().sorted().toList();
     }
     
     @Override
-    public Collection<E> objectsInEdges() {
-        return new ArrayList<E>(edges.keySet());
+    public List<E> objectsInEdges() {
+        return new ArrayList<E>(edges.keySet()).stream().sorted().toList();
     }
 
     @Override
