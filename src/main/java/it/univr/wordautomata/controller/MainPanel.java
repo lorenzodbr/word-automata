@@ -180,6 +180,18 @@ public class MainPanel extends BorderPane {
     }
 
     @FXML
+    private void loadSampleAutomata(){
+        if(!model.isSaved()){
+            if(!Alerts.showConfirmationDialog(getScene(), "Load sample automata",
+                    "Do you really want to load the sample automata? You will lose any unsaved changes.")){
+                return;
+            }
+        }
+
+        model.updateGraph(model.initSampleGraph());
+    }
+
+    @FXML
     public void saveAutomata() {
         Methods.save();
     }
