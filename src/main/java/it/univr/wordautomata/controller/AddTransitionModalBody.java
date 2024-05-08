@@ -8,12 +8,15 @@ import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
 
 import java.util.Collection;
+
+import atlantafx.base.theme.Styles;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
@@ -26,20 +29,33 @@ public class AddTransitionModalBody extends Pane {
     private TextField transitionLabelTextField;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private ChoiceBox<State> startingStateChoiceBox;
 
     @FXML
     private ChoiceBox<State> endingStateChoiceBox;
-    
+
     private SimpleBooleanProperty emptyTextfieldProperty;
 
     public AddTransitionModalBody(State initialState) {
         Methods.loadAndSetController(Constants.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
         loadChoiceBoxes(initialState);
-        
+
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
         transitionLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            emptyTextfieldProperty.set(newValue.isBlank());
+            boolean cond = newValue.isBlank();
+
+            emptyTextfieldProperty.set(cond);
+
+            if (cond) {
+                transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+                errorLabel.setVisible(true);
+            } else {
+                transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                errorLabel.setVisible(false);
+            }
         });
     }
 
@@ -58,8 +74,8 @@ public class AddTransitionModalBody extends Pane {
 
     private void loadChoiceBoxes(State initialState) {
         Collection<State> vertices = Model.getInstance().getGraph().objectsInVertices();
-        
-        if(initialState == null){
+
+        if (initialState == null) {
             startingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
         } else {
             startingStateChoiceBox.setItems(FXCollections.observableArrayList(initialState));
@@ -77,14 +93,14 @@ public class AddTransitionModalBody extends Pane {
             endingStateChoiceBox.getSelectionModel().selectFirst();
         }
     }
-    
+
     public void requestTextFieldFocus() {
         Platform.runLater(() -> {
             transitionLabelTextField.requestFocus();
         });
     }
-    
-    public ObservableValue<Boolean> emptyTextfieldProperty(){
+
+    public ObservableValue<Boolean> emptyTextfieldProperty() {
         return emptyTextfieldProperty;
     }
 }

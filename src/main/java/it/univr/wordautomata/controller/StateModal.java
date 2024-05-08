@@ -6,6 +6,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.utils.Constants;
+import javafx.application.Platform;
 
 /**
  *
@@ -22,5 +23,7 @@ public class StateModal extends ModalBox {
             Components.getInstance().getGraphPanel().update();
             e.consume();
         });
+
+        Platform.runLater(() -> requestFocus());
     }
 }
