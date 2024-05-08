@@ -35,7 +35,7 @@
         <CustomTextField fx:id="wordInput" minHeight="40.0" onKeyTyped="#computePath"
             prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0">
             <left>
-                <FontIcon iconLiteral="bx-paragraph" />
+                <FontIcon iconLiteral="bx-shape-polygon" />
             </left>
         </CustomTextField>
         <Button fx:id="resetButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
