@@ -15,7 +15,6 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
