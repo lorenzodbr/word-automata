@@ -284,6 +284,11 @@ public class MainPanel extends BorderPane {
     }
 
     @FXML
+    private void showLegend() {
+        
+    }
+
+    @FXML
     private void exit() {
         parent.exit();
     }
