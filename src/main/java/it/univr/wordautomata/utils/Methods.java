@@ -14,6 +14,8 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
+
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -85,16 +87,21 @@ public class Methods {
             items.add(deleteItem);
 
             detailsItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel().showStateSideBar(nAsV));
+                    e -> {
+                        contextMenu.hide();
+                        Components.getInstance().getGraphPanel().showStateSideBar(nAsV);
+                    });
             deleteItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex()));
+                    e -> {
+                        contextMenu.hide();
+                        Components.getInstance().getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex());
+                    });
             setAsInitialStateItem.setOnAction(
                     e -> {
                         contextMenu.hide();
                         Components components = Components.getInstance();
                         components.getGraphPanel().setInitialState((State) nAsV.getUnderlyingVertex().element());
                         components.getBottomBar().computePath();
-                        setAsInitialStateItem.setDisable(true);
                     });
             setAsInitialStateItem.disableProperty()
                     .bind(Model.getInstance().initialStateProperty().isEqualTo(nAsV.getUnderlyingVertex().element()));
