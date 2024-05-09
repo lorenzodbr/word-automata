@@ -115,7 +115,11 @@ public class GraphPanel extends StackPane {
                     t.setCycleCount(Animation.INDEFINITE);
                     t.play();
                 } else {
-                    if (t.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
+                    // reset everything if:
+                    //      a) we completed a whole animation, or
+                    //      b) we are starting a new one
+                    if ((t.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
+                        || !model.getEdgeToColor().hasPrevious())
                         resetColoring();
                     t.play();
                 }
