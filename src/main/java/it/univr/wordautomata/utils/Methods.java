@@ -117,14 +117,19 @@ public class Methods {
 
             MenuItem addStateMenuItem = new MenuItem("State", new FontIcon(BoxiconsRegular.PLUS_CIRCLE));
             MenuItem addTransitionMenuItem = new MenuItem("Transition", new FontIcon(BoxiconsRegular.LOG_IN_CIRCLE));
+            MenuItem clearGraphMenuItem = new MenuItem("Clear graph", new FontIcon(BoxiconsRegular.TRASH));
 
             addStateMenuItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().addVertex());
             addTransitionMenuItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().addEdge());
+            clearGraphMenuItem.setOnAction(
+                    e -> Components.getInstance().getMainPanel().clearGraph());
 
             menu.getItems().addAll(addStateMenuItem, addTransitionMenuItem);
             items.add(menu);
+            items.add(new SeparatorMenuItem());
+            items.add(clearGraphMenuItem);
         }
 
         contextMenu.getItems().addAll(items);
@@ -156,12 +161,12 @@ public class Methods {
 
     public static boolean existsTransitionFromVertex(String state, String transition) {
         return Model.getInstance().getGraph()
-                                    .edges()
-                                    .stream()
-                                    .filter(e -> e.element().getLabel().equals(transition))
-                                    .anyMatch(e -> {
-                                        return e.vertices()[0].element().getLabel().get().equals(state)
-                                            || e.vertices()[1].element().getLabel().get().equals(state);
-                                    });
+                .edges()
+                .stream()
+                .filter(e -> e.element().getLabel().equals(transition))
+                .anyMatch(e -> {
+                    return e.vertices()[0].element().getLabel().get().equals(state)
+                            || e.vertices()[1].element().getLabel().get().equals(state);
+                });
     }
 }

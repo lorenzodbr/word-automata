@@ -21,7 +21,7 @@
                         <MenuItem fx:id="openAutomataMenuItem" mnemonicParsing="true"
                             onAction="#openAutomata" text="_Open .automata">
                             <graphic>
-                                <FontIcon iconLiteral="bx-folder" />
+                                <FontIcon iconLiteral="bx-shape-polygon" />
                             </graphic>
                         </MenuItem>
                         <Menu fx:id="openRecentMenuItem" mnemonicParsing="true" text="Open _recent">

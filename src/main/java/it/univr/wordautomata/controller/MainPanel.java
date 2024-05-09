@@ -24,19 +24,28 @@ import org.kordamp.ikonli.boxicons.BoxiconsSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
- * The MainPanel class represents the main panel of the WordAutomata application.
- * It extends the BorderPane class and serves as the container for the application's UI components.
+ * The MainPanel class represents the main panel of the WordAutomata
+ * application.
+ * It extends the BorderPane class and serves as the container for the
+ * application's UI components.
  * 
- * The MainPanel class is responsible for initializing and managing the menu bar, menu items, and other UI elements.
- * It also handles user interactions and delegates the actions to the appropriate components.
+ * The MainPanel class is responsible for initializing and managing the menu
+ * bar, menu items, and other UI elements.
+ * It also handles user interactions and delegates the actions to the
+ * appropriate components.
  * 
- * The MainPanel class interacts with the Model and Components classes to update and retrieve data.
- * It also communicates with the GraphPanel and BottomBar components to display and manipulate the graph.
+ * The MainPanel class interacts with the Model and Components classes to update
+ * and retrieve data.
+ * It also communicates with the GraphPanel and BottomBar components to display
+ * and manipulate the graph.
  * 
- * The MainPanel class provides methods for adding states and transitions, clearing the graph, setting the initial state,
- * selecting states and transitions, toggling auto positioning, opening and saving automata files, and managing the theme.
+ * The MainPanel class provides methods for adding states and transitions,
+ * clearing the graph, setting the initial state,
+ * selecting states and transitions, toggling auto positioning, opening and
+ * saving automata files, and managing the theme.
  * 
- * The MainPanel class also provides methods for initializing bindings, styling menu items, and handling various events.
+ * The MainPanel class also provides methods for initializing bindings, styling
+ * menu items, and handling various events.
  * 
  * @param parent The WordAutomata instance that owns the MainPanel.
  */
@@ -91,7 +100,6 @@ public class MainPanel extends BorderPane {
     private WordAutomata parent;
     private Components components;
 
-    
     public MainPanel(WordAutomata parent) {
         Methods.loadAndSetController(Constants.MAIN_PANEL_FXML_FILENAME, this);
 
@@ -102,7 +110,7 @@ public class MainPanel extends BorderPane {
         // order is important, GraphPanel expects BottomBar to be initialized before it
         addBottomBar();
         addGraphPanel();
-    
+
         styleMenuItems();
         initBindings();
     }
@@ -129,7 +137,7 @@ public class MainPanel extends BorderPane {
     }
 
     @FXML
-    private void clearGraph() {
+    public void clearGraph() {
         if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
             components.getBottomBar().clear();
             components.getGraphPanel().clear();
@@ -180,12 +188,17 @@ public class MainPanel extends BorderPane {
     }
 
     @FXML
-    private void loadSampleAutomata(){
-        if(!model.isSaved()){
-            if(!Alerts.showConfirmationDialog(getScene(), "Load sample automata",
-                    "Do you really want to load the sample automata? You will lose any unsaved changes.")){
-                return;
-            }
+    private void loadSampleAutomata() {
+
+        String message = "Do you really want to load the sample automata?";
+
+        if (!model.isSaved()) {
+            message += " You will lose any unsaved changes.";
+        }
+
+        if ((model.getOpenedFile() != null || !model.isSaved()) && !Alerts.showConfirmationDialog(getScene(), "Load sample automata",
+                message)) {
+            return;
         }
 
         model.updateGraph(model.initSampleGraph());
