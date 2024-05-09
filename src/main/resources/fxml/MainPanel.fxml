@@ -50,7 +50,11 @@
                             onAction="#close" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="exitMenuItem" mnemonicParsing="true" onAction="#exit"
-                            text="E_xit" />
+                            text="E_xit">
+                            <graphic>
+                                <FontIcon iconLiteral="bx-exit" />
+                            </graphic>
+                        </MenuItem>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Automata">
