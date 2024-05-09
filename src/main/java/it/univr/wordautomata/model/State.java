@@ -13,6 +13,8 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class State implements Comparable<State>, Serializable {
 
+    private static final long serialVersionUID = 6863920576414706018L;
+
     private transient SimpleStringProperty label;
     private transient SimpleBooleanProperty isFinal;
 
