@@ -145,6 +145,7 @@ public class GraphPanel extends StackPane {
         Platform.runLater(() -> {
             graphView.init(this);
             graphView.setVisible(true);
+            requestFocus();
         });
     }
 

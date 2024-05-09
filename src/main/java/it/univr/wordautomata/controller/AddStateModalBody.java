@@ -34,11 +34,13 @@ public class AddStateModalBody extends Pane {
         Methods.loadAndSetController(Constants.ADD_STATE_MODAL_BODY_FXML_FILENAME, this);
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
 
-        errorLabel.visibleProperty().bind(emptyTextfieldProperty);
-
         stateLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean invalid = newValue.isBlank()
                     || Model.getInstance().getGraph().objectsInVertices().contains(new State(newValue));
+
+            if (!errorLabel.visibleProperty().isBound()) {
+                errorLabel.visibleProperty().bind(emptyTextfieldProperty);
+            }
 
             emptyTextfieldProperty.set(invalid);
             stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, invalid);
