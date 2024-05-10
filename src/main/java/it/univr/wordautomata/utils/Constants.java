@@ -58,6 +58,9 @@ public class Constants {
     public final static int SIDEBAR_MAX_WIDTH = 250;
     public final static int TRANSITION_ROW_MIN_WIDTH = 20;
 
+    // Times
+    public final static int DEFAULT_PLAYBACK_DURATION_MILLIS = 500;
+
     // Global Objects
     public static final Random RANDOM = new Random();
     public static final File DEFAULT_AUTOMATA_FILE = new File(
@@ -119,4 +122,16 @@ public class Constants {
     }
 
     public final static boolean SET_MICA = false;
+
+    // Orientations
+    public enum Orientation {
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST,
+        NORTH_EAST,
+        NORTH_WEST,
+        SOUTH_EAST,
+        SOUTH_WEST;
+    }
 }
