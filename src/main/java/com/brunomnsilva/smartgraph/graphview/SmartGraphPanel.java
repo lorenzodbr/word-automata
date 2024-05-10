@@ -1323,7 +1323,7 @@ public class SmartGraphPanel<V, E> extends Pane {
      * @param edge underlying graph edge
      * @return stylable element
      */
-    public SmartStylableNode getStylableEdge(Edge<E, V> edge) {
+    public SmartGraphEdge<E, V> getStylableEdge(Edge<E, V> edge) {
         return edgeNodes.get(edge);
     }
 

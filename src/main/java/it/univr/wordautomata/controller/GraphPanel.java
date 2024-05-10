@@ -17,6 +17,7 @@ import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Methods;
+import it.univr.wordautomata.utils.Constants.Orientation;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -63,7 +64,55 @@ public class GraphPanel extends StackPane {
         if (model.getEdgeToColor().hasNext()) {
             Edge<Transition, State> e = model.getEdgeToColor().next();
 
-            graphView.getStylableEdge(e).addStyleClass(Constants.ACTIVE_EDGE_CLASS);
+            // graphView.getStylableEdge(e).addStyleClass(Constants.ACTIVE_EDGE_CLASS);
+
+            Timeline colorTimeline = new Timeline();
+            double rate = model.getTimeline().getCurrentRate();
+            final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
+
+            // remove any previous style class
+            stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
+
+            // add 99 keyframes (percentages of the total duration)
+            for (int i = 0; i < 99; i++) {
+                int innerIndex = i;
+                colorTimeline.getKeyFrames().add(new KeyFrame(
+                        // each keyframe is 1% of the total duration
+                        Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i / rate), e2 -> {
+                            String css = "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, #ff0000, -color-neutral-emphasis);";
+                            String cssHorizontal = "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, #ff0000, -color-neutral-emphasis);";
+
+                            // needed because css applies top to bottom, left to right by default
+                            switch (stylableEdge.getOrientation()) {
+                                case Orientation.WEST:
+                                    css = cssHorizontal;
+                                case Orientation.NORTH:
+                                case Orientation.NORTH_EAST:
+                                case Orientation.NORTH_WEST:
+                                    css = String.format(css, 100 - innerIndex, 100 - innerIndex - 1);
+                                    break;
+                                case Orientation.EAST:
+                                    css = cssHorizontal;
+                                case Orientation.SOUTH:
+                                case Orientation.SOUTH_EAST:
+                                case Orientation.SOUTH_WEST:
+                                    css = String.format(css, innerIndex, innerIndex + 1);
+                                    break;
+                            }
+
+                            stylableEdge.setStyleInline(css);
+                        }));
+            }
+
+            // add the last keyframe to add the style class
+            colorTimeline.getKeyFrames()
+                    .add(new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / rate), e2 -> {
+                        stylableEdge.setStyleInline(null);
+                        stylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
+                    }));
+
+            colorTimeline.play();
+
             return true;
         }
         return false;
@@ -106,20 +155,21 @@ public class GraphPanel extends StackPane {
                 t.pause();
             } else if (newVal.equals(Constants.PlayBackState.PLAYING)) {
                 if (t.getKeyFrames().isEmpty()) {
-                    t.getKeyFrames().add(new KeyFrame(Duration.millis(500), e -> {
-                        if (!colorNextEdge()) {
-                            t.stop();
-                            model.playBackStateProperty().set(Constants.PlayBackState.PAUSED);
-                        }
-                    }));
+                    t.getKeyFrames()
+                            .add(new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS), e -> {
+                                if (!colorNextEdge()) {
+                                    t.stop();
+                                    model.playBackStateProperty().set(Constants.PlayBackState.PAUSED);
+                                }
+                            }));
                     t.setCycleCount(Animation.INDEFINITE);
                     t.play();
                 } else {
                     // reset everything if:
-                    //      a) we completed a whole animation, or
-                    //      b) we are starting a new one
+                    // a) we completed a whole animation, or
+                    // b) we are starting a new one
                     if ((t.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
-                        || !model.getEdgeToColor().hasPrevious())
+                            || !model.getEdgeToColor().hasPrevious())
                         resetColoring();
                     t.play();
                 }

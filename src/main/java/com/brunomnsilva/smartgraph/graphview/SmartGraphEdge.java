@@ -26,6 +26,8 @@ package com.brunomnsilva.smartgraph.graphview;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 
+import it.univr.wordautomata.utils.Constants.Orientation;
+
 /**
  * A graph edge visually connects two {@link Vertex} of type <code>V</code>.
  * <br>
@@ -66,4 +68,12 @@ public interface SmartGraphEdge<E, V> extends SmartStylableNode {
      * @return the label node.
      */
     SmartStylableNode getStylableLabel();
+
+    
+    /**
+     * Returns the orientation of the edge.
+     * 
+     * @return the orientation of the edge.
+     */
+    Orientation getOrientation();
 }

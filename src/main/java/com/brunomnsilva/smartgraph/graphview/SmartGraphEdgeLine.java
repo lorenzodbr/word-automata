@@ -26,6 +26,7 @@ package com.brunomnsilva.smartgraph.graphview;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.utils.Constants;
+import it.univr.wordautomata.utils.Constants.Orientation;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ContextMenu;
@@ -100,7 +101,7 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
     public void setStyleInline(String css) {
         styleProxy.setStyleInline(css);
         if (attachedArrow != null) {
-            attachedArrow.setStyleInline(css);
+            // attachedArrow.setStyleInline(css);
         }
     }
 
@@ -135,7 +136,8 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         this.attachedLabel.setMouseTransparent(true);
 
         label.xProperty().bind(startXProperty().add(endXProperty()).divide(2)
-                .subtract(Bindings.divide(label.layoutWidthProperty(), 2)).multiply(Constants.RANDOM.nextDouble(1, 1.02)));
+                .subtract(Bindings.divide(label.layoutWidthProperty(), 2))
+                .multiply(Constants.RANDOM.nextDouble(1, 1.02)));
         label.yProperty().bind(
                 startYProperty().add(endYProperty()).divide(2).add(Bindings.divide(label.layoutHeightProperty(), 1.5)));
     }
@@ -204,6 +206,40 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
 
             }
         });
+    }
+
+    @Override
+    public Orientation getOrientation() {
+        int endX = (int) endXProperty().get();
+        int startX = (int) startXProperty().get();
+        int endY = (int) endYProperty().get();
+        int startY = (int) startYProperty().get();
+
+        if(startY == endY){
+            if(startX < endX){
+                return Constants.Orientation.EAST;
+            } else {
+                return Constants.Orientation.WEST;
+            }
+        }
+
+        if(startX == endX){
+            if(startY < endY){
+                return Constants.Orientation.SOUTH;
+            } else {
+                return Constants.Orientation.NORTH;
+            }
+        }
+
+        if(endX > startX && endY < startY) {
+            return Constants.Orientation.NORTH_EAST;
+        } else if(endX > startX && endY > startY) {
+            return Constants.Orientation.SOUTH_EAST;
+        } else if(endX < startX && endY > startY) {
+            return Constants.Orientation.SOUTH_WEST;
+        } else {
+            return Constants.Orientation.NORTH_WEST;
+        }
     }
 
 }
