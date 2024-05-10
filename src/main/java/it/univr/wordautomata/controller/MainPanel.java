@@ -1,5 +1,11 @@
 package it.univr.wordautomata.controller;
 
+import java.io.File;
+
+import org.kordamp.ikonli.boxicons.BoxiconsRegular;
+import org.kordamp.ikonli.boxicons.BoxiconsSolid;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.backend.AutomataSaver;
@@ -11,17 +17,12 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.io.File;
-
-import org.kordamp.ikonli.boxicons.BoxiconsRegular;
-import org.kordamp.ikonli.boxicons.BoxiconsSolid;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
  * The MainPanel class represents the main panel of the WordAutomata
@@ -259,8 +260,8 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showInfo() {
-        Alerts.showInformationDialog(getScene(), "About", Constants.TITLE + " v" + Constants.VERSION,
-                "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.");
+        Alerts.createAlert(null, getScene(), "About", Constants.TITLE + " v" + Constants.VERSION,
+                "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.", ButtonType.CLOSE).showAndWait();
     }
 
     @FXML

@@ -1,11 +1,17 @@
 package it.univr.wordautomata.alerts;
 
+import org.kordamp.ikonli.boxicons.BoxiconsRegular;
+import org.kordamp.ikonli.javafx.FontIcon;
+
+import it.univr.wordautomata.Main;
 import it.univr.wordautomata.stylings.WindowStyler;
-import javafx.scene.Parent;
+import it.univr.wordautomata.utils.Constants;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
@@ -41,9 +47,17 @@ public class Alerts {
         }
     }
 
-    private static Alert createAlert(Alert.AlertType type, Scene scene, String title, String header, String body,
+    public static Alert createAlert(Alert.AlertType type, Scene scene, String title, String header, String body,
             ButtonType... buttons) {
         Alert alert = new Alert(type);
+
+        if (type == null) {
+            alert.setGraphic(new ImageView(new Image(Main.class
+                    .getResourceAsStream(
+                            Constants.ICON_BASE_FOLDER + Constants.ICON_FILENAME + Constants.ICON_EXTENSION),
+                    50, 50, true, true)));
+        }
+
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(body);
