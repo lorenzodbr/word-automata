@@ -67,7 +67,8 @@ public class GraphPanel extends StackPane {
             // graphView.getStylableEdge(e).addStyleClass(Constants.ACTIVE_EDGE_CLASS);
 
             Timeline colorTimeline = new Timeline();
-            double rate = model.getTimeline().getCurrentRate();
+            colorTimeline.rateProperty().bind(model.getTimeline().rateProperty());
+            
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
             // remove any previous style class
@@ -78,7 +79,7 @@ public class GraphPanel extends StackPane {
                 int innerIndex = i;
                 colorTimeline.getKeyFrames().add(new KeyFrame(
                         // each keyframe is 1% of the total duration
-                        Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i / rate), e2 -> {
+                        Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i), e2 -> {
                             String css = "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, #ff0000, -color-neutral-emphasis);";
                             String cssHorizontal = "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, #ff0000, -color-neutral-emphasis);";
 
@@ -104,9 +105,9 @@ public class GraphPanel extends StackPane {
                         }));
             }
 
-            // add the last keyframe to add the style class
+            // add the last percentage keyframe to add the style class
             colorTimeline.getKeyFrames()
-                    .add(new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / rate), e2 -> {
+                    .add(new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS), e2 -> {
                         stylableEdge.setStyleInline(null);
                         stylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
                     }));
