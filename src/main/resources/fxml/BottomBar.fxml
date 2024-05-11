@@ -33,29 +33,32 @@
     </rowConstraints>
     <children>
         <CustomTextField fx:id="wordInput" minHeight="40.0" onKeyTyped="#computePath"
-            prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0">
+            prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0" styleClass="rounded-corners">
             <left>
                 <FontIcon iconLiteral="bx-bulb" />
             </left>
         </CustomTextField>
         <Button fx:id="resetButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
             minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0"
-            styleClass="button-icon" textAlignment="CENTER" GridPane.columnIndex="1" />
-        <Button fx:id="previousStateButton" onAction="#togglePlayPrev" disable="true" maxHeight="40.0" maxWidth="40.0"
+            styleClass="button-icon, rounded-corners" textAlignment="CENTER"
+            GridPane.columnIndex="1" />
+        <Button fx:id="previousStateButton" onAction="#togglePlayPrev" disable="true"
+            maxHeight="40.0" maxWidth="40.0"
             minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
-            prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
+            prefWidth="40.0" styleClass="button-icon, rounded-corners" textAlignment="CENTER"
             GridPane.columnIndex="2">
             <graphic>
                 <FontIcon iconLiteral="bx-skip-previous" />
-            </graphic>F
+            </graphic>
         </Button>
         <Button fx:id="playPauseButton" disable="true" maxHeight="40.0" minHeight="40.0"
             mnemonicParsing="false" onAction="#cyclePlayPause" prefHeight="40.0" prefWidth="70.0"
-            styleClass="button-icon, button-outlined, accent" textAlignment="CENTER"
+            styleClass="button-icon, button-outlined, accent, rounded-corners" textAlignment="CENTER"
             GridPane.columnIndex="3" />
-        <Button fx:id="nextStateButton" onAction="#togglePlayNext" disable="true" maxHeight="40.0" maxWidth="40.0"
+        <Button fx:id="nextStateButton" onAction="#togglePlayNext" disable="true" maxHeight="40.0"
+            maxWidth="40.0"
             minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
-            prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
+            prefWidth="40.0" styleClass="button-icon, rounded-corners" textAlignment="CENTER"
             GridPane.columnIndex="4">
             <graphic>
                 <FontIcon iconLiteral="bx-skip-next" />
@@ -63,7 +66,7 @@
         </Button>
         <Button fx:id="speedButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
             minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0"
-            prefWidth="40.0" styleClass="button-icon" textAlignment="CENTER"
+            prefWidth="40.0" styleClass="button-icon, rounded-corners" textAlignment="CENTER"
             GridPane.columnIndex="5" />
         <VBox fx:id="speedButtonVBox" alignment="CENTER" disable="true" mouseTransparent="true"
             spacing="2.0" GridPane.columnIndex="5">

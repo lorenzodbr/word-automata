@@ -167,12 +167,16 @@
 .active-edge {
     -fx-stroke: -color-danger-4;
     /* -fx-stroke-width: 2.5; */
-    -fx-opacity: 1;
+    /* -fx-opacity: 1; */
 }
 
 .active-button {
     -fx-text-fill: -color-danger-4;
-    -fx-background-color:  -color-danger-4, -color-button-bg;
+    -fx-background-color: -color-danger-4, -color-button-bg;
+}
+
+.active-button:hover {
+    -fx-background-color: -color-danger-4, -color-button-bg-hover;
 }
 
 .edge:hover {
