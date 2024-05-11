@@ -67,10 +67,6 @@ public class GraphPanel extends StackPane {
         if (model.getEdgeToColor().hasNext()) {
             Edge<Transition, State> e = model.getEdgeToColor().next();
 
-            // the children follow the pattern: state - edge - state,
-            // we jump directly to the edge we need to
-            components.getBottomBar().colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
-
             colorTimeline = new Timeline();
             colorTimeline.rateProperty().bind(model.getTimeline().rateProperty());
 
@@ -108,8 +104,13 @@ public class GraphPanel extends StackPane {
 
                             stylableEdge.setStyleInline(css);
 
-                            if (innerIndex == 90)
+                            if (innerIndex == 90) {
                                 stylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
+                                // the children follow the pattern: state - edge - state,
+                                // we jump directly to the edge we need to
+                                components.getBottomBar()
+                                        .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
+                            }
                         }));
             }
 
