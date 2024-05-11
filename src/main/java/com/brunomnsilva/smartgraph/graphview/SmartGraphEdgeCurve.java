@@ -347,7 +347,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         int endY = (int) endYProperty().get();
         int startY = (int) startYProperty().get();
 
-        if (startY == endY) {
+        if (Math.abs(startY - endY) < 10) {
             if (startX < endX) {
                 return Constants.Orientation.EAST;
             } else {
@@ -355,7 +355,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
             }
         }
 
-        if (startX == endX) {
+        if (Math.abs(startX - endX) < 10) {
             if (startY < endY) {
                 return Constants.Orientation.SOUTH;
             } else {
