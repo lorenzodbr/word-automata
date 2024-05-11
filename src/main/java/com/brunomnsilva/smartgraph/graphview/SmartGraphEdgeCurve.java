@@ -25,7 +25,6 @@ package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Edge;
 
-import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.Orientation;
 import it.univr.wordautomata.utils.Methods;

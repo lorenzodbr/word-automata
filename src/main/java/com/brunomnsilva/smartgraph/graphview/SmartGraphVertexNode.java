@@ -25,7 +25,6 @@ package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Vertex;
 
-import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
