@@ -293,7 +293,9 @@ public class Model {
 
         updateGraphProperties();
         setInitialState(null);
-        setSaved(false);
+
+        if (getOpenedFile() != null)
+            setSaved(false);
     }
 
     public ListIterator<Edge<Transition, State>> getEdgeToColor() {
