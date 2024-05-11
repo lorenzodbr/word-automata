@@ -7,12 +7,16 @@ import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -66,10 +71,6 @@ public class BottomBar extends GridPane {
 
     @FXML
     private HBox transitionsPanelHBox;
-
-    public HBox getTransitionsPanelHBox() {
-        return transitionsPanelHBox;
-    }
 
     @FXML
     private CustomTextField wordInput;
@@ -245,5 +246,42 @@ public class BottomBar extends GridPane {
 
     public ReadOnlyBooleanProperty resetButtonProperty() {
         return resetButton.pressedProperty();
+    }
+
+    public void clearTransitionsButtons() {
+        transitionsPanelHBox.getChildren()
+                .forEach(b -> b.getStyleClass().remove(Constants.ACTIVE_BUTTON_CLASS));
+
+        centerNodeInScrollPane(null);
+    }
+
+    public void centerNodeInScrollPane(Node node) {
+        double f = 0, w, x, v;
+
+        if (node != null) {
+            w = transitionsPanel.getContent().getBoundsInLocal().getWidth();
+            x = (node.getBoundsInParent().getMaxX() +
+                    node.getBoundsInParent().getMinX()) / 2.0;
+            v = transitionsPanel.getViewportBounds().getWidth();
+
+            f = transitionsPanel.getHmax() * ((x - 0.5 * v) / (w - v));
+        }
+
+        KeyValue keyValue = new KeyValue(transitionsPanel.hvalueProperty(), f);
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 1.5), keyValue);
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.play();
+    }
+
+    public void clearTransitionButtonAt(int index) {
+        Node b = transitionsPanelHBox.getChildren().get(index);
+        b.getStyleClass().remove(Constants.ACTIVE_BUTTON_CLASS);
+        centerNodeInScrollPane(b);
+    }
+
+    public void colorTransitionButtonAt(int index) {
+        Node b = transitionsPanelHBox.getChildren().get(index);
+        b.getStyleClass().add(Constants.ACTIVE_BUTTON_CLASS);
+        centerNodeInScrollPane(b);
     }
 }
