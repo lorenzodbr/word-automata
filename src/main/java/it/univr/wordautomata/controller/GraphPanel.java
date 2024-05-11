@@ -10,6 +10,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import atlantafx.base.controls.ModalPane;
+import atlantafx.base.theme.Styles;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
@@ -23,9 +24,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.css.Style;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -66,6 +69,13 @@ public class GraphPanel extends StackPane {
     private boolean colorNextEdge() {
         if (model.getEdgeToColor().hasNext()) {
             Edge<Transition, State> e = model.getEdgeToColor().next();
+
+            Button b = (Button) components.getBottomBar().getTransitionsPanelHBox().getChildren()
+                    // the children follow the pattern: state - edge - state,
+                    // we jump directly to the edge we need to
+                    .get(model.getEdgeToColor().previousIndex() * 2 + 1);
+
+            b.pseudoClassStateChanged(Styles.STATE_DANGER, true);
 
             colorTimeline = new Timeline();
             colorTimeline.rateProperty().bind(model.getTimeline().rateProperty());
@@ -129,6 +139,11 @@ public class GraphPanel extends StackPane {
             Edge<Transition, State> e = model.getEdgeToColor().previous();
             SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
+            Button b = (Button) components.getBottomBar().getTransitionsPanelHBox().getChildren()
+                    .get(model.getEdgeToColor().nextIndex() * 2 + 1);
+
+            b.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+
             stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
             stylableEdge.setStyleInline(null);
 
@@ -139,6 +154,8 @@ public class GraphPanel extends StackPane {
 
     private void clearAllEdges() {
         colorTimeline.stop();
+
+        components.getBottomBar().getTransitionsPanelHBox().getChildren().forEach(b -> b.pseudoClassStateChanged(Styles.STATE_DANGER, false));
 
         for (Edge<Transition, State> e : model.getGraph().edges()) {
             SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
