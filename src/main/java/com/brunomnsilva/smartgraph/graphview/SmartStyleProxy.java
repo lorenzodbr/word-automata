@@ -117,4 +117,9 @@ public class SmartStyleProxy implements SmartStylableNode {
         // Apply the modified inline style
         client.setStyle(newStyle.toString());
     }*/
+
+    @Override
+    public boolean hasStyleClass(String cssClass) {
+        return client.getStyleClass().contains(cssClass);
+    }
 }

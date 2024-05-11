@@ -69,6 +69,7 @@ public interface SmartGraphEdge<E, V> extends SmartStylableNode {
      */
     SmartStylableNode getStylableLabel();
 
+    boolean hasStyleClass(String cssClass);
     
     /**
      * Returns the orientation of the edge.

@@ -76,4 +76,8 @@ public class SmartArrow extends Path implements SmartStylableNode {
         return styleProxy.removeStyleClass(cssClass);
     }
     
+    @Override
+    public boolean hasStyleClass(String cssClass) {
+        return styleProxy.hasStyleClass(cssClass);
+    }
 }

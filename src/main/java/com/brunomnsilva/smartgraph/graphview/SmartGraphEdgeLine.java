@@ -214,31 +214,35 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         int endY = (int) endYProperty().get();
         int startY = (int) startYProperty().get();
 
-        if(startY == endY){
-            if(startX < endX){
+        if (startY == endY) {
+            if (startX < endX) {
                 return Constants.Orientation.EAST;
             } else {
                 return Constants.Orientation.WEST;
             }
         }
 
-        if(startX == endX){
-            if(startY < endY){
+        if (startX == endX) {
+            if (startY < endY) {
                 return Constants.Orientation.SOUTH;
             } else {
                 return Constants.Orientation.NORTH;
             }
         }
 
-        if(endX > startX && endY < startY) {
+        if (endX > startX && endY < startY) {
             return Constants.Orientation.NORTH_EAST;
-        } else if(endX > startX && endY > startY) {
+        } else if (endX > startX && endY > startY) {
             return Constants.Orientation.SOUTH_EAST;
-        } else if(endX < startX && endY > startY) {
+        } else if (endX < startX && endY > startY) {
             return Constants.Orientation.SOUTH_WEST;
         } else {
             return Constants.Orientation.NORTH_WEST;
         }
     }
 
+    @Override
+    public boolean hasStyleClass(String cssClass) {
+        return styleProxy.hasStyleClass(cssClass);
+    }
 }

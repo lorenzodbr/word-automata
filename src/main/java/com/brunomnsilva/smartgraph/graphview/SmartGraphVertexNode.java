@@ -621,4 +621,9 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
             this.y = y;
         }
     }
+
+    @Override
+    public boolean hasStyleClass(String cssClass) {
+        return styleProxy.hasStyleClass(cssClass);
+    }
 }

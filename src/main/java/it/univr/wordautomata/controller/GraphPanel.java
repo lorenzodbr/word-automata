@@ -72,6 +72,13 @@ public class GraphPanel extends StackPane {
 
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
+            // uncomment this to see the edge being colored also when it is already colored
+            if (stylableEdge.hasStyleClass(Constants.ACTIVE_EDGE_CLASS)) {
+                components.getBottomBar()
+                        .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
+                return true;
+            }
+
             // remove any previous style class
             stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
 

@@ -91,4 +91,13 @@ public interface SmartStylableNode {
      * previously set.
      */
     boolean removeStyleClass(String cssClass);
+
+    /**
+     * Checks if the node has the CSS class <code>cssClass</code> applied.
+     * 
+     * @param cssClass name of the CSS class.
+     * 
+     * @return true if the class is applied; false otherwise.
+     */
+    boolean hasStyleClass(String cssClass);
 }

@@ -268,7 +268,7 @@ public class BottomBar extends GridPane {
         }
 
         KeyValue keyValue = new KeyValue(transitionsPanel.hvalueProperty(), f);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 1.5), keyValue);
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 2), keyValue);
         Timeline timeline = new Timeline(keyFrame);
         timeline.play();
     }
