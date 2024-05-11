@@ -48,6 +48,7 @@ public class Constants {
     public final static String FINAL_STATE_CLASS = "final-state";
     public final static String ROUNDED_CORNERS_CLASS = "rounded-corners";
     public final static String ACTIVE_EDGE_CLASS = "active-edge";
+    public final static String ACTIVE_BUTTON_CLASS = "active-button";
     
     // Sizes
     public final static double HEIGHT = 689;
