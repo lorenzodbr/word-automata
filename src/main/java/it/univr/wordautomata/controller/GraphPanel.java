@@ -45,6 +45,8 @@ public class GraphPanel extends StackPane {
     private Graph<State, Transition> graph;
     private SmartGraphPanel<State, Transition> graphView;
 
+    private Timeline colorTimeline;
+
     private Model model;
     private Components components;
 
@@ -53,6 +55,7 @@ public class GraphPanel extends StackPane {
 
         this.model = Model.getInstance();
         this.components = Components.getInstance();
+        this.colorTimeline = new Timeline();
 
         initGraph();
         initModals();
@@ -64,11 +67,9 @@ public class GraphPanel extends StackPane {
         if (model.getEdgeToColor().hasNext()) {
             Edge<Transition, State> e = model.getEdgeToColor().next();
 
-            // graphView.getStylableEdge(e).addStyleClass(Constants.ACTIVE_EDGE_CLASS);
-
-            Timeline colorTimeline = new Timeline();
+            colorTimeline = new Timeline();
             colorTimeline.rateProperty().bind(model.getTimeline().rateProperty());
-            
+
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
             // remove any previous style class
@@ -102,6 +103,9 @@ public class GraphPanel extends StackPane {
                             }
 
                             stylableEdge.setStyleInline(css);
+
+                            if (innerIndex == 90)
+                                stylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
                         }));
             }
 
@@ -109,7 +113,6 @@ public class GraphPanel extends StackPane {
             colorTimeline.getKeyFrames()
                     .add(new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS), e2 -> {
                         stylableEdge.setStyleInline(null);
-                        stylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
                     }));
 
             colorTimeline.play();
@@ -121,16 +124,27 @@ public class GraphPanel extends StackPane {
 
     private boolean clearPrevEdge() {
         if (model.getEdgeToColor().hasPrevious()) {
+            colorTimeline.stop();
+
             Edge<Transition, State> e = model.getEdgeToColor().previous();
-            graphView.getStylableEdge(e).removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
+            SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
+
+            stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
+            stylableEdge.setStyleInline(null);
+
             return true;
         }
         return false;
     }
 
     private void clearAllEdges() {
-        for (Edge<Transition, State> e : model.getGraph().edges())
-            graphView.getStylableEdge(e).removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
+        colorTimeline.stop();
+
+        for (Edge<Transition, State> e : model.getGraph().edges()) {
+            SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
+            stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
+            stylableEdge.setStyleInline(null);
+        }
     }
 
     private void resetColoring() {
