@@ -200,3 +200,8 @@
     -fx-opacity: 1;
     -fx-fill: transparent; /* important to keep for curved edges */
 }
+
+
+.button:danger {
+    -fx-border-color: red;
+}

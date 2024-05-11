@@ -67,6 +67,10 @@ public class BottomBar extends GridPane {
     @FXML
     private HBox transitionsPanelHBox;
 
+    public HBox getTransitionsPanelHBox() {
+        return transitionsPanelHBox;
+    }
+
     @FXML
     private CustomTextField wordInput;
 
