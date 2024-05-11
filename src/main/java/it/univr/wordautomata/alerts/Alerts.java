@@ -1,8 +1,5 @@
 package it.univr.wordautomata.alerts;
 
-import org.kordamp.ikonli.boxicons.BoxiconsRegular;
-import org.kordamp.ikonli.javafx.FontIcon;
-
 import it.univr.wordautomata.Main;
 import it.univr.wordautomata.stylings.WindowStyler;
 import it.univr.wordautomata.utils.Constants;
