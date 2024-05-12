@@ -67,13 +67,16 @@ public class ContentZoomScrollPane extends ScrollPane {
     /**
      * Creates a new instance of ContentZoomScrollPane.
      * <br/>
-     * The minimum scale factor is 1. So <code>maxScaleFactor</code> should be &gt; 1 and
-     * <code>deltaScaleFactor</code> should be a value such that <code>maxScaleFactor</code> is a multiple
+     * The minimum scale factor is 1. So <code>maxScaleFactor</code> should be &gt;
+     * 1 and
+     * <code>deltaScaleFactor</code> should be a value such that
+     * <code>maxScaleFactor</code> is a multiple
      * of it, so the scale is utilized fully.
      *
-     * @param content pane to zoom and pan.
-     * @param maxScaleFactor maximum scale factor for zoom, e.g., 5x.
-     * @param deltaScaleFactor delta scaling factor applied when zooming with the mouse, e.g., steps of 0.25x.
+     * @param content          pane to zoom and pan.
+     * @param maxScaleFactor   maximum scale factor for zoom, e.g., 5x.
+     * @param deltaScaleFactor delta scaling factor applied when zooming with the
+     *                         mouse, e.g., steps of 0.25x.
      */
     public ContentZoomScrollPane(Pane content, double maxScaleFactor, double deltaScaleFactor) {
         if (content == null)
@@ -85,7 +88,8 @@ public class ContentZoomScrollPane extends ScrollPane {
 
         this.content = content;
 
-        // we need to add content to a group for the scrollpane to take into account the scaling of the content
+        // we need to add content to a group for the scrollpane to take into account the
+        // scaling of the content
         Group contentGroup = new Group();
         contentGroup.getChildren().add(this.content);
         setContent(contentGroup);
@@ -94,7 +98,7 @@ public class ContentZoomScrollPane extends ScrollPane {
         this.maxScaleFactor = maxScaleFactor;
         this.deltaScaleFactor = deltaScaleFactor;
 
-        this.scaleFactorProperty  = new ReadOnlyDoubleWrapper(minScaleFactor);
+        this.scaleFactorProperty = new ReadOnlyDoubleWrapper(minScaleFactor);
 
         enableContentResize();
         enableZoom();
@@ -104,7 +108,8 @@ public class ContentZoomScrollPane extends ScrollPane {
     /**
      * Creates a new instance of ContentZoomScrollPane.
      * <br/>
-     * The minimum scale factor is 1. The default maximum scale factor is 5 and the default delta scale factor is 0.25.
+     * The minimum scale factor is 1. The default maximum scale factor is 5 and the
+     * default delta scale factor is 0.25.
      *
      * @param content pane to zoom and pan.
      */
@@ -113,7 +118,9 @@ public class ContentZoomScrollPane extends ScrollPane {
     }
 
     /**
-     * Returns the scale (zoom) factor property. Can be bound to control the zoom of the panel.
+     * Returns the scale (zoom) factor property. Can be bound to control the zoom of
+     * the panel.
+     * 
      * @return the scale factor property
      */
     public DoubleProperty scaleFactorProperty() {
@@ -130,7 +137,7 @@ public class ContentZoomScrollPane extends ScrollPane {
     }
 
     /**
-     *  Returns the maximum scaling factor allowed for zooming.
+     * Returns the maximum scaling factor allowed for zooming.
      *
      * @return the maximum scaling factor
      */
@@ -150,17 +157,18 @@ public class ContentZoomScrollPane extends ScrollPane {
     private void enableContentResize() {
 
         // Get the content's preferred size values and, if set, respect them.
-        // Otherwise, set the size of the content to match the size of the scrollpane's viewport.
+        // Otherwise, set the size of the content to match the size of the scrollpane's
+        // viewport.
 
-        this.contentPreferredSize = new PreferredSize( this.content.getPrefWidth(), this.content.getPrefHeight() );
+        this.contentPreferredSize = new PreferredSize(this.content.getPrefWidth(), this.content.getPrefHeight());
 
         this.viewportBoundsProperty().addListener((observable, oldValue, newValue) -> {
 
-            if(!contentPreferredSize.isWidthSet() && newValue.getWidth() > 0) {
+            if (!contentPreferredSize.isWidthSet() && newValue.getWidth() > 0) {
                 this.content.setPrefWidth(newValue.getWidth());
             }
 
-            if(!contentPreferredSize.isHeightSet() && newValue.getHeight() > 0) {
+            if (!contentPreferredSize.isHeightSet() && newValue.getHeight() > 0) {
                 this.content.setPrefHeight(newValue.getHeight());
             }
         });
@@ -212,7 +220,6 @@ public class ContentZoomScrollPane extends ScrollPane {
         double nextScale = previousScale + direction.getValue() * deltaScaleFactor;
 
         double scaleFactor = nextScale / previousScale;
-
         double scaleTotal = scaleFactorProperty.doubleValue() * scaleFactor;
 
         if (scaleTotal >= minScaleFactor && scaleTotal <= maxScaleFactor) {
@@ -220,8 +227,9 @@ public class ContentZoomScrollPane extends ScrollPane {
             Bounds viewPort = getViewportBounds();
             Bounds contentSize = content.getBoundsInParent();
 
-            // Convert mouse pivot points to content coordinates, even with scaling and panning.
-            Point2D zoomCenter =  content.sceneToLocal(pivotX, pivotY);
+            // Convert mouse pivot points to content coordinates, even with scaling and
+            // panning.
+            Point2D zoomCenter = content.sceneToLocal(pivotX, pivotY);
 
             double centerPosX = (contentSize.getWidth() - viewPort.getWidth()) * getHvalue() + zoomCenter.getX();
             double centerPosY = (contentSize.getHeight() - viewPort.getHeight()) * getVvalue() + zoomCenter.getY();
@@ -233,11 +241,16 @@ public class ContentZoomScrollPane extends ScrollPane {
             double newCenterY = centerPosY * scaleFactor;
 
             double h = (newCenterX - zoomCenter.getX()) / (contentSize.getWidth() * scaleFactor - viewPort.getWidth());
-            double v = (newCenterY - zoomCenter.getY()) / (contentSize.getHeight() * scaleFactor - viewPort.getHeight());
+            double v = (newCenterY - zoomCenter.getY())
+                    / (contentSize.getHeight() * scaleFactor - viewPort.getHeight());
 
-            // Check values to avoid scrollbars stuck when the new computed scroll values are NaN or Infinity.
+            // Check values to avoid scrollbars stuck when the new computed scroll values
+            // are NaN or Infinity.
             // It seems that only NaN leads to this problem, but let's be safe.
-            if(Double.isInfinite(h) || Double.isNaN(h) || Double.isInfinite(v) || Double.isNaN(v) ) return;
+            if (Double.isInfinite(h) || Double.isNaN(h) || Double.isInfinite(v) || Double.isNaN(v)) {
+                scaleFactorProperty.set(MIN_SCALE);
+                return;
+            }
 
             setHvalue(h);
             setVvalue(v);

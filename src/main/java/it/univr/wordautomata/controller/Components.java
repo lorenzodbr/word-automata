@@ -1,5 +1,7 @@
 package it.univr.wordautomata.controller;
 
+import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -14,6 +16,7 @@ public class Components {
     private MainPanel mainPanel;
     private BottomBar bottomBar;
     private GraphPanel graphPanel;
+    private ContentZoomScrollPane contentZoomScrollPane;
 
     private static Components instance;
 
@@ -46,6 +49,10 @@ public class Components {
         this.graphPanel = graphPanel;
     }
 
+    public void setContentZoomScrollPane(ContentZoomScrollPane contentZoomScrollPane){
+        this.contentZoomScrollPane = contentZoomScrollPane;
+    }
+
     public Stage getStage(){
         return stage;
     }
@@ -64,5 +71,9 @@ public class Components {
 
     public GraphPanel getGraphPanel(){
         return graphPanel;
+    }
+
+    public ContentZoomScrollPane getContentZoomScrollPane(){
+        return contentZoomScrollPane;
     }
 }

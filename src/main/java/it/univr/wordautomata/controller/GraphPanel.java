@@ -24,6 +24,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Label;
@@ -39,6 +40,9 @@ public class GraphPanel extends StackPane {
 
     @FXML
     private Label hintLabel;
+
+    @FXML
+    private Label zoomLabel;
 
     private ModalPane modalPane;
 
@@ -56,7 +60,9 @@ public class GraphPanel extends StackPane {
         this.model = Model.getInstance();
         this.components = Components.getInstance();
         this.colorTimeline = new Timeline();
+        this.zoomLabel = new Label();
 
+        initZoomLabel();
         initGraph();
         initModals();
         initProperties();
@@ -132,6 +138,15 @@ public class GraphPanel extends StackPane {
             return true;
         }
         return false;
+    }
+
+    private void initZoomLabel() {
+        zoomLabel.getStyleClass().addAll("zoom-label", "rounded-corners");
+        zoomLabel.visibleProperty().bind(model.atLeastOneVertexProperty());
+
+        getChildren().add(zoomLabel);
+        StackPane.setAlignment(zoomLabel, Pos.TOP_RIGHT);
+        StackPane.setMargin(zoomLabel, new Insets(7, 7, 0, 0));
     }
 
     private boolean clearPrevEdge() {
@@ -212,20 +227,25 @@ public class GraphPanel extends StackPane {
     public void initGraph() {
         this.graph = model.getGraph();
 
-        getChildren().retainAll(hintLabel, modalPane);
+        getChildren().retainAll(hintLabel, zoomLabel, modalPane);
         this.graphView = new SmartGraphPanel<State, Transition>(graph,
                 model.getInitialPlacement(),
                 model.getAutomaticPlacementStrategy());
 
         graphView.setVisible(false);
 
-        getChildren().add(new ContentZoomScrollPane(graphView));
+        components.setContentZoomScrollPane(new ContentZoomScrollPane(graphView));
+        getChildren().add(1, components.getContentZoomScrollPane());
 
         graphView.setBackgroundDoubleClickAction(e -> addVertex(e.getSceneX(), e.getSceneY()));
         graphView.setVertexDoubleClickAction(this::showStateSideBar);
         graphView.setEdgeDoubleClickAction(this::showTransitionSideBar);
 
         initGraphProperties();
+
+        zoomLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            return String.format("%.0f%%", components.getContentZoomScrollPane().scaleFactorProperty().get() * 50 + 50);
+        }, components.getContentZoomScrollPane().scaleFactorProperty()));
 
         Platform.runLater(() -> {
             graphView.init(this);
@@ -241,8 +261,6 @@ public class GraphPanel extends StackPane {
     }
 
     private void initProperties() {
-        initGraphProperties();
-
         this.hintLabel.visibleProperty().bind(model.atLeastOneVertexProperty().not());
 
         // enable drag-and-drop

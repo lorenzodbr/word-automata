@@ -1,4 +1,8 @@
+TODO:
 - Creare pannelli Legend e Tutorial
 - Disabilitare pulsanti avanti, indietro, reset quando non possono essere attivi (e.g. prima di partire)
 - Aggiungere controllo al nome di nodi e degli archi anche nei pannelli StateModalBody e TransitionModalBody
-- Aggiungere indicatore zoom in alto a dx
+v Aggiungere indicatore zoom in alto a dx
+
+FIX:
+- MenuItem 'delete' rossi: lo stile non si applica nonostante quello nella topbar lo faccia
