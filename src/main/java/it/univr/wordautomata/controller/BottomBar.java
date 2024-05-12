@@ -217,6 +217,36 @@ public class BottomBar extends GridPane {
                         getTransitionButton(e.element().toString()),
                         getStateLabel(((State) e.vertices()[1].element()).toString()));
             }
+
+            // @TODO synchronize coloNextEdge() with the scroll panel
+
+            // only way to access a local variable inside a lambda
+            var wrapper = new Object() {
+                int buttonIndex = 0;
+            };
+            transitionsPanelHBox.getChildren().forEach(b -> {
+                if (b instanceof Button) {
+                    b.pressedProperty().addListener((o, oldVal, newVal) -> {
+                        int buttonPressed = transitionsPanelHBox.getChildren().indexOf(b);
+                        // index of the button we are currently looking
+                        wrapper.buttonIndex = 0;
+
+                        // each time a button is pressed we need to update all the buttons
+                        transitionsPanelHBox.getChildren().forEach(btn -> {
+                            if (btn instanceof Button) {
+                                if (wrapper.buttonIndex <= buttonPressed) {
+                                    // color the buttons behind the one we pressed
+                                    colorTransitionButtonAt(wrapper.buttonIndex);
+                                } else if (wrapper.buttonIndex >= buttonPressed) {
+                                    // clear the buttons in front of the one we pressed
+                                    clearTransitionButtonAt(wrapper.buttonIndex);
+                                }
+                            }
+                            wrapper.buttonIndex++;
+                        });
+                    });
+                }
+            });
         });
     }
 
@@ -280,8 +310,10 @@ public class BottomBar extends GridPane {
     }
 
     public void colorTransitionButtonAt(int index) {
-        Node b = transitionsPanelHBox.getChildren().get(index);
-        b.getStyleClass().add(Constants.ACTIVE_BUTTON_CLASS);
-        centerNodeInScrollPane(b);
+        if (index < transitionsPanelHBox.getChildren().size()) {
+            Node b = transitionsPanelHBox.getChildren().get(index);
+            b.getStyleClass().add(Constants.ACTIVE_BUTTON_CLASS);
+            centerNodeInScrollPane(b);
+        }
     }
 }
