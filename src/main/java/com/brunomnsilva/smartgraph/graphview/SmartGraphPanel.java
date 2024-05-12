@@ -1428,12 +1428,7 @@ public class SmartGraphPanel<V, E> extends Pane {
 
             } else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                 Node node = pick(SmartGraphPanel.this, mouseEvent.getSceneX(), mouseEvent.getSceneY());
-                if (node == null) {
-                    contextMenu.hide();
-                    return;
-                }
-
-                if (Model.getInstance().hasAtLeastOneVertex() && node instanceof SmartGraphPanel) {
+                if (node != null && Model.getInstance().hasAtLeastOneVertex() && node instanceof SmartGraphPanel) {
                     contextMenu.hide();
                     contextMenu.show(SmartGraphPanel.this, mouseEvent.getScreenX(), mouseEvent.getScreenY());
                     return;

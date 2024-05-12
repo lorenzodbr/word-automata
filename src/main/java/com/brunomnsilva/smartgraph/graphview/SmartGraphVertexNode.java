@@ -509,7 +509,6 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
         });
 
         setOnMouseReleased((MouseEvent mouseEvent) -> {
-
             if (allowMove) { // necessary after a possible drag operation
                 setCursor(Cursor.HAND);
             }

@@ -30,6 +30,7 @@ public class Constants {
     public final static String GRAPH_STYLE_FILENAME = "smartgraph";
     public final static String DEFAULT_AUTOMATA_FILENAME = "Untitled";
     public final static String ICON_FILENAME = "logo";
+    public final static String RECENT_FILES_FILENAME = "recentFiles";
     public final static String STYLE_EXTENSION = ".css";
     public final static String GRAPH_STYLE_EXTENSION = ".properties";
     public final static String FXML_EXTENSION = ".fxml";
@@ -50,7 +51,7 @@ public class Constants {
     public final static String ACTIVE_EDGE_CLASS = "active-edge";
     public final static String ACTIVE_BUTTON_CLASS = "active-button";
     
-    // Sizes
+    // Numerical Constants
     public final static double HEIGHT = 689;
     public final static double WIDTH = 1030;
     public final static double MIN_HEIGHT = 400;
@@ -58,9 +59,8 @@ public class Constants {
     public final static int DEFAULT_FONT_SIZE = 10;
     public final static int SIDEBAR_MAX_WIDTH = 250;
     public final static int TRANSITION_ROW_MIN_WIDTH = 20;
-
-    // Times
     public final static int DEFAULT_PLAYBACK_DURATION_MILLIS = 500;
+    public final static int MAX_RECENT_FILES = 20;
 
     // Global Objects
     public static final Random RANDOM = new Random();

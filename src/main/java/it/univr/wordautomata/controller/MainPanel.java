@@ -1,6 +1,7 @@
 package it.univr.wordautomata.controller;
 
 import java.io.File;
+import java.util.List;
 
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.boxicons.BoxiconsSolid;
@@ -18,6 +19,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
@@ -97,6 +99,9 @@ public class MainPanel extends BorderPane {
     @FXML
     private MenuItem legendMenuItem;
 
+    @FXML
+    private Menu openRecentMenu;
+
     private Model model;
     private WordAutomata parent;
     private Components components;
@@ -112,7 +117,7 @@ public class MainPanel extends BorderPane {
         addBottomBar();
         addGraphPanel();
 
-        styleMenuItems();
+        initMenuItems();
         initBindings();
     }
 
@@ -173,6 +178,7 @@ public class MainPanel extends BorderPane {
         if (file != null) {
             if (file.exists() && file.isFile() && file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)) {
                 loadAutomata(file);
+                loadRecentFiles();
             }
         }
 
@@ -197,12 +203,15 @@ public class MainPanel extends BorderPane {
             message += " You will lose any unsaved changes.";
         }
 
-        if ((model.getOpenedFile() != null || !model.isSaved()) && !Alerts.showConfirmationDialog(getScene(), "Load sample automata",
-                message)) {
+        if ((model.getOpenedFile() != null || !model.isSaved())
+                && !Alerts.showConfirmationDialog(getScene(), "Load sample automata",
+                        message)) {
             return;
         }
 
         model.updateGraph(model.initSampleGraph());
+        model.setOpenedFile(null);
+        model.setSaved(true);
     }
 
     @FXML
@@ -228,7 +237,7 @@ public class MainPanel extends BorderPane {
         closeMenuItem.disableProperty().bind(model.openedFileProperty().isNull());
     }
 
-    private void styleMenuItems() {
+    private void initMenuItems() {
         autoPositioningMenuItem.graphicProperty().bind(Bindings.when(model.autoPositionProperty())
                 .then(new FontIcon(BoxiconsRegular.CHECK))
                 .otherwise(new FontIcon(BoxiconsSolid.MAGIC_WAND)));
@@ -247,6 +256,36 @@ public class MainPanel extends BorderPane {
         clearGraphMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+SHIFT+C"));
         setInitialStateMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+I"));
         legendMenuItem.setAccelerator(KeyCombination.keyCombination("CTRL+L"));
+
+        loadRecentFiles();
+    }
+
+    private void loadRecentFiles() {
+        List<File> recentFiles = AutomataSaver.getRecentFiles();
+
+        if (recentFiles != null && !recentFiles.isEmpty()) {
+            openRecentMenu.getItems().clear();
+        }
+
+        for (File file : recentFiles) {
+            MenuItem item = new MenuItem();
+
+            item.textProperty()
+                    .bind(Bindings.concat(file.getAbsolutePath(),
+                            Bindings.when(model.openedFileProperty().isEqualTo(file))
+                                    .then(" (Current)")
+                                    .otherwise(""),
+                            Bindings.when(
+                                    Bindings.createBooleanBinding(() -> file.exists(), model.openedFileProperty()))
+                                    .then("").otherwise(" (Not found)")));
+
+            item.setOnAction(e -> loadAutomata(file));
+            openRecentMenu.getItems().add(item);
+
+            item.disableProperty().bind(Bindings.createBooleanBinding(() -> (model.getOpenedFile() != null
+                    && model.getOpenedFile().getAbsolutePath().equals(file.getAbsolutePath())) || !file.exists(),
+                    model.openedFileProperty()));
+        }
     }
 
     @FXML
@@ -286,7 +325,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showLegend() {
-        
+
     }
 
     @FXML
