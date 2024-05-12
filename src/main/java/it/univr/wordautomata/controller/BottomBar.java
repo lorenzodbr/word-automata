@@ -149,6 +149,7 @@ public class BottomBar extends GridPane {
     private void initResetButton() {
         resetButton.setGraphic(new FontIcon(BoxiconsRegular.RESET));
         resetButton.disableProperty().bind(buttonsEnabledBinding);
+        resetButton.pressedProperty().addListener((o, oldVal, newVal) -> clearTransitionsButtons());
     }
 
     private void initPreviousNextStateButtons() {
