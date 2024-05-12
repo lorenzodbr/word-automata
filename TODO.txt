@@ -1,4 +1,3 @@
-- Sincronizzare pannello degli stati con il percorso nel grafo e colorare gli archi
 - Creare pannelli Legend e Tutorial
 - Disabilitare pulsanti avanti, indietro, reset quando non possono essere attivi (e.g. prima di partire)
 - Aggiungere controllo al nome di nodi e degli archi anche nei pannelli StateModalBody e TransitionModalBody
