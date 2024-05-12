@@ -144,7 +144,7 @@ public class MainPanel extends BorderPane {
 
     @FXML
     public void clearGraph() {
-        if (Alerts.showConfirmationDialog(getScene(), "Clear graph", "Do you really want to clear the graph?")) {
+        if (Alerts.showConfirmationDialog(getScene(), "Clear", "Do you really want to clear the graph?")) {
             components.getBottomBar().clear();
             components.getGraphPanel().clear();
         }

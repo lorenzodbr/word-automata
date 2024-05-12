@@ -71,6 +71,7 @@ public class Methods {
 
         MenuItem detailsItem = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
         MenuItem deleteItem = new MenuItem("Delete", new FontIcon(BoxiconsRegular.TRASH));
+        deleteItem.getStyleClass().add(Constants.MENU_ITEM_DANGER_CLASS);
 
         List<MenuItem> items = new ArrayList<>();
 
@@ -109,7 +110,6 @@ public class Methods {
             addTransitionMenuItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel()
                             .addEdge((State) nAsV.getUnderlyingVertex().element()));
-
         } else if (node instanceof SmartGraphEdge nAsE) {
             items.add(detailsItem);
             items.add(new SeparatorMenuItem());
@@ -124,7 +124,9 @@ public class Methods {
 
             MenuItem addStateMenuItem = new MenuItem("State", new FontIcon(BoxiconsRegular.PLUS_CIRCLE));
             MenuItem addTransitionMenuItem = new MenuItem("Transition", new FontIcon(BoxiconsRegular.LOG_IN_CIRCLE));
-            MenuItem clearGraphMenuItem = new MenuItem("Clear graph", new FontIcon(BoxiconsRegular.TRASH));
+            MenuItem clearGraphMenuItem = new MenuItem("Clear", new FontIcon(BoxiconsRegular.TRASH));
+
+            clearGraphMenuItem.getStyleClass().add(Constants.MENU_ITEM_DANGER_CLASS);
 
             addStateMenuItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().addVertex());
