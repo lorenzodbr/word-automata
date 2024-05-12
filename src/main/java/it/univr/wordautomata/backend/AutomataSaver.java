@@ -3,8 +3,12 @@ package it.univr.wordautomata.backend;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 
@@ -18,6 +22,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class AutomataSaver {
+    private static File tmpFolder = null;
+
     private AutomataSaver() {
     }
 
@@ -30,6 +36,8 @@ public class AutomataSaver {
             out.writeObject(graph);
             out.writeObject(Model.getInstance().getInitialState());
             Model.getInstance().setSaved(true);
+
+            recordRecentFile(file);
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -47,8 +55,10 @@ public class AutomataSaver {
                 FileInputStream fileStream = new FileInputStream(file);
                 ObjectInputStream in = new ObjectInputStream(fileStream)) {
             graph = (DigraphEdgeList<State, Transition>) in.readObject();
+            
             Model.getInstance().setInitialState((State) in.readObject());
             Model.getInstance().setOpenedFile(file);
+            recordRecentFile(file);
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -58,6 +68,61 @@ public class AutomataSaver {
         }
 
         return graph;
+    }
+
+    public static File getTmpFolder() throws IOException {
+        if (tmpFolder == null) {
+            tmpFolder = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator")
+                    + "wordautomata");
+
+            if (!tmpFolder.exists()) {
+                Files.createDirectory(tmpFolder.toPath());
+            }
+
+            File recentFile = new File(tmpFolder.getAbsolutePath() + System.getProperty("file.separator")
+                    + Constants.RECENT_FILES_FILENAME);
+            recentFile.createNewFile();
+        }
+
+        return tmpFolder;
+    }
+
+    public static List<File> getRecentFiles() {
+        List<File> recentFiles = new ArrayList<>();
+
+        try (
+                FileInputStream fileStream = new FileInputStream(getTmpFolder().getAbsolutePath()
+                        + System.getProperty("file.separator") + Constants.RECENT_FILES_FILENAME);
+                ObjectInputStream in = new ObjectInputStream(fileStream)) {
+            recentFiles = (List<File>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return recentFiles;
+    }
+
+    public static synchronized void recordRecentFile(File file) {
+        List<File> recentFiles = getRecentFiles();
+
+        if (recentFiles.stream().anyMatch(f -> f.getAbsolutePath().equals(file.getAbsolutePath()))) {
+            recentFiles.remove(file);
+        }
+
+        recentFiles.add(0, file);
+
+        if (recentFiles.size() > Constants.MAX_RECENT_FILES) {
+            recentFiles.remove(recentFiles.size() - 1);
+        }
+
+        try (
+                FileOutputStream fileStream = new FileOutputStream(getTmpFolder().getAbsolutePath()
+                        + System.getProperty("file.separator") + Constants.RECENT_FILES_FILENAME);
+                ObjectOutputStream out = new ObjectOutputStream(fileStream)) {
+            out.writeObject(recentFiles);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void save() {

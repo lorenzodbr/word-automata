@@ -24,7 +24,7 @@
                                 <FontIcon iconLiteral="bx-shape-polygon" />
                             </graphic>
                         </MenuItem>
-                        <Menu fx:id="openRecentMenuItem" mnemonicParsing="true" text="Open _recent">
+                        <Menu fx:id="openRecentMenu" mnemonicParsing="true" text="Open _recent">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="No recent files"
                                     disable="true" />
