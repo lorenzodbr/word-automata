@@ -116,8 +116,8 @@
 
 .menu-item-danger .label,
 .menu-item-danger .ikonli-font-icon {
-    -fx-text-fill: -color-danger-4;
-    -fx-icon-color: -color-danger-4;
+    -fx-text-fill: -color-danger-5;
+    -fx-icon-color: -color-danger-5;
 }
 
 /*
