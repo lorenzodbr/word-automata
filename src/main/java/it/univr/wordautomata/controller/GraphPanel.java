@@ -141,7 +141,7 @@ public class GraphPanel extends StackPane {
     }
 
     private void initZoomLabel() {
-        zoomLabel.getStyleClass().addAll("zoom-label", "rounded-corners");
+        zoomLabel.getStyleClass().addAll(Constants.ZOOM_LABEL_CLASS, Constants.ROUNDED_CORNERS_CLASS);
         zoomLabel.visibleProperty().bind(model.atLeastOneVertexProperty());
 
         getChildren().add(zoomLabel);

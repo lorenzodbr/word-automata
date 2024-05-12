@@ -8,6 +8,7 @@ import it.univr.wordautomata.model.State;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
