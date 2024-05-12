@@ -114,6 +114,12 @@
     -fx-pref-width: 2;
 }
 
+.menu-item-danger .label,
+.menu-item-danger .ikonli-font-icon {
+    -fx-text-fill: -color-danger-4;
+    -fx-icon-color: -color-danger-4;
+}
+
 /*
  * Graph theming
  */

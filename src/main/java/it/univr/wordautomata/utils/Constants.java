@@ -50,6 +50,7 @@ public class Constants {
     public final static String ROUNDED_CORNERS_CLASS = "rounded-corners";
     public final static String ACTIVE_EDGE_CLASS = "active-edge";
     public final static String ACTIVE_BUTTON_CLASS = "active-button";
+    public final static String MENU_ITEM_DANGER_CLASS = "menu-item-danger";
     
     // Numerical Constants
     public final static double HEIGHT = 689;

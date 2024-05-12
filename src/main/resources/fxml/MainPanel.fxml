@@ -82,7 +82,7 @@
                             text="Set _initial state" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true"
-                            onAction="#clearGraph" text="_Clear">
+                            onAction="#clearGraph" text="_Clear" styleClass="menu-item-danger">
                             <graphic>
                                 <FontIcon iconLiteral="bx-trash" />
                             </graphic>
