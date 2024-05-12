@@ -51,6 +51,7 @@ public class Constants {
     public final static String ACTIVE_EDGE_CLASS = "active-edge";
     public final static String ACTIVE_BUTTON_CLASS = "active-button";
     public final static String MENU_ITEM_DANGER_CLASS = "menu-item-danger";
+    public final static String ZOOM_LABEL_CLASS = "zoom-label";
     
     // Numerical Constants
     public final static double HEIGHT = 689;
