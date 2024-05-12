@@ -220,34 +220,40 @@ public class BottomBar extends GridPane {
             }
 
             // @TODO synchronize coloNextEdge() with the scroll panel
-
-            // only way to access a local variable inside a lambda
-            var wrapper = new Object() {
-                int buttonIndex = 0;
-            };
             transitionsPanelHBox.getChildren().forEach(b -> {
                 if (b instanceof Button) {
-                    b.pressedProperty().addListener((o, oldVal, newVal) -> {
-                        int buttonPressed = transitionsPanelHBox.getChildren().indexOf(b);
-                        // index of the button we are currently looking
-                        wrapper.buttonIndex = 0;
-
-                        // each time a button is pressed we need to update all the buttons
-                        transitionsPanelHBox.getChildren().forEach(btn -> {
-                            if (btn instanceof Button) {
-                                if (wrapper.buttonIndex <= buttonPressed) {
-                                    // color the buttons behind the one we pressed
-                                    colorTransitionButtonAt(wrapper.buttonIndex);
-                                } else if (wrapper.buttonIndex >= buttonPressed) {
-                                    // clear the buttons in front of the one we pressed
-                                    clearTransitionButtonAt(wrapper.buttonIndex);
-                                }
-                            }
-                            wrapper.buttonIndex++;
-                        });
-                    });
+                    b.pressedProperty().addListener((o, oldVal, newVal) -> updateAllTransitionsButtons((Button) b));
                 }
             });
+        });
+    }
+
+    private void updateAllTransitionsButtons(Button pressed) {
+        var found = new Object() {
+            boolean value = false;
+        };
+        var index = new Object() {
+            int value = 0;
+        };
+
+        transitionsPanelHBox.getChildren().forEach(b -> {
+            if (b instanceof Button) {
+                if (b == pressed) {
+                    found.value = true;
+
+                    if (!b.getStyleClass().contains(""))
+                        colorTransitionButtonAt(index.value);
+                    else
+                        clearTransitionButtonAt(index.value);
+                } else {
+                    if (found.value)
+                        clearTransitionButtonAt(index.value);
+                    else
+                        colorTransitionButtonAt(index.value);
+                }
+            }
+
+            index.value++;
         });
     }
 
@@ -311,10 +317,8 @@ public class BottomBar extends GridPane {
     }
 
     public void colorTransitionButtonAt(int index) {
-        if (index < transitionsPanelHBox.getChildren().size()) {
-            Node b = transitionsPanelHBox.getChildren().get(index);
-            b.getStyleClass().add(Constants.ACTIVE_BUTTON_CLASS);
-            centerNodeInScrollPane(b);
-        }
+        Node b = transitionsPanelHBox.getChildren().get(index);
+        b.getStyleClass().add(Constants.ACTIVE_BUTTON_CLASS);
+        centerNodeInScrollPane(b);
     }
 }
