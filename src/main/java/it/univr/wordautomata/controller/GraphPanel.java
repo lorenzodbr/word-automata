@@ -73,6 +73,8 @@ public class GraphPanel extends StackPane {
 
     private boolean colorNextEdge() {
         if (model.getEdgeToColor().hasNext()) {
+            final boolean alreadyColored;
+
             Edge<Transition, State> e = model.getEdgeToColor().next();
 
             colorTimeline = new Timeline();
@@ -80,45 +82,57 @@ public class GraphPanel extends StackPane {
 
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
-            // uncomment this to see the edge being colored also when it is already colored
-            // if (stylableEdge.hasStyleClass(Constants.ACTIVE_EDGE_CLASS)) {
-            //     colorTimeline.getKeyFrames().add(new KeyFrame(
-            //             Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS * 0.9), e2 -> {
-            //                 components.getBottomBar()
-            //                         .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
-            //             }));
+            // comment this to see the edge getting recolored when it is already colored
+            if (stylableEdge.hasStyleClass(Constants.ACTIVE_EDGE_CLASS)) {
+                alreadyColored = true;
+            } else {
+                alreadyColored = false;
+            }
 
-            //     colorTimeline.play();
-            //     return true;
-            // }
-
-            // remove any previous style class
-            stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
+            String cssHorizontal = alreadyColored
+                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
+                    : "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, -color-danger-4, -color-neutral-emphasis);";
 
             // add 99 keyframes (percentages of the total duration)
             for (int i = 0; i < 99; i++) {
                 int innerIndex = i;
                 colorTimeline.getKeyFrames().add(new KeyFrame(
                         // each keyframe is 1% of the total duration
-                        Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i), e2 -> {
-                            String css = "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, -color-danger-4, -color-neutral-emphasis);";
-                            String cssHorizontal = "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, -color-danger-4, -color-neutral-emphasis);";
+                        Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i), evt -> {
+                            String css = alreadyColored
+                                    ? "-fx-stroke: linear-gradient(to %s,-color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
+                                    : "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, -color-danger-4, -color-neutral-emphasis);";
 
                             // needed because css applies top to bottom, left to right by default
-                            switch (stylableEdge.getOrientation()) {
+                            Orientation orientation = stylableEdge.getOrientation();
+                            switch (orientation) {
                                 case Orientation.WEST:
                                     css = cssHorizontal;
                                 case Orientation.NORTH:
                                 case Orientation.NORTH_EAST:
                                 case Orientation.NORTH_WEST:
-                                    css = String.format(css, 100 - innerIndex, 100 - innerIndex - 1);
+                                    if (alreadyColored)
+                                        css = String.format(css,
+                                                orientation.getCssOrientation(),
+                                                innerIndex,
+                                                innerIndex + 15,
+                                                innerIndex + 30);
+                                    else
+                                        css = String.format(css, 100 - innerIndex, 100 - innerIndex - 1);
                                     break;
                                 case Orientation.EAST:
                                     css = cssHorizontal;
                                 case Orientation.SOUTH:
                                 case Orientation.SOUTH_EAST:
                                 case Orientation.SOUTH_WEST:
-                                    css = String.format(css, innerIndex, innerIndex + 1);
+                                    if (alreadyColored)
+                                        css = String.format(css,
+                                                orientation.getCssOrientation(),
+                                                innerIndex,
+                                                innerIndex + 15,
+                                                innerIndex + 30);
+                                    else
+                                        css = String.format(css, innerIndex, innerIndex + 1);
                                     break;
                             }
 
@@ -180,7 +194,8 @@ public class GraphPanel extends StackPane {
 
         for (Edge<Transition, State> e : model.getGraph().edges()) {
             SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
-            stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
+            while (stylableEdge.hasStyleClass(Constants.ACTIVE_EDGE_CLASS))
+                stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
             stylableEdge.setStyleInline(null);
         }
     }
@@ -230,6 +245,9 @@ public class GraphPanel extends StackPane {
     }
 
     public void initGraph() {
+        timeline.stop();
+        colorTimeline.stop();
+
         this.graph = model.getGraph();
 
         getChildren().retainAll(hintLabel, zoomLabel, modalPane);

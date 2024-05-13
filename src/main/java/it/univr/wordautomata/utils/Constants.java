@@ -52,7 +52,7 @@ public class Constants {
     public final static String ACTIVE_BUTTON_CLASS = "active-button";
     public final static String MENU_ITEM_DANGER_CLASS = "menu-item-danger";
     public final static String ZOOM_LABEL_CLASS = "zoom-label";
-    
+
     // Numerical Constants
     public final static double HEIGHT = 689;
     public final static double WIDTH = 1030;
@@ -136,5 +136,24 @@ public class Constants {
         NORTH_WEST,
         SOUTH_EAST,
         SOUTH_WEST;
+
+        public String getCssOrientation() {
+            switch (this) {
+                case NORTH:
+                    return "top";
+                case SOUTH:
+                    return "bottom";
+                case EAST:
+                case NORTH_EAST:
+                case SOUTH_EAST:
+                    return "right";
+                case WEST:
+                case NORTH_WEST:
+                case SOUTH_WEST:
+                    return "left";
+                default:
+                    return "right";
+            }
+        }
     }
 }
