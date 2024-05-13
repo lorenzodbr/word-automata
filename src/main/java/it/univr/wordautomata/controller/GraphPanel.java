@@ -49,6 +49,7 @@ public class GraphPanel extends StackPane {
     private Graph<State, Transition> graph;
     private SmartGraphPanel<State, Transition> graphView;
 
+    private Timeline timeline;
     private Timeline colorTimeline;
 
     private Model model;
@@ -61,6 +62,7 @@ public class GraphPanel extends StackPane {
         this.components = Components.getInstance();
         this.colorTimeline = new Timeline();
         this.zoomLabel = new Label();
+        this.timeline = new Timeline();
 
         initZoomLabel();
         initGraph();
@@ -74,7 +76,7 @@ public class GraphPanel extends StackPane {
             Edge<Transition, State> e = model.getEdgeToColor().next();
 
             colorTimeline = new Timeline();
-            colorTimeline.rateProperty().bind(model.getTimeline().rateProperty());
+            colorTimeline.rateProperty().bind(timeline.rateProperty());
 
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
@@ -190,34 +192,32 @@ public class GraphPanel extends StackPane {
         model.areButtonsEnabled().addListener((o, oldVal, newVal) -> clearAllEdges());
         components.getBottomBar().resetButtonProperty().addListener((o, oldVal, newVal) -> resetColoring());
 
-        model.getTimeline().rateProperty().bind(Bindings.createDoubleBinding(() -> {
+        timeline.rateProperty().bind(Bindings.createDoubleBinding(() -> {
             return model.getSpeed().getValue();
         }, model.playBackSpeedProperty()));
 
         model.playBackStateProperty().addListener((o, oldVal, newVal) -> {
-            final Timeline t = model.getTimeline();
-
             if (newVal.equals(Constants.PlayBackState.PAUSED)) {
-                t.pause();
+                timeline.pause();
             } else if (newVal.equals(Constants.PlayBackState.PLAYING)) {
-                if (t.getKeyFrames().isEmpty()) {
-                    t.getKeyFrames()
+                if (timeline.getKeyFrames().isEmpty()) {
+                    timeline.getKeyFrames()
                             .add(new KeyFrame(Duration.millis(Constants.DEFAULT_PLAYBACK_DURATION_MILLIS), e -> {
                                 if (!colorNextEdge()) {
-                                    t.stop();
+                                    timeline.stop();
                                     model.playBackStateProperty().set(Constants.PlayBackState.PAUSED);
                                 }
                             }));
-                    t.setCycleCount(Animation.INDEFINITE);
-                    t.play();
+                    timeline.setCycleCount(Animation.INDEFINITE);
+                    timeline.play();
                 } else {
                     // reset everything if:
                     // a) we completed a whole animation, or
                     // b) we are starting a new one
-                    if ((t.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
+                    if ((timeline.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
                             || !model.getEdgeToColor().hasPrevious())
                         resetColoring();
-                    t.play();
+                    timeline.play();
                 }
             }
         });
