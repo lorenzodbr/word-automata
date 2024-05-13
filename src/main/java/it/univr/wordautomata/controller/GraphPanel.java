@@ -90,7 +90,7 @@ public class GraphPanel extends StackPane {
             }
 
             String cssHorizontal = alreadyColored
-                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
+                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
                     : "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, -color-danger-4, -color-neutral-emphasis);";
 
             // add 99 keyframes (percentages of the total duration)
@@ -100,7 +100,7 @@ public class GraphPanel extends StackPane {
                         // each keyframe is 1% of the total duration
                         Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i), evt -> {
                             String css = alreadyColored
-                                    ? "-fx-stroke: linear-gradient(to %s,-color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
+                                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
                                     : "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, -color-danger-4, -color-neutral-emphasis);";
 
                             // needed because css applies top to bottom, left to right by default
@@ -115,8 +115,9 @@ public class GraphPanel extends StackPane {
                                         css = String.format(css,
                                                 orientation.getCssOrientation(),
                                                 innerIndex,
-                                                innerIndex + 15,
-                                                innerIndex + 30);
+                                                innerIndex + 20,
+                                                innerIndex + 30,
+                                                innerIndex + 40);
                                     else
                                         css = String.format(css, 100 - innerIndex, 100 - innerIndex - 1);
                                     break;
@@ -129,8 +130,9 @@ public class GraphPanel extends StackPane {
                                         css = String.format(css,
                                                 orientation.getCssOrientation(),
                                                 innerIndex,
-                                                innerIndex + 15,
-                                                innerIndex + 30);
+                                                innerIndex + 20,
+                                                innerIndex + 30,
+                                                innerIndex + 40);
                                     else
                                         css = String.format(css, innerIndex, innerIndex + 1);
                                     break;
