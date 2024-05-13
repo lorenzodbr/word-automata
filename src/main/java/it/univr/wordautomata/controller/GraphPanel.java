@@ -77,6 +77,7 @@ public class GraphPanel extends StackPane {
 
             Edge<Transition, State> e = model.getEdgeToColor().next();
 
+            colorTimeline.getKeyFrames().clear();
             colorTimeline = new Timeline();
             colorTimeline.rateProperty().bind(timeline.rateProperty());
 
@@ -221,6 +222,7 @@ public class GraphPanel extends StackPane {
         model.playBackStateProperty().addListener((o, oldVal, newVal) -> {
             if (newVal.equals(Constants.PlayBackState.PAUSED)) {
                 timeline.pause();
+                colorTimeline.pause();
             } else if (newVal.equals(Constants.PlayBackState.PLAYING)) {
                 if (timeline.getKeyFrames().isEmpty()) {
                     timeline.getKeyFrames()
@@ -232,14 +234,20 @@ public class GraphPanel extends StackPane {
                             }));
                     timeline.setCycleCount(Animation.INDEFINITE);
                     timeline.play();
+                    colorTimeline.play();
                 } else {
                     // reset everything if:
                     // a) we completed a whole animation, or
                     // b) we are starting a new one
-                    if ((timeline.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
-                            || !model.getEdgeToColor().hasPrevious())
+
+                    boolean ended = timeline.getStatus().equals(Animation.Status.STOPPED)
+                            && !model.getEdgeToColor().hasNext();
+
+                    if (ended || !model.getEdgeToColor().hasPrevious())
                         resetColoring();
                     timeline.play();
+                    if (!ended)
+                        colorTimeline.play();
                 }
             }
         });

@@ -281,7 +281,13 @@ public class BottomBar extends GridPane {
     }
 
     public void colorTransitionButtonAt(int index) {
-        Node b = transitionsPanelHBox.getChildren().get(index);
+        List<Node> children = transitionsPanelHBox.getChildren();
+
+        if (index < 0 || index >= children.size()) {
+            return;
+        }
+
+        Node b = children.get(index);
         b.getStyleClass().add(Constants.ACTIVE_BUTTON_CLASS);
         centerNodeInScrollPane(b);
     }
