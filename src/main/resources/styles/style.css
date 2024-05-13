@@ -203,8 +203,12 @@
     -fx-cursor: hand;
 }
 
+.active-edge {
+    -fx-stroke-width: 2.5;
+}
+
 .active-edge:hover {
-    -fx-stroke-width: 4;
+    -fx-stroke-width: 3;
 }
 
 .edge-label {
