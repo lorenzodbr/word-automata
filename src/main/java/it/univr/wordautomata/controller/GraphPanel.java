@@ -56,17 +56,15 @@ public class GraphPanel extends StackPane {
     private Model model;
     private Components components;
 
-    private Edge<Transition, State> e;
-
     public GraphPanel() {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
         this.model = Model.getInstance();
         this.components = Components.getInstance();
-        this.colorTimeline = new Timeline();
-        this.zoomLabel = new Label();
-        this.zoomTimeline = new Timeline();
         this.timeline = new Timeline();
+        this.colorTimeline = new Timeline();
+        this.zoomTimeline = new Timeline();
+        this.zoomLabel = new Label();
 
         initZoomLabel();
         initGraph();
@@ -79,18 +77,12 @@ public class GraphPanel extends StackPane {
         if (model.getEdgeToColor().hasNext()) {
             final boolean alreadyColored;
 
-            if (e != null) {
-                SmartGraphEdge<Transition, State> currentStylableEdge = graphView.getStylableEdge(e);
-                currentStylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
-                currentStylableEdge.setStyleInline(null);
-                components.getBottomBar().colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
-            }
+            Edge<Transition, State> e = model.getEdgeToColor().next();
 
-            e = model.getEdgeToColor().next();
-
-            colorTimeline.getKeyFrames().clear();
             colorTimeline = new Timeline();
             colorTimeline.rateProperty().bind(timeline.rateProperty());
+
+            components.getBottomBar().isTransitionInProgressProperty().bind(colorTimeline.statusProperty().isEqualTo(Animation.Status.RUNNING));
 
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
@@ -102,8 +94,11 @@ public class GraphPanel extends StackPane {
             }
 
             String cssHorizontal = alreadyColored
-                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
+                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
                     : "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, -color-danger-4, -color-neutral-emphasis);";
+
+            components.getBottomBar()
+                    .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
 
             // add 99 keyframes (percentages of the total duration)
             for (int i = 0; i < 99; i++) {
@@ -112,7 +107,7 @@ public class GraphPanel extends StackPane {
                         // each keyframe is 1% of the total duration
                         Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i), evt -> {
                             String css = alreadyColored
-                                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
+                                    ? "-fx-stroke: linear-gradient(to %s,-color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
                                     : "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, -color-danger-4, -color-neutral-emphasis);";
 
                             // needed because css applies top to bottom, left to right by default
@@ -127,8 +122,7 @@ public class GraphPanel extends StackPane {
                                         css = String.format(css,
                                                 orientation.getCssOrientation(),
                                                 innerIndex,
-                                                innerIndex + 5,
-                                                innerIndex + 20,
+                                                innerIndex + 15,
                                                 innerIndex + 30);
                                     else
                                         css = String.format(css, 100 - innerIndex, 100 - innerIndex - 1);
@@ -142,8 +136,7 @@ public class GraphPanel extends StackPane {
                                         css = String.format(css,
                                                 orientation.getCssOrientation(),
                                                 innerIndex,
-                                                innerIndex + 5,
-                                                innerIndex + 20,
+                                                innerIndex + 15,
                                                 innerIndex + 30);
                                     else
                                         css = String.format(css, innerIndex, innerIndex + 1);
@@ -156,8 +149,6 @@ public class GraphPanel extends StackPane {
                                 stylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
                                 // the children follow the pattern: state - edge - state,
                                 // we jump directly to the edge we need to
-                                components.getBottomBar()
-                                        .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
                             }
                         }));
             }
@@ -195,7 +186,7 @@ public class GraphPanel extends StackPane {
         for (int i = 0; i < 100; i++) {
             int innerIndex = i;
             zoomTimeline.getKeyFrames().add(new KeyFrame(
-                    Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 300) * i + 1000), e -> {
+                    Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 200) * i + 1000), e -> {
                         zoomLabel.setStyle("-fx-opacity: " + 0.7 * (1 - (innerIndex / 100.0)));
                     }));
         }
@@ -233,7 +224,6 @@ public class GraphPanel extends StackPane {
     }
 
     private void resetColoring() {
-        e = null;
         clearAllEdges();
         while (model.getEdgeToColor().hasPrevious())
             model.getEdgeToColor().previous();
@@ -263,17 +253,13 @@ public class GraphPanel extends StackPane {
                             }));
                     timeline.setCycleCount(Animation.INDEFINITE);
                     timeline.play();
-                    colorTimeline.play();
                 } else {
                     // reset everything if:
                     // a) we completed a whole animation, or
                     // b) we are starting a new one
-                    if (timeline.getStatus().equals(Animation.Status.STOPPED)
-                            && !model.getEdgeToColor().hasNext() || !model.getEdgeToColor().hasPrevious()) {
+                    if ((timeline.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
+                            || !model.getEdgeToColor().hasPrevious())
                         resetColoring();
-                    }
-
-                    e = null;
                     timeline.play();
                 }
             }

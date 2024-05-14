@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -90,6 +91,7 @@ public class BottomBar extends GridPane {
     private Circle[] speedCircles;
 
     private BooleanBinding buttonsEnabledBinding;
+    private SimpleBooleanProperty isTransitionInProgress;
 
     private Model model;
 
@@ -97,6 +99,7 @@ public class BottomBar extends GridPane {
         Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);
 
         this.model = Model.getInstance();
+        this.isTransitionInProgress = new SimpleBooleanProperty(false);
 
         wordInput.disableProperty().bind(model.atLeastOneEdgeProperty().not());
         styleButtons();
@@ -154,9 +157,13 @@ public class BottomBar extends GridPane {
 
     private void initPreviousNextStateButtons() {
         previousStateButton.disableProperty()
-                .bind(buttonsEnabledBinding.or(model.playBackStateProperty().isEqualTo(PlayBackState.PLAYING)));
+                .bind(buttonsEnabledBinding
+                        .or(model.playBackStateProperty().isEqualTo(PlayBackState.PLAYING))
+                        .or(isTransitionInProgress));
         nextStateButton.disableProperty()
-                .bind(buttonsEnabledBinding.or(model.playBackStateProperty().isEqualTo(PlayBackState.PLAYING)));
+                .bind(buttonsEnabledBinding
+                        .or(model.playBackStateProperty().isEqualTo(PlayBackState.PLAYING))
+                        .or(isTransitionInProgress));
     }
 
     @FXML
@@ -292,5 +299,9 @@ public class BottomBar extends GridPane {
         Node b = children.get(index);
         b.getStyleClass().add(Constants.ACTIVE_BUTTON_CLASS);
         centerNodeInScrollPane(b);
+    }
+
+    public SimpleBooleanProperty isTransitionInProgressProperty() {
+        return isTransitionInProgress;
     }
 }
