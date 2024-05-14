@@ -233,6 +233,7 @@ public class GraphPanel extends StackPane {
     }
 
     private void resetColoring() {
+        e = null;
         clearAllEdges();
         while (model.getEdgeToColor().hasPrevious())
             model.getEdgeToColor().previous();
