@@ -59,7 +59,7 @@ public class AutomataSaver {
             Model.getInstance().setInitialState((State) in.readObject());
             Model.getInstance().setOpenedFile(file);
             recordRecentFile(file);
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
 
             Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Reading Automata",

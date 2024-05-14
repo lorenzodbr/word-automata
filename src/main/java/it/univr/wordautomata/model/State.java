@@ -128,7 +128,7 @@ public class State implements Comparable<State>, Serializable {
         try {
             label = new SimpleStringProperty(new String((String)in.readObject()));
             isFinal = new SimpleBooleanProperty((boolean)in.readObject());
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

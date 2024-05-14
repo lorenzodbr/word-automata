@@ -116,9 +116,9 @@ public class GraphPanel extends StackPane {
                                         css = String.format(css,
                                                 orientation.getCssOrientation(),
                                                 innerIndex,
+                                                innerIndex + 5,
                                                 innerIndex + 20,
-                                                innerIndex + 30,
-                                                innerIndex + 40);
+                                                innerIndex + 30);
                                     else
                                         css = String.format(css, 100 - innerIndex, 100 - innerIndex - 1);
                                     break;
@@ -131,9 +131,9 @@ public class GraphPanel extends StackPane {
                                         css = String.format(css,
                                                 orientation.getCssOrientation(),
                                                 innerIndex,
+                                                innerIndex + 5,
                                                 innerIndex + 20,
-                                                innerIndex + 30,
-                                                innerIndex + 40);
+                                                innerIndex + 30);
                                     else
                                         css = String.format(css, innerIndex, innerIndex + 1);
                                     break;
@@ -239,15 +239,13 @@ public class GraphPanel extends StackPane {
                     // reset everything if:
                     // a) we completed a whole animation, or
                     // b) we are starting a new one
-
-                    boolean ended = timeline.getStatus().equals(Animation.Status.STOPPED)
-                            && !model.getEdgeToColor().hasNext();
-
-                    if (ended || !model.getEdgeToColor().hasPrevious())
+                    if (timeline.getStatus().equals(Animation.Status.STOPPED)
+                            && !model.getEdgeToColor().hasNext() || !model.getEdgeToColor().hasPrevious()) {
                         resetColoring();
-                    timeline.play();
-                    if (!ended)
+                    } else {
                         colorTimeline.play();
+                    }
+                    timeline.play();
                 }
             }
         });
