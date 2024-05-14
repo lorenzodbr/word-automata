@@ -56,6 +56,8 @@ public class GraphPanel extends StackPane {
     private Model model;
     private Components components;
 
+    private Edge<Transition, State> e;
+
     public GraphPanel() {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
@@ -77,7 +79,14 @@ public class GraphPanel extends StackPane {
         if (model.getEdgeToColor().hasNext()) {
             final boolean alreadyColored;
 
-            Edge<Transition, State> e = model.getEdgeToColor().next();
+            if (e != null) {
+                SmartGraphEdge<Transition, State> currentStylableEdge = graphView.getStylableEdge(e);
+                currentStylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
+                currentStylableEdge.setStyleInline(null);
+                components.getBottomBar().colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
+            }
+
+            e = model.getEdgeToColor().next();
 
             colorTimeline.getKeyFrames().clear();
             colorTimeline = new Timeline();
@@ -173,8 +182,6 @@ public class GraphPanel extends StackPane {
         getChildren().add(zoomLabel);
         StackPane.setAlignment(zoomLabel, Pos.TOP_RIGHT);
         StackPane.setMargin(zoomLabel, new Insets(7, 7, 0, 0));
-
-        showAndHideZoomLabel();
     }
 
     private void showAndHideZoomLabel() {
@@ -188,8 +195,8 @@ public class GraphPanel extends StackPane {
         for (int i = 0; i < 100; i++) {
             int innerIndex = i;
             zoomTimeline.getKeyFrames().add(new KeyFrame(
-                    Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 200) * i + 1000), e -> {
-                        zoomLabel.setStyle("-fx-opacity: " + (1 - (innerIndex / 100.0)));
+                    Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 300) * i + 1000), e -> {
+                        zoomLabel.setStyle("-fx-opacity: " + 0.7 * (1 - (innerIndex / 100.0)));
                     }));
         }
         zoomTimeline.play();
@@ -244,7 +251,6 @@ public class GraphPanel extends StackPane {
         model.playBackStateProperty().addListener((o, oldVal, newVal) -> {
             if (newVal.equals(Constants.PlayBackState.PAUSED)) {
                 timeline.pause();
-                colorTimeline.pause();
             } else if (newVal.equals(Constants.PlayBackState.PLAYING)) {
                 if (timeline.getKeyFrames().isEmpty()) {
                     timeline.getKeyFrames()
@@ -264,9 +270,9 @@ public class GraphPanel extends StackPane {
                     if (timeline.getStatus().equals(Animation.Status.STOPPED)
                             && !model.getEdgeToColor().hasNext() || !model.getEdgeToColor().hasPrevious()) {
                         resetColoring();
-                    } else {
-                        colorTimeline.play();
                     }
+
+                    e = null;
                     timeline.play();
                 }
             }

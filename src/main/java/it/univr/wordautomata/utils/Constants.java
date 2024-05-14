@@ -61,7 +61,7 @@ public class Constants {
     public final static int DEFAULT_FONT_SIZE = 10;
     public final static int SIDEBAR_MAX_WIDTH = 250;
     public final static int TRANSITION_ROW_MIN_WIDTH = 20;
-    public final static int DEFAULT_PLAYBACK_DURATION_MILLIS = 500;
+    public final static int DEFAULT_PLAYBACK_DURATION_MILLIS = 750;
     public final static int MAX_RECENT_FILES = 20;
 
     // Global Objects
