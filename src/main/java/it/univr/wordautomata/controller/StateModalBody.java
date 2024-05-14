@@ -79,7 +79,9 @@ public class StateModalBody extends GridPane {
 
         stateLabelTextField.setText(state.toString());
         stateLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.isBlank()) {
+            boolean invalid = newValue == null || newValue.isBlank() || Methods.existsState(newValue);
+
+            if (!invalid) {
                 stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
 
                 model.setSaved(false);
