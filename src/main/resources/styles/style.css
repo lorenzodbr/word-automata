@@ -120,15 +120,11 @@
 }
 
 .zoom-label {
-    -fx-opacity: 0.7;
+    -fx-opacity: 0.75;
     -fx-padding: 4 6 4 6;
     -fx-background-color: -color-neutral-emphasis-plus;
     -fx-text-fill: -color-fg-emphasis;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 0);
-}
-
-.zoom-label:hover {
-    -fx-opacity: 0.85;
 }
 
 /*
