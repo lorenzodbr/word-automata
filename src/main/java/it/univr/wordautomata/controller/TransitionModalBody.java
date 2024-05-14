@@ -58,7 +58,11 @@ public class TransitionModalBody extends GridPane {
 
         transitionLabelTextField.setText(transition.toString());
         transitionLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.isBlank()) {
+            boolean invalid = newValue == null || newValue.isBlank()
+                    || Methods.existsTransitionFromVertex(startingState.getText(), newValue)
+                    || Methods.existsTransitionFromVertex(endingState.getText(), newValue);
+
+            if (!invalid) {
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
 
                 transition.setLabel(transitionLabelTextField.getText());
