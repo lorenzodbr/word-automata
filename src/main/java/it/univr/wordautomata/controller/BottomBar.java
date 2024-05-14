@@ -153,8 +153,10 @@ public class BottomBar extends GridPane {
     }
 
     private void initPreviousNextStateButtons() {
-        previousStateButton.disableProperty().bind(buttonsEnabledBinding);
-        nextStateButton.disableProperty().bind(buttonsEnabledBinding);
+        previousStateButton.disableProperty()
+                .bind(buttonsEnabledBinding.or(model.playBackStateProperty().isEqualTo(PlayBackState.PLAYING)));
+        nextStateButton.disableProperty()
+                .bind(buttonsEnabledBinding.or(model.playBackStateProperty().isEqualTo(PlayBackState.PLAYING)));
     }
 
     @FXML
