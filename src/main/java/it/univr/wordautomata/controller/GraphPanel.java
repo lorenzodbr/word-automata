@@ -51,6 +51,7 @@ public class GraphPanel extends StackPane {
 
     private Timeline timeline;
     private Timeline colorTimeline;
+    private Timeline zoomTimeline;
 
     private Model model;
     private Components components;
@@ -62,6 +63,7 @@ public class GraphPanel extends StackPane {
         this.components = Components.getInstance();
         this.colorTimeline = new Timeline();
         this.zoomLabel = new Label();
+        this.zoomTimeline = new Timeline();
         this.timeline = new Timeline();
 
         initZoomLabel();
@@ -171,6 +173,26 @@ public class GraphPanel extends StackPane {
         getChildren().add(zoomLabel);
         StackPane.setAlignment(zoomLabel, Pos.TOP_RIGHT);
         StackPane.setMargin(zoomLabel, new Insets(7, 7, 0, 0));
+
+        showAndHideZoomLabel();
+    }
+
+    private void showAndHideZoomLabel() {
+        zoomLabel.setStyle(null);
+
+        if (zoomTimeline != null) {
+            zoomTimeline.stop();
+            zoomTimeline.getKeyFrames().clear();
+        }
+
+        for (int i = 0; i < 100; i++) {
+            int innerIndex = i;
+            zoomTimeline.getKeyFrames().add(new KeyFrame(
+                    Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 200) * i + 1000), e -> {
+                        zoomLabel.setStyle("-fx-opacity: " + (1 - (innerIndex / 100.0)));
+                    }));
+        }
+        zoomTimeline.play();
     }
 
     private boolean clearPrevEdge() {
@@ -277,6 +299,12 @@ public class GraphPanel extends StackPane {
         zoomLabel.textProperty().bind(Bindings.createStringBinding(() -> {
             return String.format("%.0f%%", components.getContentZoomScrollPane().scaleFactorProperty().get() * 50 + 50);
         }, components.getContentZoomScrollPane().scaleFactorProperty()));
+
+        components.getContentZoomScrollPane().scaleFactorProperty().addListener((o, oldVal, newVal) -> {
+            showAndHideZoomLabel();
+        });
+
+        showAndHideZoomLabel();
 
         Platform.runLater(() -> {
             graphView.init(this);
