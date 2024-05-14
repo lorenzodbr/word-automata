@@ -114,8 +114,7 @@
     -fx-pref-width: 2;
 }
 
-.menu-item-danger .label,
-.menu-item-danger .ikonli-font-icon {
+.menu-item-danger * {
     -fx-text-fill: -color-danger-5;
     -fx-icon-color: -color-danger-5;
 }
