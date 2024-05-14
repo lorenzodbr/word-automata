@@ -101,8 +101,6 @@
                 <Menu mnemonicParsing="true" text="_Help">
                     <items>
                         <MenuItem fx:id="legendMenuItem" mnemonicParsing="true" text="_Legend" onAction="#showLegend" />
-                        <MenuItem mnemonicParsing="true" text="_Tutorial" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="true" onAction="#showInfo" text="A_bout">
                             <graphic>
                                 <FontIcon iconLiteral="bx-question-mark" />
