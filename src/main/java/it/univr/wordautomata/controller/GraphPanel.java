@@ -75,8 +75,6 @@ public class GraphPanel extends StackPane {
 
     private boolean colorNextEdge() {
         if (model.getEdgeToColor().hasNext()) {
-            final boolean alreadyColored;
-
             Edge<Transition, State> e = model.getEdgeToColor().next();
 
             colorTimeline = new Timeline();
@@ -88,11 +86,7 @@ public class GraphPanel extends StackPane {
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
             // comment this to see the edge getting recolored when it is already colored
-            if (stylableEdge.hasStyleClass(Constants.ACTIVE_EDGE_CLASS)) {
-                alreadyColored = true;
-            } else {
-                alreadyColored = false;
-            }
+            final boolean alreadyColored = stylableEdge.hasStyleClass(Constants.ACTIVE_EDGE_CLASS);
 
             String cssHorizontal = alreadyColored ? Constants.TRANSITION_CSS_HORIZONTAL_ALREADY_COLORED
                     : Constants.TRANSITION_CSS_HORIZONTAL;
@@ -337,6 +331,9 @@ public class GraphPanel extends StackPane {
                 File file = db.getFiles().get(0);
                 if (file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)) {
                     event.consume();
+
+                    model.playBackStateProperty().set(Constants.PlayBackState.PAUSED);
+                    model.getTimeline().getKeyFrames().clear();
 
                     Platform.runLater(() -> components.getMainPanel().loadAutomata(file));
                 } else {

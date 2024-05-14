@@ -1,5 +1,2 @@
 TODO:
 - Cambiare colori ai nodi (tutti ce li hanno uguali altrimenti, utilizzando la stessa libreria)
-
-FIX:
-- Gestire timeline, playbackstate, buttons quando viene caricato un nuovo file ma non è ancora finita l'animazione
