@@ -1,5 +1,4 @@
 TODO:
-- Creare pannello Legend
 - Aggiungere controllo al nome di nodi e degli archi anche nei pannelli StateModalBody e TransitionModalBody
 - Cambiare colori ai nodi (tutti ce li hanno uguali altrimenti, utilizzando la stessa libreria)
 
