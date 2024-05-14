@@ -68,7 +68,8 @@ public class Transition implements Comparable<Transition>, Serializable {
      * Compares this transition to another transition based on their labels.
      *
      * @param other the other transition to compare to
-     * @return a negative integer, zero, or a positive integer as this transition is less than, equal to, or greater than the other transition
+     * @return a negative integer, zero, or a positive integer as this transition is
+     *         less than, equal to, or greater than the other transition
      */
     @Override
     public int compareTo(Transition other) {
@@ -85,10 +86,8 @@ public class Transition implements Comparable<Transition>, Serializable {
 
     private void readObject(ObjectInputStream in) {
         try {
-            label = new SimpleStringProperty(new String((String)in.readObject()));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            label = new SimpleStringProperty(new String((String) in.readObject()));
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
