@@ -304,4 +304,12 @@ public class BottomBar extends GridPane {
     public SimpleBooleanProperty isTransitionInProgressProperty() {
         return isTransitionInProgress;
     }
+
+    public Button getPreviousStateButton() {
+        return previousStateButton;
+    }
+
+    public Button getNextStateButton() {
+        return nextStateButton;
+    }
 }
