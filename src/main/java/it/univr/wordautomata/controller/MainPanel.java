@@ -18,6 +18,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -325,7 +326,10 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showLegend() {
+        Alert alert = Alerts.createAlert(null, getScene(), "Legend", null, null, ButtonType.CLOSE);
+        alert.getDialogPane().setContent(new LegendModalBody());
 
+        alert.showAndWait();
     }
 
     @FXML

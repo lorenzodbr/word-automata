@@ -48,7 +48,7 @@ public class Alerts {
             ButtonType... buttons) {
         Alert alert = new Alert(type);
 
-        if (type == null) {
+        if (type == null && header != null) {
             alert.setGraphic(new ImageView(new Image(Main.class
                     .getResourceAsStream(
                             Constants.ICON_BASE_FOLDER + Constants.ICON_FILENAME + Constants.ICON_EXTENSION),
