@@ -82,7 +82,8 @@ public class GraphPanel extends StackPane {
             colorTimeline = new Timeline();
             colorTimeline.rateProperty().bind(timeline.rateProperty());
 
-            components.getBottomBar().isTransitionInProgressProperty().bind(colorTimeline.statusProperty().isEqualTo(Animation.Status.RUNNING));
+            components.getBottomBar().isTransitionInProgressProperty()
+                    .bind(colorTimeline.statusProperty().isEqualTo(Animation.Status.RUNNING));
 
             final SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
@@ -93,9 +94,8 @@ public class GraphPanel extends StackPane {
                 alreadyColored = false;
             }
 
-            String cssHorizontal = alreadyColored
-                    ? "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
-                    : "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, -color-danger-4, -color-neutral-emphasis);";
+            String cssHorizontal = alreadyColored ? Constants.TRANSITION_CSS_HORIZONTAL_ALREADY_COLORED
+                    : Constants.TRANSITION_CSS_HORIZONTAL;
 
             components.getBottomBar()
                     .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
@@ -106,9 +106,8 @@ public class GraphPanel extends StackPane {
                 colorTimeline.getKeyFrames().add(new KeyFrame(
                         // each keyframe is 1% of the total duration
                         Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 100) * i), evt -> {
-                            String css = alreadyColored
-                                    ? "-fx-stroke: linear-gradient(to %s,-color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);"
-                                    : "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, -color-danger-4, -color-neutral-emphasis);";
+                            String css = alreadyColored ? Constants.TRANSITION_CSS_ALREADY_COLORED
+                                    : Constants.TRANSITION_CSS;
 
                             // needed because css applies top to bottom, left to right by default
                             Orientation orientation = stylableEdge.getOrientation();
@@ -176,7 +175,7 @@ public class GraphPanel extends StackPane {
     }
 
     private void showAndHideZoomLabel() {
-        zoomLabel.setStyle(null);
+        zoomLabel.setOpacity(0.75);
 
         if (zoomTimeline != null) {
             zoomTimeline.stop();
@@ -187,7 +186,7 @@ public class GraphPanel extends StackPane {
             int innerIndex = i;
             zoomTimeline.getKeyFrames().add(new KeyFrame(
                     Duration.millis((Constants.DEFAULT_PLAYBACK_DURATION_MILLIS / 200) * i + 1000), e -> {
-                        zoomLabel.setStyle("-fx-opacity: " + 0.7 * (1 - (innerIndex / 100.0)));
+                        zoomLabel.setOpacity(0.75 * (1 - innerIndex / 100.0));
                     }));
         }
         zoomTimeline.play();
@@ -289,6 +288,16 @@ public class GraphPanel extends StackPane {
 
         initGraphProperties();
 
+        zoomLabel.setOnMouseEntered(e -> {
+            if (zoomLabel.getOpacity() > 0.5) {
+                zoomTimeline.stop();
+                zoomLabel.setOpacity(0.75);
+            }
+        });
+        zoomLabel.setOnMouseExited(e -> {
+            if (zoomLabel.getOpacity() > 0.5)
+                zoomTimeline.play();
+        });
         zoomLabel.textProperty().bind(Bindings.createStringBinding(() -> {
             return String.format("%.0f%%", components.getContentZoomScrollPane().scaleFactorProperty().get() * 50 + 50);
         }, components.getContentZoomScrollPane().scaleFactorProperty()));
