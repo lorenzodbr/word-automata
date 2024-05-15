@@ -1,2 +1,3 @@
 TODO:
 - Cambiare colori ai nodi (tutti ce li hanno uguali altrimenti, utilizzando la stessa libreria)
+- Differenziare colori dei nodi in base al tema (leggermente più scuri nel caso del tema scuro)
