@@ -23,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -99,6 +100,9 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private MenuItem legendMenuItem;
+
+    @FXML
+    private MenuItem showStatsMenuItem;
 
     @FXML
     private Menu openRecentMenu;
@@ -235,6 +239,7 @@ public class MainPanel extends BorderPane {
         autoPositioningMenuItem.disableProperty().bind(noVertexBinding);
         selectStateMenuItem.disableProperty().bind(noVertexBinding);
         selectTransitionMenuItem.disableProperty().bind(noEdgeBinding);
+        showStatsMenuItem.disableProperty().bind(noEdgeBinding);
         closeMenuItem.disableProperty().bind(model.openedFileProperty().isNull());
     }
 
@@ -287,6 +292,25 @@ public class MainPanel extends BorderPane {
                     && model.getOpenedFile().getAbsolutePath().equals(file.getAbsolutePath())) || !file.exists(),
                     model.openedFileProperty()));
         }
+
+        if (!recentFiles.isEmpty()) {
+            openRecentMenu.getItems().addAll(new SeparatorMenuItem(), new MenuItem("Clear recent files") {
+                {
+                    setOnAction(e -> {
+                        if (Alerts.showConfirmationDialog(getScene(), "Clear recent files",
+                                "Do you really want to clear the recent files list?")) {
+                            AutomataSaver.clearRecentFiles();
+                            openRecentMenu.getItems().clear();
+                            openRecentMenu.getItems().add(new MenuItem("No recent files") {
+                                {
+                                    setDisable(true);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @FXML
@@ -330,6 +354,11 @@ public class MainPanel extends BorderPane {
         alert.getDialogPane().setContent(new LegendModalBody());
 
         alert.showAndWait();
+    }
+
+    @FXML
+    private void showStats() {
+
     }
 
     @FXML
