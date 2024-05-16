@@ -31,6 +31,11 @@ import javafx.stage.Stage;
  */
 public class Methods {
 
+    /**
+     * Loads the fonts from the given file names.
+     *
+     * @param fileNames the file names of the fonts to load
+     */
     public static void loadFonts(String... fileNames) {
         for (String fileName : fileNames) {
             Font.loadFont(Main.class
@@ -42,6 +47,13 @@ public class Methods {
         }
     }
 
+    /**
+     * Loads the FXML file from the given path and sets the controller of the given
+     * node.
+     *
+     * @param path the path of the FXML file
+     * @param n    the node to set the controller of
+     */
     public static void loadAndSetController(String path, Node n) {
         FXMLLoader loader = getLoader(path);
         loader.setRoot(n);
@@ -55,17 +67,34 @@ public class Methods {
         }
     }
 
+    /**
+     * Returns the FXMLLoader of the given FXML file.
+     *
+     * @param fxml the name of the FXML file
+     * @return the FXMLLoader of the given FXML file
+     */
     public static FXMLLoader getLoader(String fxml) {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 Main.class.getResource(Constants.FXML_BASE_FOLDER + fxml + Constants.FXML_EXTENSION));
         return fxmlLoader;
     }
 
+    /**
+     * Sets the icon of the given stage.
+     *
+     * @param stage the stage to set the icon of
+     */
     public static void setIcon(Stage stage) {
         stage.getIcons().add(new Image(Main.class
                 .getResourceAsStream(Constants.ICON_BASE_FOLDER + Constants.ICON_FILENAME + Constants.ICON_EXTENSION)));
     }
 
+    /**
+     * Builds a context menu for the given node.
+     *
+     * @param node the node to build the context menu for
+     * @return the context menu for the given node
+     */
     public static ContextMenu buildContextMenu(Node node) {
         ContextMenu contextMenu = new ContextMenu();
 
@@ -146,6 +175,9 @@ public class Methods {
         return contextMenu;
     }
 
+    /**
+     * Shows the save dialog.
+     */
     public static void save() {
         if (Model.getInstance().getOpenedFile() == null) {
             saveAs();
@@ -155,6 +187,9 @@ public class Methods {
         AutomataSaver.save();
     }
 
+    /**
+     * Shows the save as dialog.
+     */
     public static void saveAs() {
         File file = AutomataSaver.showSaveDialog(Components.getInstance().getStage());
 
@@ -164,10 +199,23 @@ public class Methods {
         }
     }
 
+    /**
+     * Checks if a given state exists.
+     *
+     * @param label the label of the state to check
+     * @return true if the state exists, false otherwise
+     */
     public static boolean existsState(String label) {
         return Model.getInstance().getGraph().objectsInVertices().contains(new State(label));
     }
 
+    /**
+     * Checks if a transition exists from a given state.
+     *
+     * @param state      the state to check
+     * @param transition the transition to check
+     * @return true if a transition exists from the given state, false otherwise
+     */
     public static boolean existsTransitionFromVertex(String state, String transition) {
         return Model.getInstance().getGraph()
                 .edges()
