@@ -56,7 +56,6 @@ public class Model {
     private final Timeline timeline;
 
     private Model() {
-        // this.graph = initSampleGraph();
         this.graph = new DigraphEdgeList<>();
 
         this.atLeastOneVertex = new SimpleBooleanProperty(false);
