@@ -52,6 +52,10 @@ public class WordAutomata extends Application {
         MainPanel mainPanel = new MainPanel(this);
         components.setMainPanel(mainPanel);
         components.setScene((this.scene = new Scene(mainPanel)));
+        this.scene.getStylesheets()
+                .add(Main.class
+                        .getResource(Constants.STYLE_BASE_FOLDER + Constants.STYLE_FILENAME + Constants.STYLE_EXTENSION)
+                        .toExternalForm());
     }
 
     private void initStage() {
