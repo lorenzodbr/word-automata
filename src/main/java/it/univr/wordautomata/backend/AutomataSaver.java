@@ -1,5 +1,6 @@
 package it.univr.wordautomata.backend;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -55,7 +56,7 @@ public class AutomataSaver {
                 FileInputStream fileStream = new FileInputStream(file);
                 ObjectInputStream in = new ObjectInputStream(fileStream)) {
             graph = (DigraphEdgeList<State, Transition>) in.readObject();
-            
+
             Model.getInstance().setInitialState((State) in.readObject());
             Model.getInstance().setOpenedFile(file);
             recordRecentFile(file);
@@ -78,9 +79,11 @@ public class AutomataSaver {
             if (!tmpFolder.exists()) {
                 Files.createDirectory(tmpFolder.toPath());
             }
+        }
 
-            File recentFile = new File(tmpFolder.getAbsolutePath() + System.getProperty("file.separator")
-                    + Constants.RECENT_FILES_FILENAME);
+        File recentFile = new File(tmpFolder.getAbsolutePath() + System.getProperty("file.separator")
+                + Constants.RECENT_FILES_FILENAME);
+        if (!recentFile.exists()) {
             recentFile.createNewFile();
         }
 
@@ -96,7 +99,8 @@ public class AutomataSaver {
                 ObjectInputStream in = new ObjectInputStream(fileStream)) {
             recentFiles = (List<File>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            if (!(e instanceof EOFException))
+                e.printStackTrace();
         }
 
         return recentFiles;
@@ -120,6 +124,15 @@ public class AutomataSaver {
                         + System.getProperty("file.separator") + Constants.RECENT_FILES_FILENAME);
                 ObjectOutputStream out = new ObjectOutputStream(fileStream)) {
             out.writeObject(recentFiles);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void clearRecentFiles() {
+        try {
+            Files.delete(new File(getTmpFolder().getAbsolutePath() + System.getProperty("file.separator")
+                    + Constants.RECENT_FILES_FILENAME).toPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
