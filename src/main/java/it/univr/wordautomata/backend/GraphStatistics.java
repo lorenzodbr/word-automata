@@ -37,7 +37,7 @@ public class GraphStatistics {
                 String s = e.element().getLabel();
                 if (word.startsWith(s)) {
                     Vertex<State> next = e.vertices()[1];
-                    searchFrom(graph, next, word);
+                    searchFrom(graph, next, word.substring(s.length()));
                 }
             }
         }
