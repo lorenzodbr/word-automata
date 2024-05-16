@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root type="Pane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox spacing="5.0">
+            <children>
+                <Label styleClass="title-4, text-bold" text="Automata statistics" />
+                <Label text="Possible paths">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
+                <TextField fx:id="possiblePathsTextField" editable="false" prefWidth="300.0" text="Loading..." />
+                <Separator prefWidth="300.0" />
+                <Label text="States searched">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="statesSearchedTextField" editable="false" prefWidth="300.0" text="Loading..." />
+                <Label text="Transitions searched">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="transitionsSearchedTextField" editable="false" prefWidth="300.0" text="Loading..." />
+            </children>
+            <padding>
+                <Insets left="15.0" right="5.0" top="20.0" />
+            </padding>
+        </VBox>
+    </children>
+</fx:root>

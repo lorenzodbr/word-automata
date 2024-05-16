@@ -10,6 +10,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.backend.AutomataSaver;
+import it.univr.wordautomata.backend.GraphStatistics;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.Theme;
@@ -364,18 +365,7 @@ public class MainPanel extends BorderPane {
     @FXML
     private void showStats() {
         Alert alert = Alerts.createAlert(null, getScene(), "Statistics", null, null, ButtonType.CLOSE);
-
-        VBox statsPane = new VBox();
-        statsPane.setPadding(new Insets(10));
-        Label label = new Label();
-        label.setWrapText(true);
-        label.setText("this is a long long long long long long long long word");
-
-        statsPane.getChildren().add(label);
-        alert.getDialogPane().setContent(statsPane);
-        alert.getDialogPane().setPrefWidth(300);
-        alert.getDialogPane().setPrefHeight(200);
-
+        alert.getDialogPane().setContent(new StatisticsModalBody());
         alert.showAndWait();
     }
 

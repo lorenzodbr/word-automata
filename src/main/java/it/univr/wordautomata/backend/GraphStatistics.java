@@ -4,6 +4,7 @@ import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 
+import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
@@ -19,7 +20,15 @@ public class GraphStatistics {
         this.edgesSearched = 0;
     }
 
+    public void getStats() {
+        getStats(Components.getInstance().getBottomBar().getWord());
+    }
+
     public void getStats(String word) {
+        if (word == null || word.isEmpty()) {
+            return;
+        }
+
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
         Vertex<State> begin = Model.getInstance().getInitialVertex();
         searchFrom(graph, begin, word);

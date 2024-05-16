@@ -312,4 +312,8 @@ public class BottomBar extends GridPane {
     public Button getNextStateButton() {
         return nextStateButton;
     }
+
+    public String getWord(){
+        return wordInput.getText();
+    }
 }
