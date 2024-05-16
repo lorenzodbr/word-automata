@@ -13,12 +13,12 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 
 public class PathFinder {
-   public static List<Edge<Transition, State>> getPath(String word) {
+    public static List<Edge<Transition, State>> getPath(String word) {
         List<Edge<Transition, State>> path = new ArrayList<>();
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
-        Vertex<State> begin = getInitialState(graph);
+        Vertex<State> begin = Model.getInstance().getInitialVertex();
 
-        if(findPath(graph, begin, word, path)){
+        if (findPath(graph, begin, word, path)) {
             Model.getInstance().setPathFound(true);
             return path;
         } else {
@@ -28,16 +28,14 @@ public class PathFinder {
     }
 
     private static boolean findPath(
-        DigraphEdgeList<State, Transition> graph, Vertex<State> v,
-        String word, List<Edge<Transition, State>> path) {
+            DigraphEdgeList<State, Transition> graph, Vertex<State> v,
+            String word, List<Edge<Transition, State>> path) {
         if (v.element().isFinal() && word.isEmpty())
             return true;
 
         // sort the edges in descending order by length
         List<Edge<Transition, State>> outboundEdges = new LinkedList<>(graph.outboundEdges(v));
-        outboundEdges.sort((a, b) -> {
-            return b.element().compareTo(a.element());
-        });
+        outboundEdges.sort((a, b) -> b.element().compareTo(a.element()));
 
         for (Edge<Transition, State> e : outboundEdges) {
             String s = e.element().getLabel();
@@ -50,13 +48,5 @@ public class PathFinder {
             }
         }
         return false;
-    }
-
-    private static Vertex<State> getInitialState(DigraphEdgeList<State, Transition> graph) {
-        return graph.vertices()
-                    .stream()
-                    .filter(v -> Model.getInstance().getInitialState().equals(v.element()))
-                    .findFirst()
-                    .get();
     }
 }
