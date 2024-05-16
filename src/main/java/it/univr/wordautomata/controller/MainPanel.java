@@ -221,6 +221,7 @@ public class MainPanel extends BorderPane {
         model.updateGraph(model.initSampleGraph());
         model.setOpenedFile(null);
         model.setSaved(true);
+        components.getGraphPanel().closeSideBar();
     }
 
     @FXML
