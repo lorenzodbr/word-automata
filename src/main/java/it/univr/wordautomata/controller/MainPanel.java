@@ -18,14 +18,18 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -358,7 +362,20 @@ public class MainPanel extends BorderPane {
 
     @FXML
     private void showStats() {
+        Alert alert = Alerts.createAlert(null, getScene(), "Statistics", null, null, ButtonType.CLOSE);
 
+        VBox statsPane = new VBox();
+        statsPane.setPadding(new Insets(10));
+        Label label = new Label();
+        label.setWrapText(true);
+        label.setText("this is a long long long long long long long long word");
+
+        statsPane.getChildren().add(label);
+        alert.getDialogPane().setContent(statsPane);
+        alert.getDialogPane().setPrefWidth(300);
+        alert.getDialogPane().setPrefHeight(200);
+
+        alert.showAndWait();
     }
 
     @FXML
