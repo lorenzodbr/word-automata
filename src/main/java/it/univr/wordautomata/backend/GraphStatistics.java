@@ -77,6 +77,9 @@ public class GraphStatistics {
     }
 
     public int getShortestPath() {
+        if(shortestPath == Integer.MAX_VALUE)
+            return 0;
+
         return shortestPath;
     }
 }
