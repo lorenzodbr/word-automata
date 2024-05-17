@@ -18,6 +18,16 @@
                </VBox.margin></Label>
                 <TextField fx:id="possiblePathsTextField" editable="false" prefWidth="300.0" text="Loading..." />
                 <Separator prefWidth="300.0" />
+                <Label text="Longest path">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
+                <TextField fx:id="longestPathTextField" editable="false" prefWidth="300.0" text="Loading..." />
+                <Label text="Shortest path">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
+                <TextField fx:id="shortestPathTextField" editable="false" prefWidth="300.0" text="Loading..." />
                 <Label text="States searched">
                     <VBox.margin>
                         <Insets top="10.0" />

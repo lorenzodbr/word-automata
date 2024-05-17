@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -23,6 +24,12 @@ public class StatisticsModalBody extends Pane {
     @FXML
     private TextField transitionsSearchedTextField;
 
+    @FXML
+    private TextField longestPathTextField;
+
+    @FXML
+    private TextField shortestPathTextField;
+
     public StatisticsModalBody() {
         Methods.loadAndSetController(Constants.STATISTICS_MODAL_BODY_FXML_FILENAME, this);
 
@@ -36,6 +43,8 @@ public class StatisticsModalBody extends Pane {
             statistics.getStats();
 
             possiblePathsTextField.setText(statistics.getPossiblePaths() + "");
+            longestPathTextField.setText(statistics.getLongestPath() + "");
+            shortestPathTextField.setText(statistics.getShortestPath() + "");
             statesSearchedTextField.setText(statistics.getVerticesSearched() + "");
             transitionsSearchedTextField.setText(statistics.getEdgesSearched() + "");
         });
