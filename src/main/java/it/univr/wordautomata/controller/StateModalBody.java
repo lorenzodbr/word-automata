@@ -7,6 +7,7 @@ import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
+import atlantafx.base.controls.Popover;
 import atlantafx.base.layout.ModalBox;
 import atlantafx.base.theme.Styles;
 import it.univr.wordautomata.model.Model;
@@ -27,6 +28,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  *
@@ -54,6 +57,8 @@ public class StateModalBody extends GridPane {
     @FXML
     private ScrollPane outboundTransitionsScrollPane;
 
+    private Popover popover;
+
     private SmartGraphVertex<State> vertex;
     private ModalBox dialog;
     private Components components;
@@ -74,6 +79,10 @@ public class StateModalBody extends GridPane {
     }
 
     private void setFields() {
+        Text body = new Text("Label must be unique and not blank.");
+        body.setTextAlignment(javafx.scene.text.TextAlignment.JUSTIFY);
+        this.popover = new Popover(body);
+
         Vertex<State> underlyingVertex = vertex.getUnderlyingVertex();
         State state = underlyingVertex.element();
 
@@ -82,12 +91,13 @@ public class StateModalBody extends GridPane {
             boolean invalid = newValue == null || newValue.isBlank() || Methods.existsState(newValue);
 
             if (!invalid) {
+                popover.hide();
                 stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-
                 model.setSaved(false);
                 state.setLabel(stateLabelTextField.getText());
                 components.getGraphPanel().update();
             } else {
+                popover.show(stateLabelTextField);
                 stateLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
             }
         });
