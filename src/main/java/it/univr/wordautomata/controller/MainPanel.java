@@ -10,7 +10,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import it.univr.wordautomata.WordAutomata;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.backend.AutomataSaver;
-import it.univr.wordautomata.backend.GraphStatistics;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.Theme;
@@ -19,18 +18,14 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
