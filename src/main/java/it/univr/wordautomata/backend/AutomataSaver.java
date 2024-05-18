@@ -90,6 +90,7 @@ public class AutomataSaver {
         return tmpFolder;
     }
 
+    @SuppressWarnings("unchecked")
     public static List<File> getRecentFiles() {
         List<File> recentFiles = new ArrayList<>();
 
