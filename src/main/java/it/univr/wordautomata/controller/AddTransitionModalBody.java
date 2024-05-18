@@ -45,21 +45,24 @@ public class AddTransitionModalBody extends Pane {
 
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
 
-        transitionLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            String from = startingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
-            String to = endingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
+        transitionLabelTextField.textProperty()
+                .addListener((observable, oldValue, newValue) -> validateAndUpdateTextField(newValue));
+    }
 
-            boolean invalid = newValue.isBlank()
-                    || Methods.existsTransitionFromVertex(from, newValue)
-                    || Methods.existsTransitionFromVertex(to, newValue);
+    public void validateAndUpdateTextField(String newValue) {
+        String from = startingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
+        String to = endingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
 
-            if (!errorLabel.visibleProperty().isBound()) {
-                errorLabel.visibleProperty().bind(emptyTextfieldProperty);
-            }
+        boolean invalid = newValue.isBlank()
+                || Methods.existsTransitionFromVertex(from, newValue)
+                && Methods.existsTransitionFromVertex(to, newValue);
 
-            emptyTextfieldProperty.set(invalid);
-            transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, invalid);
-        });
+        if (!errorLabel.visibleProperty().isBound()) {
+            errorLabel.visibleProperty().bind(emptyTextfieldProperty);
+        }
+
+        emptyTextfieldProperty.set(invalid);
+        transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, invalid);
     }
 
     public TransitionWrapper buildTransitionWrapper() {
@@ -95,6 +98,9 @@ public class AddTransitionModalBody extends Pane {
         } else {
             endingStateChoiceBox.getSelectionModel().selectFirst();
         }
+
+        startingStateChoiceBox.setOnAction(e -> validateAndUpdateTextField(transitionLabelTextField.getText()));
+        endingStateChoiceBox.setOnAction(e -> validateAndUpdateTextField(transitionLabelTextField.getText()));
     }
 
     public void requestTextFieldFocus() {

@@ -5,6 +5,7 @@ import java.util.ListIterator;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
+import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.ForceDirectedSpringGravityLayoutStrategy;
 import com.brunomnsilva.smartgraph.graphview.SmartCircularSortedPlacementStrategy;
@@ -138,6 +139,7 @@ public class Model {
         g.insertEdge(q4, q2, new Transition("b"));
 
         return g;
+
     }
 
     public void setInitialState(State s) {
@@ -146,6 +148,14 @@ public class Model {
 
     public State getInitialState() {
         return initialState.get();
+    }
+
+    public Vertex<State> getInitialVertex() {
+        return graph.vertices()
+                .stream()
+                .filter(v -> getInitialState().equals(v.element()))
+                .findFirst()
+                .get();
     }
 
     public SimpleObjectProperty<State> initialStateProperty() {
