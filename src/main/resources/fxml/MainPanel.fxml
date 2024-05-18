@@ -76,10 +76,16 @@
                             onAction="#selectState" text="Select state" />
                         <MenuItem fx:id="selectTransitionMenuItem" mnemonicParsing="true"
                             onAction="#selectTransition" text="Select transition" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="setInitialStateMenuItem" disable="true"
                             mnemonicParsing="true" onAction="#setInitialState"
                             text="Set _initial state" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="showStatsMenuItem" mnemonicParsing="true"
+                            onAction="#showStats" text="Statistics">
+                            <graphic>
+                                <FontIcon iconLiteral="bx-bar-chart" />
+                            </graphic>
+                        </MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="clearGraphMenuItem" disable="true" mnemonicParsing="true"
                             onAction="#clearGraph" text="_Clear" styleClass="menu-item-danger">
@@ -100,7 +106,8 @@
                 </Menu>
                 <Menu mnemonicParsing="true" text="_Help">
                     <items>
-                        <MenuItem fx:id="legendMenuItem" mnemonicParsing="true" text="_Legend" onAction="#showLegend" />
+                        <MenuItem fx:id="legendMenuItem" mnemonicParsing="true" text="_Legend"
+                            onAction="#showLegend" />
                         <MenuItem mnemonicParsing="true" onAction="#showInfo" text="A_bout">
                             <graphic>
                                 <FontIcon iconLiteral="bx-question-mark" />

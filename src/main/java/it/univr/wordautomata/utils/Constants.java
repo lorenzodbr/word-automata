@@ -19,6 +19,7 @@ public class Constants {
     public final static String TRANSITION_MODAL_BODY_FXML_FILENAME = "TransitionModalBody";
     public final static String ADD_STATE_MODAL_BODY_FXML_FILENAME = "AddStateModalBody";
     public final static String ADD_TRANSITION_MODAL_BODY_FXML_FILENAME = "AddTransitionModalBody";
+    public final static String STATISTICS_MODAL_BODY_FXML_FILENAME = "StatisticsModalBody";
     public final static String LEGEND_MODAL_BODY_FXML_FILENAME = "LegendModalBody";
     public final static String FONT_REGULAR_FILENAME = "Inter";
     public final static String FONT_BOLD_FILENAME = "Inter-Bold";

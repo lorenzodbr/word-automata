@@ -3,6 +3,7 @@ package it.univr.wordautomata.controller;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 
+import atlantafx.base.controls.Popover;
 import atlantafx.base.layout.ModalBox;
 import atlantafx.base.theme.Styles;
 import it.univr.wordautomata.model.State;
@@ -13,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  *
@@ -37,6 +40,8 @@ public class TransitionModalBody extends GridPane {
 
     private Components components;
 
+    private Popover popover;
+
     public TransitionModalBody(ModalBox dialog, SmartGraphEdge<Transition, State> edge) {
         Methods.loadAndSetController(Constants.TRANSITION_MODAL_BODY_FXML_FILENAME, this);
 
@@ -49,6 +54,11 @@ public class TransitionModalBody extends GridPane {
     }
 
     private void setFields() {
+        TextFlow body = new TextFlow(
+                new Text("Label must be unique (relative to the starting and ending states) and not blank."));
+        body.setTextAlignment(javafx.scene.text.TextAlignment.JUSTIFY);
+        body.setMaxWidth(200);
+        this.popover = new Popover(body);
 
         Edge<Transition, State> underlyingEdge = edge.getUnderlyingEdge();
         Transition transition = underlyingEdge.element();
@@ -63,13 +73,13 @@ public class TransitionModalBody extends GridPane {
                     || Methods.existsTransitionFromVertex(endingState.getText(), newValue);
 
             if (!invalid) {
+                popover.hide();
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-
                 transition.setLabel(transitionLabelTextField.getText());
-
                 components.getGraphPanel().update();
             } else {
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+                popover.show(transitionLabelTextField);
             }
         });
 

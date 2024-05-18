@@ -471,6 +471,10 @@ public class GraphPanel extends StackPane {
     public void clear() {
         model.clear();
         graphView.update();
+        closeSideBar();
+    }
+
+    public void closeSideBar(){
         modalPane.hide();
     }
 
