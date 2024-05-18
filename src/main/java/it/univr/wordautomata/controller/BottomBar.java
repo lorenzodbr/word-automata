@@ -190,7 +190,9 @@ public class BottomBar extends GridPane {
     @FXML
     public void computePath() {
         transitionsHint.setVisible(true);
+        transitionsHint.getStyleClass().remove(Constants.NO_PATH_FOUND_TEXT_CLASS);
         transitionsPanelHBox.getChildren().clear();
+        transitionsPanel.getStyleClass().remove(Constants.NO_PATH_FOUND_PANEL_CLASS);
 
         if (wordInput.getText().isEmpty()) {
             transitionsHint.setText("Waiting for a word");
@@ -212,6 +214,8 @@ public class BottomBar extends GridPane {
 
             if (path == null) {
                 transitionsHint.setText("No path found");
+                transitionsHint.getStyleClass().add(Constants.NO_PATH_FOUND_TEXT_CLASS);
+                transitionsPanel.getStyleClass().add(Constants.NO_PATH_FOUND_PANEL_CLASS);
                 model.pathFoundProperty().set(false);
                 return;
             }

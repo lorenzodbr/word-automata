@@ -92,9 +92,6 @@ public class GraphPanel extends StackPane {
             String cssHorizontal = alreadyColored ? Constants.TRANSITION_CSS_HORIZONTAL_ALREADY_COLORED
                     : Constants.TRANSITION_CSS_HORIZONTAL;
 
-            components.getBottomBar()
-                    .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
-
             // add 99 keyframes (percentages of the total duration)
             for (int i = 0; i < 99; i++) {
                 int innerIndex = i;
@@ -143,6 +140,8 @@ public class GraphPanel extends StackPane {
                                 stylableEdge.addStyleClass(Constants.ACTIVE_EDGE_CLASS);
                                 // the children follow the pattern: state - edge - state,
                                 // we jump directly to the edge we need to
+                                components.getBottomBar()
+                                        .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
                             }
                         }));
             }
@@ -474,7 +473,7 @@ public class GraphPanel extends StackPane {
         closeSideBar();
     }
 
-    public void closeSideBar(){
+    public void closeSideBar() {
         modalPane.hide();
     }
 

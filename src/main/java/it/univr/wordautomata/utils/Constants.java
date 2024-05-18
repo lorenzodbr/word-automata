@@ -54,6 +54,8 @@ public class Constants {
     public final static String ACTIVE_BUTTON_CLASS = "active-button";
     public final static String MENU_ITEM_DANGER_CLASS = "menu-item-danger";
     public final static String ZOOM_LABEL_CLASS = "zoom-label";
+    public final static String NO_PATH_FOUND_TEXT_CLASS = "no-path-found-label";
+    public final static String NO_PATH_FOUND_PANEL_CLASS = "no-path-found-panel";
 
     public final static String TRANSITION_CSS_HORIZONTAL_ALREADY_COLORED = "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);";
     public final static String TRANSITION_CSS_HORIZONTAL = "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, -color-danger-4, -color-neutral-emphasis);";
