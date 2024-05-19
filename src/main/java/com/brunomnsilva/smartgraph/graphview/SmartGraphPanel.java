@@ -725,15 +725,18 @@ public class SmartGraphPanel<V, E> extends Pane {
          * regenerate the appropriate edges.
          */
         int edgeIndex = 0;
-        Integer counter = placedEdges.get(new Tuple<>(graphVertexInbound, graphVertexOutbound));
-        if (counter != null) {
-            edgeIndex = counter;
+        Integer counter1 = placedEdges.get(new Tuple<>(graphVertexInbound, graphVertexOutbound));
+        Integer counter2 = placedEdges.get(new Tuple<>(graphVertexOutbound, graphVertexInbound));
+        if (counter1 != null) {
+            edgeIndex = counter1;
+        } else if (counter2 != null) {
+            edgeIndex = counter2;
         }
 
         SmartGraphEdgeBase<E, V> graphEdge;
 
-        if (getTotalEdgesBetween(graphVertexInbound.getUnderlyingVertex(),
-                graphVertexOutbound.getUnderlyingVertex()) > 1
+        if ((getTotalEdgesBetween(graphVertexInbound.getUnderlyingVertex(),
+                graphVertexOutbound.getUnderlyingVertex()) > 1 && edgeIndex > 0)
                 || graphVertexInbound == graphVertexOutbound) {
             graphEdge = new SmartGraphEdgeCurve<>(edge, graphVertexInbound, graphVertexOutbound, edgeIndex);
         } else {
@@ -775,7 +778,6 @@ public class SmartGraphPanel<V, E> extends Pane {
     }
 
     private void addEdge(SmartGraphEdgeBase<E, V> e, Edge<E, V> edge) {
-        // edges to the back
         this.getChildren().add(0, (Node) e);
         edgeNodes.put(edge, e);
 
