@@ -9,7 +9,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * Represents a state in a word automaton.
+ * Represents a state in a {@link WordAutomata}.
+ * It contains a label that identifies the state and a boolean property that
+ * indicates if the state is final (accepting).
  */
 public class State implements Comparable<State>, Serializable {
 
@@ -112,13 +114,23 @@ public class State implements Comparable<State>, Serializable {
     }
 
     /**
+     * Check if this state is equal to another object.
+     *
+     * @return true if the object is a state and has the same label, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof State) && compareTo((State) o) == 0;
+    }
+
+    /**
      * Returns the hash code of the state based on its label.
      *
      * @return the hash code of the state
      */
     @Override
-    public boolean equals(Object o) {
-        return (o instanceof State) && compareTo((State) o) == 0;
+    public int hashCode() {
+        return label.get().hashCode();
     }
 
     /**
