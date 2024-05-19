@@ -1,7 +1,7 @@
 package it.univr.wordautomata;
 
 /**
- * JavaFX Main
+ * Main runner class
  */
 public class Main {
     public static void main(String[] args) {

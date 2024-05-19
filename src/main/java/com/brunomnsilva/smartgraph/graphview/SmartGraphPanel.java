@@ -1121,6 +1121,7 @@ public class SmartGraphPanel<V, E> extends Pane {
         automaticLayoutStrategy.computeForces(vertexNodes.values(), getWidth(), getHeight());
     }
 
+    @SuppressWarnings("unused")
     private boolean areAdjacent(SmartGraphVertexNode<V> v, SmartGraphVertexNode<V> u) {
         return v.isAdjacentTo(u);
     }
