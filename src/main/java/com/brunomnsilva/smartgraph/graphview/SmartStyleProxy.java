@@ -24,7 +24,6 @@
 
 package com.brunomnsilva.smartgraph.graphview;
 
-import it.univr.wordautomata.Main;
 import javafx.scene.Node;
 import javafx.scene.shape.Shape;
 

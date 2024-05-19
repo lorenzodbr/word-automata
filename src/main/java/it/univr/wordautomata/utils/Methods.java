@@ -95,6 +95,7 @@ public class Methods {
      * @param node the node to build the context menu for
      * @return the context menu for the given node
      */
+    @SuppressWarnings("unchecked")
     public static ContextMenu buildContextMenu(Node node) {
         ContextMenu contextMenu = new ContextMenu();
 

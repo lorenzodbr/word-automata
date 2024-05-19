@@ -19,7 +19,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Main wrapper class
+ * The main class of the application. It is responsible for starting the
+ * application and initializing its base components.
  */
 public class WordAutomata extends Application {
 

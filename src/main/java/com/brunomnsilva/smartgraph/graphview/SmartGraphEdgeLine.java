@@ -48,6 +48,7 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
     private final Edge<E, V> underlyingEdge;
 
     private final SmartGraphVertexNode<V> inbound;
+    @SuppressWarnings("unused")
     private final SmartGraphVertexNode<V> outbound;
 
     private SmartLabel attachedLabel = null;
