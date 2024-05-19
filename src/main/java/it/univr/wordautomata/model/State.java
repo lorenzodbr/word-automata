@@ -19,7 +19,7 @@ public class State implements Comparable<State>, Serializable {
     private transient SimpleBooleanProperty isFinal;
 
     /**
-     * Constructs a state with the given label.
+     * Constructs a state with the given label and default final status (false).
      *
      * @param label the label of the state
      * @throws IllegalArgumentException if the label is null or blank
@@ -31,7 +31,7 @@ public class State implements Comparable<State>, Serializable {
     /**
      * Constructs a state with the given label and final status.
      *
-     * @param label the label of the state
+     * @param label   the label of the state
      * @param isFinal true if the state is final, false otherwise
      * @throws IllegalArgumentException if the label is null or blank
      */
@@ -103,18 +103,29 @@ public class State implements Comparable<State>, Serializable {
      * Compares this state to another state based on their labels.
      *
      * @param other the other state to compare to
-     * @return a negative integer, zero, or a positive integer as this state is less than, equal to, or greater than the other state
+     * @return a negative integer, zero, or a positive integer as this state is less
+     *         than, equal to, or greater than the other state
      */
     @Override
     public int compareTo(State other) {
         return label.get().compareTo(other.label.get());
     }
 
+    /**
+     * Returns the hash code of the state based on its label.
+     *
+     * @return the hash code of the state
+     */
     @Override
     public boolean equals(Object o) {
-        return (o instanceof State) && compareTo((State)o) == 0;
+        return (o instanceof State) && compareTo((State) o) == 0;
     }
 
+    /**
+     * Writes the state to an object output stream
+     * 
+     * @param out the object output stream to write to
+     */
     private void writeObject(ObjectOutputStream out) {
         try {
             out.writeObject(label.get());
@@ -124,10 +135,15 @@ public class State implements Comparable<State>, Serializable {
         }
     }
 
+    /**
+     * Reads the state from an object input stream
+     * 
+     * @param in the object input stream to read from
+     */
     private void readObject(ObjectInputStream in) {
         try {
-            label = new SimpleStringProperty(new String((String)in.readObject()));
-            isFinal = new SimpleBooleanProperty((boolean)in.readObject());
+            label = new SimpleStringProperty(new String((String) in.readObject()));
+            isFinal = new SimpleBooleanProperty((boolean) in.readObject());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
