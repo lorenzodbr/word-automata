@@ -5,10 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import it.univr.wordautomata.WordAutomata;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * Represents a transition in a word automaton.
+ * Represents a transition in a {@link WordAutomata}.
+ * It contains a label that identifies the transition.
  */
 public class Transition implements Comparable<Transition>, Serializable {
     private transient SimpleStringProperty label;
@@ -77,7 +79,7 @@ public class Transition implements Comparable<Transition>, Serializable {
     }
 
     /**
-     * Serializes the transition.
+     * Writes the transition to the specified output stream.
      *
      * @param out the output stream to write to
      */
@@ -90,7 +92,7 @@ public class Transition implements Comparable<Transition>, Serializable {
     }
 
     /**
-     * Deserializes the transition.
+     * Reads the transition from the specified input stream.
      *
      * @param in the input stream to read from
      */

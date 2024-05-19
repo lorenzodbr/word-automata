@@ -349,7 +349,7 @@ public class GraphPanel extends StackPane {
                     event.consume();
 
                     model.playBackStateProperty().set(Constants.PlayBackState.PAUSED);
-                    model.getTimeline().getKeyFrames().clear();
+                    timeline.getKeyFrames().clear();
 
                     Platform.runLater(() -> components.getMainPanel().loadAutomata(file));
                 } else {

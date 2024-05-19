@@ -16,7 +16,6 @@ import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
 import it.univr.wordautomata.utils.Constants.Theme;
-import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -24,7 +23,7 @@ import javafx.beans.property.SimpleObjectProperty;
  * The `Model` class represents the model component of the Word Automata
  * application. It stores the {@link State} of the application, including the
  * theme, graph, initial state, placement strategies, playback speed and state,
- * and various boolean properties. * The `Model` class follows the Singleton
+ * and various boolean properties. The `Model` class follows the Singleton
  * design pattern to ensure that only one instance of the class exists
  * throughout the application.
  */
@@ -54,7 +53,6 @@ public class Model {
     private SimpleBooleanProperty pathFound;
 
     private ListIterator<Edge<Transition, State>> edgeToColor;
-    private final Timeline timeline;
 
     /**
      * Constructs a new instance of the `Model` class.
@@ -76,8 +74,6 @@ public class Model {
         this.isPlayPrevPressed = new SimpleBooleanProperty(false);
         this.areButtonsEnabled = new SimpleBooleanProperty(false);
 
-        this.timeline = new Timeline();
-
         updateGraphProperties();
     }
 
@@ -95,18 +91,18 @@ public class Model {
     }
 
     /**
-     * Returns the theme of the application.
+     * Returns the current theme property of the application.
      *
-     * @return the theme of the application
+     * @return the current theme property of the application
      */
     public SimpleObjectProperty<Theme> themeProperty() {
         return theme;
     }
 
     /**
-     * Returns the theme of the application.
+     * Returns the theme of the application as Enum
      *
-     * @return the theme of the application
+     * @return the theme of the application as Enum
      */
     public Theme getTheme() {
         return theme.get();
@@ -133,16 +129,16 @@ public class Model {
     }
 
     /**
-     * Returns the graph of the application.
+     * Returns the current shown graph as a DigraphEdgeList.
      *
-     * @return the graph of the application
+     * @return the current graph
      */
     public DigraphEdgeList<State, Transition> getGraph() {
         return graph;
     }
 
     /**
-     * Initializes a sample graph for the application.
+     * Initializes a sample graph (given in the assignment).
      *
      * @return the sample graph
      */
@@ -181,7 +177,7 @@ public class Model {
     }
 
     /**
-     * Sets the initial state of the application.
+     * Sets the initial state of the automata.
      *
      * @param s the initial state to set
      */
@@ -190,16 +186,16 @@ public class Model {
     }
 
     /**
-     * Returns the initial state of the application.
+     * Returns the initial state of the automata.
      *
-     * @return the initial state of the application
+     * @return the initial state of the automata
      */
     public State getInitialState() {
         return initialState.get();
     }
 
     /**
-     * Returns the initial vertex of the application.
+     * Returns the initial vertex of the automata (linked to the initial state).
      *
      * @return the initial vertex of the application
      */
@@ -212,45 +208,45 @@ public class Model {
     }
 
     /**
-     * Returns the initial state property of the application.
+     * Returns the initial state as a property.
      *
-     * @return the initial state property of the application
+     * @return the initial state as a property
      */
     public SimpleObjectProperty<State> initialStateProperty() {
         return initialState;
     }
 
     /**
-     * Returns the initial placement strategy of the application.
+     * Returns the initial placement strategy.
      *
-     * @return the initial placement strategy of the application
+     * @return the initial placement strategy
      */
     public SmartPlacementStrategy getInitialPlacement() {
         return initialPlacement;
     }
 
     /**
-     * Returns the automatic placement strategy of the application.
+     * Returns the automatic placement strategy.
      *
-     * @return the automatic placement strategy of the application
+     * @return the automatic placement strategy
      */
     public ForceDirectedLayoutStrategy<State> getAutomaticPlacementStrategy() {
         return automaticPlacementStrategy;
     }
 
     /**
-     * Returns the playback speed of the application.
+     * Returns the current playback speed.
      *
-     * @return the playback speed of the application
+     * @return the current playback speed
      */
     public PlayBackSpeed getSpeed() {
         return playBackSpeed.get();
     }
 
     /**
-     * Returns the next playback speed of the application.
+     * Cycles playback speed and returns the next one.
      *
-     * @return the next playback speed of the application
+     * @return the next playback speed
      */
     public PlayBackSpeed cycleSpeed() {
         playBackSpeed.set(getSpeed().next());
@@ -258,9 +254,9 @@ public class Model {
     }
 
     /**
-     * Returns the next playback state of the application.
+     * Cycles the playback state and returns the next one.
      *
-     * @return the next playback state of the application
+     * @return the next playback state
      */
     public PlayBackState cyclePlayBackState() {
         playBackState.set(getPlayBackState().next());
@@ -268,16 +264,16 @@ public class Model {
     }
 
     /**
-     * Returns the playback state of the application.
+     * Returns the current playback state of the application.
      *
-     * @return the playback state of the application
+     * @return the current playback state of the application
      */
     public PlayBackState getPlayBackState() {
         return playBackState.get();
     }
 
     /**
-     * Returns the playback speed property of the application.
+     * Returns the current playback speed as a property.
      *
      * @return the playback speed property of the application
      */
@@ -286,43 +282,43 @@ public class Model {
     }
 
     /**
-     * Returns the playback state property of the application.
+     * Returns the playback state as a property.
      *
-     * @return the playback state property of the application
+     * @return the playback state property
      */
     public SimpleObjectProperty<PlayBackState> playBackStateProperty() {
         return playBackState;
     }
 
     /**
-     * Returns the play next pressed property of the application.
+     * Tells if the play next button has been pressed.
      *
-     * @return the play next pressed property of the application
+     * @return the play next pressed property
      */
     public SimpleBooleanProperty isPlayNextPressed() {
         return isPlayNextPressed;
     }
 
     /**
-     * Returns the play previous pressed property of the application.
+     * Returns the play previous pressed property.
      *
-     * @return the play previous pressed property of the application
+     * @return the play previous pressed property
      */
     public SimpleBooleanProperty isPlayPrevPressed() {
         return isPlayPrevPressed;
     }
 
     /**
-     * Returns the buttons enabled property of the application.
+     * Returns the buttons enabled property.
      *
-     * @return the buttons enabled property of the application
+     * @return the buttons enabled property
      */
     public SimpleBooleanProperty areButtonsEnabled() {
         return areButtonsEnabled;
     }
 
     /**
-     * Sets the auto position property of the application.
+     * Sets the auto position property.
      * 
      * @param value the value to set
      */
@@ -331,16 +327,16 @@ public class Model {
     }
 
     /**
-     * Returns the auto position property of the application.
+     * Returns the auto position property.
      *
-     * @return the auto position property of the application
+     * @return the auto position property
      */
     public SimpleBooleanProperty autoPositionProperty() {
         return autoPosition;
     }
 
     /**
-     * Check if the auto position property of the application is enabled.
+     * Check if the auto position property is enabled.
      *
      * @return true if the auto position property is enabled, false otherwise
      */
@@ -349,25 +345,25 @@ public class Model {
     }
 
     /**
-     * Toggles the auto position property of the application.
+     * Toggles the auto position property.
      */
     public void toggleAutoPositioning() {
         autoPosition.set(!autoPosition.get());
     }
 
     /**
-     * Returns the at least one vertex property of the application.
+     * Returns a property telling if there is at least one vertex in the current graph
      *
-     * @return the at least one vertex property of the application
+     * @return the `at least one vertex` property
      */
     public SimpleBooleanProperty atLeastOneVertexProperty() {
         return atLeastOneVertex;
     }
 
     /**
-     * Returns the at least one edge property of the application.
+     * Returns a property telling if there is at least one edge in the current graph
      *
-     * @return the at least one edge property of the application
+     * @return the `at least one edge` property
      */
     public SimpleBooleanProperty atLeastOneEdgeProperty() {
         return atLeastOneEdge;
@@ -392,7 +388,7 @@ public class Model {
     }
 
     /**
-     * Updates the graph properties of the application.
+     * Updates the graph property reflecting the current state of the graph. 
      */
     public void updateGraphProperties() {
         atLeastOneVertex.set(graph.numVertices() > 0);
@@ -400,9 +396,9 @@ public class Model {
     }
 
     /**
-     * Returns the path found property of the application.
+     * Returns a property telling if a path has been found.
      *
-     * @return the path found property of the application
+     * @return the path found property
      */
     public SimpleBooleanProperty pathFoundProperty() {
         return pathFound;
@@ -418,7 +414,7 @@ public class Model {
     }
 
     /**
-     * Sets the path found property of the application.
+     * Sets the path found property.
      *
      * @param value the value to set
      */
@@ -427,7 +423,7 @@ public class Model {
     }
 
     /**
-     * Updates the graph of the application.
+     * Updates the graph by copying the given graph.
      *
      * @param graph the graph to set
      */
@@ -443,7 +439,7 @@ public class Model {
     }
 
     /**
-     * Sets the opened file of the application.
+     * Sets the opened file.
      *
      * @param file the file to set
      */
@@ -452,25 +448,25 @@ public class Model {
     }
 
     /**
-     * Returns the opened file of the application.
+     * Returns the opened file.
      *
-     * @return the opened file of the application
+     * @return the opened file
      */
     public File getOpenedFile() {
         return openedFile.get();
     }
 
     /**
-     * Returns the opened file property of the application.
+     * Returns the opened file property.
      *
-     * @return the opened file property of the application
+     * @return the opened file property
      */
     public SimpleObjectProperty<File> openedFileProperty() {
         return openedFile;
     }
 
     /**
-     * Sets the saved property of the application.
+     * Sets the saved property.
      *
      * @param value the value to set
      */
@@ -479,25 +475,25 @@ public class Model {
     }
 
     /**
-     * Returns the saved property of the application.
+     * Returns the saved property.
      *
-     * @return the saved property of the application
+     * @return the saved property
      */
     public SimpleBooleanProperty savedProperty() {
         return saved;
     }
 
     /**
-     * Check if the application has been saved.
+     * Check if the graph has been saved.
      *
-     * @return true if the application has been saved, false otherwise
+     * @return true if the graph has been saved, false otherwise
      */
     public boolean isSaved() {
         return saved.get();
     }
 
     /**
-     * Clears the graph of the application.
+     * Clears the graph.
      */
     public void clear() {
         for (var e : graph.edges()) {
@@ -515,29 +511,20 @@ public class Model {
     }
 
     /**
-     * Returns the edge to color of the application.
+     * Returns an iterator to a list of edges to color.
      *
-     * @return the edge to color of the application
+     * @return the iterator to a list of edges to color
      */
     public ListIterator<Edge<Transition, State>> getEdgeToColor() {
         return edgeToColor;
     }
 
     /**
-     * Sets the edge to color of the application.
+     * Sets the iterator.
      *
-     * @param edgeToColor set the edge to color
+     * @param edgeToColor the iterator to set
      */
     public void setEdgeToColor(ListIterator<Edge<Transition, State>> edgeToColor) {
         this.edgeToColor = edgeToColor;
-    }
-
-    /**
-     * Returns the timeline of the application.
-     *
-     * @return the timeline of the application
-     */
-    public Timeline getTimeline() {
-        return timeline;
     }
 }
