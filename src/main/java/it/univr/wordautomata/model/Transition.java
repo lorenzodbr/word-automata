@@ -76,6 +76,11 @@ public class Transition implements Comparable<Transition>, Serializable {
         return label.get().compareTo(other.label.get());
     }
 
+    /**
+     * Serializes the transition.
+     *
+     * @param out the output stream to write to
+     */
     private void writeObject(ObjectOutputStream out) {
         try {
             out.writeObject(label.get());
@@ -84,6 +89,11 @@ public class Transition implements Comparable<Transition>, Serializable {
         }
     }
 
+    /**
+     * Deserializes the transition.
+     *
+     * @param in the input stream to read from
+     */
     private void readObject(ObjectInputStream in) {
         try {
             label = new SimpleStringProperty(new String((String) in.readObject()));
