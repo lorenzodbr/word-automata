@@ -25,7 +25,6 @@ package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Edge;
 
-import it.univr.wordautomata.Main;
 import it.univr.wordautomata.utils.Constants;
 import it.univr.wordautomata.utils.Constants.Orientation;
 import it.univr.wordautomata.utils.Methods;
@@ -128,7 +127,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
         this.edgeIndex = edgeIndex;
 
         // TODO: improve this solution taking into account even indices, etc.
-        randomAngleFactor = edgeIndex == 0 ? 0 : 1.0 / edgeIndex; // Math.random();
+        randomAngleFactor = edgeIndex == 0 ? 0 : edgeIndex == 2 ? 1.0 : 1.0 / edgeIndex;
 
         // update();
         enableListeners();
@@ -212,7 +211,7 @@ public class SmartGraphEdgeCurve<E, V> extends CubicCurve implements SmartGraphE
             double angle = linearDecay(MAX_EDGE_CURVE_ANGLE, MIN_EDGE_CURVE_ANGLE, distance, DISTANCE_THRESHOLD);
 
             Point2D midpoint = UtilitiesPoint2D.calculateTriangleBetween(startpoint, endpoint,
-                    (-angle) + randomAngleFactor * 2 * angle);
+                    (edgeIndex % 2 == 0 && edgeIndex != 0 ? -1 : 1) * ((-angle) + randomAngleFactor * 2 * angle));
 
             setControlX1(midpoint.getX());
             setControlY1(midpoint.getY());
