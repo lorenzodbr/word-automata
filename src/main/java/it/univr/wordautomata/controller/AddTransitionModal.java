@@ -9,9 +9,16 @@ import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 
 /**
- *
+ * A dialog that allows the user to add a new transition to the automaton.
  */
 public class AddTransitionModal extends Dialog<TransitionWrapper> {
+
+    /**
+     * Creates a new transition.
+     *
+     * @param scene        the scene to which the modal will be attached
+     * @param initialState the initial state of the transition
+     */
     public AddTransitionModal(Scene scene, State initialState) {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 

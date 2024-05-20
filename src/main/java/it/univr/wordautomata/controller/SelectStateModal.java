@@ -9,10 +9,15 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.stage.Stage;
 
 /**
- *
+ * A dialog that allows the user to select a state to view its details.
  */
 public class SelectStateModal extends ChoiceDialog<State> {
 
+    /**
+     * Selects a state.
+     *
+     * @param scene the scene to which the modal will be attached
+     */
     public SelectStateModal(Scene scene) {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 

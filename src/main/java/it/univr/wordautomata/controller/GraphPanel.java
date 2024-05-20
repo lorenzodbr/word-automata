@@ -74,6 +74,11 @@ public class GraphPanel extends StackPane {
         initEdgeColoring();
     }
 
+    /**
+     * Initializes the timeline for coloring the edges.
+     * 
+     * @return true if there is an edge to color, false otherwise
+     */
     private boolean colorNextEdge() {
         if (model.getEdgeToColor().hasNext()) {
             Edge<Transition, State> e = model.getEdgeToColor().next();
@@ -159,6 +164,9 @@ public class GraphPanel extends StackPane {
         return false;
     }
 
+    /**
+     * Initializes the zoom label.
+     */
     private void initZoomLabel() {
         zoomLabel.getStyleClass().addAll(Constants.ZOOM_LABEL_CLASS, Constants.ROUNDED_CORNERS_CLASS);
         zoomLabel.visibleProperty().bind(model.atLeastOneVertexProperty());
@@ -168,6 +176,9 @@ public class GraphPanel extends StackPane {
         StackPane.setMargin(zoomLabel, new Insets(7, 7, 0, 0));
     }
 
+    /**
+     * Shows and hides the zoom label.
+     */
     private void showAndHideZoomLabel() {
         zoomLabel.setOpacity(0.75);
 
@@ -186,6 +197,11 @@ public class GraphPanel extends StackPane {
         zoomTimeline.play();
     }
 
+    /**
+     * Clears the previous edge.
+     * 
+     * @return true if there is a previous edge to clear, false otherwise
+     */
     private boolean clearPrevEdge() {
         if (model.getEdgeToColor().hasPrevious()) {
             colorTimeline.stop();
@@ -203,6 +219,9 @@ public class GraphPanel extends StackPane {
         return false;
     }
 
+    /**
+     * Clears all edges.
+     */
     private void clearAllEdges() {
         colorTimeline.stop();
 
@@ -216,12 +235,18 @@ public class GraphPanel extends StackPane {
         }
     }
 
+    /**
+     * Resets the coloring.
+     */
     private void resetColoring() {
         clearAllEdges();
         while (model.getEdgeToColor().hasPrevious())
             model.getEdgeToColor().previous();
     }
 
+    /**
+     * Initializes the edge coloring.
+     */
     public void initEdgeColoring() {
         model.isPlayNextPressed().addListener((o, oldVal, newVal) -> {
             boolean danger = !colorNextEdge();
@@ -276,6 +301,9 @@ public class GraphPanel extends StackPane {
 
     }
 
+    /**
+     * Initializes the graph.
+     */
     public void initGraph() {
         timeline.stop();
         colorTimeline.stop();
@@ -325,12 +353,18 @@ public class GraphPanel extends StackPane {
         });
     }
 
+    /**
+     * Initializes the modals.
+     */
     private void initModals() {
         modalPane = new ModalPane();
         modalPane.setAlignment(Pos.TOP_LEFT);
         getChildren().add(modalPane);
     }
 
+    /**
+     * Initializes the properties.
+     */
     private void initProperties() {
         this.hintLabel.visibleProperty().bind(model.atLeastOneVertexProperty().not());
 
@@ -360,14 +394,29 @@ public class GraphPanel extends StackPane {
         });
     }
 
+    /**
+     * Initializes the graph properties.
+     */
     private void initGraphProperties() {
         graphView.automaticLayoutProperty().bind(model.autoPositionProperty());
     }
 
+    /**
+     * Adds a new vertex.
+     * 
+     * @return true if the vertex was added, false otherwise
+     */
     public boolean addVertex() {
         return addVertex(-1, -1);
     }
 
+    /**
+     * Adds a new vertex.
+     * 
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return true if the vertex was added, false otherwise
+     */
     public boolean addVertex(double x, double y) {
         State newState = new AddStateModal(getScene()).showAndWait().orElse(null);
 
@@ -400,11 +449,22 @@ public class GraphPanel extends StackPane {
         return true;
     }
 
+    /**
+     * Adds a new edge.
+     * 
+     * @return true if the edge was added, false otherwise
+     */
     @FXML
     public boolean addEdge() {
         return addEdge(null);
     }
 
+    /**
+     * Adds a new edge.
+     * 
+     * @param startingState the starting state
+     * @return true if the edge was added, false otherwise
+     */
     public boolean addEdge(State startingState) {
         TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState).showAndWait().orElse(null);
 
@@ -427,6 +487,9 @@ public class GraphPanel extends StackPane {
         return true;
     }
 
+    /**
+     * Chooses the initial state.
+     */
     public void chooseInitialState() {
         SetInitialStateModal modal = new SetInitialStateModal(getScene());
 
@@ -437,6 +500,11 @@ public class GraphPanel extends StackPane {
         }
     }
 
+    /**
+     * Sets the initial state.
+     * 
+     * @param newInitialState the new initial state
+     */
     public void setInitialState(State newInitialState) {
         State oldInitialState = model.getInitialState();
 
@@ -449,6 +517,9 @@ public class GraphPanel extends StackPane {
         graphView.getStylableVertex(newInitialState).addStyleClass(Constants.INITIAL_STATE_CLASS);
     }
 
+    /**
+     * Selects the state.
+     */
     public void selectState() {
         SelectStateModal modal = new SelectStateModal(getScene());
 
@@ -458,6 +529,9 @@ public class GraphPanel extends StackPane {
         }
     }
 
+    /**
+     * Selects the transition.
+     */
     public void selectTransition() {
         SelectTransitionModal modal = new SelectTransitionModal(getScene());
 
@@ -467,25 +541,42 @@ public class GraphPanel extends StackPane {
         }
     }
 
+    /**
+     * Clears the graph.
+     */
     public void clear() {
         model.clear();
         graphView.update();
         closeSideBar();
     }
 
+    /**
+     * Closes the side bar.
+     */
     public void closeSideBar() {
         modalPane.hide();
     }
 
+    /**
+     * Updates the graph.
+     */
     public void update() {
         graphView.update();
         components.getBottomBar().computePath();
     }
 
+    /**
+     * Updates the graph and waits.
+     */
     public void updateAndWait() {
         graphView.updateAndWait();
     }
 
+    /**
+     * Removes the vertex.
+     * 
+     * @param v the vertex
+     */
     public void removeVertex(Vertex<State> v) {
         graph.removeVertex(v);
 
@@ -494,6 +585,11 @@ public class GraphPanel extends StackPane {
         graphView.update();
     }
 
+    /**
+     * Removes the edge.
+     * 
+     * @param e the edge
+     */
     public void removeEdge(Edge<Transition, State> e) {
         graph.removeEdge(e);
 
@@ -502,6 +598,12 @@ public class GraphPanel extends StackPane {
         graphView.update();
     }
 
+    /**
+     * Queries the removal of the vertex.
+     * 
+     * @param v the vertex
+     * @return true if the vertex was removed, false otherwise
+     */
     public boolean queryRemoveVertex(Vertex<State> v) {
         if (Alerts.showConfirmationDialog(getScene(), "Delete",
                 "Do you really want to delete this state?")) {
@@ -512,6 +614,12 @@ public class GraphPanel extends StackPane {
         return false;
     }
 
+    /**
+     * Queries the removal of the edge.
+     * 
+     * @param e the edge
+     * @return true if the edge was removed, false otherwise
+     */
     public boolean queryRemoveEdge(Edge<Transition, State> e) {
         if (Alerts.showConfirmationDialog(getScene(), "Delete",
                 "Do you really want to delete this transition?")) {
@@ -522,17 +630,33 @@ public class GraphPanel extends StackPane {
         return false;
     }
 
+    /**
+     * Shows the state side bar.
+     * 
+     * @param vertex the vertex
+     */
     public void showStateSideBar(SmartGraphVertex<State> vertex) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
         modalPane.show(getStateModal(vertex));
     }
 
+    /**
+     * Gets the state modal.
+     * 
+     * @param vertex the vertex
+     * @return the state modal
+     */
     private StateModal getStateModal(SmartGraphVertex<State> vertex) {
         StateModal dialog = new StateModal(modalPane, vertex);
 
         return dialog;
     }
 
+    /**
+     * Shows the transition side bar.
+     * 
+     * @param edge the edge
+     */
     public void showTransitionSideBar(SmartGraphEdge<Transition, State> edge) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
         TransitionModal dialog = new TransitionModal(modalPane, edge);

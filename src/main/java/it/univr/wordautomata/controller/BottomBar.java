@@ -95,6 +95,9 @@ public class BottomBar extends GridPane {
 
     private Model model;
 
+    /**
+     * Creates a new BottomBar.
+     */
     public BottomBar() {
         Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);
 
@@ -109,10 +112,16 @@ public class BottomBar extends GridPane {
         this.model.areButtonsEnabled().bind(buttonsEnabledBinding);
     }
 
+    /**
+     * Styles the transitions panel.
+     */
     private void styleTransitionsPanel() {
         transitionsPanel.setFitToWidth(true);
     }
 
+    /**
+     * Styles the buttons.
+     */
     private void styleButtons() {
         buttonsEnabledBinding = model.atLeastOneEdgeProperty().not()
                 .or(wordInput.textProperty().isEmpty()).or(model.pathFoundProperty().not());
@@ -124,6 +133,9 @@ public class BottomBar extends GridPane {
         initSpeedButton();
     }
 
+    /**
+     * Initializes the play/pause button.
+     */
     private void initPlayPauseButton() {
         playPauseButton.disableProperty()
                 .bind(buttonsEnabledBinding);
@@ -132,6 +144,9 @@ public class BottomBar extends GridPane {
                         .then(new FontIcon(BoxiconsRegular.PAUSE)).otherwise(new FontIcon(BoxiconsRegular.PLAY)));
     }
 
+    /**
+     * Initializes the speed button.
+     */
     private void initSpeedButton() {
         speedButtonVBox.disableProperty().bind(speedButton.disableProperty());
         speedButton.disableProperty().bind(buttonsEnabledBinding);
@@ -141,6 +156,9 @@ public class BottomBar extends GridPane {
         styleSpeedButton();
     }
 
+    /**
+     * Styles the speed button.
+     */
     private void styleSpeedButton() {
         int initialSpeedIndex = model.getSpeed().ordinal();
 
@@ -149,12 +167,18 @@ public class BottomBar extends GridPane {
                 .remove(Constants.ACTIVE_SPEED_CIRCLE_CLASS);
     }
 
+    /**
+     * Initializes the reset button.
+     */
     private void initResetButton() {
         resetButton.setGraphic(new FontIcon(BoxiconsRegular.RESET));
         resetButton.disableProperty().bind(buttonsEnabledBinding);
         resetButton.pressedProperty().addListener((o, oldVal, newVal) -> clearTransitionsButtons());
     }
 
+    /**
+     * Initializes the previous and next state buttons.
+     */
     private void initPreviousNextStateButtons() {
         previousStateButton.disableProperty()
                 .bind(buttonsEnabledBinding
@@ -166,27 +190,42 @@ public class BottomBar extends GridPane {
                         .or(isTransitionInProgress));
     }
 
+    /**
+     * Toggles the play/pause button.
+     */
     @FXML
     private void togglePlayNext() {
         model.isPlayNextPressed().set(!model.isPlayNextPressed().get());
     }
 
+    /**
+     * Toggles the play/prev button.
+     */
     @FXML
     private void togglePlayPrev() {
         model.isPlayPrevPressed().set(!model.isPlayPrevPressed().get());
     }
 
+    /**
+     * Cycles the speed.
+     */
     @FXML
     private void cycleSpeed() {
         model.cycleSpeed();
         styleSpeedButton();
     }
 
+    /**
+     * Cycles the play/pause state.
+     */
     @FXML
     public void cyclePlayPause() {
         model.cyclePlayBackState();
     }
 
+    /**
+     * Computes the path of the word.
+     */
     @FXML
     public void computePath() {
         transitionsHint.setVisible(true);
@@ -234,6 +273,12 @@ public class BottomBar extends GridPane {
         });
     }
 
+    /**
+     * Gets a state label.
+     *
+     * @param stateLabel the state label
+     * @return the initial state label
+     */
     private Label getStateLabel(String stateLabel) {
         Label initialState = new Label(stateLabel.toString());
         initialState.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
@@ -242,6 +287,12 @@ public class BottomBar extends GridPane {
         return initialState;
     }
 
+    /**
+     * Gets a transition button.
+     *
+     * @param edgeLabel the edge label
+     * @return the transition button
+     */
     private Button getTransitionButton(String edgeLabel) {
         Button transitionButton = new Button(edgeLabel);
         transitionButton.getStyleClass().addAll(Styles.SMALL, Constants.ROUNDED_CORNERS_CLASS);
@@ -251,6 +302,9 @@ public class BottomBar extends GridPane {
         return transitionButton;
     }
 
+    /**
+     * Clears the word input.
+     */
     public void clear() {
         wordInput.clear();
         requestFocus();
@@ -258,10 +312,18 @@ public class BottomBar extends GridPane {
         transitionsHint.setVisible(true);
     }
 
+    /**
+     * Returns the property that indicates whether the reset button is pressed.
+     * 
+     * @return the property that indicates whether the reset button is pressed
+     */
     public ReadOnlyBooleanProperty resetButtonProperty() {
         return resetButton.pressedProperty();
     }
 
+    /**
+     * Clears the transitions buttons.
+     */
     public void clearTransitionsButtons() {
         transitionsPanelHBox.getChildren()
                 .forEach(b -> b.getStyleClass().remove(Constants.ACTIVE_BUTTON_CLASS));
@@ -269,6 +331,11 @@ public class BottomBar extends GridPane {
         centerNodeInScrollPane(null);
     }
 
+    /**
+     * Centers a node in the scroll pane.
+     *
+     * @param node the node to center
+     */
     public void centerNodeInScrollPane(Node node) {
         double f = 0, w, x, v;
 
@@ -287,12 +354,22 @@ public class BottomBar extends GridPane {
         timeline.play();
     }
 
+    /**
+     * Clears the transition button at the specified index.
+     *
+     * @param index the index of the button
+     */
     public void clearTransitionButtonAt(int index) {
         Node b = transitionsPanelHBox.getChildren().get(index);
         b.getStyleClass().remove(Constants.ACTIVE_BUTTON_CLASS);
         centerNodeInScrollPane(b);
     }
 
+    /**
+     * Colors the transition button at the specified index.
+     *
+     * @param index the index of the button
+     */
     public void colorTransitionButtonAt(int index) {
         List<Node> children = transitionsPanelHBox.getChildren();
 
@@ -305,19 +382,39 @@ public class BottomBar extends GridPane {
         centerNodeInScrollPane(b);
     }
 
+    /**
+     * Returns the property that indicates if the transition is in progress.
+     * 
+     * @return the property that indicates if the transition is in progress
+     */
     public SimpleBooleanProperty isTransitionInProgressProperty() {
         return isTransitionInProgress;
     }
 
+    /**
+     * Returns the state of the previous button.
+     * 
+     * @return the state of the previous button
+     */
     public Button getPreviousStateButton() {
         return previousStateButton;
     }
 
+    /**
+     * Returns the state of the next button.
+     * 
+     * @return the state of the next button
+     */
     public Button getNextStateButton() {
         return nextStateButton;
     }
 
-    public String getWord(){
+    /**
+     * Returns the word input.
+     * 
+     * @return the word input
+     */
+    public String getWord() {
         return wordInput.getText();
     }
 }

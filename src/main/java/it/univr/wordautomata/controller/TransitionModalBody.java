@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 /**
- *
+ * The body of the dialog that shows the details of a transition.
  */
 public class TransitionModalBody extends GridPane {
 
@@ -42,6 +42,12 @@ public class TransitionModalBody extends GridPane {
 
     private Popover popover;
 
+    /**
+     * Creates a new transition modal body.
+     *
+     * @param dialog the dialog
+     * @param edge   the edge to show
+     */
     public TransitionModalBody(ModalBox dialog, SmartGraphEdge<Transition, State> edge) {
         Methods.loadAndSetController(Constants.TRANSITION_MODAL_BODY_FXML_FILENAME, this);
 
@@ -53,6 +59,9 @@ public class TransitionModalBody extends GridPane {
         prefHeightProperty().bind(Components.getInstance().getGraphPanel().heightProperty());
     }
 
+    /**
+     * Sets the fields of the dialog.
+     */
     private void setFields() {
         TextFlow body = new TextFlow(
                 new Text("Label must be unique (relative to the starting and ending states) and not blank."));

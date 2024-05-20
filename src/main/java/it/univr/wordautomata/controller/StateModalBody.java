@@ -31,7 +31,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
- *
+ * The body of the dialog that shows the details of a state.
  */
 public class StateModalBody extends GridPane {
 
@@ -64,6 +64,12 @@ public class StateModalBody extends GridPane {
 
     private Model model;
 
+    /**
+     * Creates a new state modal body.
+     *
+     * @param dialog the dialog
+     * @param vertex the vertex to show
+     */
     public StateModalBody(ModalBox dialog, SmartGraphVertex<State> vertex) {
         Methods.loadAndSetController(Constants.STATE_MODAL_BODY_FXML_FILENAME, this);
 
@@ -77,6 +83,9 @@ public class StateModalBody extends GridPane {
         prefHeightProperty().bind(Components.getInstance().getGraphPanel().heightProperty());
     }
 
+    /**
+     * Sets the fields of the dialog.
+     */
     private void setFields() {
         Text body = new Text("Label must be unique and not blank.");
         body.setTextAlignment(javafx.scene.text.TextAlignment.JUSTIFY);
@@ -159,6 +168,13 @@ public class StateModalBody extends GridPane {
         }
     }
 
+    /**
+     * Creates a row for a transition.
+     * 
+     * @param left  the left text
+     * @param right the right text
+     * @return the text field
+     */
     private HBox createTransitionRow(String left, String right) {
         HBox row = new HBox();
         row.setSpacing(5);
