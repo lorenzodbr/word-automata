@@ -735,8 +735,8 @@ public class SmartGraphPanel<V, E> extends Pane {
 
         SmartGraphEdgeBase<E, V> graphEdge;
 
-        if ((getTotalEdgesBetween(graphVertexInbound.getUnderlyingVertex(),
-                graphVertexOutbound.getUnderlyingVertex()) > 1 && edgeIndex > 0)
+        if ((edgeIndex > 0 && getTotalEdgesBetween(graphVertexInbound.getUnderlyingVertex(),
+                graphVertexOutbound.getUnderlyingVertex()) > 1)
                 || graphVertexInbound == graphVertexOutbound) {
             graphEdge = new SmartGraphEdgeCurve<>(edge, graphVertexInbound, graphVertexOutbound, edgeIndex);
         } else {
