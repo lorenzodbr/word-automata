@@ -9,13 +9,19 @@ import it.univr.wordautomata.utils.Constants;
 import javafx.application.Platform;
 
 /**
- *
+ * A dialog that shows the details of a state.
  */
 public class StateModal extends ModalBox {
 
+    /**
+     * Creates a new state modal.
+     *
+     * @param modalPane the modal pane
+     * @param vertex    the vertex to show
+     */
     public StateModal(ModalPane modalPane, SmartGraphVertex<State> vertex) {
         super(modalPane);
-        
+
         addContent(new StateModalBody(this, vertex));
         setMaxWidth(Constants.SIDEBAR_MAX_WIDTH);
 

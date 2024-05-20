@@ -10,9 +10,16 @@ import it.univr.wordautomata.utils.Constants;
 import javafx.application.Platform;
 
 /**
- *
+ * A dialog that shows the details of a transition.
  */
 public class TransitionModal extends ModalBox {
+
+    /**
+     * Creates a new transition modal.
+     *
+     * @param modalPane the modal pane
+     * @param edge      the edge to show
+     */
     public TransitionModal(ModalPane modalPane, SmartGraphEdge<Transition, State> edge) {
         super(modalPane);
 

@@ -21,7 +21,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 /**
- *
+ * The body of the dialog that allows the user to add a new transition to the
+ * automaton.
  */
 public class AddTransitionModalBody extends Pane {
 
@@ -39,6 +40,11 @@ public class AddTransitionModalBody extends Pane {
 
     private SimpleBooleanProperty emptyTextfieldProperty;
 
+    /**
+     * Creates a new transition.
+     *
+     * @param initialState the initial state of the transition
+     */
     public AddTransitionModalBody(State initialState) {
         Methods.loadAndSetController(Constants.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
         loadChoiceBoxes(initialState);
@@ -49,13 +55,18 @@ public class AddTransitionModalBody extends Pane {
                 .addListener((observable, oldValue, newValue) -> validateAndUpdateTextField(newValue));
     }
 
+    /**
+     * Validates the text field and updates the error label accordingly.
+     *
+     * @param newValue the new value of the text field
+     */
     public void validateAndUpdateTextField(String newValue) {
         String from = startingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
         String to = endingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
 
         boolean invalid = newValue.isBlank()
                 || Methods.existsTransitionFromVertex(from, newValue)
-                && Methods.existsTransitionFromVertex(to, newValue);
+                        && Methods.existsTransitionFromVertex(to, newValue);
 
         if (!errorLabel.visibleProperty().isBound()) {
             errorLabel.visibleProperty().bind(emptyTextfieldProperty);
@@ -65,6 +76,11 @@ public class AddTransitionModalBody extends Pane {
         transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, invalid);
     }
 
+    /**
+     * Builds a new transition from the data entered by the user.
+     *
+     * @return the new transition
+     */
     public TransitionWrapper buildTransitionWrapper() {
         String label = transitionLabelTextField.getText();
 
@@ -78,6 +94,11 @@ public class AddTransitionModalBody extends Pane {
         return null;
     }
 
+    /**
+     * Loads the choice boxes with the states of the automaton.
+     *
+     * @param initialState the initial state of the transition
+     */
     private void loadChoiceBoxes(State initialState) {
         Collection<State> vertices = Model.getInstance().getGraph().objectsInVertices();
 
@@ -103,12 +124,20 @@ public class AddTransitionModalBody extends Pane {
         endingStateChoiceBox.setOnAction(e -> validateAndUpdateTextField(transitionLabelTextField.getText()));
     }
 
+    /**
+     * Requests the focus on the text field.
+     */
     public void requestTextFieldFocus() {
         Platform.runLater(() -> {
             transitionLabelTextField.requestFocus();
         });
     }
 
+    /**
+     * Returns the property that indicates whether the text field is empty.
+     *
+     * @return the property that indicates whether the text field is empty
+     */
     public ObservableValue<Boolean> emptyTextfieldProperty() {
         return emptyTextfieldProperty;
     }

@@ -6,7 +6,7 @@ import it.univr.wordautomata.utils.Methods;
 import javafx.scene.layout.GridPane;
 
 /**
- *
+ * The body of the dialog that shows the legend of the automaton.
  */
 public class LegendModalBody extends GridPane {
 

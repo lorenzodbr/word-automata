@@ -8,10 +8,15 @@ import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 
 /**
- *
+ * A dialog that allows the user to add a new state to the automaton.
  */
 public class AddStateModal extends Dialog<State> {
 
+    /**
+     * Creates a new state.
+     *
+     * @param scene the scene to which the modal will be attached
+     */
     public AddStateModal(Scene scene) {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 

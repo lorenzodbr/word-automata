@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 /**
- *
+ * The body of the dialog that shows the statistics of the automaton.
  */
 public class StatisticsModalBody extends Pane {
 
@@ -29,12 +29,18 @@ public class StatisticsModalBody extends Pane {
     @FXML
     private TextField shortestPathTextField;
 
+    /**
+     * Creates a new statistics modal body.
+     */
     public StatisticsModalBody() {
         Methods.loadAndSetController(Constants.STATISTICS_MODAL_BODY_FXML_FILENAME, this);
 
         loadFields();
     }
 
+    /**
+     * Loads the fields with the statistics of the automaton.
+     */
     private void loadFields() {
         GraphStatistics statistics = new GraphStatistics();
 

@@ -111,6 +111,11 @@ public class MainPanel extends BorderPane {
     private WordAutomata parent;
     private Components components;
 
+    /**
+     * Creates a new MainPanel.
+     * 
+     * @param parent The WordAutomata instance that owns the MainPanel
+     */
     public MainPanel(WordAutomata parent) {
         Methods.loadAndSetController(Constants.MAIN_PANEL_FXML_FILENAME, this);
 
@@ -126,27 +131,42 @@ public class MainPanel extends BorderPane {
         initBindings();
     }
 
+    /**
+     * Adds the bottom bar to the MainPanel.
+     */
     private void addBottomBar() {
         components.setBottomBar(new BottomBar());
         setBottom(components.getBottomBar());
     }
 
+    /**
+     * Adds the graph panel to the MainPanel.
+     */
     private void addGraphPanel() {
         components.setGraphPanel(new GraphPanel());
         setCenter(components.getGraphPanel());
         Platform.runLater(() -> components.getGraphPanel().requestFocus());
     }
 
+    /**
+     * Adds a new state to the graph.
+     */
     @FXML
     private void addState() {
         components.getGraphPanel().addVertex();
     }
 
+    /**
+     * Adds a new transition to the graph.
+     */
     @FXML
     private void addTransition() {
         components.getGraphPanel().addEdge();
     }
 
+    /**
+     * Clears the graph.
+     */
     @FXML
     public void clearGraph() {
         if (Alerts.showConfirmationDialog(getScene(), "Clear", "Do you really want to clear the graph?")) {
@@ -155,26 +175,41 @@ public class MainPanel extends BorderPane {
         }
     }
 
+    /**
+     * Sets the initial state of the automaton.
+     */
     @FXML
     private void setInitialState() {
         components.getGraphPanel().chooseInitialState();
     }
 
+    /**
+     * Selects a state in the graph.
+     */
     @FXML
     private void selectState() {
         components.getGraphPanel().selectState();
     }
 
+    /**
+     * Selects a transition in the graph.
+     */
     @FXML
     private void selectTransition() {
         components.getGraphPanel().selectTransition();
     }
 
+    /**
+     * Toggles the auto positioning of the graph.
+     */
     @FXML
     private void toggleAutoPositioning() {
         model.toggleAutoPositioning();
     }
 
+    /**
+     * Opens an automata file.
+     */
     @FXML
     private void openAutomata() {
         // open file dialog
@@ -189,6 +224,11 @@ public class MainPanel extends BorderPane {
 
     }
 
+    /**
+     * Loads an automata from a file.
+     * 
+     * @param file The file from which to load the automata
+     */
     public void loadAutomata(File file) {
         if (!model.isSaved() && !Alerts.showConfirmationDialog(getScene(), "Open automata",
                 "Do you really want to open a new automata? You will lose any unsaved changes.")) {
@@ -199,6 +239,9 @@ public class MainPanel extends BorderPane {
         Components.getInstance().getBottomBar().computePath();
     }
 
+    /**
+     * Loads the sample automata.
+     */
     @FXML
     private void loadSampleAutomata() {
 
@@ -220,16 +263,25 @@ public class MainPanel extends BorderPane {
         components.getGraphPanel().closeSideBar();
     }
 
+    /**
+     * Saves the automata to a file.
+     */
     @FXML
     public void saveAutomata() {
         Methods.save();
     }
 
+    /**
+     * Saves the automata to a new file.
+     */
     @FXML
     public void saveAsAutomata() {
         Methods.saveAs();
     }
 
+    /**
+     * Initializes the bindings of the MainPanel.
+     */
     private void initBindings() {
         BooleanBinding noVertexBinding = model.atLeastOneVertexProperty().not();
         BooleanBinding noEdgeBinding = model.atLeastOneEdgeProperty().not();
@@ -244,6 +296,9 @@ public class MainPanel extends BorderPane {
         closeMenuItem.disableProperty().bind(model.openedFileProperty().isNull());
     }
 
+    /**
+     * Initializes the menu items of the MainPanel.
+     */
     private void initMenuItems() {
         autoPositioningMenuItem.graphicProperty().bind(Bindings.when(model.autoPositionProperty())
                 .then(new FontIcon(BoxiconsRegular.CHECK))
@@ -267,6 +322,9 @@ public class MainPanel extends BorderPane {
         loadRecentFiles();
     }
 
+    /**
+     * Loads the recent files.
+     */
     private void loadRecentFiles() {
         List<File> recentFiles = AutomataSaver.getRecentFiles();
 
@@ -314,21 +372,35 @@ public class MainPanel extends BorderPane {
         }
     }
 
+    /**
+     * Toggles the dark theme.
+     */
     @FXML
     private void toggleDarkTheme() {
         parent.toggleTheme();
     }
 
+    /**
+     * Gets the height of the menu bar.
+     * 
+     * @return the height of the menu bar
+     */
     public double getMenuBarHeight() {
         return menuBar.getHeight();
     }
 
+    /**
+     * Shows the info about the application.
+     */
     @FXML
     private void showInfo() {
         Alerts.createAlert(null, getScene(), "About", Constants.TITLE + " v" + Constants.VERSION,
                 "Created by Lorenzo Di Berardino, Mateo Gjika and Filippo Milani.", ButtonType.CLOSE).showAndWait();
     }
 
+    /**
+     * Closes the current automata.
+     */
     @FXML
     private void close() {
         if (!model.isSaved()) {
@@ -349,6 +421,9 @@ public class MainPanel extends BorderPane {
         model.setOpenedFile(null);
     }
 
+    /**
+     * Shows the legend of the automaton.
+     */
     @FXML
     private void showLegend() {
         Alert alert = Alerts.createAlert(null, getScene(), "Legend", null, null, ButtonType.CLOSE);
@@ -357,6 +432,9 @@ public class MainPanel extends BorderPane {
         alert.showAndWait();
     }
 
+    /**
+     * Shows the statistics of the automaton.
+     */
     @FXML
     private void showStats() {
         Alert alert = Alerts.createAlert(null, getScene(), "Statistics", null, null, ButtonType.CLOSE);
@@ -364,6 +442,9 @@ public class MainPanel extends BorderPane {
         alert.showAndWait();
     }
 
+    /**
+     * Exits the application.
+     */
     @FXML
     private void exit() {
         parent.exit();

@@ -14,7 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 /**
- *
+ * The body of the dialog that allows the user to add a new state to the
+ * automaton.
  */
 public class AddStateModalBody extends Pane {
 
@@ -29,6 +30,9 @@ public class AddStateModalBody extends Pane {
 
     private SimpleBooleanProperty emptyTextfieldProperty;
 
+    /**
+     * Creates a new state.
+     */
     public AddStateModalBody() {
         Methods.loadAndSetController(Constants.ADD_STATE_MODAL_BODY_FXML_FILENAME, this);
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
@@ -45,6 +49,11 @@ public class AddStateModalBody extends Pane {
         });
     }
 
+    /**
+     * Builds a new state from the data entered by the user.
+     *
+     * @return the new state
+     */
     public State buildState() {
         String label = stateLabelTextField.getText();
 
@@ -55,12 +64,20 @@ public class AddStateModalBody extends Pane {
         return null;
     }
 
+    /**
+     * Requests the focus on the text field.
+     */
     public void requestTextFieldFocus() {
         Platform.runLater(() -> {
             stateLabelTextField.requestFocus();
         });
     }
 
+    /**
+     * Returns the property that indicates whether the text field is empty.
+     *
+     * @return the property that indicates whether the text field is empty
+     */
     public ObservableValue<Boolean> emptyTextfieldProperty() {
         return emptyTextfieldProperty;
     }

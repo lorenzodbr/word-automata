@@ -9,10 +9,15 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.stage.Stage;
 
 /**
- *
+ * A dialog that allows the user to set the initial state of the automaton.
  */
 public class SetInitialStateModal extends ChoiceDialog<State> {
 
+    /**
+     * Sets the initial state.
+     *
+     * @param scene the scene to which the modal will be attached
+     */
     public SetInitialStateModal(Scene scene) {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
