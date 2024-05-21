@@ -145,26 +145,26 @@
 }
 
 .vertex {
-    -fx-stroke-width: 2;
+    -fx-stroke-width: 1;
     -fx-stroke: #002b36;
     -fx-stroke-type: inside; /* you should keep this if using arrows */
-    -fx-fill: #268bd2;
+    -fx-fill: #8CBEB2;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 0);
 }
 
 .final-state {
     -fx-stroke: #002b36;
-    -fx-fill: #d33682;
+    -fx-fill: #F06060;
 }
 
 .initial-state {
     -fx-stroke: #002b36;
-    -fx-fill: #2aa198;
+    -fx-fill: #F2EBBF;
 }
 
 .initial-state.final-state {
     -fx-stroke: #002b36;
-    -fx-fill: #859900;
+    -fx-fill: #F3B562;
 }
 
 .vertex:hover {
