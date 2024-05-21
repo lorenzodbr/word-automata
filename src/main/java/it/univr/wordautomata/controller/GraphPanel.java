@@ -524,13 +524,8 @@ public class GraphPanel extends StackPane {
 
     public void showStateSideBar(SmartGraphVertex<State> vertex) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
-        modalPane.show(getStateModal(vertex));
-    }
-
-    private StateModal getStateModal(SmartGraphVertex<State> vertex) {
         StateModal dialog = new StateModal(modalPane, vertex);
-
-        return dialog;
+        modalPane.show(dialog);
     }
 
     public void showTransitionSideBar(SmartGraphEdge<Transition, State> edge) {
