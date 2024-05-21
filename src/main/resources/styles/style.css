@@ -146,24 +146,24 @@
 
 .vertex {
     -fx-stroke-width: 1;
-    -fx-stroke: #002b36;
+    -fx-stroke: #8CBEB2;
     -fx-stroke-type: inside; /* you should keep this if using arrows */
     -fx-fill: #8CBEB2;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 0);
 }
 
 .final-state {
-    -fx-stroke: #002b36;
+    -fx-stroke: #F06060;
     -fx-fill: #F06060;
 }
 
 .initial-state {
-    -fx-stroke: #002b36;
+    -fx-stroke: #F2EBBF;
     -fx-fill: #F2EBBF;
 }
 
 .initial-state.final-state {
-    -fx-stroke: #002b36;
+    -fx-stroke: #F3B562;
     -fx-fill: #F3B562;
 }
 
