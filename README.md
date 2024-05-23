@@ -67,7 +67,7 @@ The initial state
 - You can save automata to file and open it later or on another machine.
 - Actions can be performed with shortcuts. They are stated near their titles in the menu bar.
 - You can enable dark mode globally (you may also argue: *why isn't it enabled by default?* and you would be probably right).
-- If you need a hint on state colors' meaning, you can check them in ``Help`` > ``Legend``
+- If you need a hint on state colors' meaning, you can check them in ``Help`` > ``Legend``.
 
 ## License
 
