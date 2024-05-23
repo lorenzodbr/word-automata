@@ -21,6 +21,10 @@ Word Automata is a graphical tool that allows you to create and simulate automat
 
 Instructions will be added soon™. As of right now, you can just clone the repository and run the project with Maven, using Java $\geq$ 21.
 
+## Dependencies
+
+TODO
+
 ## Usage
 
 ### Adding a state
@@ -59,9 +63,11 @@ The initial state
 
 ### Additional features
 
-- Since the project uses a modified version of [JavaFXSmartGraph](https://github.com/brunomnsilva/JavaFXSmartGraph), automata graphs can be arranged automatically by toggling the "Auto-position" menu in "Settings".
-- You can export and import automata in a custom format.
-- You can enable dark mode, of course (you could argue: *why isn't it enabled by default?* and you would be probably right).
+- Since the project uses a modified version of [JavaFXSmartGraph](https://github.com/brunomnsilva/JavaFXSmartGraph), automata graphs can be arranged automatically by toggling the ``Auto-position`` menu in ``Settings``.
+- You can save automata to file and open it later or on another machine.
+- Actions can be performed with shortcuts. They are stated near their titles in the menu bar.
+- You can enable dark mode globally (you may also argue: *why isn't it enabled by default?* and you would be probably right).
+- If you need a hint on state colors' meaning, you can check them in ``Help`` > ``Legend``
 
 ## License
 
