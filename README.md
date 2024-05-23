@@ -1,5 +1,5 @@
 # Word Automata
-> Final project of Software Engineering course @ UniVR &mdash; A.Y. 2023/2024
+> Final project for my Software Engineering course @ UniVR &mdash; A.Y. 2023/2024
 
 ## Description
 
