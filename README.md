@@ -2,7 +2,11 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![Build passed](https://img.shields.io/badge/build-passed-brightgreen)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Maintainability](https://img.shields.io/badge/maintainability-A-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
+![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)
 ![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 
