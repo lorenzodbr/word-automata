@@ -11,7 +11,7 @@
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 
 
-> Final project for my Software Engineering course @ UniVR &mdash; A.Y. 2023/2024. A simple documentation (written in italian) can be found [here](https://github.com/lorenzodbr/word-automata-doc), but you can also find the ``javadoc`` (written in english) in this repository. 
+> Final project for my Software Engineering course @ UniVR &mdash; A.Y. 2023/2024. A simple documentation (written in Italian) can be found [here](https://github.com/lorenzodbr/word-automata-doc). An English version of ``javadoc`` is also included in this repository. 
 
 ## Description
 
