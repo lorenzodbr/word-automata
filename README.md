@@ -1,5 +1,13 @@
 # Word Automata
-> Final project for my Software Engineering course @ UniVR &mdash; A.Y. 2023/2024
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![Build passed](https://img.shields.io/badge/build-passed-brightgreen)
+
+![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)
+![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+
+
+> Final project for my Software Engineering course @ UniVR &mdash; A.Y. 2023/2024. A simple documentation (written in italian) can be found [here](TODO), but you can also find the ``javadoc`` (written in english) in this repository. 
 
 ## Description
 
@@ -7,7 +15,7 @@ Word Automata is a graphical tool that allows you to create and simulate automat
 
 ## Installation
 
-Instructions will be added soon™.
+Instructions will be added soon™. As of right now, you can just clone the repository and run the project with Maven, using Java $\geq$ 21.
 
 ## Usage
 
@@ -25,13 +33,15 @@ Instructions will be added soon™.
 
 ![Setting the initial state](res/initial_state.gif)
 
-> By default, the initial state is the first state you add. You can change this by right-clicking on a state and selecting "Set as initial state".
+> Note: by default, the initial state is the first state you add. You can change this by right-clicking on a state and selecting "Set as initial state".
 
 ### Edit a state
 
 ![Edit a state](res/edit_state.gif)
 
-> In this section you can edit the state label and set it as final. You can also delete the state or add transitions bounded to it.
+The initial state 
+
+> Note: in this section you can edit the state label and set it as final. You can also delete the state or add transitions bounded to it.
 
 ### Edit a transition
 
@@ -41,4 +51,14 @@ Instructions will be added soon™.
 
 ![Search for a word](res/search.gif)
 
-> The action will show you the path that the automaton takes on the given word, highlighting the followed transitions.
+> Note: the action will show you the path that the automaton takes on the given word, highlighting the followed transitions.
+
+### Additional features
+
+- Since the project uses a modified version of [JavaFXSmartGraph](https://github.com/brunomnsilva/JavaFXSmartGraph), automata graphs can be arranged automatically by toggling the "Auto-position" menu in "Settings".
+- You can export and import automata in a custom format.
+- You can enable dark mode, of course (you could argue: *why isn't it enabled by default?* and you would be probably right).
+
+## License
+
+This project is licensed under the GPL-3. You can find the full license [here](LICENSE).
