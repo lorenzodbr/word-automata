@@ -505,7 +505,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
         setOnMousePressed((MouseEvent mouseEvent) -> {
             if (mouseEvent.isPrimaryButtonDown()) {
-                if (mouseEvent.isControlDown()) {
+                if (mouseEvent.isControlDown() || mouseEvent.isShiftDown() || mouseEvent.isAltDown()) {
                     return;
                 }
 
@@ -555,7 +555,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
                 double x = boundVertexNodeXPositioning(newX, 0, getParent().getLayoutBounds().getWidth());
                 double y = boundVertexNodeYPositioning(newY, 0, getParent().getLayoutBounds().getHeight());
 
-                if (mouseEvent.isControlDown()) {
+                if (mouseEvent.isControlDown() || mouseEvent.isShiftDown() || mouseEvent.isAltDown()) {
                     if (!transitionDrag) {
                         transitionDrag = true;
                         parent.addDummyEdge(this);
