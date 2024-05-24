@@ -24,10 +24,10 @@ Instructions will be added soon™. As of right now, you can just clone the repo
 ## Dependencies
 
 The project use the following dependencies:
-- [JavaFXSmartGraph](https://github.com/brunomnsilva/JavaFXSmartGraph)
-- ``[AtlantaFX](https://github.com/mkpaz/atlantafx)``
-- ``[Ikonli](https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-javafx)``
-- ``[JNA Platform](https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform)``
+- [``JavaFXSmartGraph``](https://github.com/brunomnsilva/JavaFXSmartGraph)
+- [``AtlantaFX``](https://github.com/mkpaz/atlantafx)
+- [``ikonli``](https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-javafx)
+- [``jna-platform``](https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform)
 
 ## Usage
 
