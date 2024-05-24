@@ -10,7 +10,6 @@
 ![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 
-
 > Final project for my Software Engineering course @ UniVR &mdash; A.Y. 2023/2024. A simple documentation (written in Italian) can be found [here](https://github.com/lorenzodbr/word-automata-doc). An English version of ``javadoc`` is also included in this repository. 
 
 ## Description
@@ -45,7 +44,7 @@ The project uses the following dependencies:
 
 ![Setting the initial state](res/initial_state.gif)
 
-> Note: by default, the initial state is the first state you add. You can change this by right-clicking on a state and selecting "Set as initial state".
+> Note: by default, the initial state is the first state you add. You can change it by right-clicking on a state and selecting "Set as initial state".
 
 ### Edit a state
 
@@ -63,7 +62,7 @@ The initial state
 
 ![Search for a word](res/search.gif)
 
-> Note: the action will show you the path that the automaton takes on the given word, highlighting the followed transitions.
+> Note: this action will show the path that the automaton takes on the given word, highlighting the followed transitions.
 
 ### Additional features
 
