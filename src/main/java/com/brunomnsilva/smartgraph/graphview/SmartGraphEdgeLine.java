@@ -68,9 +68,10 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
      * @param outbound the outbound SmartGraphVertexNode
      */
     public SmartGraphEdgeLine(Edge<E, V> edge, SmartGraphVertexNode<V> inbound, SmartGraphVertexNode<V> outbound) {
-        if (inbound == null || outbound == null) {
-            throw new IllegalArgumentException("Cannot connect null vertices.");
-        }
+        // Removed this because null vertices may be needed in some cases
+        // if (inbound == null || outbound == null) {
+        // throw new IllegalArgumentException("Cannot connect null vertices.");
+        // }
 
         this.inbound = inbound;
         this.outbound = outbound;
@@ -81,10 +82,13 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         styleProxy.addStyleClass("edge");
 
         // bind start and end positions to vertices centers through properties
+
         this.startXProperty().bind(outbound.centerXProperty());
         this.startYProperty().bind(outbound.centerYProperty());
-        this.endXProperty().bind(inbound.centerXProperty());
-        this.endYProperty().bind(inbound.centerYProperty());
+        if (inbound != null) {
+            this.endXProperty().bind(inbound.centerXProperty());
+            this.endYProperty().bind(inbound.centerYProperty());
+        }
 
         propagateHoverEffectToArrow();
 
@@ -95,6 +99,10 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
                 contextMenu.show(this, event.getScreenX(), event.getScreenY());
             }
         });
+    }
+
+    public SmartGraphEdgeLine(Edge<E, V> edge, SmartGraphVertexNode<V> outbound) {
+        this(edge, null, outbound);
     }
 
     @Override
@@ -171,10 +179,11 @@ public class SmartGraphEdgeLine<E, V> extends Line implements SmartGraphEdgeBase
         arrow.getTransforms().add(rotation);
 
         /* add translation transform to put the arrow touching the circle's bounds */
-        Translate t = new Translate(0, 0);
-        t.xProperty().bind(inbound.radiusProperty().negate());
-
-        arrow.getTransforms().add(t);
+        if (inbound != null) {
+            Translate t = new Translate(0, 0);
+            t.xProperty().bind(inbound.radiusProperty().negate());
+            arrow.getTransforms().add(t);
+        }
     }
 
     @Override
