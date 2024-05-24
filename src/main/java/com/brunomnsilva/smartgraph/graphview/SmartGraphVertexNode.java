@@ -28,7 +28,6 @@ import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
 
 import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.model.State;
-import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -94,7 +93,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
     private final ContextMenu contextMenu;
 
-    private final SmartGraphPanel<State, Transition> parent;
+    private final SmartGraphPanel<?, ?> parent;
 
     /*
      * Shape proxy and related properties used to represent the underlying vertex.
@@ -122,7 +121,7 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
      *                                  if <code>x</code> or <code>y</code> or
      *                                  <code>radius</code> are negative.
      */
-    public SmartGraphVertexNode(SmartGraphPanel parent, Vertex<T> v, double x, double y, double radius,
+    public SmartGraphVertexNode(SmartGraphPanel<?, ?> parent, Vertex<T> v, double x, double y, double radius,
             String shapeType, boolean allowMove,
             boolean labelInside) {
         this.underlyingVertex = v;
@@ -530,7 +529,6 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
                 transitionDrag = false;
                 Node vertex = pick(parent, mouseEvent.getSceneX(), mouseEvent.getSceneY());
                 if (vertex instanceof SmartGraphVertexNode vAsVertex) {
-                    System.out.println(vAsVertex.getUnderlyingVertex().element());
                     Components.getInstance().getGraphPanel().addEdge((State) this.getUnderlyingVertex().element(),
                             (State) (vAsVertex).getUnderlyingVertex().element());
                 }
@@ -631,26 +629,6 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
             return minCoordValue + lengthToTop;
         } else if (yCoord > maxCoordValue - lengthToBottom) {
             return maxCoordValue - lengthToBottom;
-        } else {
-            return yCoord;
-        }
-    }
-
-    private double boundDummyEdgeXPositioning(double xCoord, double minCoordValue, double maxCoordValue) {
-        if (xCoord < minCoordValue) {
-            return minCoordValue;
-        } else if (xCoord > maxCoordValue) {
-            return maxCoordValue;
-        } else {
-            return xCoord;
-        }
-    }
-
-    private double boundDummyEdgeYPositioning(double yCoord, double minCoordValue, double maxCoordValue) {
-        if (yCoord < minCoordValue) {
-            return minCoordValue;
-        } else if (yCoord > maxCoordValue) {
-            return maxCoordValue;
         } else {
             return yCoord;
         }

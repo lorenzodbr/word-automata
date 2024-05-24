@@ -30,7 +30,6 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.NamedArg;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.BoundingBox;
@@ -1504,8 +1503,9 @@ public class SmartGraphPanel<V, E> extends Pane {
         }
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addDummyEdge(SmartGraphVertexNode v) {
-        dummyEdge = new SmartGraphEdgeLine(null, v);
+        dummyEdge = new SmartGraphEdgeLine<E, V>(null, v);
         SmartArrow arrow = new SmartArrow(this.graphProperties.getEdgeArrowSize());
         dummyEdge.attachArrow(arrow);
         this.getChildren().add(0, arrow);

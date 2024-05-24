@@ -1,9 +1,7 @@
 package it.univr.wordautomata.controller;
 
-import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
-
-import java.beans.EventHandler;
 import java.io.File;
+
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
@@ -11,7 +9,6 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
-import com.brunomnsilva.smartgraph.graphview.SmartGraphVertexNode;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.theme.Styles;
@@ -21,8 +18,8 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
-import it.univr.wordautomata.utils.Methods;
 import it.univr.wordautomata.utils.Constants.Orientation;
+import it.univr.wordautomata.utils.Methods;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,10 +29,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
