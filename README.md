@@ -40,6 +40,8 @@ The project uses the following dependencies:
 
 ![Adding a transition](res/transition.gif)
 
+> Note: you can also add a new transition between two states by holding ``Ctrl`` and dragging from the source to the target state.
+
 ### Setting the initial state
 
 ![Setting the initial state](res/initial_state.gif)
