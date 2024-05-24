@@ -12,11 +12,11 @@ import javafx.stage.Stage;
  *
  */
 public class AddTransitionModal extends Dialog<TransitionWrapper> {
-    public AddTransitionModal(Scene scene, State initialState) {
+    public AddTransitionModal(Scene scene, State initialState, State endingState) {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
         setTitle("Add transition");
-        AddTransitionModalBody body = new AddTransitionModalBody(initialState);
+        AddTransitionModalBody body = new AddTransitionModalBody(initialState, endingState);
 
         getDialogPane().setContent(body);
         initOwner(scene.getWindow());

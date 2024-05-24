@@ -24,7 +24,11 @@
 package com.brunomnsilva.smartgraph.graphview;
 
 import com.brunomnsilva.smartgraph.graph.Vertex;
+import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
 
+import it.univr.wordautomata.controller.Components;
+import it.univr.wordautomata.model.State;
+import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -33,6 +37,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -62,6 +67,8 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
     private boolean isDragging;
 
+    private boolean transitionDrag;
+
     private boolean allowMove;
 
     private boolean labelInside;
@@ -86,6 +93,8 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
     private SmartLabel attachedLabel;
 
     private final ContextMenu contextMenu;
+
+    private final SmartGraphPanel<State, Transition> parent;
 
     /*
      * Shape proxy and related properties used to represent the underlying vertex.
@@ -113,14 +122,17 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
      *                                  if <code>x</code> or <code>y</code> or
      *                                  <code>radius</code> are negative.
      */
-    public SmartGraphVertexNode(Vertex<T> v, double x, double y, double radius, String shapeType, boolean allowMove,
+    public SmartGraphVertexNode(SmartGraphPanel parent, Vertex<T> v, double x, double y, double radius,
+            String shapeType, boolean allowMove,
             boolean labelInside) {
         this.underlyingVertex = v;
         this.adjacentVertices = new HashSet<>();
 
         this.attachedLabel = null;
         this.isDragging = false;
+        this.transitionDrag = false;
         this.labelInside = labelInside;
+        this.parent = parent;
 
         /* Shape proxy */
         this.centerX = new SimpleDoubleProperty();
@@ -494,6 +506,10 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
         setOnMousePressed((MouseEvent mouseEvent) -> {
             if (mouseEvent.isPrimaryButtonDown()) {
+                if (mouseEvent.isControlDown()) {
+                    return;
+                }
+
                 // record a delta distance for the drag and drop operation.
                 dragDelta.x = getCenterX() - mouseEvent.getX();
                 dragDelta.y = getCenterY() - mouseEvent.getY();
@@ -509,9 +525,24 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
         });
 
         setOnMouseReleased((MouseEvent mouseEvent) -> {
+            if (transitionDrag) {
+                parent.removeDummyEdge();
+                transitionDrag = false;
+                Node vertex = pick(parent, mouseEvent.getSceneX(), mouseEvent.getSceneY());
+                if (vertex instanceof SmartGraphVertexNode vAsVertex) {
+                    System.out.println(vAsVertex.getUnderlyingVertex().element());
+                    Components.getInstance().getGraphPanel().addEdge((State) this.getUnderlyingVertex().element(),
+                            (State) (vAsVertex).getUnderlyingVertex().element());
+                }
+                return;
+            }
+
             if (allowMove) { // necessary after a possible drag operation
                 setCursor(Cursor.HAND);
             }
+
+            if (isDragging || transitionDrag)
+                contextMenu.hide();
 
             isDragging = false;
 
@@ -520,19 +551,38 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
         setOnMouseDragged((MouseEvent mouseEvent) -> {
             if (mouseEvent.isPrimaryButtonDown()) {
+                double newX = mouseEvent.getX() + dragDelta.x;
+                double newY = mouseEvent.getY() + dragDelta.y;
+
+                double x = boundVertexNodeXPositioning(newX, 0, getParent().getLayoutBounds().getWidth());
+                double y = boundVertexNodeYPositioning(newY, 0, getParent().getLayoutBounds().getHeight());
+
+                if (mouseEvent.isControlDown()) {
+                    if (!transitionDrag) {
+                        transitionDrag = true;
+                        parent.addDummyEdge(this);
+                    }
+
+                    parent.updateDummyEdge(x, y);
+                    return;
+                }
+
+                if (!isDragging) {
+                    if (transitionDrag)
+                        parent.updateDummyEdge(x, y);
+                    return;
+                }
+
                 if (allowMove && getCursor() != Cursor.MOVE) {
                     setCursor(Cursor.MOVE);
                 }
 
-                double newX = mouseEvent.getX() + dragDelta.x;
-                double x = boundVertexNodeXPositioning(newX, 0, getParent().getLayoutBounds().getWidth());
                 setCenterX(x);
-
-                double newY = mouseEvent.getY() + dragDelta.y;
-                double y = boundVertexNodeYPositioning(newY, 0, getParent().getLayoutBounds().getHeight());
                 setCenterY(y);
 
                 mouseEvent.consume();
+            } else if (mouseEvent.isSecondaryButtonDown()) {
+                isDragging = true;
             }
         });
 
@@ -581,6 +631,26 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
             return minCoordValue + lengthToTop;
         } else if (yCoord > maxCoordValue - lengthToBottom) {
             return maxCoordValue - lengthToBottom;
+        } else {
+            return yCoord;
+        }
+    }
+
+    private double boundDummyEdgeXPositioning(double xCoord, double minCoordValue, double maxCoordValue) {
+        if (xCoord < minCoordValue) {
+            return minCoordValue;
+        } else if (xCoord > maxCoordValue) {
+            return maxCoordValue;
+        } else {
+            return xCoord;
+        }
+    }
+
+    private double boundDummyEdgeYPositioning(double yCoord, double minCoordValue, double maxCoordValue) {
+        if (yCoord < minCoordValue) {
+            return minCoordValue;
+        } else if (yCoord > maxCoordValue) {
+            return maxCoordValue;
         } else {
             return yCoord;
         }

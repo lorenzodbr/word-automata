@@ -1,5 +1,8 @@
 package it.univr.wordautomata.controller;
 
+import static com.brunomnsilva.smartgraph.graphview.UtilitiesJavaFX.pick;
+
+import java.beans.EventHandler;
 import java.io.File;
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Edge;
@@ -8,6 +11,7 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
+import com.brunomnsilva.smartgraph.graphview.SmartGraphVertexNode;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.theme.Styles;
@@ -28,8 +32,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -402,11 +408,16 @@ public class GraphPanel extends StackPane {
 
     @FXML
     public boolean addEdge() {
-        return addEdge(null);
+        return addEdge(null, null);
     }
 
     public boolean addEdge(State startingState) {
-        TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState).showAndWait().orElse(null);
+        return addEdge(startingState, null);
+    }
+
+    public boolean addEdge(State startingState, State endingState) {
+        TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState, endingState).showAndWait()
+                .orElse(null);
 
         if (newTransition == null) {
             return false;

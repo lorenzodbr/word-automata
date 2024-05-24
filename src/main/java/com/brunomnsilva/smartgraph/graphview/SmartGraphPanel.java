@@ -30,6 +30,7 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.NamedArg;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.BoundingBox;
@@ -102,6 +103,8 @@ public class SmartGraphPanel<V, E> extends Pane {
     private final Map<Tuple<SmartGraphVertexNode<V>>, Integer> placedEdges = new HashMap<>();
     private boolean initialized = false;
     private final boolean edgesWithArrows;
+
+    private SmartGraphEdgeLine<E, V> dummyEdge;
 
     /*
      * INTERACTION WITH VERTICES, EDGES AND BACKGROUND
@@ -710,7 +713,8 @@ public class SmartGraphPanel<V, E> extends Pane {
         // Read shape radius from annotation or use default
         double shapeRadius = getVertexShapeRadiusFor(v.element());
 
-        return new SmartGraphVertexNode<>(v,
+        return new SmartGraphVertexNode<>(this,
+                v,
                 x, y,
                 shapeRadius, shapeType,
                 graphProperties.getVertexAllowUserMove(),
@@ -1402,6 +1406,10 @@ public class SmartGraphPanel<V, E> extends Pane {
     @SuppressWarnings("unchecked")
     private void enableDoubleClickListener() {
         setOnMouseClicked((MouseEvent mouseEvent) -> {
+            if (mouseEvent.isControlDown()) {
+                return;
+            }
+
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                 if (mouseEvent.getClickCount() == 2) {
 
@@ -1428,7 +1436,6 @@ public class SmartGraphPanel<V, E> extends Pane {
                         }
                     }
                 }
-
             } else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                 Node node = pick(SmartGraphPanel.this, mouseEvent.getSceneX(), mouseEvent.getSceneY());
                 if (node != null && Model.getInstance().hasAtLeastOneVertex() && node instanceof SmartGraphPanel) {
@@ -1497,4 +1504,26 @@ public class SmartGraphPanel<V, E> extends Pane {
         }
     }
 
+    public void addDummyEdge(SmartGraphVertexNode v) {
+        dummyEdge = new SmartGraphEdgeLine(null, v);
+        SmartArrow arrow = new SmartArrow(this.graphProperties.getEdgeArrowSize());
+        dummyEdge.attachArrow(arrow);
+        this.getChildren().add(0, arrow);
+        this.getChildren().add(0, dummyEdge);
+    }
+
+    public void updateDummyEdge(double x, double y) {
+        if (dummyEdge != null) {
+            dummyEdge.setEndX(x);
+            dummyEdge.setEndY(y);
+        }
+    }
+
+    public void removeDummyEdge() {
+        if (dummyEdge != null) {
+            getChildren().remove(dummyEdge);
+            getChildren().remove(dummyEdge.getAttachedArrow());
+            dummyEdge = null;
+        }
+    }
 }
