@@ -50,8 +50,6 @@ The project uses the following dependencies:
 
 ![Edit a state](res/edit_state.gif)
 
-The initial state 
-
 > Note: in this section you can edit the state label and set it as final. You can also delete the state or add transitions bounded to it.
 
 ### Edit a transition
