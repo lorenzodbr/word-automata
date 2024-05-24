@@ -19,7 +19,7 @@ Word Automata is a graphical tool that allows you to create and simulate automat
 
 ## Installation
 
-Instructions will be added soon™. As of right now, you can just clone the repository and run the project with Maven, using Java $\geq$ 21.
+Instructions will be added soon™. As of right now, you can just clone the repository and run the project with Maven, using at least Java 21.
 
 ## Dependencies
 
