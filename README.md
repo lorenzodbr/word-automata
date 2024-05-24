@@ -23,7 +23,7 @@ Instructions will be added soon™. As of right now, you can just clone the repo
 
 ## Dependencies
 
-The project use the following dependencies:
+The project uses the following dependencies:
 - [``JavaFXSmartGraph``](https://github.com/brunomnsilva/JavaFXSmartGraph)
 - [``AtlantaFX``](https://github.com/mkpaz/atlantafx)
 - [``ikonli``](https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-javafx)
