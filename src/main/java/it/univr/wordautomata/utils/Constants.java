@@ -44,6 +44,8 @@ public class Constants {
     public final static String TITLE = "Word Automata";
     public final static boolean DEFAULT_AUTO_POSITION = false;
 
+    public final static String GITHUB_URL = "https://github.com/lorenzodbr/word-automata";
+
     // CSS classes
     public final static String SPEED_CIRCLE_CLASS = "speedCircle";
     public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speedCircleActive";

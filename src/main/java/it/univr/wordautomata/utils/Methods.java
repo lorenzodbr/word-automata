@@ -227,4 +227,17 @@ public class Methods {
                             || e.vertices()[1].element().getLabel().get().equals(state);
                 });
     }
+
+    /**
+     * Opens the given link.
+     * 
+     * @param url the link to open
+     */
+    public static void openLink(String url) {
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
