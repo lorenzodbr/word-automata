@@ -108,6 +108,13 @@
                     <items>
                         <MenuItem fx:id="legendMenuItem" mnemonicParsing="true" text="_Legend"
                             onAction="#showLegend" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#openGitHub"
+                            text="Open project page">
+                            <graphic>
+                                <FontIcon iconLiteral="bxl-github" />
+                            </graphic>
+                        </MenuItem>
                         <MenuItem mnemonicParsing="true" onAction="#showInfo" text="A_bout">
                             <graphic>
                                 <FontIcon iconLiteral="bx-question-mark" />

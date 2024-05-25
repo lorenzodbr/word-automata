@@ -365,6 +365,11 @@ public class MainPanel extends BorderPane {
     }
 
     @FXML
+    private void openGitHub() {
+        Methods.openLink(Constants.GITHUB_URL);
+    }
+
+    @FXML
     private void exit() {
         parent.exit();
     }
