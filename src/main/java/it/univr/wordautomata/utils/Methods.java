@@ -18,7 +18,6 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -240,7 +239,7 @@ public class Methods {
      * @param url the link to open
      */
     public static void openLink(String url) {
-        Platform.runLater(() -> {
+        if (com.sun.jna.Platform.isWindows()) {
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
                 try {
@@ -248,17 +247,21 @@ public class Methods {
                     return;
                 } catch (Exception e) {
                 }
-            } else {
-                Runtime runtime = Runtime.getRuntime();
-                try {
-                    runtime.exec(new String[] { "xdg-open " + url });
-                    return;
-                } catch (Exception e) {
-                }
             }
+        } else {
+            String commandName = "xdg-open";
+            if (com.sun.jna.Platform.isMac())
+                commandName = "open";
 
-            openModalLink(url);
-        });
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec(new String[] { commandName + " " + url });
+                return;
+            } catch (Exception e) {
+            }
+        }
+
+        openModalLink(url);
     }
 
     /**
