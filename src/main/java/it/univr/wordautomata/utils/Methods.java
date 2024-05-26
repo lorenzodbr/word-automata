@@ -6,8 +6,11 @@ import it.univr.wordautomata.controller.Components;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Button;
+import java.awt.Desktop;
 
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -18,10 +21,13 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -234,10 +240,34 @@ public class Methods {
      * @param url the link to open
      */
     public static void openLink(String url) {
-        try {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (Desktop.isDesktopSupported() &&
+                Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(URI.create(url));
+                return;
+            } catch (Exception e) {
+            }
         }
+
+        openModalLink(url);
+    }
+
+    /**
+     * Shows the given link in a modal dialog.
+     * 
+     * @param url the link to show
+     */
+    public static void openModalLink(String url) {
+        Scene scene = Components.getInstance().getScene();
+
+        TextInputDialog dialog = new TextInputDialog(url);
+        dialog.setTitle("Open link");
+        dialog.getEditor().setEditable(false);
+        dialog.setHeaderText(
+                "Ouch! It seems like your system does\nnot support opening links. Copy the link\nbelow and paste it in your browser.");
+        dialog.getDialogPane().getStylesheets().addAll(scene.getRoot().getStylesheets());
+        dialog.initOwner(scene.getWindow());
+        dialog.getDialogPane().getButtonTypes().setAll(ButtonType.CLOSE);
+        dialog.showAndWait();
     }
 }
