@@ -239,10 +239,17 @@ public class Methods {
      * @param url the link to open
      */
     public static void openLink(String url) {
-        if (Desktop.isDesktopSupported() &&
-                Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
             try {
-                Desktop.getDesktop().browse(URI.create(url));
+                desktop.browse(new URI(url));
+                return;
+            } catch (Exception e) {
+            }
+        } else {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec(new String[] { "xdg-open " + url });
                 return;
             } catch (Exception e) {
             }
