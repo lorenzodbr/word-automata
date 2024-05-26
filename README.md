@@ -67,6 +67,7 @@ The project uses the following dependencies:
 ### Additional features
 
 - Since the project uses an adapted version of [JavaFXSmartGraph](https://github.com/brunomnsilva/JavaFXSmartGraph), automata graphs can be arranged automatically by toggling the ``Auto-position`` menu in ``Settings``.
+- When timeline is playing, you can stop it and move it forward and backward by one transition at a time. You can also increase or decrease the animation speed. 
 - You can save automata to file and open it later or on another machine.
 - Actions can be performed with shortcuts. They are stated near their titles in the menu bar.
 - You can enable dark mode globally (you may also argue: *why isn't it enabled by default?* and you would be probably right).
