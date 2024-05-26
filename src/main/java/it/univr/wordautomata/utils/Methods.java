@@ -255,7 +255,7 @@ public class Methods {
 
             Runtime runtime = Runtime.getRuntime();
             try {
-                runtime.exec(new String[] { commandName + " " + url });
+                runtime.exec(new String[] { commandName, url });
                 return;
             } catch (Exception e) {
             }
