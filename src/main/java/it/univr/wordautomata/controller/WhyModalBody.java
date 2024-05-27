@@ -25,11 +25,19 @@ public class WhyModalBody extends VBox {
     @FXML
     private Circle atLeastAFinalStateIndicator;
 
+    /*
+     * The body of the dialog that shows the reasons why the automaton is rejecting
+     * the word.
+     */
     public WhyModalBody() {
         Methods.loadAndSetController(Constants.WHY_MODAL_BODY_FXML_FILENAME, this);
         initCircles();
     }
 
+    /*
+     * Initializes the circles that represent the reasons why the automaton is
+     * rejecting the word.
+     */
     private void initCircles() {
         setCircleClass(consumedEntireWordIndicator, PathFinder.consumedAllWordProperty().get());
         setCircleClass(endedOnFinalStateIndicator, PathFinder.endedOnFinalStateProperty().get());
@@ -49,6 +57,10 @@ public class WhyModalBody extends VBox {
                         newValue.intValue() > 0));
     }
 
+    /*
+     * Sets the class of the given circle based on the success of the condition it
+     * represents.
+     */
     private void setCircleClass(Circle circle, boolean success) {
         String cssClass = Constants.CIRCLE_FAILURE_CLASS;
         if (success)
