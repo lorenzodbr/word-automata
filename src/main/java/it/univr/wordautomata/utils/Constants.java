@@ -3,8 +3,6 @@ package it.univr.wordautomata.utils;
 import java.io.File;
 import java.util.Random;
 
-import javafx.scene.paint.Color;
-
 /**
  * Constants used in the application
  */

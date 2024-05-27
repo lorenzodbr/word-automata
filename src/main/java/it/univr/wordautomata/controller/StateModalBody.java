@@ -111,7 +111,8 @@ public class StateModalBody extends GridPane {
         });
 
         markAsFinalCheckbox.setSelected(state.isFinal());
-        state.finalProperty().bind(markAsFinalCheckbox.selectedProperty());
+        markAsFinalCheckbox.selectedProperty()
+                .addListener((observable, oldValue, newValue) -> state.setFinal(newValue));
         markAsFinalCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 vertex.addStyleClass(Constants.FINAL_STATE_CLASS);

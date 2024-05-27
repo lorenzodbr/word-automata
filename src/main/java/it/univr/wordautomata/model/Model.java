@@ -17,6 +17,7 @@ import it.univr.wordautomata.utils.Constants.PlayBackSpeed;
 import it.univr.wordautomata.utils.Constants.PlayBackState;
 import it.univr.wordautomata.utils.Constants.Theme;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
@@ -49,6 +50,7 @@ public class Model {
 
     private SimpleBooleanProperty atLeastOneVertex;
     private SimpleBooleanProperty atLeastOneEdge;
+    private SimpleIntegerProperty finalStateCountProperty;
     private SimpleBooleanProperty autoPosition;
     private SimpleBooleanProperty pathFound;
 
@@ -62,6 +64,7 @@ public class Model {
 
         this.atLeastOneVertex = new SimpleBooleanProperty(false);
         this.atLeastOneEdge = new SimpleBooleanProperty(false);
+        this.finalStateCountProperty = new SimpleIntegerProperty(0);
         this.autoPosition = new SimpleBooleanProperty(Constants.DEFAULT_AUTO_POSITION);
         this.pathFound = new SimpleBooleanProperty(false);
         this.saved = new SimpleBooleanProperty(true);
@@ -352,7 +355,8 @@ public class Model {
     }
 
     /**
-     * Returns a property telling if there is at least one vertex in the current graph
+     * Returns a property telling if there is at least one vertex in the current
+     * graph
      *
      * @return the `at least one vertex` property
      */
@@ -367,6 +371,16 @@ public class Model {
      */
     public SimpleBooleanProperty atLeastOneEdgeProperty() {
         return atLeastOneEdge;
+    }
+
+    /**
+     * Returns a property telling if there is at least one final state in the
+     * current graph.
+     *
+     * @return the `at least one final state` property
+     */
+    public SimpleIntegerProperty finalStatesCountProperty() {
+        return finalStateCountProperty;
     }
 
     /**
@@ -388,11 +402,12 @@ public class Model {
     }
 
     /**
-     * Updates the graph property reflecting the current state of the graph. 
+     * Updates the graph property reflecting the current state of the graph.
      */
     public void updateGraphProperties() {
         atLeastOneVertex.set(graph.numVertices() > 0);
         atLeastOneEdge.set(graph.numEdges() > 0);
+        finalStateCountProperty.set((int) graph.vertices().stream().filter(s -> s.element().isFinal()).count());
     }
 
     /**

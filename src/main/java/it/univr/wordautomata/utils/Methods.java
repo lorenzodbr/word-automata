@@ -18,6 +18,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -111,13 +112,23 @@ public class Methods {
         List<MenuItem> items = new ArrayList<>();
 
         if (node instanceof SmartGraphVertex nAsV) {
+            State state = (State) nAsV.getUnderlyingVertex().element();
+
+            MenuItem setFinalItem = new MenuItem("Final state");
             MenuItem setAsInitialStateItem = new MenuItem("Set as initial state");
+
+            setFinalItem.graphicProperty().bind(
+                    Bindings.when(state.finalProperty())
+                            .then(new FontIcon(BoxiconsRegular.CHECK))
+                            .otherwise((FontIcon) null));
+
             MenuItem addTransitionMenuItem = new MenuItem("Add transition",
                     new FontIcon(BoxiconsRegular.LOG_IN_CIRCLE));
 
             items.add(detailsItem);
             items.add(new SeparatorMenuItem());
             items.add(addTransitionMenuItem);
+            items.add(setFinalItem);
             items.add(setAsInitialStateItem);
             items.add(new SeparatorMenuItem());
             items.add(deleteItem);
@@ -141,7 +152,16 @@ public class Methods {
                     });
             setAsInitialStateItem.disableProperty()
                     .bind(Model.getInstance().initialStateProperty().isEqualTo(nAsV.getUnderlyingVertex().element()));
-
+            setFinalItem.setOnAction(
+                    e -> {
+                        contextMenu.hide();
+                        state.setFinal(!state.isFinal());
+                        if(state.isFinal()) {
+                            nAsV.addStyleClass(Constants.FINAL_STATE_CLASS);
+                        } else {
+                            nAsV.removeStyleClass(Constants.FINAL_STATE_CLASS);
+                        }
+                    });
             addTransitionMenuItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel()
                             .addEdge((State) nAsV.getUnderlyingVertex().element()));
