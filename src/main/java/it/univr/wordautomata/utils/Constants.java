@@ -61,6 +61,8 @@ public class Constants {
     public final static String ZOOM_LABEL_CLASS = "zoom-label";
     public final static String NO_PATH_FOUND_TEXT_CLASS = "no-path-found-label";
     public final static String NO_PATH_FOUND_PANEL_CLASS = "no-path-found-panel";
+    public final static String CIRCLE_SUCCESS_CLASS = "circle-success";
+    public final static String CIRCLE_FAILURE_CLASS = "circle-failure";
 
     public final static String TRANSITION_CSS_HORIZONTAL_ALREADY_COLORED = "-fx-stroke: linear-gradient(to %s, -color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);";
     public final static String TRANSITION_CSS_HORIZONTAL = "-fx-stroke: linear-gradient(from %d%% 0%% to %d%% 0%%, -color-danger-4, -color-neutral-emphasis);";
@@ -84,8 +86,6 @@ public class Constants {
             System.getProperty("user.home") + System.getProperty("file.separator")
                     + DEFAULT_AUTOMATA_FILENAME + AUTOMATA_EXTENSION);
     public static final File INITIAL_DIRECTORY = new File(System.getProperty("user.home"));
-    public static final Color CIRCLE_SUCCESS_COLOR = Color.valueOf("#29903b");
-    public static final Color CIRCLE_FAILURE_COLOR = Color.valueOf("#cc0000");
 
     // Enums
     public enum PlayBackSpeed {

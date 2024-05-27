@@ -22,15 +22,21 @@ public class WhyModalBody extends VBox {
     }
 
     private void initCircles() {
-        consumedEntireWordIndicator.fillProperty().bind(Bindings.createObjectBinding(() -> {
-            if (PathFinder.consumedAllWordProperty().get())
-                return Constants.CIRCLE_SUCCESS_COLOR;
-            return Constants.CIRCLE_FAILURE_COLOR;
-        }, PathFinder.consumedAllWordProperty()));
-        endedOnFinalStateIndicator.fillProperty().bind(Bindings.createObjectBinding(() -> {
-            if (PathFinder.endedOnFinalStateProperty().get())
-                return Constants.CIRCLE_SUCCESS_COLOR;
-            return Constants.CIRCLE_FAILURE_COLOR;
-        }, PathFinder.endedOnFinalStateProperty()));
+        setCircleClass(consumedEntireWordIndicator, PathFinder.consumedAllWordProperty().get());
+        setCircleClass(endedOnFinalStateIndicator, PathFinder.endedOnFinalStateProperty().get());
+
+        PathFinder.consumedAllWordProperty().addListener(
+                (observable, oldValue, newValue) -> setCircleClass(consumedEntireWordIndicator, newValue));
+        PathFinder.endedOnFinalStateProperty().addListener(
+                (observable, oldValue, newValue) -> setCircleClass(endedOnFinalStateIndicator, newValue));
+    }
+
+    private void setCircleClass(Circle circle, boolean success) {
+        String cssClass = Constants.CIRCLE_FAILURE_CLASS;
+        if (success)
+            cssClass = Constants.CIRCLE_SUCCESS_CLASS;
+
+        circle.getStyleClass().clear();
+        circle.getStyleClass().add(cssClass);
     }
 }

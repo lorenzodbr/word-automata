@@ -18,21 +18,21 @@
                     </VBox.margin>
                 </Label>
                 <TextField fx:id="possiblePathsTextField" editable="false" prefWidth="300.0"
-                    text="Loading..." />
+                    text="Loading..." styleClass="rounded-corners" />
                 <Label text="Longest path">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Label>
                 <TextField fx:id="longestPathTextField" editable="false" prefWidth="300.0"
-                    text="Loading..." />
+                    text="Loading..." styleClass="rounded-corners" />
                 <Label text="Shortest path">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Label>
                 <TextField fx:id="shortestPathTextField" editable="false" prefWidth="300.0"
-                    text="Loading..." />
+                    text="Loading..." styleClass="rounded-corners" />
                 <Separator prefWidth="300.0">
                     <VBox.margin>
                         <Insets top="5.0" />
@@ -44,14 +44,14 @@
                     </VBox.margin>
                 </Label>
                 <TextField fx:id="statesSearchedTextField" editable="false" prefWidth="300.0"
-                    text="Loading..." />
+                    text="Loading..." styleClass="rounded-corners" />
                 <Label text="Transitions searched">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Label>
                 <TextField fx:id="transitionsSearchedTextField" editable="false" prefWidth="300.0"
-                    text="Loading..." />
+                    text="Loading..." styleClass="rounded-corners" />
             </children>
             <padding>
                 <Insets left="15.0" right="5.0" top="20.0" />

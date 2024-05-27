@@ -20,7 +20,7 @@
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Intermediate state" GridPane.rowIndex="1" />
+        <Label text="Inner state" GridPane.rowIndex="1" />
         <Circle radius="27.0" stroke="BLACK" strokeType="INSIDE" styleClass="vertex" />
         <Label text="Initial state" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Circle radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1">
