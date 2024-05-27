@@ -106,6 +106,14 @@
     -fx-opacity: 0.5;
 }
 
+.circle-failure {
+    -fx-fill: -color-danger-5;
+}
+
+.circle-success {
+    -fx-fill: -color-success-5;
+}
+
 .modal-pane > .scroll-pane > .viewport > * > .scrollable-content {
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }

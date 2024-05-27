@@ -1,0 +1,2 @@
+- Cambiare controllo sull'etichetta delle transizioni per ammettere archi con lo stesso nome ma verso opposto
+- Aggiornare le SimpleBooleanProperties quando si cerca un percorso
