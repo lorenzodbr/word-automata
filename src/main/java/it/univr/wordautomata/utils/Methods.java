@@ -156,7 +156,7 @@ public class Methods {
                     e -> {
                         contextMenu.hide();
                         state.setFinal(!state.isFinal());
-                        if(state.isFinal()) {
+                        if (state.isFinal()) {
                             nAsV.addStyleClass(Constants.FINAL_STATE_CLASS);
                         } else {
                             nAsV.removeStyleClass(Constants.FINAL_STATE_CLASS);
@@ -247,10 +247,22 @@ public class Methods {
                 .edges()
                 .stream()
                 .filter(e -> e.element().getLabel().equals(transition))
-                .anyMatch(e -> {
-                    return e.vertices()[0].element().getLabel().get().equals(state)
-                            || e.vertices()[1].element().getLabel().get().equals(state);
-                });
+                .anyMatch(e -> e.vertices()[0].element().getLabel().get().equals(state));
+    }
+
+    /**
+     * Checks if a transition exists to a given state.
+     *
+     * @param state      the state to check
+     * @param transition the transition to check
+     * @return true if a transition exists to the given state, false otherwise
+     */
+    public static boolean existsTransitionToVertex(String state, String transition) {
+        return Model.getInstance().getGraph()
+                .edges()
+                .stream()
+                .filter(e -> e.element().getLabel().equals(transition))
+                .anyMatch(e -> e.vertices()[1].element().getLabel().get().equals(state));
     }
 
     /**

@@ -79,7 +79,7 @@ public class TransitionModalBody extends GridPane {
         transitionLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean invalid = newValue == null || newValue.isBlank()
                     || Methods.existsTransitionFromVertex(startingState.getText(), newValue)
-                    || Methods.existsTransitionFromVertex(endingState.getText(), newValue);
+                    || Methods.existsTransitionToVertex(endingState.getText(), newValue);
 
             if (!invalid) {
                 popover.hide();
