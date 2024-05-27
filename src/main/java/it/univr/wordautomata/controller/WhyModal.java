@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 
 public class WhyModal extends Dialog<Void> {
 
+    /**
+     * Creates a new modal containing the reasons why the automaton is rejecting the
+     * word.
+     */
     public WhyModal() {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
         setTitle("Why?");
