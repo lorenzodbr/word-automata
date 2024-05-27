@@ -20,23 +20,23 @@
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Simple state" GridPane.rowIndex="1" />
-        <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" styleClass="vertex" />
+        <Label text="Intermediate state" GridPane.rowIndex="1" />
+        <Circle radius="27.0" stroke="BLACK" strokeType="INSIDE" styleClass="vertex" />
         <Label text="Initial state" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1">
+        <Circle radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1">
             <styleClass>
                 <String fx:value="vertex" />
                 <String fx:value="initial-state" />
             </styleClass>
         </Circle>
-        <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2">
+        <Circle radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2">
             <styleClass>
                 <String fx:value="vertex" />
                 <String fx:value="final-state" />
             </styleClass>
         </Circle>
         <Label text="Final state" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-        <Circle fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3">
+        <Circle radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3">
             <styleClass>
                 <String fx:value="vertex" />
                 <String fx:value="final-state" />

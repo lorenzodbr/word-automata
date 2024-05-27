@@ -145,32 +145,32 @@
 }
 
 .vertex {
-    -fx-stroke-width: 3;
-    -fx-stroke: #61b5f1;
+    -fx-stroke-width: 2.25;
+    -fx-stroke: #6d958c;
     -fx-stroke-type: inside; /* you should keep this if using arrows */
-    -fx-fill: #b1dff7;
+    -fx-fill: #8CBEB2;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 0);
 }
 
 .final-state {
-    -fx-stroke: rgb(61, 144, 61);
-    -fx-fill: yellowgreen;
+    -fx-stroke: #c05252;
+    -fx-fill: #ed6c6c;
 }
 
 .initial-state {
-    -fx-stroke: #ff6337;
-    -fx-fill: #ff9764;
+    -fx-stroke: #d3cca7;
+    -fx-fill: #F2EBBF;
 }
 
 .initial-state.final-state {
-    -fx-stroke: rgb(255, 204, 37);
-    -fx-fill: rgb(255, 242, 67);
+    -fx-stroke: #c89451;
+    -fx-fill: #F3B562;
 }
 
 .vertex:hover {
     /* pseudo-classes also work */
     /*-fx-cursor: default; */ /* You can use this style to override the hand/move cursors while hovering. */
-    -fx-stroke-width: 4;
+    -fx-stroke-width: 3.25;
 }
 
 .vertex-label {
