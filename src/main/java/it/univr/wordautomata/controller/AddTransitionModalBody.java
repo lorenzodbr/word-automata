@@ -40,9 +40,8 @@ public class AddTransitionModalBody extends Pane {
 
     private SimpleBooleanProperty emptyTextfieldProperty;
 
-
     /**
-     * Creates a new transition.
+     * Displays the body of the dialog that allows the user to add a new transition
      *
      * @param initialState the initial state of the transition
      * @param endingState the ending state of the transition

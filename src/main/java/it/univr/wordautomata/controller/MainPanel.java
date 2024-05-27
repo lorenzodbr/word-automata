@@ -26,7 +26,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 /**
  * The MainPanel class represents the main panel of the WordAutomata
@@ -213,7 +212,7 @@ public class MainPanel extends BorderPane {
     @FXML
     private void openAutomata() {
         // open file dialog
-        File file = AutomataSaver.showOpenDialog((Stage) getScene().getWindow());
+        File file = AutomataSaver.showOpenDialog();
 
         if (file != null) {
             if (file.exists() && file.isFile() && file.getPath().endsWith(Constants.AUTOMATA_EXTENSION)) {

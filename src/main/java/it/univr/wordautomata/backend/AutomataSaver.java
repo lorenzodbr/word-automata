@@ -20,7 +20,6 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Constants;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class AutomataSaver {
     private static File tmpFolder = null;
@@ -147,22 +146,22 @@ public class AutomataSaver {
         return read(new File(Constants.DEFAULT_AUTOMATA_FILENAME + Constants.AUTOMATA_EXTENSION));
     }
 
-    public static File showOpenDialog(Stage stage) {
+    public static File showOpenDialog() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open " + Constants.AUTOMATA_EXTENSION + " File");
         fileChooser.setInitialDirectory(Constants.INITIAL_DIRECTORY);
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
-        return fileChooser.showOpenDialog(stage);
+        return fileChooser.showOpenDialog(Components.getInstance().getStage());
     }
 
-    public static File showSaveDialog(Stage stage) {
+    public static File showSaveDialog() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save " + Constants.AUTOMATA_EXTENSION + " File");
         fileChooser.setInitialDirectory(Constants.INITIAL_DIRECTORY);
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
         fileChooser.setInitialFileName(Constants.DEFAULT_AUTOMATA_FILENAME);
-        return fileChooser.showSaveDialog(stage);
+        return fileChooser.showSaveDialog(Components.getInstance().getStage());
     }
 }

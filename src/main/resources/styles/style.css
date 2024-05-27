@@ -135,6 +135,11 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 0);
 }
 
+.button.extra-small {
+    -fx-padding: 4 6 4 6;
+    -fx-font-size: 8.5pt;
+}
+
 /*
  * Graph theming
  */

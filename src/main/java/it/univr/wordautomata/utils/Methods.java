@@ -197,7 +197,7 @@ public class Methods {
      * Shows the save as dialog.
      */
     public static void saveAs() {
-        File file = AutomataSaver.showSaveDialog(Components.getInstance().getStage());
+        File file = AutomataSaver.showSaveDialog();
 
         if (file != null) {
             Model.getInstance().setOpenedFile(file);

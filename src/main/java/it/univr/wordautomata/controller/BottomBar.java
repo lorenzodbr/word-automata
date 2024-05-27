@@ -88,6 +88,14 @@ public class BottomBar extends GridPane {
     @FXML
     private Circle thirdSpeedCircle;
 
+    @FXML
+    private Button whyButton;
+
+    @FXML
+    private Button mockWhyButton;
+
+    private WhyModal whyModal;
+
     private Circle[] speedCircles;
 
     private BooleanBinding buttonsEnabledBinding;
@@ -229,6 +237,9 @@ public class BottomBar extends GridPane {
     @FXML
     public void computePath() {
         transitionsHint.setVisible(true);
+        whyButton.setManaged(false);
+        whyButton.setVisible(false);
+        mockWhyButton.setManaged(false);
         transitionsHint.getStyleClass().remove(Constants.NO_PATH_FOUND_TEXT_CLASS);
         transitionsPanelHBox.getChildren().clear();
         transitionsPanel.getStyleClass().remove(Constants.NO_PATH_FOUND_PANEL_CLASS);
@@ -253,6 +264,9 @@ public class BottomBar extends GridPane {
 
             if (path == null) {
                 transitionsHint.setText("No path found");
+                whyButton.setManaged(true);
+                whyButton.setVisible(true);
+                mockWhyButton.setManaged(true);
                 transitionsHint.getStyleClass().add(Constants.NO_PATH_FOUND_TEXT_CLASS);
                 transitionsPanel.getStyleClass().add(Constants.NO_PATH_FOUND_PANEL_CLASS);
                 model.pathFoundProperty().set(false);
@@ -416,5 +430,15 @@ public class BottomBar extends GridPane {
      */
     public String getWord() {
         return wordInput.getText();
+    }
+
+    @FXML
+    public void showWhy() {
+        if (whyModal == null) {
+            whyModal = new WhyModal();
+            whyButton.disableProperty().bind(whyModal.showingProperty());
+        }
+
+        whyModal.show();
     }
 }

@@ -11,8 +11,12 @@ import com.brunomnsilva.smartgraph.graph.Vertex;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class PathFinder {
+    private final static SimpleBooleanProperty consumedAllWord = new SimpleBooleanProperty(false);
+    private final static SimpleBooleanProperty endedOnFinalState = new SimpleBooleanProperty(false);
+
     public static List<Edge<Transition, State>> getPath(String word) {
         List<Edge<Transition, State>> path = new ArrayList<>();
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
@@ -48,5 +52,13 @@ public class PathFinder {
             }
         }
         return false;
+    }
+
+    public static SimpleBooleanProperty consumedAllWordProperty() {
+        return consumedAllWord;
+    }
+
+    public static SimpleBooleanProperty endedOnFinalStateProperty() {
+        return endedOnFinalState;
     }
 }

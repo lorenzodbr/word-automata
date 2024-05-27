@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -33,7 +34,8 @@
     </rowConstraints>
     <children>
         <CustomTextField fx:id="wordInput" minHeight="40.0" onKeyTyped="#computePath"
-            prefHeight="40.0" promptText="Type a word to test it" GridPane.columnIndex="0" styleClass="rounded-corners">
+            prefHeight="40.0" promptText="Type a word to test it" styleClass="rounded-corners"
+            GridPane.columnIndex="0">
             <left>
                 <FontIcon iconLiteral="bx-bulb" />
             </left>
@@ -42,10 +44,10 @@
             minWidth="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0"
             styleClass="button-icon, button-outlined, rounded-corners" textAlignment="CENTER"
             GridPane.columnIndex="1" />
-        <Button fx:id="previousStateButton" onAction="#togglePlayPrev" disable="true"
-            maxHeight="40.0" maxWidth="40.0"
-            minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
-            prefWidth="40.0" styleClass="button-icon, button-outlined, rounded-corners" textAlignment="CENTER"
+        <Button fx:id="previousStateButton" disable="true" maxHeight="40.0" maxWidth="40.0"
+            minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#togglePlayPrev"
+            prefHeight="40.0" prefWidth="40.0"
+            styleClass="button-icon, button-outlined, rounded-corners" textAlignment="CENTER"
             GridPane.columnIndex="2">
             <graphic>
                 <FontIcon iconLiteral="bx-skip-previous" />
@@ -53,12 +55,12 @@
         </Button>
         <Button fx:id="playPauseButton" disable="true" maxHeight="40.0" minHeight="40.0"
             mnemonicParsing="false" onAction="#cyclePlayPause" prefHeight="40.0" prefWidth="70.0"
-            styleClass="button-icon, button-outlined, accent, rounded-corners" textAlignment="CENTER"
-            GridPane.columnIndex="3" />
-        <Button fx:id="nextStateButton" onAction="#togglePlayNext" disable="true" maxHeight="40.0"
-            maxWidth="40.0"
-            minHeight="40.0" minWidth="40.0" mnemonicParsing="false" prefHeight="40.0"
-            prefWidth="40.0" styleClass="button-icon, button-outlined, rounded-corners" textAlignment="CENTER"
+            styleClass="button-icon, button-outlined, accent, rounded-corners"
+            textAlignment="CENTER" GridPane.columnIndex="3" />
+        <Button fx:id="nextStateButton" disable="true" maxHeight="40.0" maxWidth="40.0"
+            minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#togglePlayNext"
+            prefHeight="40.0" prefWidth="40.0"
+            styleClass="button-icon, button-outlined, rounded-corners" textAlignment="CENTER"
             GridPane.columnIndex="4">
             <graphic>
                 <FontIcon iconLiteral="bx-skip-next" />
@@ -66,8 +68,8 @@
         </Button>
         <Button fx:id="speedButton" disable="true" maxHeight="40.0" maxWidth="40.0" minHeight="40.0"
             minWidth="40.0" mnemonicParsing="false" onAction="#cycleSpeed" prefHeight="40.0"
-            prefWidth="40.0" styleClass="button-icon, button-outlined, rounded-corners" textAlignment="CENTER"
-            GridPane.columnIndex="5" />
+            prefWidth="40.0" styleClass="button-icon, button-outlined, rounded-corners"
+            textAlignment="CENTER" GridPane.columnIndex="5" />
         <VBox fx:id="speedButtonVBox" alignment="CENTER" disable="true" mouseTransparent="true"
             spacing="2.0" GridPane.columnIndex="5">
             <children>
@@ -90,13 +92,23 @@
             <content>
                 <StackPane>
                     <children>
-                        <Label fx:id="transitionsHint" alignment="CENTER" contentDisplay="CENTER"
-                            maxWidth="1.7976931348623157E308" styleClass="text-subtle"
-                            text="Waiting for a word" textAlignment="CENTER"
-                            StackPane.alignment="CENTER" />
                         <HBox fx:id="transitionsPanelHBox" alignment="CENTER"
                             maxWidth="1.7976931348623157E308" spacing="10.0"
                             styleClass="padding-horizontal" StackPane.alignment="CENTER" />
+                        <HBox alignment="CENTER" spacing="8.0" styleClass="padding-horizontal"
+                            StackPane.alignment="CENTER">
+                            <Button fx:id="mockWhyButton" visible="false" managed="false"
+                                styleClass="extra-small, rounded-corners" text="Why?" />
+                            <Pane HBox.hgrow="ALWAYS" />
+                            <Label fx:id="transitionsHint" alignment="CENTER"
+                                contentDisplay="CENTER" maxWidth="1.7976931348623157E308"
+                                styleClass="text-subtle" text="Waiting for a word"
+                                textAlignment="CENTER" StackPane.alignment="CENTER" />
+                            <Pane HBox.hgrow="ALWAYS" />
+
+                            <Button fx:id="whyButton" managed="false" onAction="#showWhy"
+                                styleClass="extra-small, rounded-corners, no-path-found-label" text="Why?" />
+                        </HBox>
                     </children>
                 </StackPane>
             </content>
