@@ -24,11 +24,11 @@ public class GraphStatistics {
         this.edgesSearched = 0;
     }
 
-    public void getStats() {
-        getStats(Components.getInstance().getBottomBar().getWord());
+    public void computeStats() {
+        computeStats(Components.getInstance().getBottomBar().getWord());
     }
 
-    public void getStats(String word) {
+    public void computeStats(String word) {
         if (word == null || word.isEmpty()) {
             return;
         }

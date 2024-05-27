@@ -1,6 +1,7 @@
 package it.univr.wordautomata.controller;
 
 import java.io.File;
+
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Graph;
@@ -17,8 +18,8 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.model.TransitionWrapper;
 import it.univr.wordautomata.utils.Constants;
-import it.univr.wordautomata.utils.Methods;
 import it.univr.wordautomata.utils.Constants.Orientation;
+import it.univr.wordautomata.utils.Methods;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -456,7 +457,7 @@ public class GraphPanel extends StackPane {
      */
     @FXML
     public boolean addEdge() {
-        return addEdge(null);
+        return addEdge(null, null);
     }
 
     /**
@@ -466,7 +467,12 @@ public class GraphPanel extends StackPane {
      * @return true if the edge was added, false otherwise
      */
     public boolean addEdge(State startingState) {
-        TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState).showAndWait().orElse(null);
+        return addEdge(startingState, null);
+    }
+
+    public boolean addEdge(State startingState, State endingState) {
+        TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState, endingState).showAndWait()
+                .orElse(null);
 
         if (newTransition == null) {
             return false;
@@ -637,19 +643,8 @@ public class GraphPanel extends StackPane {
      */
     public void showStateSideBar(SmartGraphVertex<State> vertex) {
         modalPane.usePredefinedTransitionFactories(Side.LEFT);
-        modalPane.show(getStateModal(vertex));
-    }
-
-    /**
-     * Gets the state modal.
-     * 
-     * @param vertex the vertex
-     * @return the state modal
-     */
-    private StateModal getStateModal(SmartGraphVertex<State> vertex) {
         StateModal dialog = new StateModal(modalPane, vertex);
-
-        return dialog;
+        modalPane.show(dialog);
     }
 
     /**

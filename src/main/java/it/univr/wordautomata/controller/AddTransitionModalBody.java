@@ -40,14 +40,16 @@ public class AddTransitionModalBody extends Pane {
 
     private SimpleBooleanProperty emptyTextfieldProperty;
 
+
     /**
      * Creates a new transition.
      *
      * @param initialState the initial state of the transition
+     * @param endingState the ending state of the transition
      */
-    public AddTransitionModalBody(State initialState) {
+    public AddTransitionModalBody(State initialState, State endingState) {
         Methods.loadAndSetController(Constants.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
-        loadChoiceBoxes(initialState);
+        loadChoiceBoxes(initialState, endingState);
 
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
 
@@ -94,27 +96,32 @@ public class AddTransitionModalBody extends Pane {
         return null;
     }
 
+
     /**
      * Loads the choice boxes with the states of the automaton.
      *
      * @param initialState the initial state of the transition
+     * @param endingState the ending state of the transition
      */
-    private void loadChoiceBoxes(State initialState) {
+    private void loadChoiceBoxes(State initialState, State endingState) {
         Collection<State> vertices = Model.getInstance().getGraph().objectsInVertices();
 
         if (initialState == null) {
             startingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
         } else {
             startingStateChoiceBox.setItems(FXCollections.observableArrayList(initialState));
-            startingStateChoiceBox.getSelectionModel().selectFirst();
             startingStateChoiceBox.setDisable(true);
         }
 
-        endingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
+        if (endingState == null) {
+            endingStateChoiceBox.setItems(FXCollections.observableArrayList(vertices));
+        } else {
+            endingStateChoiceBox.setItems(FXCollections.observableArrayList(endingState));
+            endingStateChoiceBox.setDisable(true);
+        }
 
         startingStateChoiceBox.getSelectionModel().selectFirst();
-
-        if (vertices.size() > 1) {
+        if (endingState == null && vertices.size() > 1) {
             endingStateChoiceBox.getSelectionModel().select(1);
         } else {
             endingStateChoiceBox.getSelectionModel().selectFirst();

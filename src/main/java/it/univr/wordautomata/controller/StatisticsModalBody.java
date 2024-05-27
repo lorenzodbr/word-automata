@@ -45,7 +45,7 @@ public class StatisticsModalBody extends Pane {
         GraphStatistics statistics = new GraphStatistics();
 
         Platform.runLater(() -> {
-            statistics.getStats();
+            statistics.computeStats();
 
             possiblePathsTextField.setText(statistics.getPossiblePaths() + "");
             longestPathTextField.setText(statistics.getLongestPath() + "");
