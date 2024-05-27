@@ -44,7 +44,7 @@ public class AddTransitionModalBody extends Pane {
      * Displays the body of the dialog that allows the user to add a new transition
      *
      * @param initialState the initial state of the transition
-     * @param endingState the ending state of the transition
+     * @param endingState  the ending state of the transition
      */
     public AddTransitionModalBody(State initialState, State endingState) {
         Methods.loadAndSetController(Constants.ADD_TRANSITION_MODAL_BODY_FXML_FILENAME, this);
@@ -67,7 +67,7 @@ public class AddTransitionModalBody extends Pane {
 
         boolean invalid = newValue.isBlank()
                 || Methods.existsTransitionFromVertex(from, newValue)
-                        && Methods.existsTransitionFromVertex(to, newValue);
+                || Methods.existsTransitionToVertex(to, newValue);
 
         if (!errorLabel.visibleProperty().isBound()) {
             errorLabel.visibleProperty().bind(emptyTextfieldProperty);
@@ -95,12 +95,11 @@ public class AddTransitionModalBody extends Pane {
         return null;
     }
 
-
     /**
      * Loads the choice boxes with the states of the automaton.
      *
      * @param initialState the initial state of the transition
-     * @param endingState the ending state of the transition
+     * @param endingState  the ending state of the transition
      */
     private void loadChoiceBoxes(State initialState, State endingState) {
         Collection<State> vertices = Model.getInstance().getGraph().objectsInVertices();
