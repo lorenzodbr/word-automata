@@ -5,7 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import it.univr.wordautomata.WordAutomata;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -70,6 +72,11 @@ public class State implements Comparable<State>, Serializable {
      * @param value true if the state is final, false otherwise
      */
     public void setFinal(boolean value) {
+        SimpleIntegerProperty p = Model.getInstance().finalStatesCountProperty();
+
+        int inc = value ? 1 : -1;
+        p.set(p.get() + inc);
+
         this.isFinal.set(value);
     }
 
