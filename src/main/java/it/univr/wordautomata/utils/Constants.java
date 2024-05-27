@@ -3,6 +3,8 @@ package it.univr.wordautomata.utils;
 import java.io.File;
 import java.util.Random;
 
+import javafx.scene.paint.Color;
+
 /**
  * Constants used in the application
  */
@@ -21,6 +23,7 @@ public class Constants {
     public final static String ADD_TRANSITION_MODAL_BODY_FXML_FILENAME = "AddTransitionModalBody";
     public final static String STATISTICS_MODAL_BODY_FXML_FILENAME = "StatisticsModalBody";
     public final static String LEGEND_MODAL_BODY_FXML_FILENAME = "LegendModalBody";
+    public final static String WHY_MODAL_BODY_FXML_FILENAME = "WhyModalBody";
     public final static String FONT_REGULAR_FILENAME = "Inter";
     public final static String FONT_BOLD_FILENAME = "Inter-Bold";
     public final static String FONT_ITALIC_FILENAME = "Inter-Italic";
@@ -81,6 +84,8 @@ public class Constants {
             System.getProperty("user.home") + System.getProperty("file.separator")
                     + DEFAULT_AUTOMATA_FILENAME + AUTOMATA_EXTENSION);
     public static final File INITIAL_DIRECTORY = new File(System.getProperty("user.home"));
+    public static final Color CIRCLE_SUCCESS_COLOR = Color.valueOf("#29903b");
+    public static final Color CIRCLE_FAILURE_COLOR = Color.valueOf("#cc0000");
 
     // Enums
     public enum PlayBackSpeed {
