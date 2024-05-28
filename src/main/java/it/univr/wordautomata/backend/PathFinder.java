@@ -29,12 +29,12 @@ public class PathFinder {
      * Finds a path in the graph that matches the given word.
      *
      * @param word The word to find a path for.
+     * @param graph The graph to search
      * @return A list of edges representing the path if found, or null if no path is
      *         found.
      */
-    public static List<Edge<Transition, State>> getPath(String word) {
+    public static List<Edge<Transition, State>> getPath(String word, DigraphEdgeList<State, Transition> graph) {
         List<Edge<Transition, State>> path = new ArrayList<>();
-        DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
         Vertex<State> begin = Model.getInstance().getInitialVertex();
 
         clearProperties();
@@ -46,6 +46,17 @@ public class PathFinder {
             Model.getInstance().setPathFound(false);
             return null;
         }
+    }
+
+    /**
+     * Finds a path in the graph that matches the given word
+     * 
+     * @param word he word to find a path for.
+     * @return A list of edges representing the path if found, or null if no path is
+     *         found.
+     */
+    public static List<Edge<Transition, State>> getPath(String word) {
+        return getPath(word, Model.getInstance().getGraph());
     }
 
     /**
