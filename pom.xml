@@ -61,7 +61,10 @@
                 <configuration>
                     <reportOutputDirectory>${basedir}/</reportOutputDirectory>
                     <destDir>docs</destDir>
-                    <excludePackageNames>com.brunomnsilva.smartgraph.graphview</excludePackageNames>
+                    <excludePackageNames>com.brunomnsilva.smartgraph.*</excludePackageNames>
+                    <links>
+                        <link>https://javadoc.io/doc/com.brunomnsilva/smartgraph</link>
+                    </links>
                 </configuration>
             </plugin>
             <plugin>
