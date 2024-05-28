@@ -6,6 +6,7 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphEdge;
 import atlantafx.base.controls.Popover;
 import atlantafx.base.layout.ModalBox;
 import atlantafx.base.theme.Styles;
+import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Constants;
@@ -86,6 +87,7 @@ public class TransitionModalBody extends GridPane {
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
                 transition.setLabel(transitionLabelTextField.getText());
                 components.getGraphPanel().update();
+                Model.getInstance().savedProperty().set(false);
             } else {
                 transitionLabelTextField.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 popover.show(transitionLabelTextField);
