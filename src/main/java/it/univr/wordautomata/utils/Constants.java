@@ -178,6 +178,7 @@ public class Constants {
      * Orientations
      */
     public enum Orientation {
+
         NORTH,
         SOUTH,
         EAST,
@@ -186,7 +187,7 @@ public class Constants {
         NORTH_WEST,
         SOUTH_EAST,
         SOUTH_WEST;
-        
+
         /**
          * Returns the CSS orientation corresponding to the enum value.
          *

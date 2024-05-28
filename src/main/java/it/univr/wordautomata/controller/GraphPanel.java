@@ -58,6 +58,12 @@ public class GraphPanel extends StackPane {
     private Model model;
     private Components components;
 
+    /**
+     * Constructs a new instance of the GraphPanel class.
+     * Initializes the GraphPanel by loading the controller, initializing the model,
+     * components, timelines,
+     * zoom label, graph, modals, properties, and edge coloring.
+     */
     public GraphPanel() {
         Methods.loadAndSetController(Constants.GRAPH_PANEL_FXML_FILENAME, this);
 
