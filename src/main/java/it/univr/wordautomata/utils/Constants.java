@@ -136,6 +136,9 @@ public class Constants {
         }
     }
 
+    /**
+     * Timeline playback states
+     */
     public enum PlayBackState {
         PAUSED,
         PLAYING;
