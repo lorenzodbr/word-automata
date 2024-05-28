@@ -68,4 +68,9 @@ public class PathFinder {
     public static SimpleBooleanProperty endedOnFinalStateProperty() {
         return endedOnFinalState;
     }
+
+    public static void clearProperties() {
+        consumedAllWord.set(false);
+        endedOnFinalState.set(false);
+    }
 }
