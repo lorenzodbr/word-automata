@@ -22,8 +22,7 @@ public class PathFinder {
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
         Vertex<State> begin = Model.getInstance().getInitialVertex();
 
-        consumedAllWord.set(false);
-        endedOnFinalState.set(false);
+        clearProperties();
 
         if (findPath(graph, begin, word, path)) {
             Model.getInstance().setPathFound(true);
@@ -37,7 +36,7 @@ public class PathFinder {
     private static boolean findPath(
             DigraphEdgeList<State, Transition> graph, Vertex<State> v,
             String word, List<Edge<Transition, State>> path) {
-        
+
         if (word.isEmpty()) {
             consumedAllWord.set(true);
             endedOnFinalState.set(v.element().isFinal());
