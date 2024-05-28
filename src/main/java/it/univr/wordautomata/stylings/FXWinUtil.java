@@ -20,6 +20,9 @@ public class FXWinUtil {
     /**
      * Represents a handle to a window in the Windows operating system.
      * The handle is used to uniquely identify a window and interact with it.
+     * 
+     * @param stage the stage for which to get the native handle
+     * @return the native handle for the specified stage
      */
     public static WinDef.HWND getNativeHandleForStage(Stage stage) {
         try {
