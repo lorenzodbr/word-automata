@@ -21,10 +21,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
- * The `Model` class represents the model component of the Word Automata
+ * The Model class represents the model component of the Word Automata
  * application. It stores the {@link State} of the application, including the
  * theme, graph, initial state, placement strategies, playback speed and state,
- * and various boolean properties. The `Model` class follows the Singleton
+ * and various boolean properties. The Model class follows the Singleton
  * design pattern to ensure that only one instance of the class exists
  * throughout the application.
  */
@@ -57,7 +57,7 @@ public class Model {
     private ListIterator<Edge<Transition, State>> edgeToColor;
 
     /**
-     * Constructs a new instance of the `Model` class.
+     * Constructs a new instance of the Model class.
      */
     private Model() {
         this.graph = new DigraphEdgeList<>();
@@ -81,9 +81,9 @@ public class Model {
     }
 
     /**
-     * Returns the single instance of the `Model` class.
+     * Returns the single instance of the Model class.
      *
-     * @return the single instance of the `Model` class
+     * @return the single instance of the Model class
      */
     public static Model getInstance() {
         if (instance == null) {
@@ -358,7 +358,7 @@ public class Model {
      * Returns a property telling if there is at least one vertex in the current
      * graph
      *
-     * @return the `at least one vertex` property
+     * @return the at least one vertex property
      */
     public SimpleBooleanProperty atLeastOneVertexProperty() {
         return atLeastOneVertex;
@@ -367,7 +367,7 @@ public class Model {
     /**
      * Returns a property telling if there is at least one edge in the current graph
      *
-     * @return the `at least one edge` property
+     * @return the at least one edge property
      */
     public SimpleBooleanProperty atLeastOneEdgeProperty() {
         return atLeastOneEdge;
@@ -377,7 +377,7 @@ public class Model {
      * Returns a property telling if there is at least one final state in the
      * current graph.
      *
-     * @return the `at least one final state` property
+     * @return the at least one final state property
      */
     public SimpleIntegerProperty finalStatesCountProperty() {
         return finalStateCountProperty;

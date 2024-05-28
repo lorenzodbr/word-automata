@@ -8,6 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
+/**
+ * Represents the body of the dialog that shows the reasons why the automaton is rejecting the word.
+ * This class extends the JavaFX VBox class.
+ */
 public class WhyModalBody extends VBox {
 
     @FXML
