@@ -13,10 +13,25 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import javafx.beans.property.SimpleBooleanProperty;
 
+/**
+ * The PathFinder class is responsible for finding a path in a graph based on a
+ * given word.
+ * It uses a depth-first search algorithm to traverse the graph and find a path
+ * that matches the word.
+ * The class provides methods to retrieve the path, check if the entire word was
+ * consumed, and check if the path ended on a final state.
+ */
 public class PathFinder {
     private final static SimpleBooleanProperty consumedAllWord = new SimpleBooleanProperty(false);
     private final static SimpleBooleanProperty endedOnFinalState = new SimpleBooleanProperty(false);
 
+    /**
+     * Finds a path in the graph that matches the given word.
+     *
+     * @param word The word to find a path for.
+     * @return A list of edges representing the path if found, or null if no path is
+     *         found.
+     */
     public static List<Edge<Transition, State>> getPath(String word) {
         List<Edge<Transition, State>> path = new ArrayList<>();
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
@@ -33,6 +48,17 @@ public class PathFinder {
         }
     }
 
+    /**
+     * Finds a path in the given graph starting from the specified vertex and
+     * consuming the given word.
+     *
+     * @param graph The graph representing the automaton.
+     * @param v     The starting vertex.
+     * @param word  The word to be consumed.
+     * @param path  The list to store the edges of the path.
+     * @return {@code true} if a path is found and the word is consumed completely,
+     *         {@code false} otherwise.
+     */
     private static boolean findPath(
             DigraphEdgeList<State, Transition> graph, Vertex<State> v,
             String word, List<Edge<Transition, State>> path) {
@@ -60,14 +86,29 @@ public class PathFinder {
         return false;
     }
 
+    /**
+     * Represents a boolean property that can be observed for changes.
+     * This class is a simple implementation of the
+     * {@link javafx.beans.property.BooleanProperty} interface.
+     */
     public static SimpleBooleanProperty consumedAllWordProperty() {
         return consumedAllWord;
     }
 
+    /**
+     * Represents a simple boolean property in JavaFX.
+     * A simple boolean property can be used to track and observe changes to a
+     * boolean value.
+     */
     public static SimpleBooleanProperty endedOnFinalStateProperty() {
         return endedOnFinalState;
     }
 
+    /**
+     * Clears the properties of the PathFinder.
+     * This method resets the values of the consumedAllWord and endedOnFinalState
+     * properties to false.
+     */
     public static void clearProperties() {
         consumedAllWord.set(false);
         endedOnFinalState.set(false);

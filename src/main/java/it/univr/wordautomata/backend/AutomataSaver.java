@@ -21,12 +21,21 @@ import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Constants;
 import javafx.stage.FileChooser;
 
+/**
+ * The `AutomataSaver` class provides methods for saving and reading automata objects to/from files,
+ * as well as managing recent files and file dialogs.
+ */
 public class AutomataSaver {
     private static File tmpFolder = null;
 
     private AutomataSaver() {
     }
 
+    /**
+     * Saves the automata to a file.
+     *
+     * @param file the file to save the automata to
+     */
     public static void save(File file) {
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
 
@@ -47,6 +56,12 @@ public class AutomataSaver {
         }
     }
 
+    /**
+     * Reads a DigraphEdgeList from a file.
+     *
+     * @param file the file to read the DigraphEdgeList from
+     * @return the DigraphEdgeList read from the file
+     */
     @SuppressWarnings("unchecked")
     public static DigraphEdgeList<State, Transition> read(File file) {
         DigraphEdgeList<State, Transition> graph = null;
@@ -70,6 +85,14 @@ public class AutomataSaver {
         return graph;
     }
 
+    /**
+        * Returns the temporary folder used by the application.
+        * If the folder doesn't exist, it creates a new one.
+        * Also, if the recent files file doesn't exist, it creates a new one.
+        *
+        * @return the temporary folder used by the application
+        * @throws IOException if an I/O error occurs while creating the folder or file
+        */
     public static File getTmpFolder() throws IOException {
         if (tmpFolder == null) {
             tmpFolder = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator")
@@ -89,6 +112,11 @@ public class AutomataSaver {
         return tmpFolder;
     }
 
+    /**
+     * Retrieves a list of recent files.
+     *
+     * @return A list of recently accessed files.
+     */
     @SuppressWarnings("unchecked")
     public static List<File> getRecentFiles() {
         List<File> recentFiles = new ArrayList<>();
@@ -106,6 +134,13 @@ public class AutomataSaver {
         return recentFiles;
     }
 
+    /**
+     * Records the given file as a recent file in the application.
+     * If the file already exists in the recent files list, it is removed and added to the top.
+     * If the number of recent files exceeds the maximum limit, the oldest file is removed.
+     *
+     * @param file the file to be recorded as a recent file
+     */
     public static synchronized void recordRecentFile(File file) {
         List<File> recentFiles = getRecentFiles();
 
@@ -129,6 +164,11 @@ public class AutomataSaver {
         }
     }
 
+    /**
+     * Clears the list of recent files.
+     * This method deletes the file that stores the list of recent files.
+     * If the file does not exist or cannot be deleted, an IOException is thrown.
+     */
     public static void clearRecentFiles() {
         try {
             Files.delete(new File(getTmpFolder().getAbsolutePath() + System.getProperty("file.separator")
@@ -138,14 +178,25 @@ public class AutomataSaver {
         }
     }
 
+    /**
+     * Saves the currently opened file.
+     */
     public static void save() {
         save(Model.getInstance().getOpenedFile());
     }
 
+    /**
+     * Reads a DigraphEdgeList from a file.
+     *
+     * @return the DigraphEdgeList read from the file
+     */
     public static DigraphEdgeList<State, Transition> read() {
         return read(new File(Constants.DEFAULT_AUTOMATA_FILENAME + Constants.AUTOMATA_EXTENSION));
     }
 
+    /**
+     * Represents a file in the file system.
+     */
     public static File showOpenDialog() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open " + Constants.AUTOMATA_EXTENSION + " File");
@@ -155,6 +206,9 @@ public class AutomataSaver {
         return fileChooser.showOpenDialog(Components.getInstance().getStage());
     }
 
+    /**
+     * Represents a file in the file system.
+     */
     public static File showSaveDialog() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save " + Constants.AUTOMATA_EXTENSION + " File");

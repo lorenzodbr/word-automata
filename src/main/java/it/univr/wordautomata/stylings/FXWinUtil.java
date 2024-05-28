@@ -17,6 +17,9 @@ import javafx.stage.Window;
  */
 public class FXWinUtil {
 
+    private FXWinUtil() {
+    }
+
     /**
      * Represents a handle to a window in the Windows operating system.
      * The handle is used to uniquely identify a window and interact with it.
