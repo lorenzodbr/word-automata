@@ -243,7 +243,8 @@ public class BottomBar extends GridPane {
         transitionsHint.getStyleClass().remove(Constants.NO_PATH_FOUND_TEXT_CLASS);
         transitionsPanelHBox.getChildren().clear();
         transitionsPanel.getStyleClass().remove(Constants.NO_PATH_FOUND_PANEL_CLASS);
-
+        PathFinder.clearProperties();
+        
         if (wordInput.getText().isEmpty()) {
             transitionsHint.setText("Waiting for a word");
             return;
