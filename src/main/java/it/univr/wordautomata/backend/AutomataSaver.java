@@ -215,7 +215,7 @@ public class AutomataSaver {
         fileChooser.setInitialDirectory(Constants.INITIAL_DIRECTORY);
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("Automata Files", "*" + Constants.AUTOMATA_EXTENSION));
-        fileChooser.setInitialFileName(Constants.DEFAULT_AUTOMATA_FILENAME);
+        fileChooser.setInitialFileName(Constants.DEFAULT_AUTOMATA_FILENAME + Constants.AUTOMATA_EXTENSION);
         return fileChooser.showSaveDialog(Components.getInstance().getStage());
     }
 }
