@@ -50,8 +50,6 @@ import javafx.scene.layout.BorderPane;
  * 
  * The MainPanel class also provides methods for initializing bindings, styling
  * menu items, and handling various events.
- * 
- * @param parent The WordAutomata instance that owns the MainPanel.
  */
 public class MainPanel extends BorderPane {
 
