@@ -186,7 +186,12 @@ public class Constants {
         NORTH_WEST,
         SOUTH_EAST,
         SOUTH_WEST;
-
+        
+        /**
+         * Returns the CSS orientation corresponding to the enum value.
+         *
+         * @return the CSS orientation as a string ("top", "bottom", "right", or "left")
+         */
         public String getCssOrientation() {
             switch (this) {
                 case NORTH:

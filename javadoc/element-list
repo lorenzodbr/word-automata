@@ -1,0 +1,10 @@
+com.brunomnsilva.smartgraph.containers
+com.brunomnsilva.smartgraph.graph
+com.brunomnsilva.smartgraph.graphview
+it.univr.wordautomata
+it.univr.wordautomata.alerts
+it.univr.wordautomata.backend
+it.univr.wordautomata.controller
+it.univr.wordautomata.model
+it.univr.wordautomata.stylings
+it.univr.wordautomata.utils
