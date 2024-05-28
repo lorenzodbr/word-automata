@@ -22,7 +22,7 @@ import it.univr.wordautomata.utils.Constants;
 import javafx.stage.FileChooser;
 
 /**
- * The `AutomataSaver` class provides methods for saving and reading automata objects to/from files,
+ * The AutomataSaver class provides methods for saving and reading automata objects to/from files,
  * as well as managing recent files and file dialogs.
  */
 public class AutomataSaver {
