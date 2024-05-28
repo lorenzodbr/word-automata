@@ -12,7 +12,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+/**
+ * The Alerts class provides utility methods for displaying different types of
+ * alert dialogs.
+ */
 public class Alerts {
+
+    /**
+     * Displays a confirmation dialog with the specified title and body.
+     * 
+     * @param scene the scene to which the dialog belongs
+     * @param title the title of the dialog
+     * @param body  the body text of the dialog
+     * @return true if the user clicks the "Yes" button, false otherwise
+     */
     public static boolean showConfirmationDialog(Scene scene, String title, String body) {
         return ButtonType.YES.equals(
                 createAlert(Alert.AlertType.CONFIRMATION,
@@ -22,18 +35,52 @@ public class Alerts {
                         .orElse(null));
     }
 
+    /**
+     * Displays an information dialog with the specified title and body.
+     * 
+     * @param scene the scene to which the dialog belongs
+     * @param title the title of the dialog
+     * @param body  the body text of the dialog
+     */
     public static void showInformationDialog(Scene scene, String title, String body) {
         showInformationDialog(scene, title, null, body);
     }
 
+    /**
+     * Displays an information dialog with the specified title, header, and body.
+     * 
+     * @param scene  the scene to which the dialog belongs
+     * @param title  the title of the dialog
+     * @param header the header text of the dialog
+     * @param body   the body text of the dialog
+     */
     public static void showInformationDialog(Scene scene, String title, String header, String body) {
         createAlert(Alert.AlertType.INFORMATION, scene, title, header, body, ButtonType.OK).showAndWait();
     }
 
+    /**
+     * Displays an error dialog with the specified title and body.
+     * 
+     * @param scene       the scene to which the dialog belongs
+     * @param title       the title of the dialog
+     * @param body        the body text of the dialog
+     * @param showAndWait true if the dialog should be shown and wait for user
+     *                    input, false otherwise
+     */
     public static void showErrorDialog(Scene scene, String title, String body, boolean showAndWait) {
         showErrorDialog(scene, title, null, body, showAndWait);
     }
 
+    /**
+     * Displays an error dialog with the specified title, header, and body.
+     * 
+     * @param scene       the scene to which the dialog belongs
+     * @param title       the title of the dialog
+     * @param header      the header text of the dialog
+     * @param body        the body text of the dialog
+     * @param showAndWait true if the dialog should be shown and wait for user
+     *                    input, false otherwise
+     */
     public static void showErrorDialog(Scene scene, String title, String header, String body, boolean showAndWait) {
         Alert alert = createAlert(Alert.AlertType.ERROR, scene, title, header, body, ButtonType.OK);
 
@@ -44,6 +91,18 @@ public class Alerts {
         }
     }
 
+    /**
+     * Creates an alert dialog with the specified type, scene, title, header, body,
+     * and buttons.
+     * 
+     * @param type    the type of the alert dialog
+     * @param scene   the scene to which the dialog belongs
+     * @param title   the title of the dialog
+     * @param header  the header text of the dialog
+     * @param body    the body text of the dialog
+     * @param buttons the buttons to be displayed in the dialog
+     * @return the created alert dialog
+     */
     public static Alert createAlert(Alert.AlertType type, Scene scene, String title, String header, String body,
             ButtonType... buttons) {
         Alert alert = new Alert(type);

@@ -67,7 +67,7 @@ import it.univr.wordautomata.model.State;
  * JavaFX {@link Pane} that is capable of plotting a {@link Graph} or
  * {@link Digraph}.
  * <br>
- * Be sure to call {@link #init() } after the Stage is displayed.
+ * Be sure to call {@link #init(javafx.scene.layout.Pane)} after the Stage is displayed.
  * <br>
  * Whenever changes to the underlying graph are made, you should call
  * {@link #update()} to force the rendering of any new elements and, also, the

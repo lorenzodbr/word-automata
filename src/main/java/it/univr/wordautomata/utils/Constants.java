@@ -8,9 +8,11 @@ import java.util.Random;
  */
 public class Constants {
 
-    public final static String VERSION = "1.0";
+    public final static String VERSION = "1.0.2";
 
-    // Filenames
+    /**
+     * Filenames
+     */
     public final static String MAIN_PANEL_FXML_FILENAME = "MainPanel";
     public final static String BOTTOM_BAR_FXML_FILENAME = "BottomBar";
     public final static String SIDE_BAR_FXML_FILENAME = "SideBar";
@@ -41,13 +43,17 @@ public class Constants {
     public final static String ICON_EXTENSION = ".png";
     public final static String AUTOMATA_EXTENSION = ".automata";
 
-    // Application properties
+    /**
+     * Application properties
+     */
     public final static String TITLE = "Word Automata";
     public final static boolean DEFAULT_AUTO_POSITION = false;
 
     public final static String GITHUB_URL = "https://github.com/lorenzodbr/word-automata";
 
-    // CSS classes
+    /**
+     * CSS classes
+     */
     public final static String SPEED_CIRCLE_CLASS = "speedCircle";
     public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speedCircleActive";
     public final static String INITIAL_STATE_CLASS = "initial-state";
@@ -67,7 +73,9 @@ public class Constants {
     public final static String TRANSITION_CSS_ALREADY_COLORED = "-fx-stroke: linear-gradient(to %s,-color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);";
     public final static String TRANSITION_CSS = "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, -color-danger-4, -color-neutral-emphasis);";
 
-    // Numerical Constants
+    /**
+     * Numerical Constants
+     */
     public final static double HEIGHT = 689;
     public final static double WIDTH = 1030;
     public final static double MIN_HEIGHT = 400;
@@ -78,24 +86,38 @@ public class Constants {
     public final static int DEFAULT_PLAYBACK_DURATION_MILLIS = 750;
     public final static int MAX_RECENT_FILES = 20;
 
-    // Global Objects
+    /**
+     * Global Objects
+     */
     public static final Random RANDOM = new Random();
     public static final File DEFAULT_AUTOMATA_FILE = new File(
             System.getProperty("user.home") + System.getProperty("file.separator")
                     + DEFAULT_AUTOMATA_FILENAME + AUTOMATA_EXTENSION);
     public static final File INITIAL_DIRECTORY = new File(System.getProperty("user.home"));
 
-    // Enums
+    /**
+     * Enums
+     */
     public enum PlayBackSpeed {
         SLOW,
         REGULAR,
         FAST;
 
+        /*
+         * Get the next playback speed
+         * 
+         * @return the next playback speed
+         */
         public PlayBackSpeed next() {
             PlayBackSpeed[] values = values();
             return values[(this.ordinal() + 1) % values.length];
         }
 
+        /**
+         * Return the value of the playback speed
+         * 
+         * @return the value of the playback speed
+         */
         public double getValue() {
             return this.ordinal() == 0 ? 0.5 : this.ordinal() * 1.0;
         }
@@ -118,6 +140,11 @@ public class Constants {
         PAUSED,
         PLAYING;
 
+        /**
+         * Get the next playback state
+         *
+         * @return the next playback state
+         */
         public PlayBackState next() {
             PlayBackState[] values = values();
             return values[(this.ordinal() + 1) % values.length];
@@ -126,11 +153,18 @@ public class Constants {
         public static PlayBackState DEFAULT = PAUSED;
     }
 
-    // Themes
+    /**
+     * Themes
+     */
     public enum Theme {
         LIGHT,
         DARK;
 
+        /**
+         * Get the opposite theme
+         *
+         * @return the opposite theme
+         */
         public Theme next() {
             return this == LIGHT ? DARK : LIGHT;
         }
@@ -140,7 +174,9 @@ public class Constants {
 
     public final static boolean SET_MICA = false;
 
-    // Orientations
+    /**
+     * Orientations
+     */
     public enum Orientation {
         NORTH,
         SOUTH,

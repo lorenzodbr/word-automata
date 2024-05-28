@@ -11,8 +11,16 @@ import com.sun.jna.platform.win32.WinDef.HWND;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * The FXWinUtil class provides utility methods for working with
+ * Windows-specific features in JavaFX applications.
+ */
 public class FXWinUtil {
 
+    /**
+     * Represents a handle to a window in the Windows operating system.
+     * The handle is used to uniquely identify a window and interact with it.
+     */
     public static WinDef.HWND getNativeHandleForStage(Stage stage) {
         try {
             Method getPeer = Window.class.getDeclaredMethod("getPeer", (Class<?>[]) null);
@@ -27,6 +35,12 @@ public class FXWinUtil {
         }
     }
 
+    /**
+     * Sets the immersive dark mode for the specified stage.
+     *
+     * @param stage    the stage for which to set the immersive dark mode
+     * @param darkMode true to enable dark mode, false to disable it
+     */
     public static void setImmersiveDarkMode(Stage stage, boolean darkMode) {
         if (!Platform.isWindows()) {
             return;
@@ -38,5 +52,4 @@ public class FXWinUtil {
 
         dwmapi.DwmSetWindowAttribute(hwnd, 20, darkModeRef, Native.getNativeSize(WinDef.BOOLByReference.class));
     }
-
 }
