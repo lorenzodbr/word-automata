@@ -13,6 +13,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -115,6 +116,7 @@ public class BottomBar extends GridPane {
         wordInput.disableProperty().bind(model.atLeastOneEdgeProperty().not());
         styleButtons();
         styleTransitionsPanel();
+        bindWidth();
 
         // ugly
         this.model.areButtonsEnabled().bind(buttonsEnabledBinding);
@@ -139,6 +141,21 @@ public class BottomBar extends GridPane {
         initPreviousNextStateButtons();
 
         initSpeedButton();
+    }
+
+    /**
+     * Set the width of the textfield and the transitions panel equal to half of
+     * the width of the parent.
+     */
+    private void bindWidth() {
+        double extraSizes = playPauseButton.getWidth() + // widest button
+                resetButton.getWidth() * 4 + // 4 normal sized buttons
+                this.getHgap() * 6 + // 6 gaps between buttons
+                15 * 2; // 15 of padding on both sides
+        DoubleBinding width = this.widthProperty().subtract(extraSizes).divide(2);
+
+        wordInput.prefWidthProperty().bind(width);
+        transitionsPanel.prefWidthProperty().bind(width);
     }
 
     /**
@@ -244,7 +261,7 @@ public class BottomBar extends GridPane {
         transitionsPanelHBox.getChildren().clear();
         transitionsPanel.getStyleClass().remove(Constants.NO_PATH_FOUND_PANEL_CLASS);
         PathFinder.clearProperties();
-        
+
         if (wordInput.getText().isEmpty()) {
             transitionsHint.setText("Waiting for a word");
             return;
