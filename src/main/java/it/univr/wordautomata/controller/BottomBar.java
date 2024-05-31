@@ -105,7 +105,7 @@ public class BottomBar extends GridPane {
     private Model model;
 
     /**
-     * Creates a new BottomBar.
+     * Creates a new {@code BottomBar}.
      */
     public BottomBar() {
         Methods.loadAndSetController(Constants.BOTTOM_BAR_FXML_FILENAME, this);

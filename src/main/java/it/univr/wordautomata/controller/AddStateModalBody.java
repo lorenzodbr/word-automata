@@ -31,7 +31,7 @@ public class AddStateModalBody extends Pane {
     private SimpleBooleanProperty emptyTextfieldProperty;
 
     /**
-     * Creates a new state.
+     * Creates a new {@code AddStateModalBody}.
      */
     public AddStateModalBody() {
         Methods.loadAndSetController(Constants.ADD_STATE_MODAL_BODY_FXML_FILENAME, this);

@@ -425,7 +425,7 @@ public class GraphPanel extends StackPane {
      * @return true if the vertex was added, false otherwise
      */
     public boolean addVertex(double x, double y) {
-        State newState = new AddStateModal(getScene()).showAndWait().orElse(null);
+        State newState = new AddStateModal().showAndWait().orElse(null);
 
         if (newState == null) {
             return false;
@@ -477,7 +477,7 @@ public class GraphPanel extends StackPane {
     }
 
     public boolean addEdge(State startingState, State endingState) {
-        TransitionWrapper newTransition = new AddTransitionModal(getScene(), startingState, endingState).showAndWait()
+        TransitionWrapper newTransition = new AddTransitionModal(startingState, endingState).showAndWait()
                 .orElse(null);
 
         if (newTransition == null) {
@@ -503,7 +503,7 @@ public class GraphPanel extends StackPane {
      * Chooses the initial state.
      */
     public void chooseInitialState() {
-        SetInitialStateModal modal = new SetInitialStateModal(getScene());
+        SetInitialStateModal modal = new SetInitialStateModal();
 
         State newInitialState;
         if ((newInitialState = modal.showAndWait().orElse(null)) != null) {
@@ -533,7 +533,7 @@ public class GraphPanel extends StackPane {
      * Selects the state.
      */
     public void selectState() {
-        SelectStateModal modal = new SelectStateModal(getScene());
+        SelectStateModal modal = new SelectStateModal();
 
         State s;
         if ((s = modal.showAndWait().orElse(null)) != null) {
@@ -545,7 +545,7 @@ public class GraphPanel extends StackPane {
      * Selects the transition.
      */
     public void selectTransition() {
-        SelectTransitionModal modal = new SelectTransitionModal(getScene());
+        SelectTransitionModal modal = new SelectTransitionModal();
 
         Transition t;
         if ((t = modal.showAndWait().orElse(null)) != null) {

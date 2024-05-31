@@ -16,11 +16,9 @@ import javafx.stage.Stage;
 public class SelectTransitionModal extends ChoiceDialog<Transition> {
 
     /**
-     * Selects a transition.
-     *
-     * @param scene the scene to which the modal will be attached
+     * Creates a new {@code SelectTransitionModal}.
      */
-    public SelectTransitionModal(Scene scene) {
+    public SelectTransitionModal() {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
         List<Transition> transitions = Model.getInstance().getGraph().objectsInEdges();
@@ -29,6 +27,8 @@ public class SelectTransitionModal extends ChoiceDialog<Transition> {
 
         setTitle("Select");
         setHeaderText("Select a transition to view its details");
+
+        Scene scene = Components.getInstance().getScene();
 
         initOwner(scene.getWindow());
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);

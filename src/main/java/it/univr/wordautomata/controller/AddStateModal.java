@@ -13,15 +13,15 @@ import javafx.stage.Stage;
 public class AddStateModal extends Dialog<State> {
 
     /**
-     * Creates a new state.
-     *
-     * @param scene the scene to which the modal will be attached
+     * Creates a new {@code AddStateModal}. 
      */
-    public AddStateModal(Scene scene) {
+    public AddStateModal() {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
         setTitle("Add state");
         AddStateModalBody body = new AddStateModalBody();
+
+        Scene scene = Components.getInstance().getScene();
 
         getDialogPane().setContent(body);
         initOwner(scene.getWindow());

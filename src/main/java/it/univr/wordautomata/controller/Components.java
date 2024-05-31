@@ -26,6 +26,9 @@ public class Components {
     private GraphPanel graphPanel;
     private ContentZoomScrollPane contentZoomScrollPane;
 
+    private static int p = 0;
+    private static String peter = "PETER";
+
     private static Components instance;
 
     private Components() {
@@ -50,34 +53,6 @@ public class Components {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    private static int p = 0;
-    private static String peter = "PETER";
-
-    /**
-     * Shows an alert with Peter Griffin image if the user types "PETER".
-     * 
-     * @param e the key event
-     */
-    void peterAlert(KeyEvent e) {
-        char c = e.getCode().getChar().charAt(0);
-
-        if (peter.charAt(p) != c) {
-            p = c == 'P' ? 1 : 0;
-        } else {
-            p++;
-            if (p == peter.length()) {
-                Alert peterAlert = Alerts.createAlert(null, scene, "Peter Alert", "", "", ButtonType.OK);
-                peterAlert.setGraphic(new ImageView(new Image(Main.class
-                        .getResourceAsStream(
-                                Constants.ICON_BASE_FOLDER + "Petergriffin" + Constants.ICON_EXTENSION),
-                        100, 100, true, true)));
-                peterAlert.initOwner(stage.getOwner());
-                peterAlert.showAndWait();
-                p = 0;
-            }
-        }
     }
 
     /**
@@ -178,5 +153,30 @@ public class Components {
      */
     public ContentZoomScrollPane getContentZoomScrollPane() {
         return contentZoomScrollPane;
+    }
+
+    /**
+     * Shows an alert with Peter Griffin image if the user types "PETER".
+     * 
+     * @param e the key event
+     */
+    void peterAlert(KeyEvent e) {
+        char c = e.getCode().getChar().charAt(0);
+
+        if (peter.charAt(p) != c) {
+            p = c == 'P' ? 1 : 0;
+        } else {
+            p++;
+            if (p == peter.length()) {
+                Alert peterAlert = Alerts.createAlert(null, scene, "Peter Alert", "", "", ButtonType.OK);
+                peterAlert.setGraphic(new ImageView(new Image(Main.class
+                        .getResourceAsStream(
+                                Constants.ICON_BASE_FOLDER + "Petergriffin" + Constants.ICON_EXTENSION),
+                        100, 100, true, true)));
+                peterAlert.initOwner(stage.getOwner());
+                peterAlert.showAndWait();
+                p = 0;
+            }
+        }
     }
 }

@@ -14,11 +14,9 @@ import javafx.stage.Stage;
 public class SelectStateModal extends ChoiceDialog<State> {
 
     /**
-     * Selects a state.
-     *
-     * @param scene the scene to which the modal will be attached
+     * Creates a new {@code SelectStateModal}.
      */
-    public SelectStateModal(Scene scene) {
+    public SelectStateModal() {
         WindowStyler.setTheme((Stage) getDialogPane().getScene().getWindow());
 
         setTitle("Select");
@@ -26,6 +24,8 @@ public class SelectStateModal extends ChoiceDialog<State> {
 
         getItems().addAll(Model.getInstance().getGraph().objectsInVertices());
         setSelectedItem(Model.getInstance().getInitialState());
+
+        Scene scene = Components.getInstance().getScene();
 
         initOwner(scene.getWindow());
         getDialogPane().getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
