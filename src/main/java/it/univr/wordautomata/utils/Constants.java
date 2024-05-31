@@ -10,7 +10,7 @@ public class Constants {
 
     public final static String VERSION = "1.0.2";
 
-    /**
+    /*
      * Filenames
      */
     public final static String MAIN_PANEL_FXML_FILENAME = "MainPanel";
@@ -43,19 +43,18 @@ public class Constants {
     public final static String ICON_EXTENSION = ".png";
     public final static String AUTOMATA_EXTENSION = ".automata";
 
-    /**
+    /*
      * Application properties
      */
     public final static String TITLE = "Word Automata";
     public final static boolean DEFAULT_AUTO_POSITION = false;
-
     public final static String GITHUB_URL = "https://github.com/lorenzodbr/word-automata";
 
-    /**
+    /*
      * CSS classes
      */
-    public final static String SPEED_CIRCLE_CLASS = "speedCircle";
-    public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speedCircleActive";
+    public final static String SPEED_CIRCLE_CLASS = "speed-circle";
+    public final static String ACTIVE_SPEED_CIRCLE_CLASS = "speed-circle-active";
     public final static String INITIAL_STATE_CLASS = "initial-state";
     public final static String FINAL_STATE_CLASS = "final-state";
     public final static String ROUNDED_CORNERS_CLASS = "rounded-corners";
@@ -73,7 +72,7 @@ public class Constants {
     public final static String TRANSITION_CSS_ALREADY_COLORED = "-fx-stroke: linear-gradient(to %s,-color-danger-4 %d%%, -color-neutral-emphasis %d%%, -color-danger-4 %d%%, -color-danger-4);";
     public final static String TRANSITION_CSS = "-fx-stroke: linear-gradient(from 0%% %d%% to 0%% %d%%, -color-danger-4, -color-neutral-emphasis);";
 
-    /**
+    /*
      * Numerical Constants
      */
     public final static double HEIGHT = 689;
@@ -86,7 +85,7 @@ public class Constants {
     public final static int DEFAULT_PLAYBACK_DURATION_MILLIS = 750;
     public final static int MAX_RECENT_FILES = 20;
 
-    /**
+    /*
      * Global Objects
      */
     public static final Random RANDOM = new Random();
@@ -95,7 +94,7 @@ public class Constants {
                     + DEFAULT_AUTOMATA_FILENAME + AUTOMATA_EXTENSION);
     public static final File INITIAL_DIRECTORY = new File(System.getProperty("user.home"));
 
-    /**
+    /*
      * Enums
      */
     public enum PlayBackSpeed {
@@ -119,7 +118,7 @@ public class Constants {
          * @return the value of the playback speed
          */
         public double getValue() {
-            return this.ordinal() == 0 ? 0.5 : this.ordinal() * 1.0;
+            return this.ordinal() == 0 ? 0.5 : this.ordinal();
         }
 
         public static PlayBackSpeed DEFAULT = REGULAR;
@@ -129,7 +128,7 @@ public class Constants {
             int ordinal = this.ordinal();
 
             if (ordinal > 0) {
-                s = ordinal + "";
+                s = String.valueOf(ordinal);
             }
 
             return s + "×";
@@ -157,7 +156,7 @@ public class Constants {
     }
 
     /**
-     * Themes
+     * Application themes
      */
     public enum Theme {
         LIGHT,
@@ -175,13 +174,10 @@ public class Constants {
         public static Theme DEFAULT = LIGHT;
     }
 
-    public final static boolean SET_MICA = false;
-
     /**
-     * Orientations
+     * Edge orientations
      */
     public enum Orientation {
-
         NORTH,
         SOUTH,
         EAST,

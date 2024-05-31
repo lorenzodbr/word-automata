@@ -92,17 +92,17 @@
     -fx-icon-size: 37;
 }
 
-.speedCircle {
+.speed-circle {
     -fx-fill: -color-neutral-emphasis;
     -fx-stroke: -color-neutral-muted;
     -fx-stroke-width: 3;
 }
 
-.speedCircleActive {
+.speed-circle-active {
     -fx-fill: -color-fg-default;
 }
 
-#speedButtonVBox:disabled .speedCircle {
+#speedButtonVBox:disabled .speed-circle {
     -fx-opacity: 0.5;
 }
 

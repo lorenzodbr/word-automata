@@ -30,6 +30,18 @@ public class WordAutomata extends Application {
     private Model model;
     private Components components;
 
+    /**
+     * Creates a new {@code WordAutomata}.
+     */
+    public WordAutomata() {
+        super();
+    }
+
+    /**
+     * Starts the application.
+     *
+     * @param stage the command line arguments
+     */
     @Override
     public void start(Stage stage) throws IOException {
         this.model = Model.getInstance();

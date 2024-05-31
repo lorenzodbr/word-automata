@@ -55,9 +55,9 @@
                 <Label fx:id="speedLabel" />
                 <HBox fx:id="circlesContainer" alignment="CENTER" spacing="4.0">
                     <children>
-                        <Circle fx:id="firstSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speedCircle" />
-                        <Circle fx:id="secondSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speedCircle" />
-                        <Circle fx:id="thirdSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speedCircle" />
+                        <Circle fx:id="firstSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speed-circle" />
+                        <Circle fx:id="secondSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speed-circle" />
+                        <Circle fx:id="thirdSpeedCircle" radius="2.0" strokeType="INSIDE" styleClass="speed-circle" />
                     </children>
                 </HBox>
             </children>

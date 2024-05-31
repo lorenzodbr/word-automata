@@ -16,7 +16,6 @@ public class AddTransitionModal extends Dialog<TransitionWrapper> {
     /**
      * Creates a new {@code AddTransitionModal}.
      *
-     * @param scene        the scene to which the modal will be attached
      * @param initialState the initial state of the transition
      * @param endingState  the ending state of the transition
      */
