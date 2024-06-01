@@ -8,8 +8,6 @@ import java.util.Random;
  */
 public class Constants {
 
-    public final static String VERSION = "1.0.2";
-
     /*
      * Filenames
      */
@@ -46,6 +44,7 @@ public class Constants {
     /*
      * Application properties
      */
+    public final static String VERSION = "1.0.2";
     public final static String TITLE = "Word Automata";
     public final static boolean DEFAULT_AUTO_POSITION = false;
     public final static String GITHUB_URL = "https://github.com/lorenzodbr/word-automata";

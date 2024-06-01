@@ -1,3 +1,4 @@
 **/target
 **/.*
 **/.github
+dependency-reduced-pom.xml
