@@ -530,7 +530,7 @@ public class Model {
      *
      * @return the iterator to a list of edges to color
      */
-    public ListIterator<Edge<Transition, State>> getEdgeToColor() {
+    public ListIterator<Edge<Transition, State>> getEdgesToColor() {
         return edgeToColor;
     }
 

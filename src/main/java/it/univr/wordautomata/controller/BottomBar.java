@@ -424,18 +424,18 @@ public class BottomBar extends GridPane {
     }
 
     /**
-     * Returns the state of the previous button.
+     * Returns the previous state button.
      * 
-     * @return the state of the previous button
+     * @return the previous state button
      */
     public Button getPreviousStateButton() {
         return previousStateButton;
     }
 
     /**
-     * Returns the state of the next button.
+     * Returns the next state button.
      * 
-     * @return the state of the next button
+     * @return the next state button
      */
     public Button getNextStateButton() {
         return nextStateButton;
@@ -450,6 +450,12 @@ public class BottomBar extends GridPane {
         return wordInput.getText();
     }
 
+
+    /**
+     * Displays the "Why" modal window.
+     * If the modal window has not been created yet, it creates a new instance of the WhyModal class.
+     * The "Why" button is disabled while the modal window is being shown.
+     */
     @FXML
     public void showWhy() {
         if (whyModal == null) {

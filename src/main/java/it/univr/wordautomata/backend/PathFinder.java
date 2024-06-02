@@ -28,10 +28,10 @@ public class PathFinder {
     /**
      * Finds a path in the graph that matches the given word.
      *
-     * @param word The word to find a path for.
+     * @param word  The word to find a path for.
      * @param graph The graph to search
-     * @return A list of edges representing the path if found, or null if no path is
-     *         found.
+     * @return A list of edges representing the path if found,
+     *         or null if no path is found.
      */
     public static List<Edge<Transition, State>> getPath(String word, DigraphEdgeList<State, Transition> graph) {
         List<Edge<Transition, State>> path = new ArrayList<>();
@@ -52,8 +52,8 @@ public class PathFinder {
      * Finds a path in the graph that matches the given word
      * 
      * @param word he word to find a path for.
-     * @return A list of edges representing the path if found, or null if no path is
-     *         found.
+     * @return A list of edges representing the path if found,
+     *         or null if no path is found.
      */
     public static List<Edge<Transition, State>> getPath(String word) {
         return getPath(word, Model.getInstance().getGraph());
@@ -67,7 +67,8 @@ public class PathFinder {
      * @param v     The starting vertex.
      * @param word  The word to be consumed.
      * @param path  The list to store the edges of the path.
-     * @return {@code true} if a path is found and the word is consumed completely,
+     * @return {@code true} if a path is found and the word is
+     *         consumed completely,
      *         {@code false} otherwise.
      */
     private static boolean findPath(
@@ -98,18 +99,14 @@ public class PathFinder {
     }
 
     /**
-     * Represents a boolean property that can be observed for changes.
-     * This class is a simple implementation of the
-     * {@link javafx.beans.property.BooleanProperty} interface.
+     * Tells if the entire word was consumed.
      */
     public static SimpleBooleanProperty consumedAllWordProperty() {
         return consumedAllWord;
     }
 
     /**
-     * Represents a simple boolean property in JavaFX.
-     * A simple boolean property can be used to track and observe changes to a
-     * boolean value.
+     * Tells if the path ended on a final state.
      */
     public static SimpleBooleanProperty endedOnFinalStateProperty() {
         return endedOnFinalState;
@@ -117,8 +114,6 @@ public class PathFinder {
 
     /**
      * Clears the properties of the PathFinder.
-     * This method resets the values of the consumedAllWord and endedOnFinalState
-     * properties to false.
      */
     public static void clearProperties() {
         consumedAllWord.set(false);

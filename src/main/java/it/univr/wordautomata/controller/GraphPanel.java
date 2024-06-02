@@ -87,8 +87,8 @@ public class GraphPanel extends StackPane {
      * @return true if there is an edge to color, false otherwise
      */
     private boolean colorNextEdge() {
-        if (model.getEdgeToColor().hasNext()) {
-            Edge<Transition, State> e = model.getEdgeToColor().next();
+        if (model.getEdgesToColor().hasNext()) {
+            Edge<Transition, State> e = model.getEdgesToColor().next();
 
             colorTimeline = new Timeline();
             colorTimeline.rateProperty().bind(timeline.rateProperty());
@@ -153,7 +153,7 @@ public class GraphPanel extends StackPane {
                                 // the children follow the pattern: state - edge - state,
                                 // we jump directly to the edge we need to
                                 components.getBottomBar()
-                                        .colorTransitionButtonAt(model.getEdgeToColor().previousIndex() * 2 + 1);
+                                        .colorTransitionButtonAt(model.getEdgesToColor().previousIndex() * 2 + 1);
                             }
                         }));
             }
@@ -210,13 +210,13 @@ public class GraphPanel extends StackPane {
      * @return true if there is a previous edge to clear, false otherwise
      */
     private boolean clearPrevEdge() {
-        if (model.getEdgeToColor().hasPrevious()) {
+        if (model.getEdgesToColor().hasPrevious()) {
             colorTimeline.stop();
 
-            Edge<Transition, State> e = model.getEdgeToColor().previous();
+            Edge<Transition, State> e = model.getEdgesToColor().previous();
             SmartGraphEdge<Transition, State> stylableEdge = graphView.getStylableEdge(e);
 
-            components.getBottomBar().clearTransitionButtonAt(model.getEdgeToColor().nextIndex() * 2 + 1);
+            components.getBottomBar().clearTransitionButtonAt(model.getEdgesToColor().nextIndex() * 2 + 1);
 
             stylableEdge.removeStyleClass(Constants.ACTIVE_EDGE_CLASS);
             stylableEdge.setStyleInline(null);
@@ -247,8 +247,8 @@ public class GraphPanel extends StackPane {
      */
     private void resetColoring() {
         clearAllEdges();
-        while (model.getEdgeToColor().hasPrevious())
-            model.getEdgeToColor().previous();
+        while (model.getEdgesToColor().hasPrevious())
+            model.getEdgesToColor().previous();
     }
 
     /**
@@ -298,8 +298,8 @@ public class GraphPanel extends StackPane {
                     // reset everything if:
                     // a) we completed a whole animation, or
                     // b) we are starting a new one
-                    if ((timeline.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgeToColor().hasNext())
-                            || !model.getEdgeToColor().hasPrevious())
+                    if ((timeline.getStatus().equals(Animation.Status.STOPPED) && !model.getEdgesToColor().hasNext())
+                            || !model.getEdgesToColor().hasPrevious())
                         resetColoring();
                     timeline.play();
                 }
