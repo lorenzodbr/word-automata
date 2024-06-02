@@ -7,6 +7,7 @@ import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Desktop;
@@ -221,7 +222,7 @@ public class Methods {
 
         if (file != null) {
             Model.getInstance().setOpenedFile(file);
-            AutomataSaver.save(file);
+            AutomataSaver.save(file, false);
         }
     }
 
@@ -316,6 +317,13 @@ public class Methods {
     }
 
     public static File getResource(Class<?> className, String folder, String name) {
-        return new File(className.getClassLoader().getResource(folder + System.getProperty("file.separator") + name).getFile());
+        try {
+            return new File(className
+                    .getResource(
+                            "/" + folder + "/" + name)
+                    .toURI());
+        } catch (URISyntaxException e) {
+            return null;
+        }
     }
 }

@@ -1,21 +1,26 @@
 package it.univr.wordautomata;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
 import com.brunomnsilva.smartgraph.graph.Vertex;
 
+import it.univr.wordautomata.backend.AutomataSaver;
+import it.univr.wordautomata.backend.PathFinder;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
+import javafx.scene.shape.Path;
 
 public class WordAutomataTest {
     private static final WordAutomata instance = new WordAutomata();
@@ -23,6 +28,7 @@ public class WordAutomataTest {
             Methods.getResource(WordAutomataTest.class, "tests", "deterministic.automata"),
             Methods.getResource(WordAutomataTest.class, "tests", "rejected.automata"),
             Methods.getResource(WordAutomataTest.class, "tests", "stats.automata"));
+    private static final String[] testWords = { /* TO BE ADDED */ };
 
     @Test
     public void testPath() {
@@ -35,10 +41,23 @@ public class WordAutomataTest {
      * Check if the path is (not) found correctly
      */
     private void performPathTest(File file) {
-        // TODO
-        assertTrue(true);
+        DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
+        assertNotNull(graph);
+
+        for (String word : testWords) {
+            List<Edge<Transition, State>> path = PathFinder.getPath(word, graph);
+            if (path != null) {
+                assertTrue(PathFinder.consumedAllWordProperty().get());
+                assertTrue(PathFinder.endedOnFinalStateProperty().get());
+            }
+
+            // TODO: test rejected cases
+        }
     }
 
+    /*
+     * Modifies automata and check if it has been saved correctly
+     */
     @Test
     public void testSaveAndRead() {
         for (File file : testFiles) {
@@ -46,9 +65,6 @@ public class WordAutomataTest {
         }
     }
 
-    /*
-     * Check if saving the automata and then reading it back results in the same
-     */
     private void performSaveAndReadTest(File file) {
         // TODO
         assertTrue(true);

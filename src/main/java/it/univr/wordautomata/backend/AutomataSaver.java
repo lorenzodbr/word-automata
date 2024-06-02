@@ -22,7 +22,8 @@ import it.univr.wordautomata.utils.Constants;
 import javafx.stage.FileChooser;
 
 /**
- * The AutomataSaver class provides methods for saving and reading automata objects to/from files,
+ * The AutomataSaver class provides methods for saving and reading automata
+ * objects to/from files,
  * as well as managing recent files and file dialogs.
  */
 public class AutomataSaver {
@@ -36,7 +37,7 @@ public class AutomataSaver {
      *
      * @param file the file to save the automata to
      */
-    public static void save(File file) {
+    public static void save(File file, boolean debug) {
         DigraphEdgeList<State, Transition> graph = Model.getInstance().getGraph();
 
         try (
@@ -44,15 +45,18 @@ public class AutomataSaver {
                 ObjectOutputStream out = new ObjectOutputStream(fileStream)) {
             out.writeObject(graph);
             out.writeObject(Model.getInstance().getInitialState());
-            Model.getInstance().setSaved(true);
 
-            recordRecentFile(file);
+            if (!debug) {
+                Model.getInstance().setSaved(true);
+                recordRecentFile(file);
+            }
         } catch (Exception e) {
             e.printStackTrace();
 
-            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Saving Automata",
-                    "An error occurred while saving the automata.",
-                    false);
+            if (!debug)
+                Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Saving Automata",
+                        "An error occurred while saving the automata.",
+                        false);
         }
     }
 
@@ -63,36 +67,38 @@ public class AutomataSaver {
      * @return the DigraphEdgeList read from the file
      */
     @SuppressWarnings("unchecked")
-    public static DigraphEdgeList<State, Transition> read(File file) {
+    public static DigraphEdgeList<State, Transition> read(File file, boolean debug) {
         DigraphEdgeList<State, Transition> graph = null;
 
-        try (
-                FileInputStream fileStream = new FileInputStream(file);
+        try (FileInputStream fileStream = new FileInputStream(file);
                 ObjectInputStream in = new ObjectInputStream(fileStream)) {
             graph = (DigraphEdgeList<State, Transition>) in.readObject();
-
             Model.getInstance().setInitialState((State) in.readObject());
-            Model.getInstance().setOpenedFile(file);
-            recordRecentFile(file);
+
+            if (!debug) {
+                Model.getInstance().setOpenedFile(file);
+                recordRecentFile(file);
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
 
-            Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Reading Automata",
-                    "An error occurred while reading the automata.",
-                    false);
+            if (!debug)
+                Alerts.showErrorDialog(Components.getInstance().getScene(), "Error Reading Automata",
+                        "An error occurred while reading the automata.",
+                        false);
         }
 
         return graph;
     }
 
     /**
-        * Returns the temporary folder used by the application.
-        * If the folder doesn't exist, it creates a new one.
-        * Also, if the recent files file doesn't exist, it creates a new one.
-        *
-        * @return the temporary folder used by the application
-        * @throws IOException if an I/O error occurs while creating the folder or file
-        */
+     * Returns the temporary folder used by the application.
+     * If the folder doesn't exist, it creates a new one.
+     * Also, if the recent files file doesn't exist, it creates a new one.
+     *
+     * @return the temporary folder used by the application
+     * @throws IOException if an I/O error occurs while creating the folder or file
+     */
     public static File getTmpFolder() throws IOException {
         if (tmpFolder == null) {
             tmpFolder = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator")
@@ -136,8 +142,10 @@ public class AutomataSaver {
 
     /**
      * Records the given file as a recent file in the application.
-     * If the file already exists in the recent files list, it is removed and added to the top.
-     * If the number of recent files exceeds the maximum limit, the oldest file is removed.
+     * If the file already exists in the recent files list, it is removed and added
+     * to the top.
+     * If the number of recent files exceeds the maximum limit, the oldest file is
+     * removed.
      *
      * @param file the file to be recorded as a recent file
      */
@@ -182,7 +190,7 @@ public class AutomataSaver {
      * Saves the currently opened file.
      */
     public static void save() {
-        save(Model.getInstance().getOpenedFile());
+        save(Model.getInstance().getOpenedFile(), false);
     }
 
     /**
@@ -191,7 +199,7 @@ public class AutomataSaver {
      * @return the DigraphEdgeList read from the file
      */
     public static DigraphEdgeList<State, Transition> read() {
-        return read(new File(Constants.DEFAULT_AUTOMATA_FILENAME + Constants.AUTOMATA_EXTENSION));
+        return read(new File(Constants.DEFAULT_AUTOMATA_FILENAME + Constants.AUTOMATA_EXTENSION), false);
     }
 
     /**

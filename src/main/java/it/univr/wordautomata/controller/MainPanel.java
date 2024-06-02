@@ -232,7 +232,7 @@ public class MainPanel extends BorderPane {
             return;
         }
 
-        model.updateGraph(AutomataSaver.read(file));
+        model.updateGraph(AutomataSaver.read(file, false));
         Components.getInstance().getBottomBar().computePath();
     }
 
