@@ -314,4 +314,8 @@ public class Methods {
         dialog.getDialogPane().getButtonTypes().setAll(ButtonType.CLOSE);
         dialog.showAndWait();
     }
+
+    public static File getResource(Class<?> className, String folder, String name) {
+        return new File(className.getClassLoader().getResource(folder + System.getProperty("file.separator") + name).getFile());
+    }
 }
