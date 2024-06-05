@@ -1,26 +1,21 @@
 package it.univr.wordautomata;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
-import com.brunomnsilva.smartgraph.graph.Vertex;
-
 import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.backend.PathFinder;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
-import javafx.scene.shape.Path;
 
 public class WordAutomataTest {
     private static final WordAutomata instance = new WordAutomata();
@@ -28,7 +23,16 @@ public class WordAutomataTest {
             Methods.getResource(WordAutomataTest.class, "tests", "deterministic.automata"),
             Methods.getResource(WordAutomataTest.class, "tests", "rejected.automata"),
             Methods.getResource(WordAutomataTest.class, "tests", "stats.automata"));
-    private static final String[] testWords = { /* TO BE ADDED */ };
+    private static final String[] testWords = {
+            "xxxy",
+            "xy",
+            "yxy"
+    };
+    private static final String[][] testPaths = {
+        {"xxx", "y"},
+        {"x", "y"},
+        {"yxy"}
+    };
 
     @Test
     public void testPath() {
@@ -42,6 +46,7 @@ public class WordAutomataTest {
      */
     private void performPathTest(File file) {
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
+        Model.getInstance().updateGraph(graph);
         assertNotNull(graph);
 
         for (String word : testWords) {
@@ -50,8 +55,6 @@ public class WordAutomataTest {
                 assertTrue(PathFinder.consumedAllWordProperty().get());
                 assertTrue(PathFinder.endedOnFinalStateProperty().get());
             }
-
-            // TODO: test rejected cases
         }
     }
 

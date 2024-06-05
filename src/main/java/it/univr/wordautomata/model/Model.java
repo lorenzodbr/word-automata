@@ -449,7 +449,9 @@ public class Model {
 
         this.graph = new DigraphEdgeList<>(graph);
         updateGraphProperties();
-        Components.getInstance().getGraphPanel().initGraph();
+        // for headless mode in unit tests
+        if (Components.getInstance().getGraphPanel() != null)
+            Components.getInstance().getGraphPanel().initGraph();
         Model.getInstance().setSaved(true);
     }
 
