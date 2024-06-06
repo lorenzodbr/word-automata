@@ -27,13 +27,15 @@ public class WordAutomataTest {
             Methods.getResource(WordAutomataTest.class, "tests", "rejected.automata"),
             Methods.getResource(WordAutomataTest.class, "tests", "stats.automata"));
 
-    public record Pair<T, U>(T first, U second) {
-    }
-
-    private static final List<Pair<String, Boolean>> testWords = List.of(
-            new Pair<String,Boolean>("xxxy", true),
-            new Pair<String,Boolean>("xy", true),
-            new Pair<String,Boolean>("yxy", true)
+    private static final List<String> testWords = List.of(
+            "xxxy",
+            "xy",
+            "yxy"
+    );
+    private static final List<Boolean> testResults = List.of(
+        true,
+        true,
+        true
     );
 
     private static final String[][] testPaths = {
@@ -44,32 +46,28 @@ public class WordAutomataTest {
 
     @Test
     public void testPath() {
-        for (File file : testFiles) {
-            performPathTest(file);
-        }
+        for (int i = 0; i < testFiles.size(); i++)
+            performPathTest(testFiles.get(i), testWords.get(i), testResults.get(i));
     }
 
     /*
      * Check if the path is (not) found correctly
      */
-    private void performPathTest(File file) {
+    private void performPathTest(File file, String word, boolean found) {
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
         assertNotNull(graph);
         Model.getInstance().updateGraph(graph);
 
-        for (Pair<String, Boolean> pair : testWords) {
-            String word = pair.first;
-            boolean found = pair.second;
-            List<Edge<Transition, State>> path = PathFinder.getPath(word, graph);
+        List<Edge<Transition, State>> path = PathFinder.getPath(word, graph);
 
-            if (found) {
-                assertNotNull(path);
-                assertTrue(PathFinder.consumedAllWordProperty().get());
-                assertTrue(PathFinder.endedOnFinalStateProperty().get());
-            } else {
-                assertNull(path);
-            }
+        if (found) {
+            assertNotNull(path);
+            assertTrue(PathFinder.consumedAllWordProperty().get());
+            assertTrue(PathFinder.endedOnFinalStateProperty().get());
+        } else {
+            assertNull(path);
         }
+
     }
 
     /*
