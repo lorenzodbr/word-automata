@@ -67,16 +67,6 @@ public class Transition implements Comparable<Transition>, Serializable {
     }
 
     /**
-     * Generates a hash code for the transition based on its label.
-     *
-     * @return a hash code for the transition
-     */
-    @Override
-    public int hashCode() {
-        return label.get().hashCode();
-    }
-
-    /**
      * Compares this transition to another transition based on their labels.
      *
      * @param other the other transition to compare to
