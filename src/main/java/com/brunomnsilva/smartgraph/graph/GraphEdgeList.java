@@ -48,8 +48,8 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
      * Default constructor that initializes an empty graph.
      */
     public GraphEdgeList() {
-        this.vertices = new HashMap<>();
-        this.edges = new HashMap<>();
+        this.vertices = new TreeMap<>();
+        this.edges = new TreeMap<>();
     }
 
     @Override
@@ -381,5 +381,20 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
         }
 
         return edge;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final GraphEdgeList<V, E> other = (GraphEdgeList<V, E>) obj;
+
+        return toString().equals(other.toString());
     }
 }

@@ -1,5 +1,6 @@
 package it.univr.wordautomata;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,9 +30,9 @@ public class WordAutomataTest {
             "yxy"
     };
     private static final String[][] testPaths = {
-        {"xxx", "y"},
-        {"x", "y"},
-        {"yxy"}
+            { "xxx", "y" },
+            { "x", "y" },
+            { "yxy" }
     };
 
     @Test
@@ -46,8 +47,8 @@ public class WordAutomataTest {
      */
     private void performPathTest(File file) {
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
-        Model.getInstance().updateGraph(graph);
         assertNotNull(graph);
+        Model.getInstance().updateGraph(graph);
 
         for (String word : testWords) {
             List<Edge<Transition, State>> path = PathFinder.getPath(word, graph);
@@ -69,8 +70,19 @@ public class WordAutomataTest {
     }
 
     private void performSaveAndReadTest(File file) {
-        // TODO
-        assertTrue(true);
+        DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
+        assertNotNull(graph);
+        Model.getInstance().updateGraph(graph);
+
+        graph.vertices().forEach(v -> {
+            v.element().setFinal(!v.element().isFinal());
+        });
+
+        AutomataSaver.save(file, true);
+
+        DigraphEdgeList<State, Transition> newGraph = AutomataSaver.read(file, true);
+        assertNotNull(newGraph);
+        assertEquals(graph, newGraph);
     }
 
     @Test
