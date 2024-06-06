@@ -52,14 +52,14 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
      * Default constructor that initializes an empty digraph.
      */
     public DigraphEdgeList() {
-        this.vertices = new TreeMap<>();
-        this.edges = new TreeMap<>();
+        this.vertices = new HashMap<>();
+        this.edges = new HashMap<>();
     }
 
     // copy constructor
     public DigraphEdgeList(DigraphEdgeList<V, E> graph) {
-        this.vertices = new TreeMap<>(graph.vertices);
-        this.edges = new TreeMap<>(graph.edges);
+        this.vertices = new HashMap<>(graph.vertices);
+        this.edges = new HashMap<>(graph.edges);
     }
 
     @Override
@@ -288,11 +288,25 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
                 String.format("Graph with %d vertices and %d edges:\n", numVertices(), numEdges()));
 
         sb.append("--- Vertices: \n");
-        for (Vertex<V> v : vertices.values()) {
+        List<Vertex<V>> verticesList = new ArrayList<>(vertices.values());
+        verticesList.sort((v1, v2) -> v1.element().toString().compareTo(v2.element().toString()));
+        for (Vertex<V> v : verticesList) {
             sb.append("\t").append(v.toString()).append("\n");
         }
         sb.append("\n--- Edges: \n");
-        for (Edge<E, V> e : edges.values()) {
+        List<Edge<E, V>> edgesList = new ArrayList<>(edges.values());
+        edgesList.sort((e1, e2) -> {
+            int c = e1.element().toString().compareTo(e2.element().toString());
+
+            if (c == 0)
+                c = e1.vertices()[0].element().toString().compareTo(e2.vertices()[0].element().toString());
+
+            if (c == 0)
+                c = e1.vertices()[1].element().toString().compareTo(e2.vertices()[1].element().toString());
+
+            return c;
+        });
+        for (Edge<E, V> e : edgesList) {
             sb.append("\t").append(e.toString()).append("\n");
         }
         return sb.toString();

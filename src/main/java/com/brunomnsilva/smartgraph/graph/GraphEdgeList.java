@@ -39,7 +39,9 @@ import java.util.*;
  */
 public class GraphEdgeList<V, E> implements Graph<V, E> {
 
-    /* inner classes are defined at the end of the class, so are the auxiliary methods 
+    /*
+     * inner classes are defined at the end of the class, so are the auxiliary
+     * methods
      */
     private final Map<V, Vertex<V>> vertices;
     private final Map<E, Edge<E, V>> edges;
@@ -48,8 +50,8 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
      * Default constructor that initializes an empty graph.
      */
     public GraphEdgeList() {
-        this.vertices = new TreeMap<>();
-        this.edges = new TreeMap<>();
+        this.vertices = new HashMap<>();
+        this.edges = new HashMap<>();
     }
 
     @Override
@@ -120,7 +122,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
 
     @Override
     public synchronized boolean areAdjacent(Vertex<V> u, Vertex<V> v) throws InvalidVertexException {
-        //we allow loops, so we do not check if u == v
+        // we allow loops, so we do not check if u == v
         checkVertex(v);
         checkVertex(u);
 
@@ -197,7 +199,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
 
         V element = v.element();
 
-        //remove incident edges
+        // remove incident edges
         Iterable<Edge<E, V>> incidentEdges = incidentEdges(v);
         for (Edge<E, V> edge : incidentEdges) {
             edges.remove(edge.element());
@@ -266,15 +268,28 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(
-                String.format("Graph with %d vertices and %d edges:\n", numVertices(), numEdges())
-        );
+                String.format("Graph with %d vertices and %d edges:\n", numVertices(), numEdges()));
 
         sb.append("--- Vertices: \n");
-        for (Vertex<V> v : vertices.values()) {
+        List<Vertex<V>> verticesList = new ArrayList<>(vertices.values());
+        verticesList.sort((v1, v2) -> v1.element().toString().compareTo(v2.element().toString()));
+        for (Vertex<V> v : verticesList) {
             sb.append("\t").append(v.toString()).append("\n");
         }
         sb.append("\n--- Edges: \n");
-        for (Edge<E, V> e : edges.values()) {
+        List<Edge<E, V>> edgesList = new ArrayList<>(edges.values());
+        edgesList.sort((e1, e2) -> {
+            int c = e1.element().toString().compareTo(e2.element().toString());
+
+            if (c == 0)
+                c = e1.vertices()[0].element().toString().compareTo(e2.vertices()[0].element().toString());
+
+            if (c == 0)
+                c = e1.vertices()[1].element().toString().compareTo(e2.vertices()[1].element().toString());
+
+            return c;
+        });
+        for (Edge<E, V> e : edgesList) {
             sb.append("\t").append(e.toString()).append("\n");
         }
         return sb.toString();
