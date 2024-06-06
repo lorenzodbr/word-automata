@@ -63,11 +63,9 @@ public class AddTransitionModalBody extends Pane {
      */
     public void validateAndUpdateTextField(String newValue) {
         String from = startingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
-        String to = endingStateChoiceBox.getSelectionModel().getSelectedItem().getLabel().get();
 
         boolean invalid = newValue.isBlank()
-                || Methods.existsTransitionFromVertex(from, newValue)
-                || Methods.existsTransitionToVertex(to, newValue);
+                || Methods.existsTransitionFromVertex(from, newValue);
 
         if (!errorLabel.visibleProperty().isBound()) {
             errorLabel.visibleProperty().bind(emptyTextfieldProperty);
