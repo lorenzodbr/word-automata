@@ -1,9 +1,6 @@
 package it.univr.wordautomata;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.util.List;
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.brunomnsilva.smartgraph.graph.DigraphEdgeList;
 import com.brunomnsilva.smartgraph.graph.Edge;
+
 import it.univr.wordautomata.backend.AutomataSaver;
 import it.univr.wordautomata.backend.PathFinder;
 import it.univr.wordautomata.model.Model;
@@ -19,6 +17,7 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 
 /**
  * Test class for {@link WordAutomata}.
@@ -81,17 +80,17 @@ public class WordAutomataTest {
      */
     private void performPathTest(File file, String word, boolean found) {
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
-        assertNotNull(graph);
+        Assertions.assertNotNull(graph);
         Model.getInstance().updateGraph(graph);
 
         List<Edge<Transition, State>> path = PathFinder.getPath(word, graph);
 
         if (found) {
-            assertNotNull(path);
-            assertTrue(PathFinder.consumedAllWordProperty().get());
-            assertTrue(PathFinder.endedOnFinalStateProperty().get());
+            Assertions.assertNotNull(path);
+            Assertions.assertTrue(PathFinder.consumedAllWordProperty().get());
+            Assertions.assertTrue(PathFinder.endedOnFinalStateProperty().get());
         } else {
-            assertNull(path);
+            Assertions.assertNull(path);
         }
     }
 
@@ -117,7 +116,7 @@ public class WordAutomataTest {
      */
     private void performSaveAndReadTest(File file) {
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
-        assertNotNull(graph);
+        Assertions.assertNotNull(graph);
         Model.getInstance().updateGraph(graph);
 
         graph.vertices().forEach(v -> {
@@ -127,8 +126,8 @@ public class WordAutomataTest {
         AutomataSaver.save(file, true);
 
         DigraphEdgeList<State, Transition> newGraph = AutomataSaver.read(file, true);
-        assertNotNull(newGraph);
-        assertEquals(graph, newGraph);
+        Assertions.assertNotNull(newGraph);
+        Assertions.assertEquals(graph, newGraph);
 
         Model.getInstance().updateGraph(graph);
 
@@ -164,16 +163,15 @@ public class WordAutomataTest {
      */
     private void performPathGUITest(File file, List<String> expected) {
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
-        assertNotNull(graph);
+        Assertions.assertNotNull(graph);
         Model.getInstance().updateGraph(graph);
 
         var children = instance.getComponents().getBottomBar().getTransitionsPanelHBox().getChildren();
 
-        System.err.println(children);
-        assertNotNull(children);
-        assertEquals(children.size(), expected.size());
+        Assertions.assertNotNull(children);
+        Assertions.assertEquals(children.size(), expected.size());
         for (int i = 0; i < expected.size(); i++) {
-            assertEquals(expected.get(i), children.get(i).toString());
+            Assertions.assertEquals(expected.get(i), ((Button) children.get(i)).getText());
         }
     }
 }
