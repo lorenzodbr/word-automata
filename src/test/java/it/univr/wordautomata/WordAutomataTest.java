@@ -2,6 +2,7 @@ package it.univr.wordautomata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
+import javafx.util.Pair;
 
 public class WordAutomataTest {
     private static final WordAutomata instance = new WordAutomata();
@@ -24,11 +26,16 @@ public class WordAutomataTest {
             Methods.getResource(WordAutomataTest.class, "tests", "deterministic.automata"),
             Methods.getResource(WordAutomataTest.class, "tests", "rejected.automata"),
             Methods.getResource(WordAutomataTest.class, "tests", "stats.automata"));
-    private static final String[] testWords = {
-            "xxxy",
-            "xy",
-            "yxy"
-    };
+
+    public record Pair<T, U>(T first, U second) {
+    }
+
+    private static final List<Pair<String, Boolean>> testWords = List.of(
+            new Pair<String,Boolean>("xxxy", true),
+            new Pair<String,Boolean>("xy", true),
+            new Pair<String,Boolean>("yxy", true)
+    );
+
     private static final String[][] testPaths = {
             { "xxx", "y" },
             { "x", "y" },
@@ -50,11 +57,17 @@ public class WordAutomataTest {
         assertNotNull(graph);
         Model.getInstance().updateGraph(graph);
 
-        for (String word : testWords) {
+        for (Pair<String, Boolean> pair : testWords) {
+            String word = pair.first;
+            boolean found = pair.second;
             List<Edge<Transition, State>> path = PathFinder.getPath(word, graph);
-            if (path != null) {
+
+            if (found) {
+                assertNotNull(path);
                 assertTrue(PathFinder.consumedAllWordProperty().get());
                 assertTrue(PathFinder.endedOnFinalStateProperty().get());
+            } else {
+                assertNull(path);
             }
         }
     }
