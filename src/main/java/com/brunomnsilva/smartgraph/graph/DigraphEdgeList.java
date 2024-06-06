@@ -425,6 +425,7 @@ public class DigraphEdgeList<V, E> implements Digraph<V, E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

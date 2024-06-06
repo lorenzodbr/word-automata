@@ -399,6 +399,7 @@ public class GraphEdgeList<V, E> implements Graph<V, E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
