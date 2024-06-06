@@ -30,6 +30,10 @@ public class WordAutomata extends Application {
     private Model model;
     private Components components;
 
+    public Components getComponents() {
+        return components;
+    }
+
     /**
      * Creates a new {@code WordAutomata}.
      */

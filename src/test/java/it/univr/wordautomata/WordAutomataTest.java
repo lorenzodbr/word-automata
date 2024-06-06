@@ -18,7 +18,6 @@ import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import it.univr.wordautomata.utils.Methods;
-import javafx.util.Pair;
 
 public class WordAutomataTest {
     private static final WordAutomata instance = new WordAutomata();
@@ -30,19 +29,15 @@ public class WordAutomataTest {
     private static final List<String> testWords = List.of(
             "xxxy",
             "xy",
-            "yxy"
-    );
+            "yxy");
     private static final List<Boolean> testResults = List.of(
-        true,
-        true,
-        true
-    );
-
-    private static final String[][] testPaths = {
-            { "xxx", "y" },
-            { "x", "y" },
-            { "yxy" }
-    };
+            true,
+            true,
+            true);
+    private static final List<List<String>> testPaths = List.of(
+            List.of("xxx", "y"),
+            List.of("x", "y"),
+            List.of("yxy"));
 
     @Test
     public void testPath() {
@@ -98,17 +93,28 @@ public class WordAutomataTest {
 
     @Test
     public void testPathGUI() {
-        for (File file : testFiles) {
-            performPathGUITest(file);
-        }
+        instance.run();
+
+        for (int i = 0; i < testFiles.size(); i++)
+            performPathGUITest(testFiles.get(i), testPaths.get(i));
     }
 
     /*
      * Check, when the path is found, if the GUI is updated correctly;
      * otherwise, check if the GUI is updated correctly when the path is not found
      */
-    private void performPathGUITest(File file) {
-        // TODO
-        assertTrue(true);
+    private void performPathGUITest(File file, List<String> expected) {
+        DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
+        assertNotNull(graph);
+        Model.getInstance().updateGraph(graph);
+
+        var children = instance.getComponents().getBottomBar().getTransitionsPanelHBox().getChildren();
+        
+        System.err.println(children);
+        assertNotNull(children);
+        assertEquals(children.size(), expected.size());
+        for (int i = 0; i < expected.size(); i++) {
+            assertEquals(expected.get(i), children.get(i).toString());
+        }
     }
 }
