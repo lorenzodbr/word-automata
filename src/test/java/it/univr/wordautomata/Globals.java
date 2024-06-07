@@ -12,7 +12,9 @@ public class Globals {
     public static final List<File> testFiles = List.of(
             Methods.getResource(PathTest.class, "tests", "deterministic.automata"),
             Methods.getResource(PathTest.class, "tests", "rejected.automata"),
-            Methods.getResource(PathTest.class, "tests", "stats.automata"));
+            Methods.getResource(PathTest.class, "tests", "stats.automata"),
+            Methods.getResource(PathTest.class, "tests", "noexit.automata"),
+            Methods.getResource(PathTest.class, "tests", "notfinal.automata"));
 
     /**
      * A list of test words.
@@ -20,7 +22,9 @@ public class Globals {
     public static final List<String> testWords = List.of(
             "xxxy",
             "xy",
-            "yxy");
+            "yxy",
+            "z",
+            "x");
 
     /**
      * A list of test results.
@@ -28,7 +32,9 @@ public class Globals {
     public static final List<Boolean> testResults = List.of(
             true,
             true,
-            true);
+            true,
+            false,
+            false);
 
     /**
      * A list of paths to test.
@@ -36,7 +42,9 @@ public class Globals {
     public static final List<List<String>> testPaths = List.of(
             List.of("xxx", "y"),
             List.of("x", "y"),
-            List.of("yxy"));
+            List.of("yxy"),
+            List.of(),
+            List.of());
 
     /**
      * An instance of the WordAutomata class.
