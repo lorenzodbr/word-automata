@@ -2,15 +2,7 @@ package it.univr.wordautomata.controller;
 
 import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 
-import it.univr.wordautomata.Main;
-import it.univr.wordautomata.alerts.Alerts;
-import it.univr.wordautomata.utils.Constants;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
@@ -25,9 +17,6 @@ public class Components {
     private BottomBar bottomBar;
     private GraphPanel graphPanel;
     private ContentZoomScrollPane contentZoomScrollPane;
-
-    private static int p = 0;
-    private static String peter = "PETER";
 
     private static Components instance;
 
@@ -62,7 +51,6 @@ public class Components {
      */
     public void setScene(Scene scene) {
         this.scene = scene;
-        scene.setOnKeyPressed(this::peterAlert);
     }
 
     /**
@@ -153,30 +141,5 @@ public class Components {
      */
     public ContentZoomScrollPane getContentZoomScrollPane() {
         return contentZoomScrollPane;
-    }
-
-    /**
-     * Shows an alert with Peter Griffin image if the user types "PETER".
-     * 
-     * @param e the key event
-     */
-    void peterAlert(KeyEvent e) {
-        char c = e.getCode().getChar().charAt(0);
-
-        if (peter.charAt(p) != c) {
-            p = c == 'P' ? 1 : 0;
-        } else {
-            p++;
-            if (p == peter.length()) {
-                Alert peterAlert = Alerts.createAlert(null, scene, "Peter Alert", "", "", ButtonType.OK);
-                peterAlert.setGraphic(new ImageView(new Image(Main.class
-                        .getResourceAsStream(
-                                Constants.ICON_BASE_FOLDER + "Petergriffin" + Constants.ICON_EXTENSION),
-                        100, 100, true, true)));
-                peterAlert.initOwner(stage.getOwner());
-                peterAlert.showAndWait();
-                p = 0;
-            }
-        }
     }
 }
