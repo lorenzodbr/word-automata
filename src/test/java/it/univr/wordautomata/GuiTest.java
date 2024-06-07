@@ -2,7 +2,10 @@ package it.univr.wordautomata;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
+import org.assertj.core.internal.bytebuddy.matcher.ModifierMatcher.Mode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -15,6 +18,7 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class GuiTest extends ApplicationTest {
     /**
@@ -40,7 +44,7 @@ public class GuiTest extends ApplicationTest {
     public void testPathGUI() {
         Platform.runLater(() -> {
             for (int i = 0; i < Globals.testFiles.size(); i++)
-                performPathGUITest(Globals.testFiles.get(i), Globals.testPaths.get(i));
+                performPathGUITest(Globals.testFiles.get(i), Globals.testPaths.get(i), Globals.testWords.get(i));
         });
     }
 
@@ -51,17 +55,20 @@ public class GuiTest extends ApplicationTest {
      * @param file     the file to test
      * @param expected the expected result
      */
-    private void performPathGUITest(File file, List<String> expected) {
+    private void performPathGUITest(File file, List<String> expected, String word) {
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
         Assertions.assertNotNull(graph);
         Model.getInstance().updateGraph(graph);
 
+        instance.getComponents().getBottomBar().getWordInput().setText(word);
+        instance.getComponents().getBottomBar().computePath(true);
+
         var children = instance.getComponents().getBottomBar().getTransitionsPanelHBox().getChildren();
 
         Assertions.assertNotNull(children);
-        Assertions.assertEquals(children.size(), expected.size() / 2);  // div 2: need to skip transition state labels
+        Assertions.assertEquals(children.size() / 2, expected.size()); // div 2: need to skip transition state labels
         for (int i = 0; i < expected.size(); i++) {
-            Assertions.assertEquals(expected.get(i), ((Button) children.get(i)).getText());
+            Assertions.assertEquals(expected.get(i), ((Button) children.get(2 * i + 1)).getText());
         }
     }
 }

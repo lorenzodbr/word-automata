@@ -393,7 +393,9 @@ public class SmartGraphPanel<V, E> extends Pane {
         if (node.getWidth() == 0 || node.getHeight() == 0) {
             throw new IllegalStateException("The layout for this panel has zero width and/or height");
         } else if (this.initialized) {
-            throw new IllegalStateException("Already initialized. Use update() method instead.");
+            // @TODO modified code, check if it was really important
+            //throw new IllegalStateException("Already initialized. Use update() method instead.");
+            return;
         }
 
         if (placementStrategy != null) {

@@ -29,7 +29,6 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import java.util.List;
-
 import org.kordamp.ikonli.boxicons.BoxiconsRegular;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -78,9 +77,12 @@ public class BottomBar extends GridPane {
         return transitionsPanelHBox;
     }
 
-
     @FXML
     private CustomTextField wordInput;
+
+    public CustomTextField getWordInput() {
+        return wordInput;
+    }
 
     @FXML
     private Label transitionsHint;
@@ -258,6 +260,10 @@ public class BottomBar extends GridPane {
      */
     @FXML
     public void computePath() {
+        computePath(false);
+    }
+
+    public void computePath(boolean debug) {
         transitionsHint.setVisible(true);
         whyButton.setManaged(false);
         whyButton.setVisible(false);
@@ -282,32 +288,39 @@ public class BottomBar extends GridPane {
             return;
         }
 
-        Platform.runLater(() -> {
-            List<Edge<Transition, State>> path = PathFinder.getPath(wordInput.getText());
+        // in debug mode we immediately need to have the buttons initialized
+        if (debug) {
+            doComputePath();
+        } else {
+            Platform.runLater(() -> doComputePath());
+        }
+    }
 
-            if (path == null) {
-                transitionsHint.setText("No path found");
-                whyButton.setManaged(true);
-                whyButton.setVisible(true);
-                mockWhyButton.setManaged(true);
-                transitionsHint.getStyleClass().add(Constants.NO_PATH_FOUND_TEXT_CLASS);
-                transitionsPanel.getStyleClass().add(Constants.NO_PATH_FOUND_PANEL_CLASS);
-                model.pathFoundProperty().set(false);
-                return;
-            }
+    private void doComputePath() {
+        List<Edge<Transition, State>> path = PathFinder.getPath(wordInput.getText());
 
-            model.pathFoundProperty().set(true);
-            model.setEdgeToColor(path.listIterator());
+        if (path == null) {
+            transitionsHint.setText("No path found");
+            whyButton.setManaged(true);
+            whyButton.setVisible(true);
+            mockWhyButton.setManaged(true);
+            transitionsHint.getStyleClass().add(Constants.NO_PATH_FOUND_TEXT_CLASS);
+            transitionsPanel.getStyleClass().add(Constants.NO_PATH_FOUND_PANEL_CLASS);
+            model.pathFoundProperty().set(false);
+            return;
+        }
 
-            transitionsHint.setVisible(false);
-            transitionsPanelHBox.getChildren().add(getStateLabel(model.getInitialState().toString()));
+        model.pathFoundProperty().set(true);
+        model.setEdgeToColor(path.listIterator());
 
-            for (var e : path) {
-                transitionsPanelHBox.getChildren().addAll(
-                        getTransitionButton(e.element().toString()),
-                        getStateLabel(((State) e.vertices()[1].element()).toString()));
-            }
-        });
+        transitionsHint.setVisible(false);
+        transitionsPanelHBox.getChildren().add(getStateLabel(model.getInitialState().toString()));
+
+        for (var e : path) {
+            transitionsPanelHBox.getChildren().addAll(
+                    getTransitionButton(e.element().toString()),
+                    getStateLabel(((State) e.vertices()[1].element()).toString()));
+        }
     }
 
     /**
@@ -455,10 +468,10 @@ public class BottomBar extends GridPane {
         return wordInput.getText();
     }
 
-
     /**
      * Displays the "Why" modal window.
-     * If the modal window has not been created yet, it creates a new instance of the WhyModal class.
+     * If the modal window has not been created yet, it creates a new instance of
+     * the WhyModal class.
      * The "Why" button is disabled while the modal window is being shown.
      */
     @FXML
