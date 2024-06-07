@@ -2,8 +2,6 @@ package it.univr.wordautomata;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-
 import it.univr.wordautomata.utils.Methods;
 
 public class Globals {

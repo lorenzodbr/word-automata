@@ -2,10 +2,6 @@ package it.univr.wordautomata;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Semaphore;
-
-import org.assertj.core.internal.bytebuddy.matcher.ModifierMatcher.Mode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -18,7 +14,6 @@ import it.univr.wordautomata.model.State;
 import it.univr.wordautomata.model.Transition;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 public class GuiTest extends ApplicationTest {
     /**
