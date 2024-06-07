@@ -59,7 +59,7 @@ public class GuiTest extends ApplicationTest {
         var children = instance.getComponents().getBottomBar().getTransitionsPanelHBox().getChildren();
 
         Assertions.assertNotNull(children);
-        Assertions.assertEquals(children.size(), expected.size());
+        Assertions.assertEquals(children.size(), expected.size() / 2);  // div 2: need to skip transition state labels
         for (int i = 0; i < expected.size(); i++) {
             Assertions.assertEquals(expected.get(i), ((Button) children.get(i)).getText());
         }
