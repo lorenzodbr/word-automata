@@ -4,7 +4,6 @@
 ![Build passed](https://img.shields.io/badge/build-passed-brightgreen)
 ![Version](https://img.shields.io/badge/version-1.0.2-blue)
 ![Maintainability](https://img.shields.io/badge/maintainability-A-brightgreen)
-![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
 ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)
 ![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)
@@ -18,7 +17,9 @@ Word Automata is a graphical tool that allows you to create and simulate automat
 
 ## Installation
 
-Instructions will be added soon™. As of right now, you can just clone the repository and run the project with Maven, using at least Java 21.
+You only have to download the latest release from the [releases page](https://github.com/lorenzodbr/word-automata/releases/latest) and run the ``.jar`` file. Be sure to have (at least) Java 21 installed on your machine. 
+
+You can also build the project yourself with Maven.
 
 ## Dependencies
 
