@@ -525,8 +525,8 @@ public class SmartGraphVertexNode<T> extends Group implements SmartGraphVertex<T
 
         setOnMouseReleased((MouseEvent mouseEvent) -> {
             if (transitionDrag) {
-                parent.removeDummyEdge();
                 transitionDrag = false;
+                parent.removeDummyEdge();
                 Node vertex = pick(parent, mouseEvent.getSceneX(), mouseEvent.getSceneY());
                 if (vertex instanceof SmartGraphVertexNode vAsVertex) {
                     Components.getInstance().getGraphPanel().addEdge((State) this.getUnderlyingVertex().element(),

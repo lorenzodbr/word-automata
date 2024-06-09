@@ -38,6 +38,8 @@ public class PathTest {
      * @param found the expected result
      */
     private void performPathTest(File file, String word, boolean found) {
+        System.out.println("Performing path test for file: " + file.getName() + " and word: " + word);
+        
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
         Assertions.assertNotNull(graph);
         Model.getInstance().updateGraph(graph);

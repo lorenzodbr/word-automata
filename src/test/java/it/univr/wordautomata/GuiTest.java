@@ -51,6 +51,8 @@ public class GuiTest extends ApplicationTest {
      * @param expected the expected result
      */
     private void performPathGUITest(File file, List<String> expected, String word) {
+        System.out.println("Performing path GUI test for file: " + file.getName() + " and word: " + word);
+        
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
         Assertions.assertNotNull(graph);
         Model.getInstance().updateGraph(graph);

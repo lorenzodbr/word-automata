@@ -38,6 +38,8 @@ public class SaveTest {
      * @param file the file to perform the save and read test on
      */
     private void performSaveAndReadTest(File file) {
+        System.out.println("Performing path test for file: " + file.getName());
+
         DigraphEdgeList<State, Transition> graph = AutomataSaver.read(file, true);
         Assertions.assertNotNull(graph);
         Model.getInstance().updateGraph(graph);
