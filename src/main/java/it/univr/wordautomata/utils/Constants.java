@@ -96,6 +96,10 @@ public class Constants {
     /*
      * Enums
      */
+
+    /**
+     * The different speed at which the timeline can be played
+     */
     public enum PlayBackSpeed {
         SLOW,
         REGULAR,
@@ -135,7 +139,7 @@ public class Constants {
     }
 
     /**
-     * Timeline playback states
+     * The different playback states of the timeline
      */
     public enum PlayBackState {
         PAUSED,
