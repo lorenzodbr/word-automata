@@ -129,17 +129,7 @@ public class State implements Comparable<State>, Serializable {
     public boolean equals(Object o) {
         return (o instanceof State) && compareTo((State) o) == 0;
     }
-
-    /**
-     * Returns the hash code of the state based on its label.
-     *
-     * @return the hash code of the state
-     */
-    @Override
-    public int hashCode() {
-        return label.get().hashCode();
-    }
-
+    
     /**
      * Writes the state to an object output stream
      * 

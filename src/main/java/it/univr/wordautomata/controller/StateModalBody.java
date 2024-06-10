@@ -96,7 +96,7 @@ public class StateModalBody extends GridPane {
 
         stateLabelTextField.setText(state.toString());
         stateLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean invalid = newValue == null || newValue.isBlank() || Methods.existsState(newValue);
+            boolean invalid = newValue == null || newValue.isBlank() || Methods.existsState(newValue, state);
 
             if (!invalid) {
                 popover.hide();

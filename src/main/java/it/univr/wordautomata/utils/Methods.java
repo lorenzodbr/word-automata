@@ -230,10 +230,12 @@ public class Methods {
      * Checks if a given state exists.
      *
      * @param label the label of the state to check
+     * @param state the state to check
      * @return true if the state exists, false otherwise
      */
-    public static boolean existsState(String label) {
-        return Model.getInstance().getGraph().objectsInVertices().contains(new State(label));
+    public static boolean existsState(String label, State state) {
+        return Model.getInstance().getGraph().objectsInVertices().stream()
+                .anyMatch(e -> !e.equals(state) && ((State) e).getLabel().get().equals(label));
     }
 
     /**
