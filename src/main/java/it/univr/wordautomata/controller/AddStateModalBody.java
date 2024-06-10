@@ -38,7 +38,7 @@ public class AddStateModalBody extends Pane {
         emptyTextfieldProperty = new SimpleBooleanProperty(true);
 
         stateLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean invalid = newValue.isBlank() || Methods.existsState(newValue);
+            boolean invalid = newValue.isBlank() || Methods.existsState(newValue, null);
 
             if (!errorLabel.visibleProperty().isBound()) {
                 errorLabel.visibleProperty().bind(emptyTextfieldProperty);
