@@ -185,11 +185,14 @@ public class Methods {
             clearGraphMenuItem.getStyleClass().add(Constants.MENU_ITEM_DANGER_CLASS);
 
             addStateMenuItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel().addVertex());
+                    e -> Components.getInstance().getGraphPanel().addVertex(
+                            contextMenu.getAnchorX() - contextMenu.getWidth() / 2,
+                            contextMenu.getAnchorY() - contextMenu.getHeight() / 2));
             addTransitionMenuItem.setOnAction(
                     e -> Components.getInstance().getGraphPanel().addEdge());
             clearGraphMenuItem.setOnAction(
                     e -> Components.getInstance().getMainPanel().clearGraph());
+            clearGraphMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
 
             menu.getItems().addAll(addStateMenuItem, addTransitionMenuItem);
             items.add(menu);

@@ -333,9 +333,8 @@ public class GraphPanel extends StackPane {
             return String.format("%.0f%%", components.getContentZoomScrollPane().scaleFactorProperty().get() * 50 + 50);
         }, components.getContentZoomScrollPane().scaleFactorProperty()));
 
-        components.getContentZoomScrollPane().scaleFactorProperty().addListener((o, oldVal, newVal) -> {
-            showAndHideZoomLabel();
-        });
+        components.getContentZoomScrollPane().scaleFactorProperty()
+                .addListener((o, oldVal, newVal) -> showAndHideZoomLabel());
 
         showAndHideZoomLabel();
 
@@ -435,7 +434,6 @@ public class GraphPanel extends StackPane {
         } else if (!model.isAutoPositioningEnabled()) {
             double xRand = Math.random() * (graphView.getWidth() * 0.8) + graphView.getWidth() * 0.1;
             double yRand = Math.random() * (graphView.getHeight() * 0.8) + graphView.getHeight() * 0.1;
-
             graphView.setVertexPosition(v, xRand, yRand);
         }
 
