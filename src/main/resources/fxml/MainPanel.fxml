@@ -110,7 +110,7 @@
                             onAction="#showLegend" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#openGitHub"
-                            text="Open project page">
+                            text="Project page">
                             <graphic>
                                 <FontIcon iconLiteral="bxl-github" />
                             </graphic>

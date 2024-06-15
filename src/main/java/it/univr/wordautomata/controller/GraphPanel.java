@@ -11,7 +11,6 @@ import com.brunomnsilva.smartgraph.graphview.SmartGraphPanel;
 import com.brunomnsilva.smartgraph.graphview.SmartGraphVertex;
 
 import atlantafx.base.controls.ModalPane;
-import atlantafx.base.theme.Styles;
 import it.univr.wordautomata.alerts.Alerts;
 import it.univr.wordautomata.model.Model;
 import it.univr.wordautomata.model.State;
@@ -255,19 +254,9 @@ public class GraphPanel extends StackPane {
      * Initializes the edge coloring.
      */
     public void initEdgeColoring() {
-        model.isPlayNextPressed().addListener((o, oldVal, newVal) -> {
-            boolean danger = !colorNextEdge();
+        model.isPlayNextPressed().addListener((o, oldVal, newVal) -> colorNextEdge());
 
-            components.getBottomBar().getNextStateButton().pseudoClassStateChanged(Styles.STATE_DANGER, danger);
-            components.getBottomBar().getPreviousStateButton().pseudoClassStateChanged(Styles.STATE_DANGER, false);
-        });
-
-        model.isPlayPrevPressed().addListener((o, oldVal, newVal) -> {
-            boolean danger = !clearPrevEdge();
-
-            components.getBottomBar().getPreviousStateButton().pseudoClassStateChanged(Styles.STATE_DANGER, danger);
-            components.getBottomBar().getNextStateButton().pseudoClassStateChanged(Styles.STATE_DANGER, false);
-        });
+        model.isPlayPrevPressed().addListener((o, oldVal, newVal) -> clearPrevEdge());
 
         model.areButtonsEnabled().addListener((o, oldVal, newVal) -> clearAllEdges());
 
@@ -278,9 +267,6 @@ public class GraphPanel extends StackPane {
         }, model.playBackSpeedProperty()));
 
         model.playBackStateProperty().addListener((o, oldVal, newVal) -> {
-            components.getBottomBar().getNextStateButton().pseudoClassStateChanged(Styles.STATE_DANGER, false);
-            components.getBottomBar().getPreviousStateButton().pseudoClassStateChanged(Styles.STATE_DANGER, false);
-
             if (newVal.equals(Constants.PlayBackState.PAUSED)) {
                 timeline.pause();
             } else if (newVal.equals(Constants.PlayBackState.PLAYING)) {
