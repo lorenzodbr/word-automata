@@ -193,6 +193,7 @@ public class Methods {
             clearGraphMenuItem.setOnAction(
                     e -> Components.getInstance().getMainPanel().clearGraph());
             clearGraphMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
+            addTransitionMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
 
             menu.getItems().addAll(addStateMenuItem, addTransitionMenuItem);
             items.add(menu);
