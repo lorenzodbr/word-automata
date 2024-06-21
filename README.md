@@ -1,13 +1,14 @@
 # Word Automata
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![Build passed](https://img.shields.io/badge/build-passed-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0.2-blue)
-![Maintainability](https://img.shields.io/badge/maintainability-A-brightgreen)
+[![Build passed](https://img.shields.io/badge/build-passed-brightgreen)]()
+[![Version](https://img.shields.io/badge/version-1.0.2-blue)]()
+[![Javadoc](https://img.shields.io/badge/javadoc-1.0.2-brightgreen)]()
+[![Maintainability](https://img.shields.io/badge/maintainability-A-brightgreen)]()
 
-![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)
-![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)
-![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+[![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)]()
+[![JavaFX](https://img.shields.io/badge/javafx-%23FF0000.svg?style=for-the-badge&logo=javafx&logoColor=white)]()
+[![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)]()
 
 > Final project for my Software Engineering course @ UniVR &mdash; A.Y. 2023/2024. A simple documentation (written in Italian) can be found [here](https://github.com/lorenzodbr/word-automata-doc). An English version of ``javadoc`` is also included in this repository. 
 
