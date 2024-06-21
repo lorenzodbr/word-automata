@@ -3,7 +3,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build passed](https://img.shields.io/badge/build-passed-brightgreen)]()
 [![Version](https://img.shields.io/badge/version-1.0.2-blue)]()
-[![Javadoc](https://img.shields.io/badge/javadoc-1.0.2-brightgreen)]()
+[![Javadoc](https://img.shields.io/badge/javadoc-1.0.2-brightgreen)](https://lorenzodbr.github.io/word-automata)
 [![Maintainability](https://img.shields.io/badge/maintainability-A-brightgreen)]()
 
 [![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)]()
