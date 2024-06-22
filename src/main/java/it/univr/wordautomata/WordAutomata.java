@@ -96,8 +96,11 @@ public class WordAutomata extends Application {
         stage.titleProperty().bind(Bindings.concat(
                 Constants.TITLE,
                 Bindings.when(model.openedFileProperty().isNull())
-                        .then("")
-                        .otherwise(Bindings.concat(" - ", model.openedFileProperty().asString())),
+                        .then(Bindings.when(model.atLeastOneVertexProperty())
+                                .then(Bindings.concat(" - ", Constants.DEFAULT_AUTOMATA_FILENAME,
+                                        Constants.AUTOMATA_EXTENSION))
+                                .otherwise(""))
+                        .otherwise(Bindings.concat(" - ", model.openedFileProperty())),
                 Bindings.when(model.savedProperty())
                         .then("")
                         .otherwise("*")));
