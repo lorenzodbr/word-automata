@@ -104,6 +104,8 @@ public class Methods {
      */
     @SuppressWarnings("unchecked")
     public static ContextMenu buildContextMenu(Node node) {
+        Components components = Components.getInstance();
+
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem detailsItem = new MenuItem("Details", new FontIcon(BoxiconsRegular.INFO_CIRCLE));
@@ -137,17 +139,17 @@ public class Methods {
             detailsItem.setOnAction(
                     e -> {
                         contextMenu.hide();
-                        Components.getInstance().getGraphPanel().showStateSideBar(nAsV);
+                        components.getGraphPanel().showStateSideBar(nAsV);
                     });
             deleteItem.setOnAction(
                     e -> {
                         contextMenu.hide();
-                        Components.getInstance().getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex());
+                        components.getGraphPanel().queryRemoveVertex(nAsV.getUnderlyingVertex());
+                        components.getBottomBar().computePath();
                     });
             setAsInitialStateItem.setOnAction(
                     e -> {
                         contextMenu.hide();
-                        Components components = Components.getInstance();
                         components.getGraphPanel().setInitialState((State) nAsV.getUnderlyingVertex().element());
                         components.getBottomBar().computePath();
                     });
@@ -162,19 +164,23 @@ public class Methods {
                         } else {
                             nAsV.removeStyleClass(Constants.FINAL_STATE_CLASS);
                         }
+                        components.getBottomBar().computePath();
                     });
             addTransitionMenuItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel()
-                            .addEdge((State) nAsV.getUnderlyingVertex().element()));
+                    e -> {
+                        components.getGraphPanel()
+                                .addEdge((State) nAsV.getUnderlyingVertex().element());
+                        components.getBottomBar().computePath();
+                    });
         } else if (node instanceof SmartGraphEdge nAsE) {
             items.add(detailsItem);
             items.add(new SeparatorMenuItem());
             items.add(deleteItem);
 
             detailsItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel().showTransitionSideBar(nAsE));
+                    e -> components.getGraphPanel().showTransitionSideBar(nAsE));
             deleteItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel().queryRemoveEdge(nAsE.getUnderlyingEdge()));
+                    e -> components.getGraphPanel().queryRemoveEdge(nAsE.getUnderlyingEdge()));
         } else if (node instanceof SmartGraphPanel) {
             Menu menu = new Menu("New");
 
@@ -185,13 +191,13 @@ public class Methods {
             clearGraphMenuItem.getStyleClass().add(Constants.MENU_ITEM_DANGER_CLASS);
 
             addStateMenuItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel().addVertex(
+                    e -> components.getGraphPanel().addVertex(
                             contextMenu.getAnchorX() - contextMenu.getWidth() / 2,
                             contextMenu.getAnchorY() - contextMenu.getHeight() / 2));
             addTransitionMenuItem.setOnAction(
-                    e -> Components.getInstance().getGraphPanel().addEdge());
+                    e -> components.getGraphPanel().addEdge());
             clearGraphMenuItem.setOnAction(
-                    e -> Components.getInstance().getMainPanel().clearGraph());
+                    e -> components.getMainPanel().clearGraph());
             clearGraphMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
             addTransitionMenuItem.disableProperty().bind(Model.getInstance().atLeastOneVertexProperty().not());
 

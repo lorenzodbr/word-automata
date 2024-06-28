@@ -11,7 +11,7 @@ public class Globals {
      */
     public static final List<File> testFiles = List.of(
             Methods.getResource(PathTest.class, "tests", "deterministic.automata"),
-            Methods.getResource(PathTest.class, "tests", "rejected.automata"),
+            Methods.getResource(PathTest.class, "tests", "alternative.automata"),
             Methods.getResource(PathTest.class, "tests", "stats.automata"),
             Methods.getResource(PathTest.class, "tests", "noexit.automata"),
             Methods.getResource(PathTest.class, "tests", "notfinal.automata"));

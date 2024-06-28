@@ -422,10 +422,6 @@ public class GraphPanel extends StackPane {
         graphView.updateAndWait();
         model.updateGraphProperties();
 
-        if (newState.isFinal()) {
-            graphView.getStylableVertex(v).addStyleClass(Constants.FINAL_STATE_CLASS);
-        }
-
         if (graph.numVertices() == 1) {
             graphView.setVertexPosition(v, getWidth() / 2, getHeight() / 2);
             setInitialState(newState);
@@ -575,6 +571,9 @@ public class GraphPanel extends StackPane {
      */
     public void removeVertex(Vertex<State> v) {
         graph.removeVertex(v);
+
+        if(model.getInitialState() == v.element())
+            model.setInitialState(null);
 
         model.setSaved(false);
         model.updateGraphProperties();
