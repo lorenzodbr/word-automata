@@ -18,9 +18,9 @@ Word Automata is a graphical tool that allows you to create and simulate automat
 
 ## Installation
 
-You only have to download the latest release from the [releases page](https://github.com/lorenzodbr/word-automata/releases/latest) and run the ``.jar`` file. Be sure to have (at least) Java 21 installed on your machine. 
+You only have to download the latest release from the [releases page](https://github.com/lorenzodbr/word-automata/releases/latest) and run the ``.jar`` file (it is currently working on Windows only). Be also sure to have (at least) Java 21 installed on your machine. 
 
-You can also build the project yourself with Maven.
+You can also build the project yourself with Maven to use it on different platforms.
 
 ## Dependencies
 
